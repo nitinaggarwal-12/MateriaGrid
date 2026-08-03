@@ -1,0 +1,11 @@
+/node_modules
+/.next
+/out
+/build
+.DS_Store
+*.pem
+.env*.local
+
+# Exclude 2.29 GB raw local SQL dump (GitHub limit is 100MB per file)
+# Production database dataset (002_materiagrid_full_repertory_dataset.sql - 10.8MB) is included
+database/002_materiagrid_master_repertory_dataset.sql

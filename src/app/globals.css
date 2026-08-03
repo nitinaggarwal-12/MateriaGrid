@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-canvas: #090a0c;
+    --bg-panel: #111317;
+    --border-grid: #1c1f26;
+    --text-primary: #e6e8ea;
+    --text-muted: #626a75;
+    
+    /* Homeopathic Neon Metric Gradients */
+    --neon-g4: #10b981;
+    --neon-g4-glow: rgba(16, 185, 129, 0.35);
+    --neon-g3: #34d399;
+    --neon-g2: #6ee7b7;
+    --neon-g1: rgba(160, 240, 210, 0.4);
+    --suppression-alert: #ef4444;
+  }
+}
+
+/* Custom High-Velocity Grid Layer Optimizations */
+.materiagrid-canvas {
+  background-color: var(--bg-canvas);
+  background-image: 
+    linear-gradient(to right, rgba(28, 31, 38, 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 31, 38, 0.5) 1px, transparent 1px);
+  background-size: 40px 28px;
+}
+
+/* Data Matrix Pulse Glow Sequence */
+@keyframes matrixPulseGlow {
+  0% { box-shadow: 0 0 2px var(--neon-g4-glow); }
+  50% { box-shadow: 0 0 12px var(--neon-g4-glow); }
+  100% { box-shadow: 0 0 2px var(--neon-g4-glow); }
+}
+
+.cell-glow-active {
+  animation: matrixPulseGlow 2s infinite ease-in-out;
+}
+
+/* Smooth cubic-bezier visual transitions for live matrix morphing */
+.matrix-cell-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hide native browser scrollbars for clean custom telemetry rails */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2e38;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-g3);
+}
+
+body {
+  background-color: #090a0c;
+  color: #e6e8ea;
+  margin: 0;
+  padding: 0;
+}
