@@ -36,6 +36,7 @@ interface SidebarNavProps {
   onToggleTheme: () => void;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
+  onOpenLandingPage?: () => void;
 }
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
@@ -45,6 +46,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   onToggleTheme,
   isMobileOpen = false,
   onCloseMobile,
+  onOpenLandingPage,
 }) => {
   const isLight = theme === 'light';
 
@@ -148,19 +150,23 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               : 'bg-[#05070A] border-[#1C1F26]'
           }`}
         >
-          <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center font-black text-white text-base shadow-sm">
+          <button
+            onClick={() => onOpenLandingPage && onOpenLandingPage()}
+            title="Click to view 3D Holographic Landing Page Showcase"
+            className="flex items-center space-x-2.5 text-left group cursor-pointer hover:opacity-90 transition-opacity"
+          >
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center font-black text-white text-base shadow-sm group-hover:scale-105 transition-transform">
               M
             </div>
             <div>
-              <h1 className="font-black tracking-wider text-xs uppercase font-mono">
+              <h1 className="font-black tracking-wider text-xs uppercase font-mono group-hover:text-emerald-600 transition-colors">
                 MATERIAGRID
               </h1>
               <p className="text-[10px] text-emerald-600 font-mono font-bold">
                 PRECISION CLINICAL AI
               </p>
             </div>
-          </div>
+          </button>
 
           <div className="flex items-center space-x-1">
             <button

@@ -392,6 +392,7 @@ export default function MateriaGridMasterWorkspace() {
         onToggleTheme={toggleTheme}
         isMobileOpen={isMobileSidebarOpen}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        onOpenLandingPage={() => setCurrentView('LANDING')}
       />
 
       {/* RIGHT MAIN VIEWPORT */}
