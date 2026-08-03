@@ -144,7 +144,7 @@ const INITIAL_MATRIX_CELLS: MatrixCell[] = [
 
 export default function MateriaGridMasterWorkspace() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
-    'LANDING'
+    'WORKSPACE'
   );
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const isLight = theme === 'light';
@@ -401,16 +401,16 @@ export default function MateriaGridMasterWorkspace() {
         {/* VIEW 1: SIMILIMATRIX & TELEHEALTH WORKSPACE */}
         {activeTab === 'MATRIX_TELEHEALTH' && (
           <div className="flex flex-col w-full h-full overflow-hidden">
-            {/* 1. EXECUTIVE CONSOLIDATED COMMAND STRIP 1 (ABDM + CASE INTAKE + CLONE + PRESCRIPTION + LANDING OVERVIEW BUTTON) */}
+            {/* 1. EXECUTIVE CONSOLIDATED COMMAND STRIP 1 — CLEANLY CONTAINED WITH NO OVERFLOW INTO LIVE VIDEO STREAM */}
             <div
-              className={`px-4 py-2 z-20 flex flex-wrap items-center justify-between gap-2.5 border-b transition-colors ${
+              className={`px-3 py-2 z-20 flex flex-wrap items-center justify-between gap-2 border-b overflow-hidden transition-colors ${
                 isLight
                   ? 'bg-white/95 border-slate-200/90 backdrop-blur-md shadow-2xs'
                   : 'bg-[#0B0F19]/95 border-[#1C1F26] backdrop-blur-md'
               }`}
             >
-              <div className="flex flex-wrap items-center gap-2.5 flex-1">
-                <div className="min-w-[260px] sm:min-w-[280px]">
+              <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
+                <div className="w-[240px] sm:w-[260px] flex-shrink-0">
                   <AbhaScannerGate
                     onPatientVerified={(patient) => setActivePatient(patient)}
                     theme={theme}
@@ -420,24 +420,26 @@ export default function MateriaGridMasterWorkspace() {
                 {/* LUXURY METALLIC GLASS CASE INTAKE CAPSULE CTA */}
                 <button
                   onClick={() => setIsCaseDrawerOpen(true)}
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer flex-shrink-0"
                 >
                   <FileText className="w-3.5 h-3.5" />
                   <span>+ New Case Intake</span>
                 </button>
 
-                <CloneSelectorTray
-                  activeCloneName={activeCloneName}
-                  onSelectClone={handleSelectDoctorClone}
-                  theme={theme}
-                />
+                <div className="max-w-[250px] flex-shrink">
+                  <CloneSelectorTray
+                    activeCloneName={activeCloneName}
+                    onSelectClone={handleSelectDoctorClone}
+                    theme={theme}
+                  />
+                </div>
               </div>
 
               {/* SIMILLIMUM & PRESCRIPTION SLIP ACTION BUTTONS */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1.5 flex-shrink-0">
                 <button
                   onClick={() => setIsHyper8dOpen(true)}
-                  className="hidden 2xl:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                  className="hidden 2xl:flex items-center space-x-1 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>🔮 10D Quantum Engine</span>
@@ -445,28 +447,28 @@ export default function MateriaGridMasterWorkspace() {
 
                 <button
                   onClick={() => setIsAnatomicalMapOpen(true)}
-                  className="hidden xl:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                  className="hidden xl:flex items-center space-x-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
                 >
                   <Activity className="w-3.5 h-3.5" />
-                  <span>🧍 3D Anatomical Body Map</span>
+                  <span>🧍 3D Body Map</span>
                 </button>
 
                 <button
                   onClick={() => setCurrentView('LANDING')}
-                  className={`hidden md:flex items-center space-x-1.5 border px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`hidden md:flex items-center space-x-1 border px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     isLight
                       ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800'
                       : 'bg-[#111317] hover:bg-[#1C1F26] border-[#1C1F26] text-gray-200'
                   }`}
                 >
                   <Globe className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>3D Portal Showcase</span>
+                  <span>3D Portal</span>
                 </button>
 
                 {/* HOLOGRAPHIC SIMILLIMUM PILL BADGE */}
                 <button
                   onClick={() => setIsPrescriptionModalOpen(true)}
-                  className={`hidden sm:flex items-center space-x-2 border px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
+                  className={`hidden sm:flex items-center space-x-1.5 border px-2.5 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
                     isLight
                       ? 'bg-emerald-50/90 hover:bg-emerald-100/90 border-emerald-300 text-emerald-950 font-bold shadow-2xs'
                       : 'bg-emerald-950/50 hover:bg-emerald-900/60 border-emerald-500/40 text-emerald-300 font-bold'
@@ -474,7 +476,7 @@ export default function MateriaGridMasterWorkspace() {
                 >
                   <Award className="w-3.5 h-3.5 text-emerald-600" />
                   <span>
-                    Top Simillimum:{' '}
+                    Top:{' '}
                     <strong className="text-emerald-600 font-mono">
                       Belladonna (65.2)
                     </strong>
@@ -483,17 +485,17 @@ export default function MateriaGridMasterWorkspace() {
 
                 <button
                   onClick={() => setIsPrescriptionModalOpen(true)}
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-4 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1 shadow-sm hover:shadow-md transition-all cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5" />
-                  <span>Generate Prescription</span>
+                  <span>Prescription</span>
                 </button>
               </div>
             </div>
 
             {/* 2. EXECUTIVE CONSTITUTIONAL TELEMETRY STRIP 2 WITH CLICK-TO-TOGGLE BASELINES */}
             <div
-              className={`px-4 py-1.5 border-b flex flex-wrap items-center justify-between gap-2.5 text-[11px] font-mono ${
+              className={`px-4 py-1.5 border-b flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono ${
                 isLight
                   ? 'bg-slate-100/80 border-slate-200/80 text-slate-700'
                   : 'bg-[#111317]/90 border-[#1C1F26] text-gray-300'
@@ -657,6 +659,14 @@ export default function MateriaGridMasterWorkspace() {
       <AnatomicalAffinityMapModal
         isOpen={isAnatomicalMapOpen}
         onClose={() => setIsAnatomicalMapOpen(false)}
+        topRemedyCode={remedies[0]?.code || 'Bell'}
+        theme={theme}
+      />
+
+      {/* 8D/10D HYPER-DIMENSIONAL QUANTUM TELEMETRY MODAL */}
+      <HyperDimensionalTelemetryModal
+        isOpen={isHyper8dOpen}
+        onClose={() => setIsHyper8dOpen(false)}
         topRemedyCode={remedies[0]?.code || 'Bell'}
         theme={theme}
       />

@@ -291,7 +291,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           >
             <tr>
               <th
-                className={`sticky left-0 z-40 border-r px-4 py-2.5 w-[440px] min-w-[440px] max-w-[440px] ${
+                className={`sticky left-0 z-40 border-r px-4 py-2.5 w-[480px] min-w-[480px] max-w-[480px] ${
                   isLight
                     ? 'bg-slate-100/95 border-slate-200'
                     : 'bg-[#111317]/95 border-[#1C1F26]'
@@ -401,7 +401,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               >
                 {/* SYMPTOM PATH WITH CRISP HOVER ACCENT BAR */}
                 <td
-                  className={`sticky left-0 z-20 border-r px-4 py-2.5 w-[440px] min-w-[440px] max-w-[440px] relative transition-all ${
+                  className={`sticky left-0 z-20 border-r px-4 py-2.5 w-[480px] min-w-[480px] max-w-[480px] relative transition-all ${
                     isLight
                       ? 'bg-white border-slate-200 group-hover:bg-slate-50/90'
                       : 'bg-[#05070A] border-[#1C1F26] group-hover:bg-[#111317]'
@@ -548,7 +548,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           >
             <tr>
               <td
-                className={`sticky left-0 z-40 border-r px-4 py-2.5 font-bold text-xs ${
+                className={`sticky left-0 z-40 border-r px-4 py-2.5 font-bold text-xs w-[480px] min-w-[480px] max-w-[480px] ${
                   isLight
                     ? 'bg-slate-100/95 border-slate-300'
                     : 'bg-[#111317]/95 border-[#1C1F26]'
