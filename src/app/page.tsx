@@ -143,7 +143,7 @@ const INITIAL_MATRIX_CELLS: MatrixCell[] = [
 
 export default function MateriaGridMasterWorkspace() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
-    'WORKSPACE'
+    'LANDING'
   );
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const isLight = theme === 'light';
