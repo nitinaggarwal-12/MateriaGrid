@@ -3,6 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { calculateAsymmetricalRepertorization } from '@/lib/engine/repertorization';
 import { buildPrescriptionInsight } from '@/lib/engine/prescription_builder';
 
+export const dynamic = 'force-dynamic';
+
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://materiagrid-demo.supabase.co';
 const supabaseKey =

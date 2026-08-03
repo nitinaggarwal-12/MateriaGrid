@@ -124,8 +124,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     },
     {
       id: 'ENTERPRISE_SUITE',
-      label: 'Enterprise $1B Platform Suite',
-      subLabel: 'Fleet RBAC, RWE & UHI Claims',
+      label: 'Enterprise $1B Suite',
+      subLabel: 'Fleet RBAC, RWE & UHI',
       icon: <Award className="w-4 h-4" />,
       badge: '$1B',
     },

@@ -14,6 +14,10 @@ import {
   TrendingUp,
   CreditCard,
   BarChart3,
+  Server,
+  Key,
+  Eye,
+  RefreshCw,
 } from 'lucide-react';
 
 interface EnterpriseUnicornSuiteViewProps {
@@ -36,6 +40,7 @@ export const EnterpriseUnicornSuiteView: React.FC<
       activeCases: 412,
       compliance: 'SOC2 TYPE II VERIFIED',
       status: 'ONLINE',
+      latency: '8ms',
     },
     {
       id: 'MUMBAI_APOLLO',
@@ -44,6 +49,7 @@ export const EnterpriseUnicornSuiteView: React.FC<
       activeCases: 689,
       compliance: 'HIPAA & ABDM v2.4',
       status: 'ONLINE',
+      latency: '11ms',
     },
     {
       id: 'BENGALURU_AYUSH',
@@ -52,6 +58,7 @@ export const EnterpriseUnicornSuiteView: React.FC<
       activeCases: 1240,
       compliance: 'GOVT CCRH AUDITED',
       status: 'ONLINE',
+      latency: '9ms',
     },
   ];
 
@@ -76,6 +83,34 @@ export const EnterpriseUnicornSuiteView: React.FC<
       patients: '5,800 Cohort',
       recoveryRate: '91.8% Immunity Resilience',
       sponsor: 'National CCRH Clinical Trial Repository',
+    },
+    {
+      remedy: 'Rhus toxicodendron 200C Synovial Track',
+      pathology: 'ICD-11 FA00 Chronic Inflammatory Synovitis',
+      patients: '4,100 Cohort',
+      recoveryRate: '93.1% Joint Mobility Restored',
+      sponsor: 'Hahnemann Publishing Co. Proving Registry',
+    },
+  ];
+
+  const auditLogs = [
+    {
+      timestamp: '00:00:14 IST',
+      action: 'SOC2 AES-256 FHIR Record Encryption Handshake',
+      actor: 'System Autonomous Guard',
+      status: 'VERIFIED',
+    },
+    {
+      timestamp: '23:59:42 IST',
+      action: 'ABDM ABHA Patient Identity Verification Token #91-4829-1049-3829',
+      actor: 'Dr. Prafull Vijayakar Clone',
+      status: 'VERIFIED',
+    },
+    {
+      timestamp: '23:58:11 IST',
+      action: 'Automated UHI Insurance e-RUPI Claim Adjudication ₹1,500',
+      actor: 'NHA Gateway Worker',
+      status: 'ADJUDICATED',
     },
   ];
 
@@ -106,7 +141,7 @@ export const EnterpriseUnicornSuiteView: React.FC<
         </div>
 
         {/* ENTERPRISE PILLAR SWITCHER */}
-        <div className="flex items-center space-x-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs font-mono font-bold">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200 text-xs font-mono font-bold">
           <button
             onClick={() => setActiveSubTab('FLEET_RBAC')}
             className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
@@ -150,12 +185,13 @@ export const EnterpriseUnicornSuiteView: React.FC<
         </div>
       </div>
 
-      {/* BODY WORKBENCH */}
-      <div className="p-4 space-y-4 font-mono text-xs">
+      {/* BODY WORKBENCH (FULL VIEWPORT COVERAGE) */}
+      <div className="p-4 space-y-4 font-mono text-xs flex-1">
         {/* SUBTAB 1: HOSPITAL FLEET & RBAC SECURITY */}
         {activeSubTab === 'FLEET_RBAC' && (
           <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            {/* TOP 4 EXECUTIVE TELEMETRY CARDS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs">
                 <span className="text-[10px] text-gray-500 block uppercase">
                   ENTERPRISE HOSPITAL CHAINS
@@ -202,30 +238,107 @@ export const EnterpriseUnicornSuiteView: React.FC<
               </div>
             </div>
 
-            <div className="border rounded-xl bg-white p-4 space-y-3 shadow-2xs">
-              <span className="font-bold text-xs uppercase text-purple-600">
-                ACTIVE HOSPITAL FLEET NODES & RBAC HIERARCHY
-              </span>
-              <div className="space-y-2">
-                {hospitalBranches.map((b) => (
+            {/* MIDDLE ROW: ACTIVE FLEET NODES & ROLE-BASED ACCESS PERMISSION MATRIX */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <div className="lg:col-span-7 border rounded-xl bg-white p-4 space-y-3 shadow-2xs">
+                <div className="flex items-center justify-between border-b pb-2 border-slate-200">
+                  <span className="font-bold text-xs uppercase text-purple-600 flex items-center gap-1.5">
+                    <Server className="w-4 h-4" /> ACTIVE HOSPITAL FLEET NODES & RBAC HIERARCHY
+                  </span>
+                  <span className="text-[10px] text-emerald-600 font-bold">
+                    CLOUDTOP PG CLUSTER: ONLINE
+                  </span>
+                </div>
+
+                <div className="space-y-2.5">
+                  {hospitalBranches.map((b) => (
+                    <div
+                      key={b.id}
+                      className="p-3 rounded-lg border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs"
+                    >
+                      <div>
+                        <p className="font-black text-slate-900">{b.name}</p>
+                        <p className="text-[10px] text-gray-500">
+                          {b.doctors} MD Practicing Clinicians // {b.activeCases} Active OPD Cohort
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[10px]">
+                          Latency: {b.latency}
+                        </span>
+                        <span className="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">
+                          {b.compliance}
+                        </span>
+                        <span className="px-2 py-1 rounded bg-slate-900 text-white font-bold text-[10px]">
+                          {b.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ENTERPRISE RBAC PERMISSION MATRIX CARD */}
+              <div className="lg:col-span-5 border rounded-xl bg-white p-4 space-y-3 shadow-2xs">
+                <div className="flex items-center justify-between border-b pb-2 border-slate-200">
+                  <span className="font-bold text-xs uppercase text-purple-600 flex items-center gap-1.5">
+                    <Key className="w-4 h-4" /> ROLE-BASED ACCESS CONTROL (RBAC) MATRIX
+                  </span>
+                  <span className="text-[10px] text-gray-400">SOC2 POLICIES</span>
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+                    <span className="font-bold text-slate-800">Chief Medical Officer (CMO)</span>
+                    <span className="text-[10px] font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded">
+                      FULL ENTERPRISE AUDIT & EHR ACCESS
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+                    <span className="font-bold text-slate-800">Attending OPD Physician</span>
+                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+                      PATIENT INTAKE + SIMILIMATRIX GRADE CYCLE
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+                    <span className="font-bold text-slate-800">Dispensing Pharmacist</span>
+                    <span className="text-[10px] font-bold bg-teal-100 text-teal-800 px-2 py-0.5 rounded">
+                      LIQUID LM POTENCY STOCK & RX BARCODE
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-200">
+                    <span className="font-bold text-slate-800">UHI Insurance Auditor</span>
+                    <span className="text-[10px] font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded">
+                      READ-ONLY ICD-11 & e-RUPI ADJUDICATION
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* LOWER ROW: REAL-TIME SOC2 AES-256 AUDIT LOG TRAIL */}
+            <div className="border rounded-xl bg-white p-4 space-y-2.5 shadow-2xs">
+              <div className="flex items-center justify-between border-b pb-2 border-slate-200">
+                <span className="font-bold text-xs uppercase text-emerald-600 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4" /> LIVE REAL-TIME SOC2 TYPE II CRYPTOGRAPHIC AUDIT LOG TRAIL
+                </span>
+                <span className="text-[10px] text-gray-400">UNALTERABLE LEDGER</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {auditLogs.map((log, idx) => (
                   <div
-                    key={b.id}
-                    className="p-3 rounded-lg border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs"
+                    key={idx}
+                    className="p-3 rounded-lg border border-slate-200 bg-slate-50/70 space-y-1"
                   >
-                    <div>
-                      <p className="font-black text-slate-900">{b.name}</p>
-                      <p className="text-[10px] text-gray-500">
-                        {b.doctors} MD Practicing Clinicians // {b.activeCases} Active OPD Cohort
-                      </p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">
-                        {b.compliance}
-                      </span>
-                      <span className="px-2 py-1 rounded bg-slate-900 text-white font-bold text-[10px]">
-                        {b.status}
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-gray-500 font-mono">{log.timestamp}</span>
+                      <span className="text-[9px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">
+                        {log.status}
                       </span>
                     </div>
+                    <p className="font-bold text-xs text-slate-800 leading-snug">{log.action}</p>
+                    <p className="text-[10px] text-gray-500">Actor: {log.actor}</p>
                   </div>
                 ))}
               </div>
@@ -242,11 +355,11 @@ export const EnterpriseUnicornSuiteView: React.FC<
                   REAL-WORLD EVIDENCE (RWE) PHARMACEUTICAL CLINICAL PROVING REPOSITORY
                 </span>
                 <span className="text-[10px] bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-0.5 rounded-full font-bold">
-                  N=11,370 VERIFIED PATIENT COHORT
+                  N=15,470 VERIFIED PATIENT COHORT
                 </span>
               </div>
 
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {rwePharmaTrials.map((t, idx) => (
                   <div
                     key={idx}
