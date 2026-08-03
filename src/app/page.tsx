@@ -30,6 +30,7 @@ import { AyushResearchHubView } from '@/components/dashboard/AyushResearchHubVie
 import { OpdQueueManagerView } from '@/components/dashboard/OpdQueueManagerView';
 import { PharmacyDispensaryView } from '@/components/dashboard/PharmacyDispensaryView';
 import { DifferentialWorkbenchView } from '@/components/dashboard/DifferentialWorkbenchView';
+import { EnterpriseUnicornSuiteView } from '@/components/dashboard/EnterpriseUnicornSuiteView';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
 import { MateriaGridSyncQueue } from '@/lib/engine/sync_queue';
@@ -629,6 +630,11 @@ export default function MateriaGridMasterWorkspace() {
         {/* VIEW 10: TRI-REMEDY COMPARATIVE DIFFERENTIAL WORKBENCH */}
         {activeTab === 'DIFFERENTIAL_WORKBENCH' && (
           <DifferentialWorkbenchView theme={theme} />
+        )}
+
+        {/* VIEW 11: ENTERPRISE $1B PLATFORM SUITE (FLEET RBAC, RWE & UHI CLAIMS) */}
+        {activeTab === 'ENTERPRISE_SUITE' && (
+          <EnterpriseUnicornSuiteView theme={theme} />
         )}
       </main>
 

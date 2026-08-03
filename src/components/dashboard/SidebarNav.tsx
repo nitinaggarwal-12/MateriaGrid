@@ -27,7 +27,8 @@ export type ActiveWorkspaceTab =
   | 'AYUSH_RESEARCH_HUB'
   | 'OPD_QUEUE_MANAGER'
   | 'PHARMACY_DISPENSARY'
-  | 'DIFFERENTIAL_WORKBENCH';
+  | 'DIFFERENTIAL_WORKBENCH'
+  | 'ENTERPRISE_SUITE';
 
 interface SidebarNavProps {
   activeTab: ActiveWorkspaceTab;
@@ -120,6 +121,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       label: 'Tri-Remedy Differential Table',
       subLabel: 'Side-by-Side Comparison',
       icon: <GitCompare className="w-4 h-4" />,
+    },
+    {
+      id: 'ENTERPRISE_SUITE',
+      label: 'Enterprise $1B Platform Suite',
+      subLabel: 'Fleet RBAC, RWE & UHI Claims',
+      icon: <Award className="w-4 h-4" />,
+      badge: '$1B',
     },
   ];
 
