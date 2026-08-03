@@ -232,9 +232,16 @@ export function MateriaGridWorkspace() {
   const calculationResult: DualTrackRepertorizationOutput = useMemo(() => {
     if (committedRubrics.length === 0) {
       return {
+        primaryTrack: [],
+        organopathicTrack: [],
+        embryologicalWarning: false,
+        burnettProtectionActive: false,
+        primary_track: [],
+        organopathic_track: [],
         primary_constitutional_track: [],
         organopathic_drainage_track: [],
         is_structural_drainage_active: false,
+        embryological_warning: false,
         suppression_alert: { detected: false },
         total_selected_rubrics_count: 0,
         filtered_out_remedies_count: 0,

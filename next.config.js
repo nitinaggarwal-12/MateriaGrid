@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {
-    root: '/Users/nitinagga/Documents/MateriaGrid',
-  },
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig;

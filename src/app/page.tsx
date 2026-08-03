@@ -30,6 +30,8 @@ import { AyushResearchHubView } from '@/components/dashboard/AyushResearchHubVie
 import { OpdQueueManagerView } from '@/components/dashboard/OpdQueueManagerView';
 import { PharmacyDispensaryView } from '@/components/dashboard/PharmacyDispensaryView';
 import { DifferentialWorkbenchView } from '@/components/dashboard/DifferentialWorkbenchView';
+import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
+import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
 import { MateriaGridSyncQueue } from '@/lib/engine/sync_queue';
 import { mergeConcurrentDoctorOperations } from '@/lib/engine/crdt_session_handler';
 import {
@@ -46,6 +48,7 @@ import {
   Globe,
   Sparkles,
   ShieldCheck,
+  Activity,
 } from 'lucide-react';
 
 const INITIAL_REMEDIES: RemedyColumn[] = [
@@ -164,6 +167,8 @@ export default function MateriaGridMasterWorkspace() {
   const [thermalProfile, setThermalProfile] = useState<'HOT' | 'CHILLY' | 'AMBITHERMAL'>('HOT');
   const [thirstProfile, setThirstProfile] = useState<'THIRSTLESS' | 'THIRSTY' | 'VARIABLE'>('THIRSTLESS');
   const [isCaseDrawerOpen, setIsCaseDrawerOpen] = useState(false);
+  const [isAnatomicalMapOpen, setIsAnatomicalMapOpen] = useState(false);
+  const [isHyper8dOpen, setIsHyper8dOpen] = useState(false);
   const [selectedRemedyForReader, setSelectedRemedyForReader] = useState<
     string | null
   >(null);
@@ -429,6 +434,22 @@ export default function MateriaGridMasterWorkspace() {
               {/* SIMILLIMUM & PRESCRIPTION SLIP ACTION BUTTONS */}
               <div className="flex items-center space-x-2">
                 <button
+                  onClick={() => setIsHyper8dOpen(true)}
+                  className="hidden 2xl:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>🔮 10D Quantum Engine</span>
+                </button>
+
+                <button
+                  onClick={() => setIsAnatomicalMapOpen(true)}
+                  className="hidden xl:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                >
+                  <Activity className="w-3.5 h-3.5" />
+                  <span>🧍 3D Anatomical Body Map</span>
+                </button>
+
+                <button
                   onClick={() => setCurrentView('LANDING')}
                   className={`hidden md:flex items-center space-x-1.5 border px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     isLight
@@ -623,6 +644,14 @@ export default function MateriaGridMasterWorkspace() {
       <MateriaMedicaReaderModal
         remedyCode={selectedRemedyForReader}
         onClose={() => setSelectedRemedyForReader(null)}
+      />
+
+      {/* 3D SPATIAL ANATOMICAL ORGAN AFFINITY BODY MAP MODAL */}
+      <AnatomicalAffinityMapModal
+        isOpen={isAnatomicalMapOpen}
+        onClose={() => setIsAnatomicalMapOpen(false)}
+        topRemedyCode={remedies[0]?.code || 'Bell'}
+        theme={theme}
       />
 
       {/* DIGITAL PRESCRIPTION & PHARMACY DISPENSING SLIP MODAL */}
