@@ -146,7 +146,7 @@ export default function MateriaGridMasterWorkspace() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
     'WORKSPACE'
   );
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const isLight = theme === 'light';
 
   const [activeTab, setActiveTab] =
