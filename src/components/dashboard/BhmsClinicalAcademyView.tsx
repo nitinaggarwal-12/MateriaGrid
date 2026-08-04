@@ -696,6 +696,454 @@ const ACADEMIC_COURSES: CourseModule[] = [
     ],
     quiz: [],
   },
+  {
+    id: 'course-10',
+    code: 'BHMS-103',
+    title: 'Human Anatomy & Homoeopathic Organ Affinity Correlates',
+    instructor: 'Dr. R. K. Mukherjee, MD (Hom.), Department of Anatomy',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 100,
+    summary:
+      'Correlating organ anatomy and tissue layers with homoeopathic organ affinities (Chelidonium-Liver, Solidago-Kidneys, Crataegus-Heart).',
+    chapters: [
+      {
+        title: 'Chapter 1: Hepato-Biliary Anatomy & Chelidonium Organ Affinity',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Anatomical relation of liver parenchyma and biliary ducts to classical organ remedies.',
+          aphorismReference:
+            'Burnett Organopathy Anatomy Reference.',
+          clinicalTakeaway:
+            'Right scapular pain indicates liver capsule stretching matching Chelidonium.',
+          diagramDescription:
+            'Biliary Tract & Scapular Nerve Referral Map.',
+          workedCaseExample:
+            'Jaundice patient with liver enlargement managed with Chelidonium 1X.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-11',
+    code: 'BHMS-104',
+    title: 'Physiology, Biochemistry & Dynamic Cellular Susceptibility',
+    instructor: 'Dr. S. Dasgupta, MD (Hom.), Physiology Department',
+    duration: '4.5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 95,
+    summary:
+      'Understanding cellular homeostasis, autonomic nervous system regulation, and Hahnemannian dynamic susceptibility (§31).',
+    chapters: [
+      {
+        title: 'Chapter 1: Autonomic Nervous System & Modalities (§31)',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Sympathetic and parasympathetic tone differences explain thermal-thirst baselines and aggravation modalities.',
+          aphorismReference:
+            'Organon §31: "The inimical forces, partly psychical, partly physical... do not possess the power of morbidly deranging the health of man unconditionally..."',
+          clinicalTakeaway:
+            'Dynamic susceptibility dictates why two people exposed to cold wind develop different symptoms.',
+          diagramDescription:
+            'Autonomic Tone vs Modality Chart.',
+          workedCaseExample:
+            'Sympathetic overdrive tachycardia matching Aconite.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-12',
+    code: 'BHMS-203',
+    title: 'Pathology, Microbiology & Miasmatic Diathesis Mapping',
+    instructor: 'Dr. P. Chakraborty, MD (Hom.), Department of Pathology',
+    duration: '5.5 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 88,
+    summary:
+      'Correlating inflammatory exudates, hyperplasias, and necrotic ulcerations with Psoric, Sycotic, and Syphilitic pathological diathesis.',
+    chapters: [
+      {
+        title: 'Chapter 1: Cellular Inflammation & Psoric Functional Irritation',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Early functional congestion precedes structural cellular change.',
+          aphorismReference:
+            'Organon §80-84 Pathology Doctrine.',
+          clinicalTakeaway:
+            'Treat functional irritation before structural hyperplasia develops.',
+          diagramDescription:
+            'Pathological Progression Timeline.',
+          workedCaseExample:
+            'Early gastritis prevented from ulceration by Nux Vomica.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-13',
+    code: 'BHMS-204',
+    title: 'Forensic Medicine, Toxicology & Homoeopathic Medical Ethics (§1–4)',
+    instructor: 'Dr. A. K. Roy, MD (Hom.), Forensic Medicine',
+    duration: '4 Hours • 4 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 4,
+    progressPercent: 100,
+    summary:
+      'Medical jurisprudence, toxicological antidotes (Hahnemannian antidotes to mercury, arsenic, and lead), and ethical physician duties.',
+    chapters: [
+      {
+        title: 'Chapter 1: Homoeopathic Antidotes to Heavy Metal Poisoning',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Using dynamized potencies to neutralize chronic toxic metal exposures.',
+          aphorismReference:
+            'Materia Medica Antidote Charts.',
+          clinicalTakeaway:
+            'Hepar sulph antidotes mercury abuse; Nitric acid antidotes chronic mercurial ulceration.',
+          diagramDescription:
+            'Toxicological Antidote Ring.',
+          workedCaseExample:
+            'Mercury poisoning tremor relieved by Hepar sulph 200C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-14',
+    code: 'BHMS-302',
+    title: 'Homoeopathic Therapeutics in Surgery, Fractures & Acute Emergency OPD',
+    instructor: 'Dr. T. K. Hazra, MD (Hom.), Surgical OPD',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 82,
+    summary:
+      'Surgical homoeopathy: Arnica for mechanical trauma, Calendula for open lacerations, Hypericum for nerve injuries, and Symphytum for bone fractures.',
+    chapters: [
+      {
+        title: 'Chapter 1: Traumatic Injury Keynotes: Arnica, Hypericum, Calendula & Symphytum',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Arnica: Blunt hematoma trauma. Hypericum: Nerve-rich crush injuries (fingertips, spine). Symphytum: Non-union bone fractures. Calendula: Clean granulating wound closure.',
+          aphorismReference:
+            'Surgical Homoeopathy Keynotes.',
+          clinicalTakeaway:
+            'Always administer Arnica 200C immediately post-trauma to prevent extravasation of blood.',
+          diagramDescription:
+            'Trauma Injury Differential Tree.',
+          workedCaseExample:
+            'Crushed fingertip in door jam relieved instantly by Hypericum 200C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-15',
+    code: 'BHMS-303',
+    title: 'Homoeopathic Therapeutics in Obstetrics, Gynaecology & Pediatrics',
+    instructor: 'Dr. S. Chatterji, MD (Hom.), Gynaecology & Obstetrics',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 78,
+    summary:
+      'Gentle maternal and pediatric therapeutics: morning sickness (Ipecac/Pulsatilla), labor dystocia (Caulophyllum/Cimicifuga), and pediatric dentition colic (Chamomilla).',
+    chapters: [
+      {
+        title: 'Chapter 1: Maternal Morning Sickness & Labor Dystocia Keynotes',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Ipecac: Persistent nausea not relieved by vomiting, clean tongue. Caulophyllum: Rigid os during labor.',
+          aphorismReference:
+            'Obstetric Homoeopathy Guide.',
+          clinicalTakeaway:
+            'Safe natural remedies without teratogenic risk during pregnancy.',
+          diagramDescription:
+            'Trimester Clinical Care Map.',
+          workedCaseExample:
+            'Severe hyperemesis gravidarum cured by Ipecac 30C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-16',
+    code: 'BHMS-304',
+    title: 'Organon of Medicine (§146–244): Case Taking & Symptom Evaluation',
+    instructor: 'Prof. Dr. Rajeshwari Sharma, MD (Hom.)',
+    duration: '5.5 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 84,
+    summary:
+      'Mastering Hahnemannian clinical case taking (§83-104), characteristic symptom evaluation (§153), and intermitting fever prescriptions.',
+    chapters: [
+      {
+        title: 'Chapter 1: The Art of Unprejudiced Clinical Case Taking (§83–104)',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'The physician must listen without interruption, record verbatim patient expressions, and avoid leading questions.',
+          aphorismReference:
+            'Organon §83: "This individualizing examination of a case of disease... demands of the physician nothing but freedom from prejudice and sound senses..."',
+          clinicalTakeaway:
+            'Write down the exact words of the patient rather than medical jargon.',
+          diagramDescription:
+            'Case Intake Workflow Chart.',
+          workedCaseExample:
+            'Verbatim intake captured behavioral mind rubric matching Sehgal ROH.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-17',
+    code: 'BHMS-403',
+    title: 'Community Medicine, AYUSH Epidemic Genus Epidemicus & Public Health',
+    instructor: 'Dr. B. K. Ghosh, MD (Hom.), Community Medicine',
+    duration: '4.5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 92,
+    summary:
+      'Hahnemann’s Genus Epidemicus doctrine (§100-102) for epidemic outbreaks (dengue, cholera, influenza) and AYUSH preventive health.',
+    chapters: [
+      {
+        title: 'Chapter 1: Determining Genus Epidemicus in Community Outbreaks (§100–102)',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Observing several acute epidemic cases reveals the collective symptom profile of the Genus Epidemicus.',
+          aphorismReference:
+            'Organon §101: "It is only after investigating several cases of such an epidemic disease that the complete picture... becomes established."',
+          clinicalTakeaway:
+            'A single Genus Epidemicus remedy protects an entire community during an outbreak.',
+          diagramDescription:
+            'Epidemic Genus Determination Graph.',
+          workedCaseExample:
+            'Dengue epidemic outbreak controlled with Bryonia/Eupatorium perfoliatum Genus Epidemicus.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-18',
+    code: 'BHMS-404',
+    title: 'Digital Repertorization & Modern Computerized SimiliMatrix Engine',
+    instructor: 'Prof. Dr. Nitin Aggarwal, MD (Hom.)',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 100,
+    summary:
+      'Operating MateriaGrid computerized repertory grid, asynchronous AI clinical copilot, and telehealth differential matrix.',
+    chapters: [
+      {
+        title: 'Chapter 1: High-Density Spreadsheet Virtualization & Sub-10ms Repertorization',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'How TanStack virtualization and inverse rubric density enable instant clinical decision support.',
+          aphorismReference:
+            'MateriaGrid Architectural Specification.',
+          clinicalTakeaway:
+            'Sub-10ms repertorization lets doctors focus 100% on the patient.',
+          diagramDescription:
+            'MateriaGrid Architecture Diagram.',
+          workedCaseExample:
+            'Live OPD differential across 25 rubrics resolved in 4 milliseconds.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-19',
+    code: 'BHMS-INT-01',
+    title: 'Live Clinical OPD Rotation & Sehgal ROH Behavioral Mind Translation',
+    instructor: 'Dr. M. L. Sehgal Institute Fellows',
+    duration: '6 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 88,
+    summary:
+      'Revolutionized Homoeopathy (ROH): converting everyday conversational patient complaints into authentic PRESENT, PREDOMINATING, and PERSISTING (PPP) mind rubrics.',
+    chapters: [
+      {
+        title: 'Chapter 1: Decoding Patient Conversational Expressions into Mind Rubrics',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Converting "Doctor just give me relief quickly so I can get back to work" into MIND - BUSINESS - talks of.',
+          aphorismReference:
+            'Sehgal Revolutionized Homoeopathy Doctrine.',
+          clinicalTakeaway:
+            'Behavioral mind rubrics lead directly to the resonant constitutional simillimum.',
+          diagramDescription:
+            'Conversational Speech to Mind Rubric Map.',
+          workedCaseExample:
+            'Anxious executive given Belladonna based on PPP mind rubric state.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-20',
+    code: 'BHMS-INT-03',
+    title: 'Emergency OPD Posology, Liquid LM Repeated Administration & Aggravation Management',
+    instructor: 'Dr. S. N. Wadhwa, MD (Hom.), Emergency Clinical Services',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 91,
+    summary:
+      'Managing acute homeopathic aggravations, administering liquid LM potencies in plussed water doses, and emergency clinical posology.',
+    chapters: [
+      {
+        title: 'Chapter 1: Differentiating Homeopathic Aggravation vs Disease Progression (§249)',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'A true homeopathic aggravation is accompanied by mental calm and improved sleep.',
+          aphorismReference:
+            'Organon §249-252.',
+          clinicalTakeaway:
+            'Never antidote a mild physical aggravation if mental state is improving.',
+          diagramDescription:
+            'Aggravation vs Disease Progression Decision Tree.',
+          workedCaseExample:
+            'Wait & watch strategy rewarded with complete resolution on day 5.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-21',
+    code: 'BHMS-INT-04',
+    title: 'Telehealth Remote Assessment, Digital Voice Intake & Longitudinal Patient Case Chain',
+    instructor: 'Dr. Nitin Aggarwal, MD (Hom.)',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 94,
+    summary:
+      'ABDM & UHI compliant remote clinical consultation, Bhashini voice transcription, and tamper-proof longitudinal patient visit chains.',
+    chapters: [
+      {
+        title: 'Chapter 1:ABD & UHI Interoperability in Homeopathic OPD Practice',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Digital health lockers and seamless health record exchange across Indian healthcare ecosystem.',
+          aphorismReference:
+            'Ayushman Bharat Digital Mission Standards.',
+          clinicalTakeaway:
+            'Patient ABHA records integrate directly into MateriaGrid clinical intake.',
+          diagramDescription:
+            'ABDM UHI Architecture Flow.',
+          workedCaseExample:
+            'Remote OPD patient case chain linked across 4 follow-up visits.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-22',
+    code: 'MD-HOM-503',
+    title: 'Advanced Materia Medica: Nosodes, Sarcodes, Imponderabilia & Rare Remedies',
+    instructor: 'Prof. Dr. Nitin Aggarwal, MD (Hom.)',
+    duration: '6 Hours • 6 Chapters',
+    level: 'MD (HOM.) RESIDENT',
+    chaptersCount: 6,
+    progressPercent: 86,
+    summary:
+      'Post-graduate study of deep miasmatic Nosodes (Tuberculinum, Medorrhinum, Syphilinum), Sarcodes (Thyroidinum, Adrenalinum), and X-Ray/Magnetis Imponderabilia.',
+    chapters: [
+      {
+        title: 'Chapter 1: The Clinical Utility of Miasmatic Intercurrent Nosodes',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'When well-selected constitutional remedies fail to act, an intercurrent miasmatic nosode unlocks vital susceptibility.',
+          aphorismReference:
+            'Organon Chronic Miasms Doctrine.',
+          clinicalTakeaway:
+            'Administer single dose Tuberculinum 200C when acute respiratory infections continually recur.',
+          diagramDescription:
+            'Nosode Intercurrent Decision Chart.',
+          workedCaseExample:
+            'Recurring pediatric bronchitis cured after single intercurrent dose of Tuberculinum 200C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-23',
+    code: 'MD-HOM-602',
+    title: 'Neuro-Miasmatic & Autoimmune Clinical Therapeutics (Vijayakar Level 2)',
+    instructor: 'Prof. Dr. Nitin Aggarwal, MD (Hom.)',
+    duration: '6 Hours • 6 Chapters',
+    level: 'MD (HOM.) RESIDENT',
+    chaptersCount: 6,
+    progressPercent: 92,
+    summary:
+      'Advanced predictive homeopathy in neuro-degenerative diseases (Parkinsonism, Multiple Sclerosis) and destructive autoimmune disorders.',
+    chapters: [
+      {
+        title: 'Chapter 1: Neuro-Miasmatic Suppression reversing in Parkinsonism & Autoimmunity',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Deep neuro-ectodermal destruction requires strict adherence to physical baseline thermal-thirst thermodynamics and Hering’s Law.',
+          aphorismReference:
+            'Predictive Homeopathy Neuro-Miasmatic Protocol.',
+          clinicalTakeaway:
+            'Track neurological reflex stabilization alongside clinical symptom recovery.',
+          diagramDescription:
+            'Neuro-Miasmatic Recovery Pathway.',
+          workedCaseExample:
+            'Parkinsonian tremor stabilization documented over 12 months of non-suppressive homeopathic care.',
+        },
+      },
+    ],
+    quiz: [],
+  },
 ];
 
 export const BhmsClinicalAcademyView: React.FC<
