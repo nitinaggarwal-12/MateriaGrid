@@ -627,6 +627,8 @@ function MasterWorkspaceInner() {
                 theme={theme}
                 onToggleTheme={toggleTheme}
                 onSelectTab={setActiveTab}
+                langCode={langCode}
+                onSelectLanguage={handleSelectLanguage}
               />
             </div>
           </div>

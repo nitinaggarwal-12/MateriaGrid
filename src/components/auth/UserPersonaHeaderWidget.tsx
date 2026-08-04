@@ -31,16 +31,32 @@ interface UserPersonaHeaderWidgetProps {
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
   onSelectTab?: (tab: any) => void;
+  langCode?: string;
+  onSelectLanguage?: (code: any) => void;
 }
 
 export const UserPersonaHeaderWidget: React.FC<
   UserPersonaHeaderWidgetProps
-> = ({ theme, onToggleTheme, onSelectTab }) => {
+> = ({ theme, onToggleTheme, onSelectTab, langCode = 'EN', onSelectLanguage }) => {
   const isLight = theme === 'light';
   const { currentUser, switchRole, setIsLoginModalOpen } = useRbac();
   const [isOpen, setIsOpen] = useState(false);
   const [soundAlerts, setSoundAlerts] = useState(true);
   const [defaultPotency, setDefaultPotency] = useState('200C');
+
+  const INDIAN_LANGUAGES = [
+    { code: 'EN', label: 'English (EN)', flag: '🇮🇳' },
+    { code: 'HI', label: 'हिन्दी (Hindi)', flag: '🇮🇳' },
+    { code: 'BN', label: 'বাংলা (Bengali)', flag: '🇮🇳' },
+    { code: 'TA', label: 'தமிழ் (Tamil)', flag: '🇮🇳' },
+    { code: 'TE', label: 'తెలుగు (Telugu)', flag: '🇮🇳' },
+    { code: 'MR', label: 'সারাংশ (Marathi)', flag: '🇮🇳' },
+    { code: 'GU', label: 'ગુજરાતી (Gujarati)', flag: '🇮🇳' },
+    { code: 'KA', label: 'ಕನ್ನಡ (Kannada)', flag: '🇮🇳' },
+    { code: 'OR', label: 'ଓଡ଼ିଆ (Odia)', flag: '🇮🇳' },
+    { code: 'PA', label: 'ਪੰਜਾਬੀ (Punjabi)', flag: '🇮🇳' },
+    { code: 'UR', label: 'اردو (Urdu)', flag: '🇮🇳' },
+  ];
 
   const personas: {
     role: RbacRole;
@@ -246,6 +262,25 @@ export const UserPersonaHeaderWidget: React.FC<
                     </>
                   )}
                 </button>
+              </div>
+
+              {/* GLOBAL INTERFACE & RUBRIC LANGUAGE SELECTOR */}
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>Language / भाषा</span>
+                </span>
+                <select
+                  value={langCode}
+                  onChange={(e) => onSelectLanguage && onSelectLanguage(e.target.value)}
+                  className="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent font-black text-xs cursor-pointer"
+                >
+                  {INDIAN_LANGUAGES.map((lang) => (
+                    <option key={lang.code} value={lang.code} className="text-slate-900">
+                      {lang.flag} {lang.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {/* DEFAULT SIMILLIMUM POTENCY */}
