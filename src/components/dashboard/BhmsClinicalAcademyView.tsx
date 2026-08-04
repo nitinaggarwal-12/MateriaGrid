@@ -142,6 +142,40 @@ const ACADEMIC_COURSES: CourseModule[] = [
             'Acute coryza in chronic psoric asthma patient managed first with acute Allium cepa 30C.',
         },
       },
+      {
+        title: 'Chapter 5: The Doctrine of Drug Proving on Healthy Human Beings (§105–145)',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Pure experimental drug proving on healthy volunteers reveals the artificial disease-producing power of a substance. Only symptoms verified through healthy human proving can be utilized for Similia Similibus Curentur.',
+          aphorismReference:
+            'Organon §105: "The second point of the business of a true physician relates to acquiring a knowledge of the instruments intended for the cure of natural diseases..."',
+          clinicalTakeaway:
+            'Always rely on authentic proving literature rather than speculative empirical claims.',
+          diagramDescription:
+            'Hahnemannian Drug Proving Protocol Diagram.',
+          workedCaseExample:
+            'Proving verification of Aconite emotional anxiety confirmed across 40 healthy provers.',
+        },
+      },
+      {
+        title: 'Chapter 6: Keynote Profiles of Nux Vomica, Chamomilla & Pulsatilla',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Nux Vomica: Over-sensitive, irritable executive with sedentary habits and ineffective urging. Chamomilla: Intolerable pain with violent anger and capricious demands. Pulsatilla: Mild, yielding, weepiness, craves open cool air, thirstless.',
+          aphorismReference:
+            'Materia Medica Keynotes: Nux Vomica (Sedentary, irritable), Chamomilla (Capricious anger), Pulsatilla (Yielding, open air).',
+          clinicalTakeaway:
+            'Never prescribe Pulsatilla to a patient who craves warm closed rooms or drinks heavily.',
+          diagramDescription:
+            'Emotional & Thermal Keynote Comparison Wheel.',
+          workedCaseExample:
+            'Irritable corporate manager with acid reflux and constipation relieved by Nux Vomica 200C.',
+        },
+      },
     ],
     quiz: [
       {
