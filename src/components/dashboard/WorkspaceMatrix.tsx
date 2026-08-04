@@ -267,11 +267,11 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             {isChapterDropdownOpen && (
               <>
                 <div
-                  className="fixed inset-0 z-30"
+                  className="fixed inset-0 z-40"
                   onClick={() => setIsChapterDropdownOpen(false)}
                 />
                 <div
-                  className={`absolute left-0 mt-1.5 w-60 rounded-xl border p-3 shadow-2xl z-40 space-y-2 font-sans ${
+                  className={`absolute left-0 mt-1.5 w-64 min-w-[240px] rounded-xl border p-3.5 shadow-2xl z-50 space-y-2 font-sans ${
                     isLight
                       ? 'bg-white border-slate-200 text-slate-900'
                       : 'bg-[#0B0F19] border-[#1C1F26] text-white'
@@ -298,7 +298,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                   </div>
 
                   {/* 'ALL' TOGGLE OPTION */}
-                  <label className="flex items-center space-x-2.5 px-2 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer font-bold text-xs">
+                  <label className="flex items-center space-x-2.5 px-2 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer font-bold text-xs whitespace-nowrap">
                     <input
                       type="checkbox"
                       checked={selectedChapters.length === ALL_CHAPTERS.length}
@@ -309,18 +309,18 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                           setSelectedChapters([]);
                         }
                       }}
-                      className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
+                      className="w-4 h-4 accent-emerald-500 rounded cursor-pointer flex-shrink-0"
                     />
                     <span className="font-black">All Chapters</span>
                   </label>
 
-                  <div className="max-h-56 overflow-y-auto space-y-1 pt-1 border-t border-slate-200 dark:border-slate-800">
+                  <div className="max-h-60 overflow-y-auto space-y-1 pt-1 border-t border-slate-200 dark:border-slate-800">
                     {ALL_CHAPTERS.map((ch) => {
                       const isChecked = selectedChapters.includes(ch);
                       return (
                         <label
                           key={ch}
-                          className="flex items-center space-x-2.5 px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer text-xs font-semibold"
+                          className="flex items-center space-x-2.5 px-2 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer text-xs font-semibold whitespace-nowrap"
                         >
                           <input
                             type="checkbox"
@@ -334,7 +334,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                                 setSelectedChapters((prev) => [...prev, ch]);
                               }
                             }}
-                            className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
+                            className="w-4 h-4 accent-emerald-500 rounded cursor-pointer flex-shrink-0"
                           />
                           <span>{ch}</span>
                         </label>
