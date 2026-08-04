@@ -76,28 +76,36 @@ export const PharmacyDispensaryView: React.FC<
     >
       {/* EXECUTIVE HEADER */}
       <div
-        className={`p-5 rounded-2xl border shadow-xl flex flex-wrap items-center justify-between gap-4 ${
+        className={`p-5 rounded-2xl border shadow-sm flex flex-wrap items-center justify-between gap-4 transition-colors ${
           isLight
-            ? 'bg-white border-slate-200'
-            : 'bg-[#0B0F19] border-[#1C1F26]'
+            ? 'bg-white border-slate-200 text-slate-900'
+            : 'bg-[#0B0F19] border-[#1C1F26] text-white'
         }`}
       >
         <div className="flex items-center space-x-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-lg">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-md">
             <FlaskConical className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="font-black text-base uppercase tracking-wider text-emerald-400">
+            <h2
+              className={`font-black text-base uppercase tracking-wider ${
+                isLight ? 'text-emerald-800' : 'text-emerald-400'
+              }`}
+            >
               PHARMACY & CLASSICAL LIQUID LM POTENCY DISPENSARY INVENTORY
             </h2>
-            <p className="text-xs text-gray-400">
+            <p
+              className={`text-xs ${
+                isLight ? 'text-slate-600' : 'text-gray-400'
+              }`}
+            >
               50-Millesimal (LM 0/1 to LM 0/30) Aqueous Succussion & Centesimal (C) Dispensing Track
             </p>
           </div>
         </div>
 
         {dispatchedAlert && (
-          <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5 animate-pulse">
+          <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm">
             <CheckCircle2 className="w-4 h-4" />
             {dispatchedAlert}
           </span>
@@ -106,15 +114,31 @@ export const PharmacyDispensaryView: React.FC<
 
       {/* INVENTORY TABLE & ACTIONS */}
       <div
-        className={`p-6 rounded-2xl border space-y-4 shadow-lg ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#0B0F19] border-[#1C1F26]'
+        className={`p-6 rounded-2xl border space-y-4 shadow-sm transition-colors ${
+          isLight
+            ? 'bg-white border-slate-200 text-slate-900'
+            : 'bg-[#0B0F19] border-[#1C1F26] text-white'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <span className="font-black text-sm uppercase text-emerald-400">
+        <div
+          className={`flex items-center justify-between border-b pb-3 ${
+            isLight ? 'border-slate-200' : 'border-slate-800'
+          }`}
+        >
+          <span
+            className={`font-black text-sm uppercase ${
+              isLight ? 'text-emerald-800' : 'text-emerald-400'
+            }`}
+          >
             CLASSICAL PHARMACY STOCK & LM POTENCY VIAL STOCK
           </span>
-          <span className="text-xs text-gray-400">CLICK DISPATCH TO ISSUE VIAL</span>
+          <span
+            className={`text-xs ${
+              isLight ? 'text-slate-500' : 'text-gray-400'
+            }`}
+          >
+            CLICK DISPATCH TO ISSUE VIAL
+          </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,10 +147,18 @@ export const PharmacyDispensaryView: React.FC<
             return (
               <div
                 key={item.id}
-                className="p-5 rounded-xl bg-[#111317] border border-slate-800 space-y-3 hover:border-emerald-500/60 transition-all"
+                className={`p-5 rounded-xl border space-y-3 transition-all ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-200 hover:border-emerald-500'
+                    : 'bg-[#111317] border-slate-800 hover:border-emerald-500/60'
+                }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-black text-xs text-white">
+                  <span
+                    className={`font-black text-xs ${
+                      isLight ? 'text-slate-900' : 'text-white'
+                    }`}
+                  >
                     {item.remedy}
                   </span>
                   {isLowStock ? (
@@ -141,15 +173,21 @@ export const PharmacyDispensaryView: React.FC<
                 </div>
 
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Batch: {item.batchNo}</span>
-                  <span className="text-emerald-400 font-black text-sm">
+                  <span
+                    className={
+                      isLight ? 'text-slate-600' : 'text-gray-400'
+                    }
+                  >
+                    Batch: {item.batchNo}
+                  </span>
+                  <span className="text-emerald-700 dark:text-emerald-400 font-black text-sm">
                     {item.stockVials} Vials Left
                   </span>
                 </div>
 
                 <button
                   onClick={() => handleDispatch(item.id, item.remedy)}
-                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center justify-center space-x-1.5 shadow-md transition-all cursor-pointer"
+                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center justify-center space-x-1.5 shadow-sm transition-all cursor-pointer"
                 >
                   <PackageCheck className="w-4 h-4" />
                   <span>🚀 Dispatch Prescription Vial to Patient</span>
