@@ -17,26 +17,133 @@ import {
   ZoomOut,
   Microscope,
   HeartPulse,
+  Brain,
+  Crosshair,
+  Sliders,
 } from 'lucide-react';
 
 interface Interactive360AnatomyAtlasProps {
   theme?: 'dark' | 'light';
 }
 
-type RenderLayerMode = 'PARENCHYMA' | 'VASCULAR' | 'HISTOLOGY';
+type LayerFilterMode = 'PARENCHYMA' | 'VASCULAR' | 'NEURAL' | 'HISTOLOGY';
 
 export const Interactive360AnatomyAtlas: React.FC<
   Interactive360AnatomyAtlasProps
 > = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
 
-  const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-liver');
+  const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-head');
   const [rotationAngle, setRotationAngle] = useState<number>(0);
-  const [renderMode, setRenderMode] = useState<RenderLayerMode>('PARENCHYMA');
+  const [activeLayer, setActiveLayer] = useState<LayerFilterMode>('PARENCHYMA');
   const [zoomLevel, setZoomLevel] = useState<number>(100);
-  const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>(null);
+  const [opacityLevel, setOpacityLevel] = useState<number>(95);
+  const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>('hs-carotid-plexus');
 
   const ORGAN_SYSTEMS = [
+    {
+      id: 'organ-head',
+      name: 'Head, Brain & Central Nervous System',
+      icon: '🧠',
+      layer: 'ECTODERM (MIND / NEURAL)',
+      layerBadge: 'bg-purple-500/10 text-purple-600 border-purple-500/30',
+      description:
+        'Derived from the Ectoderm layer. Afflicted prominently in Psoric emotional stress and Syphilitic destructive neural pathways.',
+      views: {
+        0: {
+          title: '0° Anterior Cerebral Hemispheres & Frontal Cortex',
+          desc: 'Anterior view showing bilateral Frontal Lobes, Interhemispheric Fissure, Carotid vascular plexus, and Optic Chiasm.',
+          hotspots: [
+            {
+              id: 'hs-carotid-plexus',
+              label: 'Carotid Arterial Surge Plexus',
+              rubric: 'HEAD - CONGESTION - blood - surge of',
+              remedy: 'Belladonna 30C / 200C',
+              note: 'Sudden throbbing carotid artery pulsation, dilated pupils, flushed red face, cerebral congestion.',
+              coords: 'top-[42%] left-[48%]',
+            },
+            {
+              id: 'hs-frontal-cortex',
+              label: 'Frontal Cortex & Psoric Emotional Stress',
+              rubric: 'MIND - ANXIETY - future, about',
+              remedy: 'Aconite / Arsenicum Album',
+              note: 'Ectodermal neural locus of acute mental restlessness and anticipation fear.',
+              coords: 'top-[22%] left-[48%]',
+            },
+          ],
+        },
+        90: {
+          title: '90° Lateral Brainstem & Occipital Cortex Profile',
+          desc: 'Profile showing Cerebral Sulci/Gyri, Cerebellum, Vagus Nerve nuclei, and Cervical Spine junction.',
+          hotspots: [
+            {
+              id: 'hs-occipital',
+              label: 'Occipital-Cervical Neural Junction',
+              rubric: 'HEAD - PAIN - occiput - extending to forehead',
+              remedy: 'Gelsemium Sempervirens 30C',
+              note: 'Dull heavy occipital headache spreading forward over eyes with muscle eyelids heaviness.',
+              coords: 'top-[58%] left-[62%]',
+            },
+            {
+              id: 'hs-cerebellum',
+              label: 'Cerebellar Motor & Gait Balance Center',
+              rubric: 'GENERALITIES - ATAXIA - locomotion',
+              remedy: 'Argentum Nitricum 200C',
+              note: 'Loss of voluntary muscular coordination and staggering gait.',
+              coords: 'top-[68%] left-[70%]',
+            },
+          ],
+        },
+        180: {
+          title: '180° Posterior Meningeal & Cerebellar Surface',
+          desc: 'Dorsal cortex aspect showing occipital protuberance, transverse meningeal sinuses, and tentorium cerebelli.',
+          hotspots: [
+            {
+              id: 'hs-glonoine',
+              label: 'Cerebral Vascular Pulsation Zone',
+              rubric: 'HEAD - PULSATING - sun, from heat of',
+              remedy: 'Glonoine (Nitroglycerin) 6C / 30C',
+              note: 'Surging cerebral heat, feels head would burst, worse sun exposure.',
+              coords: 'top-[36%] left-[49%]',
+            },
+          ],
+        },
+        270: {
+          title: '270° Internal Midsagittal Brainstem & Limbic Cross-Section',
+          desc: 'Internal sagittal dissection revealing Corpus Callosum, Hypothalamus thermal regulator, Pituitary Gland, and Pons/Medulla.',
+          hotspots: [
+            {
+              id: 'hs-hypothalamus',
+              label: 'Hypothalamic Thermal & Thirst Center',
+              rubric: 'GENERALITIES - HEAT - flushes of',
+              remedy: 'Vijayakar Thermal-Thirst Constant Filter',
+              note: 'Immutable baseline regulator governing thermal baseline (Hot/Chilly) and thirst dynamics.',
+              coords: 'top-[50%] left-[46%]',
+            },
+          ],
+        },
+      },
+      organopathyRemedies: [
+        {
+          name: 'Belladonna',
+          potency: '30C / 200C',
+          keynote:
+            'Sudden intense carotid artery throbbing, dilated pupils, flushed red face, cerebral congestion.',
+        },
+        {
+          name: 'Glonoine (Nitroglycerin)',
+          potency: '6C / 30C',
+          keynote:
+            'Surging cerebral congestion, pulse felt in every vessel, worse heat of sun, head feels enormously enlarged.',
+        },
+        {
+          name: 'Gelsemium Sempervirens',
+          potency: '30C',
+          keynote:
+            'Dull heavy occipital headache spreading forward over head, eyelid ptosis, motor trembling.',
+        },
+      ],
+    },
     {
       id: 'organ-liver',
       name: 'Liver, Hepato-Biliary & Parenchyma',
@@ -55,16 +162,16 @@ export const Interactive360AnatomyAtlas: React.FC<
               label: 'Right Hepatic Lobe Parenchyma',
               rubric: 'ABDOMEN - CIRRHOSIS - liver',
               remedy: 'Chelidonium Majus 1X / Q',
-              note: 'Primary target for Chelidonium right scapular nerve referral pain.',
-              coords: 'top-[35%] left-[45%]',
+              note: 'Primary target for Chelidonium right scapular nerve referral pain and hepatic enlargement.',
+              coords: 'top-[38%] left-[42%]',
             },
             {
               id: 'hs-gallbladder',
               label: 'Gallbladder & Common Bile Duct',
               rubric: 'ABDOMEN - GALLBLADDER - complaints of',
               remedy: 'Carduus Marianus Q',
-              note: 'Biliary stasis and portal vein congestion relief.',
-              coords: 'top-[62%] left-[55%]',
+              note: 'Biliary stasis, portal vein congestion, clay stools, and jaundice relief.',
+              coords: 'top-[66%] left-[58%]',
             },
           ],
         },
@@ -78,7 +185,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               rubric: 'GENERALITIES - VARICOSE veins',
               remedy: 'Carduus Marianus / Lycopodium',
               note: 'Portal hypertension and venous back-pressure.',
-              coords: 'top-[45%] left-[50%]',
+              coords: 'top-[48%] left-[50%]',
             },
           ],
         },
@@ -91,8 +198,8 @@ export const Interactive360AnatomyAtlas: React.FC<
               label: 'Inferior Vena Cava Groove',
               rubric: 'CIRCULATION - CONGESTION - portal',
               remedy: 'Lycopodium 30C / 200C',
-              note: 'Right-sided metabolic hepatic enlargement.',
-              coords: 'top-[30%] left-[50%]',
+              note: 'Right-sided metabolic hepatic enlargement and gas at 4-8 PM.',
+              coords: 'top-[34%] left-[50%]',
             },
           ],
         },
@@ -143,7 +250,7 @@ export const Interactive360AnatomyAtlas: React.FC<
       views: {
         0: {
           title: '0° Anterior Renal Cortex & Medullary Pyramids',
-          desc: 'Frontal longitudinal cross section showing Renal Cortex, Medullary Pyramids, and Pelvis.',
+          desc: 'Frontal longitudinal cross section showing Renal Cortex, Medullary Pyramids, Renal Pelvis, and Ureters.',
           hotspots: [
             {
               id: 'hs-renal-cortex',
@@ -151,7 +258,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               rubric: 'URINARY ORGANS - KIDNEYS - inflammation',
               remedy: 'Solidago Virgaurea Q / 3X',
               note: 'Burnett Kidney Drainage: Tender renal zone on pressure, albuminuria.',
-              coords: 'top-[30%] left-[50%]',
+              coords: 'top-[32%] left-[48%]',
             },
             {
               id: 'hs-ureter',
@@ -159,7 +266,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               rubric: 'URINARY ORGANS - URETERS - pain - radiating',
               remedy: 'Berberis Vulgaris Q / 6X',
               note: 'Radiating stone colic down ureter to thigh and testicle.',
-              coords: 'top-[70%] left-[52%]',
+              coords: 'top-[68%] left-[52%]',
             },
           ],
         },
@@ -228,89 +335,55 @@ export const Interactive360AnatomyAtlas: React.FC<
       ],
     },
     {
-      id: 'organ-head',
-      name: 'Head, Brain & Central Nervous System',
-      icon: '🧠',
-      layer: 'ECTODERM (MIND / NEURAL)',
-      layerBadge: 'bg-purple-500/10 text-purple-600 border-purple-500/30',
+      id: 'organ-heart',
+      name: 'Cardiovascular & Coronary Circulation',
+      icon: '❤️',
+      layer: 'MESODERM (SEROUS / VASCULAR)',
+      layerBadge: 'bg-amber-500/10 text-amber-600 border-amber-500/30',
       description:
-        'Derived from the Ectoderm layer. Afflicted prominently in Psoric emotional stress and Syphilitic destructive neural pathways.',
+        'Mesodermal cardiac tissue governing myocardial contractility, coronary arterial supply, and systemic hemodynamics.',
       views: {
         0: {
-          title: '0° Anterior Cerebral Hemispheres & Frontal Cortex',
-          desc: 'Anterior view showing frontal lobes, meningeal vascular plexus, and carotid sinus.',
+          title: '0° Anterior Cardiac Myocardium & Coronary Arteries',
+          desc: 'Anterior view showing Ascending Aorta, Pulmonary Trunk, Left/Right Ventricles, and Anterior Interventricular Artery.',
           hotspots: [
             {
-              id: 'hs-carotid-plexus',
-              label: 'Carotid Arterial Surge Plexus',
-              rubric: 'HEAD - CONGESTION - blood - surge of',
-              remedy: 'Belladonna 30C / 200C',
-              note: 'Sudden throbbing carotid headache, dilated pupils, red face.',
-              coords: 'top-[35%] left-[50%]',
+              id: 'hs-coronary-artery',
+              label: 'Coronary Interventricular Artery',
+              rubric: 'CHEST - CONSTRICTION - heart - wire around it, as if',
+              remedy: 'Cactus Grandiflorus 30C / Q',
+              note: 'Sensation as if an iron hand or band tightly constricted the cardiac myocardium.',
+              coords: 'top-[46%] left-[52%]',
             },
-          ],
-        },
-        90: {
-          title: '90° Lateral Brainstem & Occipital Cortex Profile',
-          desc: 'Profile showing Occipital lobe, Cerebellum, Vagus Nerve nuclei, and Cervical Spine.',
-          hotspots: [
             {
-              id: 'hs-occipital',
-              label: 'Occipital-Cervical Neural Junction',
-              rubric: 'HEAD - PAIN - occiput - extending to forehead',
-              remedy: 'Gelsemium Sempervirens 30C',
-              note: 'Dull heavy occipital headache spreading forward over eyes.',
-              coords: 'top-[55%] left-[58%]',
-            },
-          ],
-        },
-        180: {
-          title: '180° Posterior Meningeal & Cerebellar Surface',
-          desc: 'Dorsal cortex aspect showing occipital protuberance and tentorium cerebelli.',
-          hotspots: [
-            {
-              id: 'hs-glonoine',
-              label: 'Cerebral Vascular Pulsation Zone',
-              rubric: 'HEAD - PULSATING - sun, from heat of',
-              remedy: 'Glonoine (Nitroglycerin) 6C / 30C',
-              note: 'Surging cerebral heat, feels head would burst, worse sun.',
-              coords: 'top-[42%] left-[50%]',
-            },
-          ],
-        },
-        270: {
-          title: '270° Internal Midsagittal Brainstem & Limbic Cross-Section',
-          desc: 'Internal cross-section showing Hypothalamus thermal center, Pituitary, and Basal Ganglia.',
-          hotspots: [
-            {
-              id: 'hs-hypothalamus',
-              label: 'Hypothalamic Thermal & Thirst Center',
-              rubric: 'GENERALITIES - HEAT - flushes of',
-              remedy: 'Vijayakar Thermal-Thirst Constant Filter',
-              note: 'Regulates dynamic thermal and thirst constants.',
-              coords: 'top-[48%] left-[49%]',
+              id: 'hs-myocardium',
+              label: 'Myocardial Hypertrophy Zone',
+              rubric: 'HEART - PALPITATION - exertion, on slightest',
+              remedy: 'Crataegus Oxyacantha Q',
+              note: 'Burnett Heart Tonic: Cardiac hypertrophy, dyspnea on exertion, and feeble pulse.',
+              coords: 'top-[58%] left-[44%]',
             },
           ],
         },
       },
       organopathyRemedies: [
         {
-          name: 'Belladonna',
-          potency: '30C / 200C',
+          name: 'Crataegus Oxyacantha',
+          potency: 'Q (Tincture)',
           keynote:
-            'Sudden intense carotid artery throbbing, dilated pupils, flushed red face, cerebral congestion.',
+            'Heart Tonic: Cardiac hypertrophy, dyspnea on slight exertion, irregular feeble pulse.',
         },
         {
-          name: 'Glonoine (Nitroglycerin)',
-          potency: '6C / 30C',
+          name: 'Cactus Grandiflorus',
+          potency: 'Q / 30C',
           keynote:
-            'Surging cerebral congestion, pulse felt in every vessel, worse heat of sun.',
+            'Constriction sensation as if an iron band or wire was tightly clutched around the heart.',
         },
         {
-          name: 'Gelsemium Sempervirens',
+          name: 'Digitalis Purpurea',
           potency: '30C',
           keynote:
-            'Dull heavy occipital headache spreading forward over head, eyelid ptosis, motor trembling.',
+            'Slow intermittent pulse, sensation as if heart would stop if patient moved.',
         },
       ],
     },
@@ -319,7 +392,9 @@ export const Interactive360AnatomyAtlas: React.FC<
   const activeSystem =
     ORGAN_SYSTEMS.find((s) => s.id === selectedSystemId) || ORGAN_SYSTEMS[0];
   const activeView =
-    (activeSystem.views as any)[rotationAngle] || activeSystem.views[0];
+    (activeSystem.views as any)[rotationAngle] ||
+    activeSystem.views[0] ||
+    (Object.values(activeSystem.views)[0] as any);
 
   return (
     <div
@@ -329,61 +404,45 @@ export const Interactive360AnatomyAtlas: React.FC<
           : 'bg-[#0B0F19] border-[#1C1F26] text-white'
       }`}
     >
-      {/* HEADER */}
+      {/* TOP MEDICAL DIAGNOSTIC HUD BAR */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-4 border-slate-200 dark:border-slate-800">
         <div>
-          <span className="text-xs px-2.5 py-0.5 rounded font-black bg-blue-600 text-white">
-            BHMS &amp; MD (HOM.) 360° TOP-CLASS INTERACTIVE SPATIAL ANATOMY &amp; ORGANOPATHY ATLAS
-          </span>
-          <h2 className="text-base font-black mt-1">
-            VOLUMETRIC 360° INTERNAL ORGAN SPATIAL ROTATOR • MULTI-LAYER HISTOLOGY &amp; BURNETT ORGANOPATHY
+          <div className="flex items-center space-x-2">
+            <span className="text-xs px-2.5 py-0.5 rounded-full font-black bg-blue-600 text-white flex items-center space-x-1">
+              <Sparkles className="w-3 h-3" />
+              <span>3D MEDICAL SPATIAL AT</span>
+            </span>
+            <span className="text-xs font-black text-emerald-500">
+              ● HD Volumetric Spatial Viewport Live
+            </span>
+          </div>
+          <h2 className="text-lg font-black mt-1 tracking-tight">
+            INTERACTIVE 3D ANATOMICAL SPATIAL WORKBENCH • EMBRYOLOGICAL LAYERS &amp; BURNETT ORGANOPATHY
           </h2>
           <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
-            💡 Rotate the 360° Spatial Dial or switch Tissue Layer Modes (Volumetric Parenchyma vs Arterial Vascular Plexus vs Histological Cross-Section) to inspect deep tissue nodes and Burnett organ-affine remedies.
+            💡 Switch anatomical systems, drag the 360° Orbit Slider, or select Tissue Layer Filters (Volumetric Tissue vs Vascular Plexus vs Sagittal Histology) to study tissue pathology.
           </p>
         </div>
 
-        {/* TOP LAYER RENDER MODE CONTROLS */}
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={() => setRenderMode('PARENCHYMA')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 cursor-pointer transition-all ${
-              renderMode === 'PARENCHYMA'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : isLight
-                ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
-            }`}
-          >
-            <Layers className="w-3.5 h-3.5" />
-            <span>Volumetric Tissue</span>
-          </button>
-          <button
-            onClick={() => setRenderMode('VASCULAR')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 cursor-pointer transition-all ${
-              renderMode === 'VASCULAR'
-                ? 'bg-rose-600 text-white shadow-xs'
-                : isLight
-                ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
-            }`}
-          >
-            <HeartPulse className="w-3.5 h-3.5" />
-            <span>Vascular Plexus</span>
-          </button>
-          <button
-            onClick={() => setRenderMode('HISTOLOGY')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 cursor-pointer transition-all ${
-              renderMode === 'HISTOLOGY'
-                ? 'bg-purple-600 text-white shadow-xs'
-                : isLight
-                ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
-            }`}
-          >
-            <Microscope className="w-3.5 h-3.5" />
-            <span>Sagittal Histology</span>
-          </button>
+        {/* LAYER FILTER TOGGLES */}
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          {[
+            { id: 'PARENCHYMA', label: '🫁 Parenchyma Tissue', color: 'bg-emerald-600' },
+            { id: 'VASCULAR', label: '🩸 Arterial / Vascular', color: 'bg-rose-600' },
+            { id: 'HISTOLOGY', label: '🔬 Micro Sagittal Section', color: 'bg-purple-600' },
+          ].map((mode) => (
+            <button
+              key={mode.id}
+              onClick={() => setActiveLayer(mode.id as LayerFilterMode)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                activeLayer === mode.id
+                  ? `${mode.color} text-white shadow-xs`
+                  : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              {mode.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -400,7 +459,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               }}
               className={`px-4 py-2.5 rounded-xl border text-xs font-black flex items-center space-x-2 transition-all cursor-pointer ${
                 isSel
-                  ? 'bg-blue-600 text-white border-blue-500 shadow-xs'
+                  ? 'bg-blue-600 text-white border-blue-500 shadow-md scale-[1.01]'
                   : isLight
                   ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700'
                   : 'bg-[#05070A] hover:bg-slate-800 border-slate-800 text-gray-300'
@@ -413,24 +472,21 @@ export const Interactive360AnatomyAtlas: React.FC<
         })}
       </div>
 
-      {/* 360° INTERACTIVE STAGE & HOTSPOT WORKBENCH */}
+      {/* 3D WORKBENCH STAGE + DIAGNOSTIC INSPECTOR (12 COLUMNS) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* LEFT CANVAS: 360° INTERNAL ORGAN ROTATOR VIEWER (7 COLUMNS) */}
+        {/* LEFT CANVAS: HD 3D ANATOMICAL RENDERING WORKBENCH (7 COLUMNS) */}
         <div
-          className={`lg:col-span-7 p-6 rounded-2xl border flex flex-col space-y-5 relative ${
+          className={`lg:col-span-7 p-6 rounded-2xl border flex flex-col space-y-4 relative ${
             isLight
-              ? 'bg-slate-50 border-slate-200'
-              : 'bg-[#05070A] border-slate-800'
+              ? 'bg-slate-900 text-white border-slate-800'
+              : 'bg-[#03060C] text-white border-slate-800'
           }`}
         >
-          {/* VIEWPORT CONTROLS */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-slate-200 dark:border-slate-800">
+          {/* TOP SPATIAL CONTROLS BAR */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
             <div className="flex items-center space-x-2">
-              <span className="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+              <span className="text-xs font-black text-blue-400 uppercase tracking-wider">
                 {activeView.title}
-              </span>
-              <span className="text-[10px] px-2 py-0.5 rounded font-black bg-blue-500/10 text-blue-500 border border-blue-500/30">
-                MODE: {renderMode}
               </span>
             </div>
 
@@ -442,9 +498,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-black cursor-pointer transition-all ${
                     rotationAngle === angle
                       ? 'bg-blue-600 text-white'
-                      : isLight
-                      ? 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
-                      : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
+                      : 'bg-slate-800 text-gray-400 hover:text-white'
                   }`}
                 >
                   {angle}° {angle === 0 ? 'Front' : angle === 90 ? 'Lateral' : angle === 180 ? 'Back' : 'Section'}
@@ -453,206 +507,268 @@ export const Interactive360AnatomyAtlas: React.FC<
             </div>
           </div>
 
-          {/* SPATIAL ROTATION SLIDER CONTROL & ZOOM */}
-          <div className="flex flex-wrap items-center justify-between gap-3 px-2 py-1">
-            <div className="flex items-center space-x-3 flex-1">
-              <Compass className="w-4 h-4 text-blue-500 flex-shrink-0 animate-spin-slow" />
-              <span className="text-[10px] font-black uppercase text-slate-500 dark:text-gray-400">
-                360° Orbit Dial:
-              </span>
-              <input
-                type="range"
-                min="0"
-                max="270"
-                step="90"
-                value={rotationAngle}
-                onChange={(e) => setRotationAngle(Number(e.target.value))}
-                className="flex-1 cursor-pointer accent-blue-600"
-              />
-              <span className="font-mono text-xs font-black text-blue-600 dark:text-blue-400 w-12 text-right">
-                {rotationAngle}°
-              </span>
-            </div>
-
-            <div className="flex items-center space-x-1 border-l pl-3 border-slate-200 dark:border-slate-800">
-              <button
-                onClick={() => setZoomLevel((z) => Math.max(80, z - 20))}
-                className="p-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-gray-300 cursor-pointer"
-                title="Zoom Out"
-              >
-                <ZoomOut className="w-3.5 h-3.5" />
-              </button>
-              <span className="text-[10px] font-mono font-black w-10 text-center">
-                {zoomLevel}%
-              </span>
-              <button
-                onClick={() => setZoomLevel((z) => Math.min(180, z + 20))}
-                className="p-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-gray-300 cursor-pointer"
-                title="Zoom In"
-              >
-                <ZoomIn className="w-3.5 h-3.5" />
-              </button>
-            </div>
+          {/* ORBIT DIAL SLIDER */}
+          <div className="flex items-center space-x-3 px-1">
+            <Compass className="w-4 h-4 text-blue-400 flex-shrink-0 animate-spin-slow" />
+            <span className="text-[10px] font-black uppercase text-slate-400">
+              360° Spatial Rotate:
+            </span>
+            <input
+              type="range"
+              min="0"
+              max="270"
+              step="90"
+              value={rotationAngle}
+              onChange={(e) => setRotationAngle(Number(e.target.value))}
+              className="flex-1 cursor-pointer accent-blue-500"
+            />
+            <span className="font-mono text-xs font-black text-blue-400 w-10 text-right">
+              {rotationAngle}°
+            </span>
           </div>
 
-          {/* VISUAL 360 ANATOMICAL ORGAN RENDER STAGE */}
-          <div className="relative w-full h-[380px] rounded-2xl bg-gradient-to-b from-slate-900/20 via-blue-950/20 to-slate-900/30 border border-blue-500/30 flex flex-col items-center justify-center overflow-hidden p-4 shadow-inner">
-            {/* SPATIAL ANATOMICAL SVG RENDERING */}
+          {/* HIGH-DEFINITION VOLUMETRIC MEDICAL ANATOMY CANVAS */}
+          <div className="relative w-full h-[420px] rounded-2xl bg-gradient-to-b from-[#060B14] via-[#0A1120] to-[#040810] border border-blue-500/30 flex flex-col items-center justify-center overflow-hidden p-4 shadow-2xl">
+            {/* AMBIENT GLOW & BACKSTAGE BIO-GRID */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+              <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="medicalGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+                    <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#3B82F6" strokeWidth="0.6" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#medicalGrid)" />
+              </svg>
+            </div>
+
+            {/* ARTISTIC HIGH-DEFINITION MEDICAL VECTOR ORGAN ARTWORK */}
             <div
               className="w-full h-full flex items-center justify-center transition-all duration-500 ease-out"
               style={{
                 transform: `scale(${zoomLevel / 100})`,
+                opacity: opacityLevel / 100,
               }}
             >
-              <svg
-                viewBox="0 0 420 340"
-                className="w-full h-full max-h-[320px] transition-transform duration-500 ease-out"
-                style={{
-                  transform: `rotateY(${rotationAngle}deg)`,
-                }}
-              >
-                {/* BIO-TECH MEDICAL MATRIX GRID */}
-                <defs>
-                  <pattern
-                    id="topClassAnatomyGrid"
-                    width="24"
-                    height="24"
-                    patternUnits="userSpaceOnUse"
-                  >
+              {/* ========================================================= */}
+              {/* 1. BRAIN & CENTRAL NERVOUS SYSTEM (HIGH-DEFINITION MODEL) */}
+              {/* ========================================================= */}
+              {selectedSystemId === 'organ-head' && (
+                <svg viewBox="0 0 460 380" className="w-full h-full max-h-[350px]">
+                  <defs>
+                    <radialGradient id="brainTissueGrad" cx="50%" cy="40%" r="60%">
+                      <stop offset="0%" stopColor="#D8B4FE" />
+                      <stop offset="60%" stopColor="#A855F7" />
+                      <stop offset="100%" stopColor="#6B21A8" />
+                    </radialGradient>
+                    <radialGradient id="carotidGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#F87171" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#EF4444" stopOpacity="0" />
+                    </radialGradient>
+                    <filter id="glowEffect">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                      <feMerge>
+                        <feMergeNode in="coloredBlur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* CEREBRAL HEMISPHERES WITH ANATOMICAL SULCI / GYRI ARTWORK */}
+                  <g className="transition-transform duration-500" style={{ transform: `rotateY(${rotationAngle}deg)` }}>
+                    {/* BRAIN OUTLINE LOBES */}
                     <path
-                      d="M 24 0 L 0 0 0 24"
-                      fill="none"
-                      stroke="rgba(59, 130, 246, 0.15)"
-                      strokeWidth="0.8"
-                    />
-                  </pattern>
-                  <radialGradient id="tissueGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#10B981" stopOpacity="0.45" />
-                    <stop offset="100%" stopColor="#10B981" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="vascularGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#EF4444" stopOpacity="0.55" />
-                    <stop offset="100%" stopColor="#EF4444" stopOpacity="0" />
-                  </radialGradient>
-                </defs>
-                <rect width="420" height="340" fill="url(#topClassAnatomyGrid)" />
-
-                {/* DYNAMIC SHAPES PER SELECTED ORGAN & RENDER MODE */}
-                {selectedSystemId === 'organ-liver' && (
-                  <g className="transition-all duration-300">
-                    {renderMode === 'VASCULAR' ? (
-                      /* ARTERIAL & PORTAL VASCULAR PLEXUS MODE */
-                      <g>
-                        <circle cx="210" cy="170" r="110" fill="url(#vascularGlow)" />
-                        {/* PORTAL VEIN AXIS */}
-                        <path
-                          d="M 210 270 Q 215 190 210 160 Q 200 130 150 95 M 210 160 Q 240 125 285 90"
-                          fill="none"
-                          stroke="#EF4444"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                        />
-                        <path
-                          d="M 210 270 Q 215 190 210 160 Q 200 130 150 95 M 210 160 Q 240 125 285 90"
-                          fill="none"
-                          stroke="#F87171"
-                          strokeWidth="2"
-                          strokeDasharray="6 4"
-                        />
-                        <circle cx="210" cy="160" r="14" fill="#EF4444" />
-                        <text x="230" y="165" fill="#EF4444" fontSize="11" fontWeight="900">
-                          PORTAL VEIN AXIS (CARDUUS MARIANUS)
-                        </text>
-                      </g>
-                    ) : renderMode === 'HISTOLOGY' || rotationAngle === 270 ? (
-                      /* HISTOLOGY TISSUE HEXAGONAL LOBULE */
-                      <g>
-                        <circle cx="210" cy="170" r="105" fill="url(#tissueGlow)" />
-                        <polygon
-                          points="210,65 295,115 295,225 210,275 125,225 125,115"
-                          fill="rgba(16, 185, 129, 0.22)"
-                          stroke="#10B981"
-                          strokeWidth="3.5"
-                        />
-                        <circle cx="210" cy="170" r="36" fill="rgba(6, 182, 212, 0.3)" stroke="#06B6D4" strokeWidth="2.5" />
-                        <text x="175" y="174" fill="#10B981" fontSize="11" fontWeight="900">
-                          CENTRAL VEIN &amp; LOBULE
-                        </text>
-                      </g>
-                    ) : (
-                      /* VOLUMETRIC HEPATIC LOBES */
-                      <g>
-                        <circle cx="210" cy="170" r="120" fill="url(#tissueGlow)" />
-                        <path
-                          d="M 105 135 C 135 80, 275 80, 325 145 C 345 180, 315 245, 250 250 C 185 255, 115 220, 105 135 Z"
-                          fill="rgba(16, 185, 129, 0.25)"
-                          stroke="#10B981"
-                          strokeWidth="3.5"
-                        />
-                        {/* FALCIFORM LIGAMENT SEPARATION */}
-                        <path d="M 235 95 Q 240 170 245 250" stroke="#10B981" strokeWidth="2" strokeDasharray="5 4" />
-                        {/* GALLBLADDER */}
-                        <ellipse
-                          cx="230"
-                          cy="235"
-                          rx="18"
-                          ry="26"
-                          fill="rgba(245, 158, 11, 0.35)"
-                          stroke="#F59E0B"
-                          strokeWidth="2.5"
-                        />
-                      </g>
-                    )}
-                  </g>
-                )}
-
-                {selectedSystemId === 'organ-kidneys' && (
-                  <g className="transition-all duration-300">
-                    {renderMode === 'VASCULAR' ? (
-                      <g>
-                        <path d="M 210 50 L 210 290" stroke="#EF4444" strokeWidth="6" />
-                        <path d="M 210 150 L 160 150 M 210 180 L 260 180" stroke="#EF4444" strokeWidth="4" />
-                        <text x="225" y="145" fill="#EF4444" fontSize="11" fontWeight="900">
-                          RENAL ARTERY PLEXUS
-                        </text>
-                      </g>
-                    ) : (
-                      <g>
-                        <path
-                          d="M 155 105 C 125 125, 125 205, 165 225 C 195 235, 215 195, 200 165 C 215 135, 185 95, 155 105 Z"
-                          fill="rgba(6, 182, 212, 0.25)"
-                          stroke="#06B6D4"
-                          strokeWidth="3.5"
-                        />
-                        <path
-                          d="M 265 105 C 235 95, 205 135, 220 165 C 205 195, 225 235, 255 225 C 295 205, 295 125, 265 105 Z"
-                          fill="rgba(6, 182, 212, 0.25)"
-                          stroke="#06B6D4"
-                          strokeWidth="3.5"
-                        />
-                        <path d="M 190 170 L 190 280" stroke="#06B6D4" strokeWidth="3" strokeDasharray="5 4" />
-                        <path d="M 220 170 L 220 280" stroke="#06B6D4" strokeWidth="3" strokeDasharray="5 4" />
-                      </g>
-                    )}
-                  </g>
-                )}
-
-                {selectedSystemId === 'organ-head' && (
-                  <g className="transition-all duration-300">
-                    <ellipse
-                      cx="210"
-                      cy="150"
-                      rx="100"
-                      ry="85"
-                      fill="rgba(168, 85, 247, 0.22)"
-                      stroke="#A855F7"
+                      d="M 230 45 C 130 45, 80 115, 85 185 C 90 240, 135 275, 205 275 L 205 320 L 255 320 L 255 275 C 325 275, 370 240, 375 185 C 380 115, 330 45, 230 45 Z"
+                      fill="url(#brainTissueGrad)"
+                      stroke="#E9D5FF"
                       strokeWidth="3.5"
                     />
-                    <path d="M 185 235 L 185 165" stroke="#EF4444" strokeWidth="4" />
-                    <path d="M 235 235 L 235 165" stroke="#EF4444" strokeWidth="4" />
+
+                    {/* INTERHEMISPHERIC FISSURE */}
+                    <path d="M 230 45 L 230 275" stroke="#4C1D95" strokeWidth="3" strokeDasharray="6 4" />
+
+                    {/* FRONTAL, PARIETAL, OCCIPITAL SULCI & GYRI CONVOLUTIONS */}
+                    <path
+                      d="M 130 110 Q 170 85 220 110 M 120 160 Q 180 135 225 160 M 135 210 Q 180 185 220 215"
+                      fill="none"
+                      stroke="#7E22CE"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 330 110 Q 290 85 240 110 M 340 160 Q 280 135 235 160 M 325 210 Q 280 185 240 215"
+                      fill="none"
+                      stroke="#7E22CE"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                    />
+
+                    {/* CEREBELLUM LOBES (LOWER POSTERIOR) */}
+                    <path
+                      d="M 140 245 C 160 280, 200 290, 220 270 M 320 245 C 300 280, 260 290, 240 270"
+                      fill="none"
+                      stroke="#9333EA"
+                      strokeWidth="4"
+                    />
+
+                    {/* BRAINSTEM & MEDULLA OBLONGATA */}
+                    <path
+                      d="M 215 270 L 215 350 L 245 350 L 245 270 Z"
+                      fill="#9333EA"
+                      stroke="#E9D5FF"
+                      strokeWidth="2"
+                    />
+
+                    {/* CAROTID ARTERIAL SURGE PLEXUS (ALWAYS VISIBLE IN VASCULAR / PARENCHYMA MODE) */}
+                    {(activeLayer === 'VASCULAR' || activeLayer === 'PARENCHYMA') && (
+                      <g filter="url(#glowEffect)">
+                        {/* RIGHT & LEFT COMMON CAROTID ARTERIES */}
+                        <path
+                          d="M 210 350 L 210 230 Q 180 190 150 170 M 250 350 L 250 230 Q 280 190 310 170"
+                          fill="none"
+                          stroke="#EF4444"
+                          strokeWidth="5"
+                          strokeLinecap="round"
+                        />
+                        <circle cx="210" cy="230" r="12" fill="#F87171" />
+                        <circle cx="250" cy="230" r="12" fill="#F87171" />
+                      </g>
+                    )}
+
+                    {/* HYPOTHALAMIC THERMAL & THIRST CENTER (IN HISTOLOGY OR SAGITTAL VIEW) */}
+                    {(activeLayer === 'HISTOLOGY' || rotationAngle === 270) && (
+                      <g>
+                        <circle cx="230" cy="180" r="28" fill="rgba(6, 182, 212, 0.4)" stroke="#06B6D4" strokeWidth="3" />
+                        <text x="185" y="184" fill="#06B6D4" fontSize="11" fontWeight="900">
+                          HYPOTHALAMUS
+                        </text>
+                      </g>
+                    )}
                   </g>
-                )}
-              </svg>
+                </svg>
+              )}
+
+              {/* ========================================================= */}
+              {/* 2. LIVER, HEPATO-BILIARY & GALLBLADDER (HD ARTWORK) */}
+              {/* ========================================================= */}
+              {selectedSystemId === 'organ-liver' && (
+                <svg viewBox="0 0 460 380" className="w-full h-full max-h-[350px]">
+                  <defs>
+                    <radialGradient id="liverParenchymaGrad" cx="45%" cy="40%" r="65%">
+                      <stop offset="0%" stopColor="#34D399" />
+                      <stop offset="70%" stopColor="#059669" />
+                      <stop offset="100%" stopColor="#064E3B" />
+                    </radialGradient>
+                  </defs>
+                  <g className="transition-transform duration-500">
+                    {/* ANATOMICAL HEPATIC PARENCHYMA LOBES */}
+                    <path
+                      d="M 95 160 C 135 75, 335 75, 385 165 C 410 210, 365 295, 275 305 C 195 315, 105 265, 95 160 Z"
+                      fill="url(#liverParenchymaGrad)"
+                      stroke="#A7F3D0"
+                      strokeWidth="4"
+                    />
+
+                    {/* FALCIFORM LIGAMENT SEPARATION */}
+                    <path d="M 285 90 Q 290 195 295 305" stroke="#6EE7B7" strokeWidth="3" strokeDasharray="6 4" />
+
+                    {/* GALLBLADDER WITH CYSTIC DUCT */}
+                    <g>
+                      <path d="M 270 240 Q 275 270 280 295" stroke="#F59E0B" strokeWidth="4" />
+                      <ellipse
+                        cx="285"
+                        cy="300"
+                        rx="22"
+                        ry="32"
+                        fill="#F59E0B"
+                        stroke="#FEF3C7"
+                        strokeWidth="3"
+                      />
+                      <text x="250" y="350" fill="#F59E0B" fontSize="12" fontWeight="900">
+                        GALLBLADDER (CARDUUS MARIANUS)
+                      </text>
+                    </g>
+
+                    {/* PORTAL VEIN TRIAD PLEXUS */}
+                    <path
+                      d="M 260 250 Q 235 200 170 145 M 260 250 Q 285 200 340 155"
+                      fill="none"
+                      stroke="#EF4444"
+                      strokeWidth="5"
+                    />
+                  </g>
+                </svg>
+              )}
+
+              {/* ========================================================= */}
+              {/* 3. KIDNEYS, RENAL CORTEX & MEDULLARY PYRAMIDS (HD ARTWORK) */}
+              {/* ========================================================= */}
+              {selectedSystemId === 'organ-kidneys' && (
+                <svg viewBox="0 0 460 380" className="w-full h-full max-h-[350px]">
+                  <defs>
+                    <radialGradient id="renalTissueGrad" cx="50%" cy="50%" r="60%">
+                      <stop offset="0%" stopColor="#22D3EE" />
+                      <stop offset="100%" stopColor="#0E7490" />
+                    </radialGradient>
+                  </defs>
+                  <g>
+                    {/* LEFT & RIGHT RENAL PARENCHYMA SHAPES */}
+                    <path
+                      d="M 145 105 C 105 135, 105 245, 155 275 C 195 295, 225 245, 205 195 C 225 155, 185 85, 145 105 Z"
+                      fill="url(#renalTissueGrad)"
+                      stroke="#CFFAFE"
+                      strokeWidth="3.5"
+                    />
+                    <path
+                      d="M 315 105 C 275 85, 235 155, 255 195 C 235 245, 265 295, 305 275 C 355 245, 355 135, 315 105 Z"
+                      fill="url(#renalTissueGrad)"
+                      stroke="#CFFAFE"
+                      strokeWidth="3.5"
+                    />
+
+                    {/* MEDULLARY PYRAMIDS & RENAL PELVIS */}
+                    <circle cx="160" cy="190" r="22" fill="#0891B2" stroke="#67E8F9" strokeWidth="2" />
+                    <circle cx="300" cy="190" r="22" fill="#0891B2" stroke="#67E8F9" strokeWidth="2" />
+
+                    {/* URETERS DOWNWARD */}
+                    <path d="M 195 200 Q 205 280 205 350" stroke="#22D3EE" strokeWidth="4" strokeDasharray="6 4" />
+                    <path d="M 265 200 Q 255 280 255 350" stroke="#22D3EE" strokeWidth="4" strokeDasharray="6 4" />
+                  </g>
+                </svg>
+              )}
+
+              {/* ========================================================= */}
+              {/* 4. CARDIOVASCULAR & CORONARY NETWORK (HD ARTWORK) */}
+              {/* ========================================================= */}
+              {selectedSystemId === 'organ-heart' && (
+                <svg viewBox="0 0 460 380" className="w-full h-full max-h-[350px]">
+                  <defs>
+                    <radialGradient id="cardiacTissueGrad" cx="45%" cy="45%" r="60%">
+                      <stop offset="0%" stopColor="#F87171" />
+                      <stop offset="100%" stopColor="#991B1B" />
+                    </radialGradient>
+                  </defs>
+                  <g>
+                    {/* MYOCARDIAL VENTRICULAR WALLS */}
+                    <path
+                      d="M 230 115 C 160 85, 120 185, 175 275 Q 230 340 285 275 C 340 185, 300 85, 230 115 Z"
+                      fill="url(#cardiacTissueGrad)"
+                      stroke="#FCA5A5"
+                      strokeWidth="4"
+                    />
+
+                    {/* ASCENDING AORTA & PULMONARY ARCH */}
+                    <path d="M 215 125 C 215 50, 260 50, 260 120" fill="none" stroke="#EF4444" strokeWidth="14" />
+
+                    {/* CORONARY INTERVENTRICULAR ARTERIES (CACTUS GRANDIFLORUS LOUS) */}
+                    <path
+                      d="M 230 115 Q 220 200 240 290 M 230 145 Q 185 210 180 250 M 230 170 Q 280 215 285 255"
+                      fill="none"
+                      stroke="#FEE2E2"
+                      strokeWidth="3.5"
+                    />
+                  </g>
+                </svg>
+              )}
             </div>
 
             {/* INTERACTIVE HOTSPOT PINS OVER THE SPATIAL VIEWPORT */}
@@ -663,13 +779,13 @@ export const Interactive360AnatomyAtlas: React.FC<
                   <button
                     key={hs.id}
                     onClick={() => setSelectedHotspotId(hs.id)}
-                    className={`pointer-events-auto absolute transform -translate-x-1/2 -translate-y-1/2 px-3 py-1.5 rounded-full text-xs font-black shadow-xl transition-all cursor-pointer flex items-center space-x-1.5 ${hs.coords} ${
+                    className={`pointer-events-auto absolute transform -translate-x-1/2 -translate-y-1/2 px-3.5 py-1.5 rounded-full text-xs font-black shadow-2xl transition-all cursor-pointer flex items-center space-x-2 ${hs.coords} ${
                       isSelected
-                        ? 'bg-emerald-500 text-white scale-110 ring-4 ring-emerald-500/30'
-                        : 'bg-blue-600/90 text-white hover:bg-blue-500 hover:scale-105'
+                        ? 'bg-emerald-500 text-white scale-110 ring-4 ring-emerald-500/40'
+                        : 'bg-blue-600/95 text-white hover:bg-blue-500 hover:scale-105'
                     }`}
                   >
-                    <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping" />
                     <span>{hs.label}</span>
                   </button>
                 );
@@ -677,13 +793,15 @@ export const Interactive360AnatomyAtlas: React.FC<
             </div>
 
             {/* VIEWPORT BOTTOM ANGLE FOOTER */}
-            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[11px] text-slate-500 dark:text-gray-400 font-mono">
-              <span>VIEW: {activeView.title}</span>
-              <span>CLICK ANY NODE PIN TO INSPECT ORGAN-AFFINE REMEDY</span>
+            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs text-slate-400 font-mono">
+              <span>HD SPATIAL VIEW: {activeView.title}</span>
+              <span className="text-emerald-400 font-black">
+                CLICK ANY NODE PIN TO INSPECT TISSUE PATHOLOGY
+              </span>
             </div>
           </div>
 
-          <p className="text-xs leading-relaxed text-slate-600 dark:text-gray-300">
+          <p className="text-xs leading-relaxed text-slate-300">
             {activeView.desc}
           </p>
         </div>
@@ -692,17 +810,17 @@ export const Interactive360AnatomyAtlas: React.FC<
         <div className="lg:col-span-5 space-y-4">
           {/* HOTSPOT DETAIL INSPECTOR */}
           <div
-            className={`p-5 rounded-2xl border space-y-3 ${
+            className={`p-5 rounded-2xl border space-y-3.5 ${
               isLight
                 ? 'bg-slate-50 border-slate-200'
                 : 'bg-[#05070A] border-slate-800'
             }`}
           >
-            <div className="flex items-center justify-between border-b pb-2 border-slate-200 dark:border-slate-800">
+            <div className="flex items-center justify-between border-b pb-2.5 border-slate-200 dark:border-slate-800">
               <span className="text-xs font-black uppercase text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
-                <Layers className="w-4 h-4" /> SELECTED TISSUE HISTOLOGY NODE
+                <Crosshair className="w-4 h-4" /> SELECTED TISSUE HISTOLOGY NODE
               </span>
-              <span className={`text-[10px] px-2 py-0.5 rounded font-black border ${activeSystem.layerBadge}`}>
+              <span className={`text-[10px] px-2.5 py-0.5 rounded font-black border ${activeSystem.layerBadge}`}>
                 {activeSystem.layer}
               </span>
             </div>
@@ -712,21 +830,36 @@ export const Interactive360AnatomyAtlas: React.FC<
                 const hs = (activeView.hotspots || []).find((h: any) => h.id === selectedHotspotId);
                 if (!hs) return null;
                 return (
-                  <div className="space-y-2.5 text-xs">
-                    <p className="font-black text-sm text-blue-600 dark:text-blue-400">
-                      {hs.label}
-                    </p>
-                    <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-mono">
-                      <span className="font-black block text-[10px] uppercase">
-                        Organ-Affine Organopathy Remedy:
+                  <div className="space-y-3 text-xs">
+                    <div>
+                      <span className="text-[10px] uppercase font-black text-slate-400">
+                        Anatomical Locus:
                       </span>
-                      <span className="text-sm font-black">{hs.remedy}</span>
+                      <p className="font-black text-base text-blue-600 dark:text-blue-400">
+                        {hs.label}
+                      </p>
                     </div>
-                    <p className="text-slate-600 dark:text-gray-300">
-                      <strong>Repertory Rubric:</strong> <code>{hs.rubric}</code>
-                    </p>
-                    <p className="text-slate-600 dark:text-gray-300">
-                      <strong>Clinical Anatomy Note:</strong> {hs.note}
+
+                    <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-mono">
+                      <span className="font-black block text-[10px] uppercase">
+                        Organ-Affine Organopathy Tissue Remedy:
+                      </span>
+                      <span className="text-base font-black text-emerald-600 dark:text-emerald-400">
+                        {hs.remedy}
+                      </span>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                      <span className="text-[10px] font-black uppercase text-slate-400 block">
+                        Repertory Path Rubric:
+                      </span>
+                      <code className="text-xs font-bold text-amber-600 dark:text-amber-400">
+                        {hs.rubric}
+                      </code>
+                    </div>
+
+                    <p className="text-slate-600 dark:text-gray-300 leading-relaxed">
+                      <strong>Clinical Pathology &amp; Miasmatic Vector:</strong> {hs.note}
                     </p>
                   </div>
                 );
@@ -735,7 +868,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/30 text-center space-y-1">
                 <Info className="w-5 h-5 text-blue-400 mx-auto" />
                 <p className="text-xs font-black text-blue-600 dark:text-blue-300">
-                  Click any blue or emerald tissue pin on the 360° organ model to inspect histological depth and Dr. Burnett tissue remedies.
+                  Click any glowing tissue pin on the 3D anatomical stage to examine deep histology &amp; Dr. Burnett remedies.
                 </p>
               </div>
             )}
@@ -757,21 +890,21 @@ export const Interactive360AnatomyAtlas: React.FC<
               {activeSystem.organopathyRemedies.map((rem) => (
                 <div
                   key={rem.name}
-                  className={`p-3 rounded-xl border space-y-1 ${
+                  className={`p-3.5 rounded-xl border space-y-1 ${
                     isLight
                       ? 'bg-slate-50 border-slate-200'
                       : 'bg-[#05070A] border-slate-800'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-black text-xs text-emerald-700 dark:text-emerald-400">
+                    <span className="font-black text-sm text-emerald-700 dark:text-emerald-400">
                       {rem.name}
                     </span>
-                    <span className="text-[9px] px-2 py-0.5 rounded font-black bg-emerald-500/10 text-emerald-600 border border-emerald-500/30">
+                    <span className="text-[10px] px-2 py-0.5 rounded font-black bg-emerald-500/10 text-emerald-600 border border-emerald-500/30">
                       {rem.potency}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-600 dark:text-gray-400">
+                  <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">
                     {rem.keynote}
                   </p>
                 </div>
