@@ -606,52 +606,248 @@ function MasterWorkspaceInner() {
             </div>
           </div>
 
-          {/* TIER 2: CLEAN CONTENT SEPARATION TABS (DE-CONGESTED WORKSPACE TABS) */}
-          {activeTab === 'MATRIX_TELEHEALTH' && (
-            <div className="px-5 py-1.5 flex flex-wrap items-center justify-between gap-3 text-xs bg-slate-50/80 dark:bg-[#080B11]">
-              <div className="flex items-center space-x-2">
+          {/* TIER 2: CONSOLIDATED MASTER PILLAR HORIZONTAL SUB-TAB NAVIGATION BARS */}
+          {/* PILLAR 1: CLINICAL OPD & SIMILIMATRIX SUITE */}
+          {['MATRIX_TELEHEALTH', 'OPD_QUEUE_MANAGER', 'PHARMACY_DISPENSARY', 'DIFFERENTIAL_WORKBENCH'].includes(activeTab) && (
+            <div className="px-5 py-1.5 flex flex-wrap items-center justify-between gap-3 text-xs bg-slate-50/90 dark:bg-[#080B11] border-t border-slate-200/50 dark:border-slate-800/50">
+              <div className="flex flex-wrap items-center space-x-1.5">
                 <button
-                  onClick={() => setIsFullWidthOpdMode(true)}
-                  className={`flex items-center space-x-1.5 px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
-                    isFullWidthOpdMode
+                  onClick={() => {
+                    setActiveTab('MATRIX_TELEHEALTH');
+                    setIsFullWidthOpdMode(true);
+                  }}
+                  className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    activeTab === 'MATRIX_TELEHEALTH' && isFullWidthOpdMode
                       ? 'bg-emerald-600 text-white shadow-sm'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
                   <Monitor className="w-3.5 h-3.5" />
-                  <span>📊 100% SimiliMatrix Spreadsheet Grid (Full Width)</span>
+                  <span>📊 100% SimiliMatrix Grid</span>
                 </button>
 
                 <button
-                  onClick={() => setIsFullWidthOpdMode(false)}
-                  className={`flex items-center space-x-1.5 px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
-                    !isFullWidthOpdMode
+                  onClick={() => {
+                    setActiveTab('MATRIX_TELEHEALTH');
+                    setIsFullWidthOpdMode(false);
+                  }}
+                  className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    activeTab === 'MATRIX_TELEHEALTH' && !isFullWidthOpdMode
                       ? 'bg-cyan-600 text-white shadow-sm'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
                   <Video className="w-3.5 h-3.5" />
-                  <span>📹 Live Telehealth RTC & Gait Stream</span>
+                  <span>📹 Live Telehealth RTC & Gait</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('DIFFERENTIAL_WORKBENCH')}
+                  className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    activeTab === 'DIFFERENTIAL_WORKBENCH'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <span>🔀 Differential Workbench</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('OPD_QUEUE_MANAGER')}
+                  className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    activeTab === 'OPD_QUEUE_MANAGER'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <span>⏳ OPD Queue & UHI Slots</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('PHARMACY_DISPENSARY')}
+                  className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    activeTab === 'PHARMACY_DISPENSARY'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <span>💊 Pharmacy & LM Dispensary</span>
                 </button>
               </div>
 
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setIsDecisionFlowchartOpen(true)}
-                  className="px-3.5 py-1 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black flex items-center space-x-1.5 cursor-pointer"
+                  className="px-3 py-1 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black flex items-center space-x-1 cursor-pointer"
                 >
-                  <GitBranch className="w-3.5 h-3.5" />
-                  <span>🌿 Decision Gates Flowchart</span>
+                  <GitBranch className="w-3 h-3" />
+                  <span>Decision Gates</span>
                 </button>
 
                 <button
                   onClick={() => setIsPrescriptionModalOpen(true)}
-                  className="px-3.5 py-1 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-black flex items-center space-x-1.5 cursor-pointer"
+                  className="px-3 py-1 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-black flex items-center space-x-1 cursor-pointer"
                 >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>🖨️ Prescription Slip Builder</span>
+                  <Printer className="w-3 h-3" />
+                  <span>Rx Slip</span>
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* PILLAR 2: AI INTELLIGENCE & VISION HUB */}
+          {['AI_CHATBOT', 'DIAGNOSTIC_LAB_AI', 'ANALYTICS_GRAPHS'].includes(activeTab) && (
+            <div className="px-5 py-1.5 flex flex-wrap items-center space-x-2 text-xs bg-slate-50/90 dark:bg-[#080B11] border-t border-slate-200/50 dark:border-slate-800/50">
+              <span className="text-[10px] font-black uppercase text-purple-400 mr-2">
+                🧠 AI INTELLIGENCE & VISION TABS:
+              </span>
+              <button
+                onClick={() => setActiveTab('AI_CHATBOT')}
+                className={`px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'AI_CHATBOT'
+                    ? 'bg-purple-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                🤖 Gemini 2.5 Pro Clinical Copilot
+              </button>
+
+              <button
+                onClick={() => setActiveTab('DIAGNOSTIC_LAB_AI')}
+                className={`px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'DIAGNOSTIC_LAB_AI'
+                    ? 'bg-purple-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                🔬 AI Vision Lab & Diagnostic OCR
+              </button>
+
+              <button
+                onClick={() => setActiveTab('ANALYTICS_GRAPHS')}
+                className={`px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'ANALYTICS_GRAPHS'
+                    ? 'bg-purple-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                📈 Miasmatic & Embryological Vector Graphs
+              </button>
+            </div>
+          )}
+
+          {/* PILLAR 3: KNOWLEDGE, RESEARCH & COMMUNITY */}
+          {['MATERIA_MEDICA_LIBRARY', 'DISCUSSION_BLOGS', 'AYUSH_RESEARCH_HUB'].includes(activeTab) && (
+            <div className="px-5 py-1.5 flex flex-wrap items-center space-x-2 text-xs bg-slate-50/90 dark:bg-[#080B11] border-t border-slate-200/50 dark:border-slate-800/50">
+              <span className="text-[10px] font-black uppercase text-amber-400 mr-2">
+                📚 KNOWLEDGE & ACADEMIC HUB TABS:
+              </span>
+              <button
+                onClick={() => setActiveTab('MATERIA_MEDICA_LIBRARY')}
+                className={`px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'MATERIA_MEDICA_LIBRARY'
+                    ? 'bg-amber-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                📖 Classical Materia Medica Reference
+              </button>
+
+              <button
+                onClick={() => setActiveTab('DISCUSSION_BLOGS')}
+                className={`px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'DISCUSSION_BLOGS'
+                    ? 'bg-amber-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                💬 Clinical Discussion Blogs & Case Exchange
+              </button>
+
+              <button
+                onClick={() => setActiveTab('AYUSH_RESEARCH_HUB')}
+                className={`px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'AYUSH_RESEARCH_HUB'
+                    ? 'bg-amber-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                🏆 AYUSH Academic Research Hub & Proofs
+              </button>
+            </div>
+          )}
+
+          {/* PILLAR 4: PROFILES, ABDM LOCKER & ENTERPRISE HELP */}
+          {['PROFILE_CREATION', 'PATIENT_PROFILE', 'PATIENT_REPOSITORY', 'DOCTOR_PROFILE', 'HOSPITAL_PROFILE', 'SUPPORT_HELP', 'ENTERPRISE_SUITE'].includes(activeTab) && (
+            <div className="px-5 py-1.5 flex flex-wrap items-center space-x-1.5 text-xs bg-slate-50/90 dark:bg-[#080B11] border-t border-slate-200/50 dark:border-slate-800/50">
+              <span className="text-[10px] font-black uppercase text-cyan-400 mr-2">
+                🛡️ PROFILES & ABDM LOCKER TABS:
+              </span>
+              <button
+                onClick={() => setActiveTab('PROFILE_CREATION')}
+                className={`px-3 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'PROFILE_CREATION'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                ➕ Create Profile Studio
+              </button>
+
+              <button
+                onClick={() => setActiveTab('PATIENT_PROFILE')}
+                className={`px-3 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'PATIENT_PROFILE'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                🆔 ABHA Health Locker
+              </button>
+
+              <button
+                onClick={() => setActiveTab('PATIENT_REPOSITORY')}
+                className={`px-3 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'PATIENT_REPOSITORY'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                📜 Encounter Case Chain
+              </button>
+
+              <button
+                onClick={() => setActiveTab('DOCTOR_PROFILE')}
+                className={`px-3 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'DOCTOR_PROFILE'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                👨‍⚕️ Physician Profile
+              </button>
+
+              <button
+                onClick={() => setActiveTab('SUPPORT_HELP')}
+                className={`px-3 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'SUPPORT_HELP'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                📞 Support & WhatsApp Desk
+              </button>
+
+              <button
+                onClick={() => setActiveTab('ENTERPRISE_SUITE')}
+                className={`px-3 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                  activeTab === 'ENTERPRISE_SUITE'
+                    ? 'bg-cyan-600 text-white shadow-sm'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                🏢 Enterprise Suite
+              </button>
             </div>
           )}
         </div>
