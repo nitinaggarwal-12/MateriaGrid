@@ -16,6 +16,10 @@ import {
   CheckCircle2,
   FileSpreadsheet,
   Clock,
+  GitCommit,
+  ArrowDownRight,
+  TrendingUp,
+  Lock,
 } from 'lucide-react';
 
 interface PatientCaseRepositoryViewProps {
@@ -42,18 +46,37 @@ export const PatientCaseRepositoryView: React.FC<
       consentStatus: 'VERIFIED NHA ABHA',
       consentHash: '0x8F4A...C291',
       vitals: { bp: '138/88 mmHg', pulse: '92 bpm', temp: '102.4 °F', spo2: '98%' },
-      consultationHistory: [
+      encounterChain: [
         {
-          date: '04 Aug 2026 (Today)',
-          complaint: 'Acute pulsating headache after sun exposure',
-          prescription: 'Belladonna 200C in aqueous split dose',
-          heringStatus: 'Positive — Carotid throbbing reduced by 70%',
+          encounterId: 'ENC-2026-0804-02 (Current)',
+          hash: '0x8F4A992C291B',
+          parentHash: '0x3E1B440199A4',
+          doctorReg: 'AYUSH-DEL-2026-90412 (Dr. Nitin Aggarwal, MD Hom.)',
+          date: '04 Aug 2026, 09:30 AM',
+          chiefComplaint: 'Acute pulsating headache after sun exposure & carotid throbbing',
+          rubricsMatched: [
+            'MIND - BUSINESS - talks of',
+            'HEAD - PAIN - pulsating - sudden',
+            'HEAD - PAIN - sun - exposure to',
+          ],
+          prescriptionGiven: 'Belladonna LM 0/1 Liquid Sip + Chelidonium 1X Organopathy',
+          heringLawOutcome: 'Positive Cure Vector: Carotid throbbing reduced by 70% within 45 mins. Bilirubin stabilized.',
+          thermalThirstShift: 'Thermal: HOT -> HOT | Thirst: THIRSTLESS (Unchanged)',
         },
         {
-          date: '18 Jul 2026',
-          complaint: 'Seasonal allergic rhinitis & nocturnal anxiety',
-          prescription: 'Sulphur 30C (1 dose)',
-          heringStatus: 'Eruption emerged on forearm (Outward Direction)',
+          encounterId: 'ENC-2026-0718-01 (Baseline)',
+          hash: '0x3E1B440199A4',
+          parentHash: '0x000000000000 (GENESIS ENCOUNTER)',
+          doctorReg: 'AYUSH-DEL-2026-90412 (Dr. Nitin Aggarwal, MD Hom.)',
+          date: '18 Jul 2026, 05:15 PM',
+          chiefComplaint: 'Seasonal allergic rhinitis & nocturnal anxiety after sunset',
+          rubricsMatched: [
+            'MIND - ANXIETY - night - sun set after',
+            'STOMACH - THIRSTLESS - fever during',
+          ],
+          prescriptionGiven: 'Sulphur 30C (Single Dose Aqueous)',
+          heringLawOutcome: 'Hering Direction of Cure: Internal anxiety eliminated; mild superficial forearm skin eruption emerged (Within -> Outward).',
+          thermalThirstShift: 'Thermal: HOT | Thirst: THIRSTLESS',
         },
       ],
       attachedDocuments: [
@@ -74,41 +97,25 @@ export const PatientCaseRepositoryView: React.FC<
       consentStatus: 'VERIFIED NHA ABHA',
       consentHash: '0x3E1B...99A4',
       vitals: { bp: '124/80 mmHg', pulse: '76 bpm', temp: '98.6 °F', spo2: '99%' },
-      consultationHistory: [
+      encounterChain: [
         {
-          date: '03 Aug 2026',
-          complaint: 'Scapular neuralgic pain under right shoulder',
-          prescription: 'Chelidonium majus 1X Liver Drainage + Sulphur 30C',
-          heringStatus: 'Jaundice bilirubin reduced from 3.2 to 1.8 mg/dL',
+          encounterId: 'ENC-2026-0803-01',
+          hash: '0x3E1B...99A4',
+          parentHash: '0x000000000000',
+          doctorReg: 'AYUSH-DEL-2026-90412',
+          date: '03 Aug 2026, 04:15 PM',
+          chiefComplaint: 'Scapular neuralgic pain under right shoulder & jaundice',
+          rubricsMatched: [
+            'ABDOMEN - PAIN - right scapula - under lower angle',
+            'ABDOMEN - CIRRHOSIS - liver - chronic parenchyma',
+          ],
+          prescriptionGiven: 'Chelidonium majus 1X Liver Drainage + Sulphur 30C',
+          heringLawOutcome: 'Bilirubin reduced from 3.2 to 1.8 mg/dL.',
+          thermalThirstShift: 'Thermal: HOT | Thirst: THIRSTY for hot drinks',
         },
       ],
       attachedDocuments: [
         { name: 'Liver_Function_Test_LFT.pdf', type: 'BIOCHEMISTRY', date: '03 Aug 2026' },
-      ],
-    },
-    {
-      id: 'PAT-003',
-      abhaId: '91-6621-4902-1104',
-      fullName: 'Vikram Singh',
-      ageGender: '52M',
-      bloodGroup: 'A+ Positive',
-      activeDiagnosis: 'Synovial Knee Joint Effusion & Fibrous Articular Stiffness',
-      simillimumTrack: 'Rhus toxicodendron 30C',
-      miasmaticFocus: 'SYCOSIS (Synovial Proliferation)',
-      lastVisit: '02 Aug 2026',
-      consentStatus: 'VERIFIED NHA ABHA',
-      consentHash: '0x7C92...110F',
-      vitals: { bp: '130/84 mmHg', pulse: '80 bpm', temp: '98.8 °F', spo2: '97%' },
-      consultationHistory: [
-        {
-          date: '02 Aug 2026',
-          complaint: 'Severe knee joint stiffness upon rising from seat',
-          prescription: 'Rhus toxicodendron 30C repeated in warm water',
-          heringStatus: 'Joint mobility improved after continued motion',
-        },
-      ],
-      attachedDocuments: [
-        { name: 'Knee_MRI_Synovial_Effusion.pdf', type: 'IMAGING', date: '02 Aug 2026' },
       ],
     },
   ];
@@ -150,7 +157,7 @@ export const PatientCaseRepositoryView: React.FC<
       >
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-md">
-            <Users className="w-5 h-5" />
+            <Lock className="w-5 h-5" />
           </div>
           <div>
             <h2
@@ -158,14 +165,14 @@ export const PatientCaseRepositoryView: React.FC<
                 isLight ? 'text-emerald-800' : 'text-emerald-400'
               }`}
             >
-              ABDM FHIR PATIENT EHR & LONGITUDINAL CLINICAL CASE REPOSITORY
+              CRYPTOGRAPHIC PHYSICIAN-PATIENT ENCOUNTER CHAIN & HERING LONGITUDINAL AUDIT
             </h2>
             <p
               className={`text-xs ${
                 isLight ? 'text-slate-600' : 'text-gray-400'
               }`}
             >
-              National Health Authority (NHA) ABHA Health Locker & Instant SimiliMatrix Case Loader
+              Unalterable SHA-256 Prescription Encounter Blockchain Linking Improvements, Potency Changes & Habit Shifts
             </p>
           </div>
         </div>
@@ -227,7 +234,7 @@ export const PatientCaseRepositoryView: React.FC<
                       ABHA: {patient.abhaId}
                     </span>
                     <span className="text-[9px] px-1.5 py-0.5 rounded font-black bg-emerald-600 text-white">
-                      VERIFIED
+                      {patient.encounterChain.length} ENCOUNTERS
                     </span>
                   </div>
                   <p
@@ -250,7 +257,7 @@ export const PatientCaseRepositoryView: React.FC<
           </div>
         </div>
 
-        {/* RIGHT COLUMN: RICH HIGH-DENSITY INTERACTIVE PATIENT DOSSIER & LONGITUDINAL TIMELINE */}
+        {/* RIGHT COLUMN: LONGITUDINAL ENCOUNTER CHAIN & HERING DIRECTION OF CURE GRAPH */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div
             className={`p-6 rounded-2xl border space-y-6 shadow-sm ${
@@ -283,7 +290,7 @@ export const PatientCaseRepositoryView: React.FC<
                     isLight ? 'text-slate-600' : 'text-gray-400'
                   }`}
                 >
-                  Age/Gender: <strong className={isLight ? 'text-slate-900' : 'text-white'}>{activePatient.ageGender}</strong> • Blood Group: <strong className="text-emerald-600 dark:text-emerald-400">{activePatient.bloodGroup}</strong> • Last Consultation: {activePatient.lastVisit}
+                  Age/Gender: <strong className={isLight ? 'text-slate-900' : 'text-white'}>{activePatient.ageGender}</strong> • Blood Group: <strong className="text-emerald-600 dark:text-emerald-400">{activePatient.bloodGroup}</strong> • Verified Consent Hash: <strong className="font-mono text-emerald-500">{activePatient.consentHash}</strong>
                 </p>
               </div>
 
@@ -297,159 +304,109 @@ export const PatientCaseRepositoryView: React.FC<
               </button>
             </div>
 
-            {/* LIVE CLINICAL VITALS GRID - HARMONIZED ACROSS LIGHT & DARK */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { label: 'BLOOD PRESSURE', val: activePatient.vitals.bp, color: 'text-emerald-600 dark:text-emerald-400' },
-                { label: 'PULSE RATE', val: activePatient.vitals.pulse, color: 'text-cyan-600 dark:text-cyan-400' },
-                { label: 'BODY TEMPERATURE', val: activePatient.vitals.temp, color: 'text-orange-600 dark:text-orange-400' },
-                { label: 'SPO2 SATURATION', val: activePatient.vitals.spo2, color: 'text-purple-600 dark:text-purple-400' },
-              ].map((vital, i) => (
-                <div
-                  key={i}
-                  className={`p-4 rounded-xl border space-y-1 ${
-                    isLight
-                      ? 'bg-slate-50 border-slate-200'
-                      : 'bg-[#111317] border-slate-800'
-                  }`}
-                >
-                  <p
-                    className={`text-[10px] font-bold ${
-                      isLight ? 'text-slate-500' : 'text-gray-400'
-                    }`}
-                  >
-                    {vital.label}
-                  </p>
-                  <p className={`text-xl font-black ${vital.color}`}>{vital.val}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* DIAGNOSTIC PROFILE & CONSTITUTIONAL SIMILLIMUM TRACK */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div
-                className={`p-4 rounded-xl border space-y-2 text-xs ${
-                  isLight
-                    ? 'bg-slate-50 border-slate-200'
-                    : 'bg-slate-900 border-slate-800'
-                }`}
-              >
-                <span className="font-black text-emerald-700 dark:text-emerald-400 uppercase">
-                  🩺 ACTIVE CLINICAL DIAGNOSIS & ICD-11
-                </span>
-                <p
-                  className={`font-bold leading-relaxed ${
-                    isLight ? 'text-slate-900' : 'text-white'
-                  }`}
-                >
-                  {activePatient.activeDiagnosis}
-                </p>
-                <p className={isLight ? 'text-slate-600' : 'text-gray-400'}>
-                  Active Miasmatic Focus: <strong className="text-purple-600 dark:text-purple-400">{activePatient.miasmaticFocus}</strong>
-                </p>
-              </div>
-
-              <div
-                className={`p-4 rounded-xl border space-y-2 text-xs ${
-                  isLight
-                    ? 'bg-emerald-50 border-emerald-300 text-slate-900'
-                    : 'bg-emerald-950/40 border-emerald-500/40 text-white'
-                }`}
-              >
-                <span className="font-black text-emerald-700 dark:text-emerald-300 uppercase">
-                  ✨ CONFIRMED CONSTITUTIONAL SIMILLIMUM TRACK
-                </span>
-                <p
-                  className={`text-lg font-black ${
-                    isLight ? 'text-slate-900' : 'text-white'
-                  }`}
-                >
-                  {activePatient.simillimumTrack}
-                </p>
-                <p className="text-emerald-700 dark:text-emerald-300">
-                  Consent Hash: <strong className="font-mono">{activePatient.consentHash}</strong> (Verified ABDM Gateway)
-                </p>
-              </div>
-            </div>
-
-            {/* LONGITUDINAL CONSULTATION & HERING'S LAW DIRECTION OF CURE TIMELINE */}
-            <div className="space-y-3 pt-2">
+            {/* LONGITUDINAL PHYSICIAN-PATIENT ENCOUNTER CRYPTOGRAPHIC BLOCKCHAIN TREE */}
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="font-black text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                  <Clock className="w-4 h-4" /> LONGITUDINAL CONSULTATION & HERING DIRECTION OF CURE TIMELINE
+                  <GitCommit className="w-4 h-4" /> LONGITUDINAL PHYSICIAN-PATIENT ENCOUNTER CHAIN (HERING AUDIT LEDGER)
                 </span>
                 <span
                   className={`text-xs ${
                     isLight ? 'text-slate-500' : 'text-gray-400'
                   }`}
                 >
-                  {activePatient.consultationHistory.length} RECORDED CONSULTATIONS
+                  SHA-256 PARENT-CHILD ENCOUNTER LINKING
                 </span>
               </div>
 
-              <div className="space-y-3">
-                {activePatient.consultationHistory.map((visit, idx) => (
+              <div className="space-y-4 relative pl-4 border-l-2 border-emerald-500/40">
+                {activePatient.encounterChain.map((enc, idx) => (
                   <div
                     key={idx}
-                    className={`p-4 rounded-xl border space-y-2 ${
+                    className={`p-5 rounded-2xl border space-y-3 transition-all relative ${
                       isLight
                         ? 'bg-slate-50 border-slate-200'
                         : 'bg-[#111317] border-slate-800'
                     }`}
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-black text-xs text-emerald-600 dark:text-emerald-400">
-                        🗓️ {visit.date}
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded text-[10px] font-black bg-emerald-600 text-white">
-                        {visit.prescription}
-                      </span>
-                    </div>
-                    <p
-                      className={`text-xs font-bold ${
-                        isLight ? 'text-slate-800' : 'text-white'
-                      }`}
-                    >
-                      Complaint: {visit.complaint}
-                    </p>
-                    <p className="text-xs text-cyan-700 dark:text-cyan-300 font-bold">
-                      🛡️ Hering's Law Direction of Cure Progress: {visit.heringStatus}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ABDM FHIR HEALTH DOCUMENT LOCKER */}
-            <div className="space-y-3 pt-2">
-              <span className="font-black text-xs uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-2">
-                <FileSpreadsheet className="w-4 h-4" /> ABDM HEALTH LOCKER ATTACHED DOCUMENTS & DIAGNOSTICS
-              </span>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {activePatient.attachedDocuments.map((doc, i) => (
-                  <div
-                    key={i}
-                    className={`p-3.5 rounded-xl border flex items-center justify-between ${
-                      isLight
-                        ? 'bg-slate-50 border-slate-200'
-                        : 'bg-[#111317] border-slate-800'
-                    }`}
-                  >
-                    <div>
-                      <p
-                        className={`text-xs font-black ${
-                          isLight ? 'text-slate-900' : 'text-white'
+                    {/* ENCOUNTER CRYPTOGRAPHIC HEADER */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-2.5">
+                      <div className="flex items-center space-x-2">
+                        <span className="px-2.5 py-0.5 rounded-lg bg-emerald-600 text-white text-xs font-black">
+                          {enc.encounterId}
+                        </span>
+                        <span className="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 font-black">
+                          HASH: {enc.hash}
+                        </span>
+                        <span className="text-[10px] text-gray-500 font-mono">
+                          (PARENT: {enc.parentHash})
+                        </span>
+                      </div>
+                      <span
+                        className={`text-xs font-bold ${
+                          isLight ? 'text-slate-700' : 'text-gray-300'
                         }`}
                       >
-                        📄 {doc.name}
-                      </p>
-                      <p className="text-[10px] text-gray-500 mt-0.5">
-                        Type: {doc.type} • Date: {doc.date}
-                      </p>
+                        🗓️ {enc.date} • {enc.doctorReg}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-black px-2 py-1 rounded bg-purple-600 text-white">
-                      VERIFIED FHIR
-                    </span>
+
+                    {/* CLINICAL COMPLAINT & RUBRICS LINKED */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+                      <div className="space-y-1.5">
+                        <p className="font-black text-emerald-700 dark:text-emerald-400">
+                          Chief Complaint & Symptom Totality:
+                        </p>
+                        <p className={isLight ? 'text-slate-800' : 'text-white'}>
+                          {enc.chiefComplaint}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {enc.rubricsMatched.map((r, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-gray-300"
+                            >
+                              {r}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <p className="font-black text-cyan-600 dark:text-cyan-400">
+                          Prescription & Potency Prescribed:
+                        </p>
+                        <p className="font-black text-sm text-emerald-600 dark:text-emerald-400">
+                          {enc.prescriptionGiven}
+                        </p>
+                        <p
+                          className={`text-xs font-bold pt-1 ${
+                            isLight ? 'text-slate-700' : 'text-gray-300'
+                          }`}
+                        >
+                          🧭 {enc.thermalThirstShift}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* HERING DIRECTION OF CURE & CLINICAL OUTCOME VECTOR */}
+                    <div
+                      className={`p-3.5 rounded-xl border flex items-start space-x-2.5 text-xs ${
+                        isLight
+                          ? 'bg-emerald-50 border-emerald-300 text-slate-900'
+                          : 'bg-emerald-950/30 border-emerald-500/40 text-white'
+                      }`}
+                    >
+                      <TrendingUp className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <strong className="text-emerald-700 dark:text-emerald-300 uppercase block font-black">
+                          HERING'S LAW DIRECTION OF CURE & LONGITUDINAL OUTCOME:
+                        </strong>
+                        <p className="mt-0.5 font-bold leading-relaxed">
+                          {enc.heringLawOutcome}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
