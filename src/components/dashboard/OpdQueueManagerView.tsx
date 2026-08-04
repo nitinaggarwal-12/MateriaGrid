@@ -33,6 +33,166 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const labels = pack.labels;
 
   const getLocalizedQueue = (code: string) => {
+    if (code === 'DE') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'Ramesh Kumar Sharma',
+          ageGender: '44J, männlich',
+          chiefComplaint: 'Akute pulsierende Hyperpyrexie & Karotis-Pulsation',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 Min.',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'Priya Patel',
+          ageGender: '38J, weiblich',
+          chiefComplaint: 'Chronische Leberparenchym-Zirrhose & skapuläre Neuralgie',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 Min.',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'Vikram Singh',
+          ageGender: '52J, männlich',
+          chiefComplaint: 'Synovialer Kniegelenkserguss & fibröse Steifigkeit',
+          status: 'WAITING',
+          waitTime: '15 Min.',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'Ananya Verma',
+          ageGender: '29J, weiblich',
+          chiefComplaint: 'Pulsierende temporale Migräne & Photophobie',
+          status: 'WAITING',
+          waitTime: '22 Min.',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'FR') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'Ramesh Kumar Sharma',
+          ageGender: '44H',
+          chiefComplaint: 'Hyperpirexie pulsatile aiguë & battement carotidien',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'Priya Patel',
+          ageGender: '38F',
+          chiefComplaint: 'Cirrhose hépatique parenchymateuse chronique & névralgie scapulaire',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'Vikram Singh',
+          ageGender: '52H',
+          chiefComplaint: 'Épanchement synovial du genou & raideur fibreuse',
+          status: 'WAITING',
+          waitTime: '15 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'Ananya Verma',
+          ageGender: '29F',
+          chiefComplaint: 'Migraine temporale pulsatile & photophobie',
+          status: 'WAITING',
+          waitTime: '22 min',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'ES') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'Ramesh Kumar Sharma',
+          ageGender: '44H',
+          chiefComplaint: 'Hiperpirexia pulsátil aguda & pulsación carotídea',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'Priya Patel',
+          ageGender: '38M',
+          chiefComplaint: 'Cirrosis hepática parenquimatosa crónica & neuralgia escapular',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'Vikram Singh',
+          ageGender: '52H',
+          chiefComplaint: 'Derrame sinovial de rodilla & rigidez fibrosa',
+          status: 'WAITING',
+          waitTime: '15 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'Ananya Verma',
+          ageGender: '29M',
+          chiefComplaint: 'Migraña temporal pulsátil & fotofobia',
+          status: 'WAITING',
+          waitTime: '22 min',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'PT') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'Ramesh Kumar Sharma',
+          ageGender: '44H',
+          chiefComplaint: 'Hiperpyrexia pulsátil aguda & pulsação carotídea',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'Priya Patel',
+          ageGender: '38M',
+          chiefComplaint: 'Cirrose hepática parenquimatosa crônica & neuralgia escapular',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'Vikram Singh',
+          ageGender: '52H',
+          chiefComplaint: 'Derrame sinovial de joelho & rigidez fibrosa',
+          status: 'WAITING',
+          waitTime: '15 min',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'Ananya Verma',
+          ageGender: '29M',
+          chiefComplaint: 'Enxaqueca temporal pulsátil & fotofobia',
+          status: 'WAITING',
+          waitTime: '22 min',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
     if (code === 'OR') {
       return [
         {
@@ -158,7 +318,7 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
         {
           token: 'OPD-101',
           patientName: 'Рамеш Кумар Шарма',
-          ageGender: '44M',
+          ageGender: '44 года (М)',
           chiefComplaint: 'Острая пульсирующая гиперпирексия и пульсация сонной артерии',
           status: 'IN_CONSULTATION',
           waitTime: '0 мин',
@@ -167,7 +327,7 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
         {
           token: 'OPD-102',
           patientName: 'Прия Патель',
-          ageGender: '38Ж',
+          ageGender: '38 лет (Ж)',
           chiefComplaint: 'Хронический цирроз печени и подлопаточная невралгия',
           status: 'NEXT_IN_QUEUE',
           waitTime: '8 мин',
@@ -176,7 +336,7 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
         {
           token: 'OPD-103',
           patientName: 'Викрам Сингх',
-          ageGender: '52M',
+          ageGender: '52 года (М)',
           chiefComplaint: 'Синовиальный выпот коленного сустава и скованность',
           status: 'WAITING',
           waitTime: '15 мин',
@@ -185,7 +345,7 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
         {
           token: 'OPD-104',
           patientName: 'Ананья Верма',
-          ageGender: '29Ж',
+          ageGender: '29 лет (Ж)',
           chiefComplaint: 'Пульсирующая височная мигрень и светобоязнь',
           status: 'WAITING',
           waitTime: '22 мин',
