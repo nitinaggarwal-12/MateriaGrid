@@ -21,6 +21,7 @@ import {
   Droplets,
   Zap,
 } from 'lucide-react';
+import { Interactive360AnatomyAtlas } from './Interactive360AnatomyAtlas';
 
 interface BhmsClinicalAcademyViewProps {
   theme?: 'dark' | 'light';
@@ -1151,16 +1152,9 @@ export const BhmsClinicalAcademyView: React.FC<
 > = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
 
-  const [activeTab, setActiveTab] = useState<'COURSES' | 'QUIZ' | 'SIMULATION' | 'CURRICULUM_MATRIX'>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const tabParam = params.get('tab');
-      if (tabParam === 'QUIZ' || tabParam === 'SIMULATION' || tabParam === 'CURRICULUM_MATRIX' || tabParam === 'COURSES') {
-        return tabParam;
-      }
-    }
-    return 'COURSES';
-  });
+  const [activeTab, setActiveTab] = useState<
+    'COURSES' | 'QUIZ' | 'SIMULATION' | 'CURRICULUM_MATRIX' | 'ANATOMY_ATLAS'
+  >('ANATOMY_ATLAS');
 
   const [selectedCourseId, setSelectedCourseId] = useState<string>(() => {
     if (typeof window !== 'undefined') {
@@ -1293,6 +1287,20 @@ export const BhmsClinicalAcademyView: React.FC<
         }`}
       >
         <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => setActiveTab('ANATOMY_ATLAS')}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              activeTab === 'ANATOMY_ATLAS'
+                ? 'bg-blue-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 text-blue-400" />
+            <span>🦴 360° Anatomy Atlas</span>
+          </button>
+
           <button
             onClick={() => setActiveTab('CURRICULUM_MATRIX' as any)}
             className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
@@ -1468,6 +1476,11 @@ export const BhmsClinicalAcademyView: React.FC<
           <span className="text-[10px] opacity-75 hidden xl:inline">(Dr. Nitin Aggarwal)</span>
         </div>
       </div>
+
+      {/* TAB 0-A: INTERACTIVE HUMAN ANATOMY & ORGAN-AFFINE ORGANOPATHY STUDY ATLAS */}
+      {activeTab === 'ANATOMY_ATLAS' && (
+        <Interactive360AnatomyAtlas theme={theme} />
+      )}
 
       {/* TAB 0: NCH DEGREE CURRICULUM BREAKDOWN TABLE (BHMS 1-4 YRS + INTERNSHIP + MD PART I-II) */}
       {(activeTab as any) === 'CURRICULUM_MATRIX' && (
