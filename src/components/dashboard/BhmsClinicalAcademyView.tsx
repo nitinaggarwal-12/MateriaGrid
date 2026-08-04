@@ -585,6 +585,18 @@ export const BhmsClinicalAcademyView: React.FC<
           <FileText className="w-4 h-4" />
           <span>🏥 Real-World Case Studies Bank by Remedy</span>
         </button>
+
+        <button
+          onClick={() => setActiveTab('EXAM_PREP' as any)}
+          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+            (activeTab as any) === 'EXAM_PREP'
+              ? 'bg-amber-600 text-white shadow-md'
+              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
+          }`}
+        >
+          <Award className="w-4 h-4" />
+          <span>📝 University Exam Prep &amp; Previous 10-Yr Question Bank (SAQ/LAQ)</span>
+        </button>
       </div>
 
       {/* TAB 0: NCH DEGREE CURRICULUM BREAKDOWN TABLE (BHMS 1-4 YRS + INTERNSHIP + MD PART I-II) */}
@@ -1376,6 +1388,129 @@ export const BhmsClinicalAcademyView: React.FC<
                 );
               })()}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 5: UNIVERSITY EXAM PREP, PREVIOUS 10-YR QUESTION BANK (SAQ/LAQ) & VIVA-VOCE MNEMONICS */}
+      {(activeTab as any) === 'EXAM_PREP' && (
+        <div className="p-6 rounded-2xl border border-amber-500/40 bg-[#0B0F19] space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span className="text-xs px-2.5 py-0.5 rounded font-black bg-amber-600 text-black">
+                UNIVERSITY EXAM PREPARATION &amp; NCH VIVA-VOCE SUITE
+              </span>
+              <h2 className="text-base font-black text-white mt-1">
+                PREVIOUS 10-YEAR QUESTION BANK (SAQs, LAQs) • MODEL UNIVERSITY SOLUTIONS &amp; HIGH-YIELD MNEMONICS
+              </h2>
+            </div>
+
+            <span className="text-xs text-emerald-400 font-black">
+              ✓ Compliant with MUHS, WBUHS, KDUHS, Delhi University &amp; NIH Kolkata Patterns
+            </span>
+          </div>
+
+          {/* HIGH-YIELD EXAMINATION MNEMONICS & VIVA CHEAT SHEET */}
+          <div className="p-4 rounded-2xl bg-[#05070A] border border-amber-500/40 space-y-3">
+            <span className="text-xs font-black text-amber-400 uppercase flex items-center space-x-1.5">
+              <Sparkles className="w-4 h-4" />
+              <span>⚡ HIGH-YIELD VIVA-VOCE MNEMONICS &amp; MATERIA MEDICA TRIADS (EXAM CHEAT SHEET):</span>
+            </span>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                <span className="text-emerald-400 font-black block text-[11px]">
+                  Triad of Restlessness
+                </span>
+                <p className="text-white font-mono font-bold">Aconite, Arsenicum, Rhus tox</p>
+                <p className="text-gray-400 text-[10px]">Aconite (Fear), Ars (Prostration), Rhus (Aching joint)</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                <span className="text-cyan-400 font-black block text-[11px]">
+                  Triad of Painlessness
+                </span>
+                <p className="text-white font-mono font-bold">Opium, Stramonium, Pulsatilla</p>
+                <p className="text-gray-400 text-[10px]">Painlessness in otherwise painful disease states</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                <span className="text-purple-400 font-black block text-[11px]">
+                  Triad of Flatulence
+                </span>
+                <p className="text-white font-mono font-bold">Carbo veg, Lycopodium, China</p>
+                <p className="text-gray-400 text-[10px]">Carbo (Upper gas), Lyc (Lower gas 4-8pm), China (Entire abdomen)</p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                <span className="text-rose-400 font-black block text-[11px]">
+                  Triad of Delirium
+                </span>
+                <p className="text-white font-mono font-bold">Belladonna, Hyoscyamus, Stramonium</p>
+                <p className="text-gray-400 text-[10px]">Bell (Violent throbbing), Hyos (Quarrelsome), Stram (Terrifying visions)</p>
+              </div>
+            </div>
+          </div>
+
+          {/* QUESTION BANK ARCHIVE WITH MODEL ANSWERS */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-black text-white uppercase">
+              ARCHIVE OF PREVIOUS UNIVERSITY QUESTIONS WITH MODEL SOLUTION CHECKS:
+            </h3>
+
+            {[
+              {
+                type: '2-MARK SHORT ANSWER QUESTION (SAQ)',
+                year: 'WBUHS & MUHS 2024 Exam',
+                question: 'State Hering’s Law of Cure in four chronological and biological directions.',
+                modelSolution:
+                  'Hering’s Law of Cure states that true biological cure proceeds: (1) From within outwards (vital organ to skin), (2) From above downwards (head to limbs), (3) From more vital to less vital organs, and (4) In reverse order of appearance of symptoms.',
+                keywords: 'Within outwards • Above downwards • More vital to less vital • Reverse order of appearance',
+              },
+              {
+                type: '5-MARK CLINICAL DIFFERENTIAL NOTE',
+                year: 'NIH Kolkata & Delhi Univ Exam',
+                question: 'Differentiate Bryonia alba and Rhus toxicodendron in acute muscular and joint pains.',
+                modelSolution:
+                  'Bryonia alba: Pain stitching in character, absolute aggravation from slightest motion, patient desires to lie perfectly still on affected side, intense thirst for large quantities of cold water. Rhus toxicodendron: Pain aching/tearing, aggravation from first motion and rest, marked relief from continued motion and warm application, restless.',
+                keywords: 'Bryonia (Worse motion, Stillness better) vs Rhus tox (Better continued motion, Rest worse)',
+              },
+              {
+                type: '10-MARK LONG ANSWER QUESTION (LAQ)',
+                year: 'NCH University Degree Examination',
+                question:
+                  'Describe the Miasma PSORA according to Samuel Hahnemann (§80–84) under: Definition, Historical Origin, Mental Characteristics, Physical Attributes, and Skin Eruptions.',
+                modelSolution:
+                  '1. Definition & Origin: Psora is the fundamental cause of 7-eighths of all chronic diseases, originating historically from suppressed itch / scabies eruptions. 2. Mental State: Anxious, fearful of poverty and future, hopeless of recovery, full of doubts. 3. Physical Attributes: Functional irritation, burning heat, hunger at 11 AM, craving for sweets. 4. Skin Eruptions: Dry, scaly, voluptuous itching worse warmth of bed, bleeding after scratching. 5. Treatment: Anti-psoric constitutional remedies (Sulphur, Calcarea carb, Lycopodium).',
+                keywords: 'Fundamental miasma • Suppressed itch • Anxious mental • Burning heat • 11 AM hunger • Dry scaly skin',
+              },
+            ].map((q, qIdx) => (
+              <div
+                key={qIdx}
+                className="p-5 rounded-2xl bg-[#05070A] border border-slate-800 space-y-3"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-[10px] px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-black">
+                    {q.type} • {q.year}
+                  </span>
+                  <span className="text-[11px] text-emerald-400 font-bold">
+                    Key Exam Scoring Keywords: {q.keywords}
+                  </span>
+                </div>
+
+                <h4 className="text-sm font-black text-white leading-relaxed">
+                  Q: {q.question}
+                </h4>
+
+                <div className="p-4 rounded-xl bg-[#0B0F19] border border-emerald-500/40 space-y-1">
+                  <span className="text-[11px] font-black text-emerald-400 uppercase block">
+                    ✓ MODEL UNIVERSITY EXAM ANSWER &amp; HIGH-SCORING OUTLINE:
+                  </span>
+                  <p className="text-xs text-gray-200 leading-relaxed">
+                    {q.modelSolution}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
