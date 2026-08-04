@@ -65,6 +65,7 @@ import {
   UserCheck,
   GitBranch,
   Lock,
+  CheckCircle2,
 } from 'lucide-react';
 
 const INITIAL_REMEDIES: RemedyColumn[] = [
@@ -166,7 +167,8 @@ function MasterWorkspaceInner() {
   const isLight = theme === 'light';
 
   const [langCode, setLangCode] = useState<IndianLanguageCode>('EN');
-  const langPack = INDIAN_LANGUAGE_PACKS[langCode];
+  const langPack =
+    INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
 
   const [activeTab, setActiveTab] =
     useState<ActiveWorkspaceTab>('MATRIX_TELEHEALTH');
@@ -196,6 +198,15 @@ function MasterWorkspaceInner() {
   const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
+  const [langSwitchNotice, setLangSwitchNotice] = useState<string | null>(null);
+
+  const handleSelectLanguage = (newCode: IndianLanguageCode) => {
+    setLangCode(newCode);
+    const pack =
+      INDIAN_LANGUAGE_PACKS[newCode] || INDIAN_LANGUAGE_PACKS.EN;
+    setLangSwitchNotice(`🌐 ${pack.nativeName} (${pack.englishName})`);
+    setTimeout(() => setLangSwitchNotice(null), 3000);
+  };
 
   // RESTORE STATE FROM URL ON INITIAL MOUNT (REFRESH-SAFE)
   useEffect(() => {
@@ -254,7 +265,7 @@ function MasterWorkspaceInner() {
         onLaunchWorkspace={() => setCurrentView('WORKSPACE')}
         theme={theme}
         langCode={langCode}
-        onSelectLangCode={setLangCode}
+        onSelectLangCode={handleSelectLanguage}
       />
     );
   }
@@ -546,12 +557,18 @@ function MasterWorkspaceInner() {
               <span>{langPack.labels.decisionGates}</span>
             </button>
 
-            {/* INSTANT SEARCHABLE LANGUAGE PICKER FOR ALL 35 LANGUAGES */}
+            {/* INSTANT SEARCHABLE LANGUAGE PICKER FOR ALL 44 LANGUAGES */}
             <SearchableLanguagePicker
               selectedCode={langCode}
-              onSelectLanguage={setLangCode}
+              onSelectLanguage={handleSelectLanguage}
               theme={theme}
             />
+
+            {langSwitchNotice && (
+              <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-xs animate-bounce">
+                {langSwitchNotice}
+              </span>
+            )}
           </div>
 
           {/* ZONE 2: SIMILIMATRIX SIMILLIMUM & SPATIAL AI ACTIONS */}
