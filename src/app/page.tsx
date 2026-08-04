@@ -188,18 +188,56 @@ export default function MateriaGridMasterWorkspace() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
 
-  // CLEAN URL DEEP-LINK SYNCHRONIZATION
+  // RESTORE STATE FROM URL ON INITIAL MOUNT (REFRESH-SAFE)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get('lang') as IndianLanguageCode;
+      if (urlLang && INDIAN_LANGUAGE_PACKS[urlLang]) {
+        setLangCode(urlLang);
+      }
+      const urlModule = params.get('module') as ActiveWorkspaceTab;
+      if (urlModule) {
+        setActiveTab(urlModule);
+      }
+      const urlModal = params.get('modal');
+      if (urlModal === 'INTAKE_DRAWER') setIsCaseDrawerOpen(true);
+      if (urlModal === 'DECISION_GATES') setIsDecisionFlowchartOpen(true);
+      if (urlModal === 'PRESCRIPTION_SLIP') setIsPrescriptionModalOpen(true);
+    }
+  }, []);
+
+  // SYNCHRONIZE ACTIVE STATE TO URL QUERY PARAMS FOR UNIQUE REFRESH-SAFE DEEP LINK
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
       if (currentView === 'WORKSPACE') {
         url.searchParams.set('module', activeTab);
+        url.searchParams.set('lang', langCode);
+
+        if (isCaseDrawerOpen) {
+          url.searchParams.set('modal', 'INTAKE_DRAWER');
+        } else if (isDecisionFlowchartOpen) {
+          url.searchParams.set('modal', 'DECISION_GATES');
+        } else if (isPrescriptionModalOpen) {
+          url.searchParams.set('modal', 'PRESCRIPTION_SLIP');
+        } else {
+          url.searchParams.delete('modal');
+        }
       } else {
         url.searchParams.delete('module');
+        url.searchParams.delete('modal');
       }
       window.history.replaceState({}, '', url.toString());
     }
-  }, [activeTab, currentView]);
+  }, [
+    activeTab,
+    currentView,
+    langCode,
+    isCaseDrawerOpen,
+    isDecisionFlowchartOpen,
+    isPrescriptionModalOpen,
+  ]);
 
   if (currentView === 'LANDING') {
     return (
@@ -691,6 +729,7 @@ export default function MateriaGridMasterWorkspace() {
         onCommitExtractedRubrics={(newRubrics) => {
           setRubrics((prev) => [...newRubrics, ...prev]);
         }}
+        langCode={langCode}
       />
 
       {/* INTERACTIVE CLINICAL CASE DECISION-GATE FLOWCHART MODAL FOR PORTAL */}
@@ -732,6 +771,7 @@ export default function MateriaGridMasterWorkspace() {
         topRemedyCode={remedies[0]?.code || 'Bell'}
         topRemedyName={remedies[0]?.fullName || 'Belladonna'}
         specificityScore={remedies[0]?.specificityScore || 65.2}
+        langCode={langCode}
       />
     </div>
   );

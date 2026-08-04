@@ -2,193 +2,224 @@
 
 import React, { useState } from 'react';
 import {
-  FileText,
   X,
   Sparkles,
+  User,
+  Activity,
   Flame,
   Droplets,
   Brain,
-  Stethoscope,
+  Layers,
   CheckCircle2,
-  Zap,
+  AlertTriangle,
 } from 'lucide-react';
 import { RubricRow } from './WorkspaceMatrix';
+import {
+  INDIAN_LANGUAGE_PACKS,
+  IndianLanguageCode,
+} from '@/lib/i18n/indian_language_packs';
 
 interface CaseHistoryIntakeDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onCommitExtractedRubrics: (newRubrics: RubricRow[]) => void;
+  onCommitExtractedRubrics: (rubrics: RubricRow[]) => void;
+  langCode?: IndianLanguageCode;
 }
 
 export const CaseHistoryIntakeDrawer: React.FC<
   CaseHistoryIntakeDrawerProps
-> = ({ isOpen, onClose, onCommitExtractedRubrics }) => {
+> = ({ isOpen, onClose, onCommitExtractedRubrics, langCode = 'EN' }) => {
+  const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
+
   const [patientName, setPatientName] = useState('Ananya Verma');
   const [age, setAge] = useState('34');
-  const [gender, setGender] = useState('Female');
-  const [chiefComplaint, setChiefComplaint] = useState(
-    'Throbbing pulsating right-sided headache after sunlight exposure, severe anxiety in the evening.'
-  );
+  const [sex, setSex] = useState('Female');
 
-  // Sehgal ROH Present Mental State (PPP)
-  const [sehgalPppState, setSehgalPppState] = useState(
-    'Talks constantly about her business, restless and impatient, wants doctor to give immediate fast relief.'
-  );
-
-  // Bönninghausen 4 Components
-  const [location, setLocation] = useState('Right Temple & Occiput');
-  const [sensation, setSensation] = useState('Throbbing, pulsating, heat radiating');
-  const [modality, setModality] = useState('Aggravated by sunlight and motion, ameliorated by dark quiet room');
-  const [concomitants, setConcomitants] = useState('Nausea during peak headache, cold extremities');
-
-  // Physical Baseline Constants
   const [thermal, setThermal] = useState<'HOT' | 'CHILLY' | 'AMBITHERMAL'>('HOT');
   const [thirst, setThirst] = useState<'THIRSTY' | 'THIRSTLESS' | 'VARIABLE'>('THIRSTLESS');
   const [sleepPosition, setSleepPosition] = useState('Right side');
 
-  const [isProcessingNlp, setIsProcessingNlp] = useState(false);
+  // DR. M.L. SEHGAL ROH PPP NARRATIVE
+  const [rohNarrative, setRohNarrative] = useState(
+    'Talks constantly about her business, restless and impatient, wants doctor to give immediate fast relief.'
+  );
+
+  // BÖNNINGHAUSEN 4-COMPONENT SYMPTOM SPLITTER
+  const [location, setLocation] = useState('Right Temple & Occiput');
+  const [sensation, setSensation] = useState('Throbbing, pulsating, heat radiating');
+  const [modality, setModality] = useState(
+    'Aggravated by sunlight and motion, ameliorated by cold application'
+  );
+  const [concomitants, setConcomitants] = useState(
+    'Nausea during peak headache, cold extremities'
+  );
+
+  const [presetActive, setPresetActive] = useState<string>('SUNSTROKE_MIGRAINE');
 
   if (!isOpen) return null;
 
-  const loadPresetCase = (type: 'MIGRAINE' | 'CIRRHOSIS' | 'OSTEOARTHRITIS') => {
-    if (type === 'MIGRAINE') {
+  const handleApplyPreset = (preset: 'SUNSTROKE_MIGRAINE' | 'CIRRHOSIS_JAUNDICE') => {
+    setPresetActive(preset);
+    if (preset === 'SUNSTROKE_MIGRAINE') {
       setPatientName('Ananya Verma');
       setAge('34');
-      setGender('Female');
+      setSex('Female');
       setThermal('HOT');
       setThirst('THIRSTLESS');
-      setChiefComplaint('Throbbing pulsating right-sided headache after sunlight exposure.');
-      setSehgalPppState('Talks constantly about business, impatient for fast relief.');
-      setLocation('Right Temple');
-      Sensation: setSensation('Throbbing, sudden');
-      setModality('Aggravated by sunlight & motion');
-      setConcomitants('Cold extremities');
-    } else if (type === 'CIRRHOSIS') {
+      setRohNarrative(
+        'Talks constantly about her business, restless and impatient, wants doctor to give immediate fast relief.'
+      );
+      setLocation('Right Temple & Occiput');
+      setSensation('Throbbing, pulsating, heat radiating');
+      setModality('Aggravated by sunlight and motion, ameliorated by cold application');
+      setConcomitants('Nausea during peak headache, cold extremities');
+    } else {
       setPatientName('Ramesh Kumar Sharma');
-      setAge('48');
-      setGender('Male');
+      setAge('44');
+      setSex('Male');
       setThermal('HOT');
-      setThirst('THIRSTY');
-      setChiefComplaint('Right scapula pain, jaundice, liver enlargement.');
-      setSehgalPppState('Opinionated, practical, business talks.');
-      setLocation('Right Scapula & Liver region');
-      setSensation('Dull aching radiating backwards');
-      setModality('Ameliorated by boiling hot drinks');
-      setConcomitants('Yellow sclera');
+      setThirst('THIRSTLESS');
+      setRohNarrative(
+        'Fear of incurable disease, anxiety in evening after sunset, talking of business constantly.'
+      );
+      setLocation('Right Hypochondrium & Lower Scapula');
+      setSensation('Dull aching jaundice, clay colored stool');
+      setModality('Aggravated by pressure, motion');
+      setConcomitants('Yellow sclera, loss of appetite');
     }
   };
 
-  const handleRunNlpExtraction = () => {
-    setIsProcessingNlp(true);
-    setTimeout(() => {
-      const extracted: RubricRow[] = [
-        {
-          id: `rub-nlp-${Date.now()}-1`,
-          chapter: 'MIND',
-          fullStringPath: 'MIND - BUSINESS - talks of',
-          embryologicalLayer: 'Ectoderm',
-          isAiExtracted: true,
-          isCommitted: true,
-        },
-        {
-          id: `rub-nlp-${Date.now()}-2`,
-          chapter: 'HEAD',
-          fullStringPath: 'HEAD - PAIN - pulsating - sudden - right temple',
-          embryologicalLayer: 'Ectoderm',
-          isAiExtracted: true,
-          isCommitted: true,
-        },
-        {
-          id: `rub-nlp-${Date.now()}-3`,
-          chapter: 'HEAD',
-          fullStringPath: 'HEAD - PAIN - sun - from exposure to',
-          embryologicalLayer: 'Ectoderm',
-          isAiExtracted: true,
-          isCommitted: true,
-        },
-      ];
+  const handleExtractAndCommit = () => {
+    const timestamp = Date.now();
+    const extracted: RubricRow[] = [
+      {
+        id: `rub-intake-1-${timestamp}`,
+        chapter: 'MIND',
+        fullStringPath: 'MIND - BUSINESS - talks of',
+        embryologicalLayer: 'Ectoderm',
+        isAiExtracted: true,
+        isCommitted: true,
+      },
+      {
+        id: `rub-intake-2-${timestamp}`,
+        chapter: 'HEAD',
+        fullStringPath: 'HEAD - PAIN - pulsating - sudden',
+        embryologicalLayer: 'Ectoderm',
+        isAiExtracted: true,
+        isCommitted: true,
+      },
+      {
+        id: `rub-intake-3-${timestamp}`,
+        chapter: 'HEAD',
+        fullStringPath: 'HEAD - PAIN - sun - exposure to',
+        embryologicalLayer: 'Ectoderm',
+        isAiExtracted: true,
+        isCommitted: true,
+      },
+      {
+        id: `rub-intake-4-${timestamp}`,
+        chapter: 'STOMACH',
+        fullStringPath: 'STOMACH - THIRSTLESS - fever during',
+        embryologicalLayer: 'Endoderm',
+        isAiExtracted: true,
+        isCommitted: true,
+      },
+    ];
 
-      onCommitExtractedRubrics(extracted);
-      setIsProcessingNlp(false);
-      onClose();
-    }, 600);
+    onCommitExtractedRubrics(extracted);
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/70 backdrop-blur-xs">
-      <div className="w-full max-w-2xl bg-white border-l border-slate-300 h-full flex flex-col shadow-2xl text-slate-800">
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs font-mono">
+      <div className="w-full max-w-2xl bg-[#0B0F19] text-white border-l border-[#1C1F26] h-full flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-right duration-200">
         {/* HEADER */}
-        <div className="px-4 py-3 bg-slate-900 text-white flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Stethoscope className="w-5 h-5 text-emerald-400" />
+        <div className="p-4 border-b border-[#1C1F26] flex items-center justify-between bg-[#05070A]">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-8 h-8 rounded-lg bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <Activity className="w-4 h-4" />
+            </div>
             <div>
-              <h2 className="font-bold text-sm uppercase tracking-wider text-white">
-                Clinical Case History Intake & NLP Parser
-              </h2>
-              <p className="text-[11px] text-slate-400">
-                Sehgal ROH Present Mental State + Bönninghausen 4-Component Splitter
+              <h3 className="font-black text-sm uppercase text-white tracking-wider">
+                {langPack.labels.intakeTitle}
+              </h3>
+              <p className="text-[11px] text-gray-400">
+                {langPack.labels.intakeSubtitle}
               </p>
             </div>
           </div>
+
           <button
             onClick={onClose}
-            className="p-1.5 rounded bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
+            className="p-1.5 rounded-lg border border-slate-800 text-gray-400 hover:text-white cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* ONE-CLICK CLINICAL PRESET BAR */}
-        <div className="px-4 py-2 bg-slate-100 border-b border-slate-200 flex items-center space-x-2 text-xs">
-          <Zap className="w-3.5 h-3.5 text-emerald-600" />
-          <span className="font-bold text-slate-700">Quick OPD Presets:</span>
-          <button
-            onClick={() => loadPresetCase('MIGRAINE')}
-            className="bg-white hover:bg-slate-200 border border-slate-300 px-2 py-0.5 rounded text-[11px] font-mono font-bold cursor-pointer"
-          >
-            Sunstroke Migraine (Ananya)
-          </button>
-          <button
-            onClick={() => loadPresetCase('CIRRHOSIS')}
-            className="bg-white hover:bg-slate-200 border border-slate-300 px-2 py-0.5 rounded text-[11px] font-mono font-bold cursor-pointer"
-          >
-            Liver Cirrhosis (Ramesh)
-          </button>
+        {/* PRESET PATIENT QUICK LOAD TRAY */}
+        <div className="px-4 py-2 bg-[#111317] border-b border-[#1C1F26] flex items-center justify-between text-xs">
+          <span className="text-gray-400 font-bold flex items-center gap-1">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> Quick OPD Presets:
+          </span>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => handleApplyPreset('SUNSTROKE_MIGRAINE')}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-black border cursor-pointer transition-all ${
+                presetActive === 'SUNSTROKE_MIGRAINE'
+                  ? 'bg-emerald-600 border-emerald-500 text-white'
+                  : 'bg-slate-900 border-slate-800 text-gray-400'
+              }`}
+            >
+              Sunstroke Migraine (Ananya)
+            </button>
+            <button
+              onClick={() => handleApplyPreset('CIRRHOSIS_JAUNDICE')}
+              className={`px-2.5 py-1 rounded-md text-[11px] font-black border cursor-pointer transition-all ${
+                presetActive === 'CIRRHOSIS_JAUNDICE'
+                  ? 'bg-emerald-600 border-emerald-500 text-white'
+                  : 'bg-slate-900 border-slate-800 text-gray-400'
+              }`}
+            >
+              Liver Cirrhosis (Ramesh)
+            </button>
+          </div>
         </div>
 
-        {/* INTAKE FORM BODY */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
+        {/* FORM CONTENTS */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-6 text-xs">
           {/* 1. PATIENT DEMOGRAPHICS */}
-          <div className="bg-slate-50 border border-slate-200 rounded p-3 space-y-2.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5 font-mono">
-              <FileText className="w-3.5 h-3.5" />
-              1. Patient Identity & Vitals
+          <div className="space-y-3">
+            <span className="font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <User className="w-3.5 h-3.5" /> {langPack.labels.patientIdentitySection}
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Full Name</label>
+                <label className="text-gray-400 block mb-1 font-bold">
+                  {langPack.labels.fullNameLabel}
+                </label>
                 <input
                   type="text"
                   value={patientName}
                   onChange={(e) => setPatientName(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900 focus:outline-none focus:border-emerald-600 font-bold"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#111317] border border-slate-800 font-bold"
                 />
               </div>
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Age</label>
+                <label className="text-gray-400 block mb-1 font-bold">{langPack.labels.ageLabel}</label>
                 <input
                   type="text"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900 focus:outline-none focus:border-emerald-600 font-bold"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#111317] border border-slate-800 font-bold"
                 />
               </div>
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Sex</label>
+                <label className="text-gray-400 block mb-1 font-bold">{langPack.labels.sexLabel}</label>
                 <select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900 focus:outline-none focus:border-emerald-600 font-bold"
+                  value={sex}
+                  onChange={(e) => setSex(e.target.value)}
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#111317] border border-slate-800 font-bold"
                 >
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
@@ -198,135 +229,128 @@ export const CaseHistoryIntakeDrawer: React.FC<
             </div>
           </div>
 
-          {/* 2. PHYSICAL BASELINE CONSTANTS */}
-          <div className="bg-slate-50 border border-slate-200 rounded p-3 space-y-2.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-orange-700 flex items-center gap-1.5 font-mono">
-              <Flame className="w-3.5 h-3.5" />
-              2. Immutable Physical Baseline (Predictive Axis)
+          {/* 2. PREDICTIVE THERMAL / THIRST BASELINE */}
+          <div className="p-4 rounded-xl bg-[#111317] border border-slate-800 space-y-3">
+            <span className="font-black text-orange-400 uppercase flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5" /> 2. IMMUTABLE PHYSICAL BASELINE (PREDICTIVE AXIS)
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Thermal Baseline</label>
+                <label className="text-gray-400 block mb-1 font-bold">Thermal Baseline</label>
                 <select
                   value={thermal}
                   onChange={(e) => setThermal(e.target.value as any)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-orange-700 font-mono font-bold"
+                  className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-orange-500/50 text-orange-300 font-black"
                 >
                   <option value="HOT">HOT (Amel. by Cold)</option>
-                  <option value="CHILLY">CHILLY (Amel. by Warmth)</option>
+                  <option value="CHILLY">CHILLY (Amel. by Heat)</option>
                   <option value="AMBITHERMAL">AMBITHERMAL</option>
                 </select>
               </div>
+
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Thirst Baseline</label>
+                <label className="text-gray-400 block mb-1 font-bold">Thirst Baseline</label>
                 <select
                   value={thirst}
                   onChange={(e) => setThirst(e.target.value as any)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-cyan-700 font-mono font-bold"
+                  className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-cyan-500/50 text-cyan-300 font-black"
                 >
                   <option value="THIRSTLESS">THIRSTLESS</option>
-                  <option value="THIRSTY">THIRSTY (Large/Small)</option>
+                  <option value="THIRSTY">THIRSTY</option>
                   <option value="VARIABLE">VARIABLE</option>
                 </select>
               </div>
+
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Sleep Position</label>
+                <label className="text-gray-400 block mb-1 font-bold">Sleep Position</label>
                 <input
                   type="text"
                   value={sleepPosition}
                   onChange={(e) => setSleepPosition(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900"
+                  className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 font-bold"
                 />
               </div>
             </div>
           </div>
 
           {/* 3. DR. M.L. SEHGAL ROH PRESENT MENTAL STATE (PPP) */}
-          <div className="bg-slate-50 border border-slate-200 rounded p-3 space-y-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 flex items-center gap-1.5 font-mono">
-              <Brain className="w-3.5 h-3.5" />
-              3. Dr. M.L. Sehgal ROH Present Mental State (PPP)
+          <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 space-y-2">
+            <span className="font-black text-purple-300 uppercase flex items-center gap-1.5">
+              <Brain className="w-3.5 h-3.5 text-purple-400" /> {langPack.labels.sehgalRohSection}
             </span>
             <textarea
-              rows={2}
-              value={sehgalPppState}
-              onChange={(e) => setSehgalPppState(e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded p-2 text-slate-900 focus:outline-none focus:border-emerald-600 font-mono text-xs"
+              rows={3}
+              value={rohNarrative}
+              onChange={(e) => setRohNarrative(e.target.value)}
+              className="w-full p-2.5 rounded-lg bg-[#05070A] border border-purple-500/40 text-purple-100 font-bold leading-relaxed outline-none"
             />
           </div>
 
-          {/* 4. DR. VON BÖNNINGHAUSEN 4-COMPONENT SPLITTER */}
-          <div className="bg-slate-50 border border-slate-200 rounded p-3 space-y-2.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 flex items-center gap-1.5 font-mono">
-              <Sparkles className="w-3.5 h-3.5" />
-              4. Dr. von Bönninghausen 4-Component Symptom Splitter
+          {/* 4. DR. VON BÖNNINGHAUSEN 4-COMPONENT SYMPTOM SPLITTER */}
+          <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+            <span className="font-black text-cyan-400 uppercase flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5" /> {langPack.labels.boenninghausenSection}
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Location / Anatomical Site</label>
+                <label className="text-gray-400 block mb-1 font-bold">Location / Anatomical Site</label>
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
                 />
               </div>
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Sensation / Character</label>
+                <label className="text-gray-400 block mb-1 font-bold">Sensation / Character</label>
                 <input
                   type="text"
                   value={sensation}
                   onChange={(e) => setSensation(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
                 />
               </div>
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Modalities (Agg. / Amel.)</label>
+                <label className="text-gray-400 block mb-1 font-bold">Modalities (Agg. / Amel.)</label>
                 <input
                   type="text"
                   value={modality}
                   onChange={(e) => setModality(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
                 />
               </div>
               <div>
-                <label className="block text-slate-500 mb-1 font-mono text-[11px]">Concomitants</label>
+                <label className="text-gray-400 block mb-1 font-bold">Concomitants</label>
                 <input
                   type="text"
                   value={concomitants}
                   onChange={(e) => setConcomitants(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-900"
+                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {/* FOOTER ACTION BAR */}
-        <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
-          <span className="text-[11px] text-slate-400 font-mono">
+        {/* FOOTER ACTIONS */}
+        <div className="p-4 border-t border-[#1C1F26] bg-[#05070A] flex items-center justify-between">
+          <span className="text-[11px] text-teal-400 font-bold">
             SimiliMatrix NLP Extraction Ready
           </span>
           <div className="flex items-center space-x-2">
             <button
               onClick={onClose}
-              className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium cursor-pointer"
+              className="px-4 py-2 rounded-xl border border-slate-800 text-gray-300 hover:text-white text-xs font-bold cursor-pointer"
             >
-              Cancel
+              {langPack.labels.cancelBtn}
             </button>
             <button
-              onClick={handleRunNlpExtraction}
-              disabled={isProcessingNlp}
-              className="px-4 py-1.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center space-x-1.5 shadow-md cursor-pointer"
+              onClick={handleExtractAndCommit}
+              className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center space-x-1.5 shadow-lg cursor-pointer transition-all transform hover:scale-105"
             >
-              {isProcessingNlp ? (
-                <span>Extracting Rubrics...</span>
-              ) : (
-                <>
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Extract & Commit to Matrix Board</span>
-                </>
-              )}
+              <Sparkles className="w-4 h-4 text-cyan-300" />
+              <span>{langPack.labels.extractCommitBtn}</span>
             </button>
           </div>
         </div>

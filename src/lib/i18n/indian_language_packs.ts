@@ -40,6 +40,24 @@ export interface LanguagePack {
     startWebRtcCall: string;
     awaitingPatientRtc: string;
     symptomTotality: string;
+    // INTAKE DRAWER LABELS
+    intakeTitle: string;
+    intakeSubtitle: string;
+    patientIdentitySection: string;
+    fullNameLabel: string;
+    ageLabel: string;
+    sexLabel: string;
+    sehgalRohSection: string;
+    boenninghausenSection: string;
+    extractCommitBtn: string;
+    cancelBtn: string;
+    // PRESCRIPTION SLIP LABELS
+    rxSlipTitle: string;
+    rxSlipSubtitle: string;
+    primarySimillimumPotency: string;
+    coPrescribeBurnett: string;
+    finalOpdOrders: string;
+    dispatchFhirSms: string;
     rubricTranslations: Record<string, string>;
   };
 }
@@ -85,6 +103,22 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       startWebRtcCall: 'Start WebRTC Video Call',
       awaitingPatientRtc: 'STANDBY — AWAITING PATIENT RTC CONNECTION',
       symptomTotality: 'SYMPTOM TOTALITY / SUM OF GRADES',
+      intakeTitle: 'CLINICAL CASE HISTORY INTAKE & NLP PARSER',
+      intakeSubtitle: 'Sehgal ROH Present Mental State + Bönninghausen 4-Component Splitter',
+      patientIdentitySection: '1. PATIENT IDENTITY & VITALS',
+      fullNameLabel: 'Full Name',
+      ageLabel: 'Age',
+      sexLabel: 'Sex',
+      sehgalRohSection: '3. DR. M.L. SEHGAL ROH PRESENT MENTAL STATE (PPP)',
+      boenninghausenSection: '4. DR. VON BÖNNINGHAUSEN 4-COMPONENT SYMPTOM SPLITTER',
+      extractCommitBtn: '⚡ Extract & Commit to Matrix Board',
+      cancelBtn: 'Cancel',
+      rxSlipTitle: 'ABDM FHIR CRYPTOGRAPHICALLY SIGNED PRESCRIPTION SLIP',
+      rxSlipSubtitle: 'AYUSH OPD Registration // Simillimum Verified',
+      primarySimillimumPotency: '1. PRIMARY SIMILLIMUM POTENCY & VEHICLE SELECTION',
+      coPrescribeBurnett: 'Co-Prescribe Dr. Burnett Organopathy Tissue Drainage (Chelidonium 1X)',
+      finalOpdOrders: 'FINAL OFFICIAL OPD DISPENSING ORDERS:',
+      dispatchFhirSms: '🚀 Dispatch FHIR SMS',
       rubricTranslations: {},
     },
   },
@@ -128,6 +162,22 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       startWebRtcCall: 'WebRTC वीडियो कॉल शुरू करें',
       awaitingPatientRtc: 'प्रतीक्षा — रोगी RTC कनेक्शन की प्रतीक्षा में',
       symptomTotality: 'लक्षण समग्रता / ग्रेड का योग',
+      intakeTitle: 'क्लिनिकल केस हिस्ट्री केस पंजीकरण एवं NLP पार्सर',
+      intakeSubtitle: 'सेहगल ROH वर्तमान मानसिक स्थिति + बेनिंगहाउसेन 4-घटक विभाजन',
+      patientIdentitySection: '1. रोगी पहचान एवं वाइटल्स',
+      fullNameLabel: 'पूरा नाम',
+      ageLabel: 'आयु',
+      sexLabel: 'लिंग',
+      sehgalRohSection: '3. डॉ. एम.एल. सेहगल ROH वर्तमान मानसिक स्थिति (PPP)',
+      boenninghausenSection: '4. डॉ. वोन बेनिंगहाउसेन 4-घटक लक्षण विभाजन',
+      extractCommitBtn: '⚡ रुब्रिक्स निकालें एवं मैट्रिक्स बोर्ड में जोड़ें',
+      cancelBtn: 'रद्द करें',
+      rxSlipTitle: 'ABDM FHIR डिजिटल रूप से हस्ताक्षरित दवा पर्चा (Prescription Slip)',
+      rxSlipSubtitle: 'आयुष OPD पंजीकरण // समिलिमम सत्यापित',
+      primarySimillimumPotency: '1. प्राथमिक समिलिमम पोटेंसी एवं माध्यम चयन',
+      coPrescribeBurnett: 'डॉ. बर्नेट ऑर्गनपैथी टिश्यू ड्रेनेज (Chelidonium 1X) साथ में लिखें',
+      finalOpdOrders: 'अंतिम आधिकारिक OPD वितरण निर्देश:',
+      dispatchFhirSms: '🚀 FHIR SMS द्वारा रोगी को भेजें',
       rubricTranslations: {
         'MIND - BUSINESS - talks of': 'मन - व्यापार - दिन-रात व्यापार की बात करता है',
         'MIND - ANXIETY - night - sun set after': 'मन - चिंता - सूर्यास्त के बाद रात में घबराहट',
@@ -192,6 +242,22 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       startWebRtcCall: 'WebRTC வீடியோ அழைப்பு தொடங்கு',
       awaitingPatientRtc: 'காத்திருப்பு — நோயாளி இணைப்புக்காக',
       symptomTotality: 'அறிகுறி மொத்தம் / கிரேடு கூட்டுத் தொகை',
+      intakeTitle: 'நோயாளி பதிவு & NLP பகுப்பாய்வு',
+      intakeSubtitle: 'Sehgal ROH மனநிலை + Bönninghausen பகுப்பாய்வு',
+      patientIdentitySection: '1. நோயாளி விவரம்',
+      fullNameLabel: 'முழு பெயர்',
+      ageLabel: 'வயது',
+      sexLabel: 'பாலினம்',
+      sehgalRohSection: '3. DR. M.L. SEHGAL ROH மனநிலை',
+      boenninghausenSection: '4. DR. VON BÖNNINGHAUSEN 4-கூறு பகுப்பாய்வு',
+      extractCommitBtn: '⚡ மேட்ரிக்ஸில் சேர்',
+      cancelBtn: 'ரத்து செய்',
+      rxSlipTitle: 'ABDM FHIR மருந்து சீட்டு',
+      rxSlipSubtitle: 'AYUSH OPD பதிவு // சிமில்லிமம் சரிபார்க்கப்பட்டது',
+      primarySimillimumPotency: '1. முதன்மை மருந்து தேர்வு',
+      coPrescribeBurnett: 'Dr. Burnett ஆர்கனோபதி (Chelidonium 1X)',
+      finalOpdOrders: 'இறுதி மருந்து உத்தரவு:',
+      dispatchFhirSms: '🚀 FHIR SMS அனுப்பு',
       rubricTranslations: {},
     },
   },
@@ -235,6 +301,22 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       startWebRtcCall: 'WebRTC ভিডিও কল শুরু করুন',
       awaitingPatientRtc: 'অপেক্ষা — রোগীর সংযোগের অপেক্ষায়',
       symptomTotality: 'লক্ষণ সামগ্রিকতা / গ্রেডের যোগফল',
+      intakeTitle: 'ক্লিনিকাল কেস হিস্ট্রি ও NLP পার্সার',
+      intakeSubtitle: 'Sehgal ROH মানসিক অবস্থা + Bönninghausen বিশ্লেষণ',
+      patientIdentitySection: '1. রোগীর পরিচয় ও ভাইটালস',
+      fullNameLabel: 'পূর্ণ নাম',
+      ageLabel: 'বয়স',
+      sexLabel: 'লিঙ্গ',
+      sehgalRohSection: '3. DR. M.L. SEHGAL ROH মানসিক অবস্থা',
+      boenninghausenSection: '4. DR. VON BÖNNINGHAUSEN 4-উপাদান বিশ্লেষণ',
+      extractCommitBtn: '⚡ রুব্রিক বোর্ডে যুক্ত করুন',
+      cancelBtn: 'বাতিল',
+      rxSlipTitle: 'ABDM FHIR ডিজিটাল প্রেসক্রিপশন স্লিপ',
+      rxSlipSubtitle: 'AYUSH OPD নিবন্ধন // সিমিলিমাম যাচাইকৃত',
+      primarySimillimumPotency: '1. প্রাথমিক পোটেন্সি নির্বাচন',
+      coPrescribeBurnett: 'Dr. Burnett অর্গানোপ্যাথি (Chelidonium 1X)',
+      finalOpdOrders: 'চূড়ান্ত নির্দেশাবলী:',
+      dispatchFhirSms: '🚀 FHIR SMS পাঠান',
       rubricTranslations: {},
     },
   },
@@ -278,6 +360,22 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       startWebRtcCall: 'WebRTC व्हिडिओ कॉल सुरू करा',
       awaitingPatientRtc: 'प्रतीक्षा — रुग्णाच्या कनेक्शनची वाट पाहत आहे',
       symptomTotality: 'लक्षण समग्रता / ग्रेडची बेरीज',
+      intakeTitle: 'क्लिनिकल केस हिस्ट्री व NLP पार्सर',
+      intakeSubtitle: 'Sehgal ROH मानसिक स्थिती + Bönninghausen 4-घटक विभाजन',
+      patientIdentitySection: '1. रुग्ण ओळख व वाइटल्स',
+      fullNameLabel: 'पूर्ण नाव',
+      ageLabel: 'वय',
+      sexLabel: 'लिंग',
+      sehgalRohSection: '3. DR. M.L. SEHGAL ROH मानसिक स्थिती',
+      boenninghausenSection: '4. DR. VON BÖNNINGHAUSEN 4-घटक लक्षण विभाजन',
+      extractCommitBtn: '⚡ रुब्रिक्स मॅट्रिक्समध्ये जोडा',
+      cancelBtn: 'रद्द करा',
+      rxSlipTitle: 'ABDM FHIR डिजिटल औषध चिठ्ठी',
+      rxSlipSubtitle: 'AYUSH OPD नोंदणी // सिमिलीमम सत्यापित',
+      primarySimillimumPotency: '1. प्राथमिक पोटेंसी निवड',
+      coPrescribeBurnett: 'Dr. Burnett ऑर्गनपॅथी (Chelidonium 1X)',
+      finalOpdOrders: 'अंतिम औषध सूचना:',
+      dispatchFhirSms: '🚀 FHIR SMS पाठवा',
       rubricTranslations: {},
     },
   },
@@ -321,6 +419,22 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       startWebRtcCall: 'WebRTC વિડીયો કોલ શરૂ કરો',
       awaitingPatientRtc: 'રાહ જોઈ રહ્યા છીએ — દર્દીના જોડાણ માટે',
       symptomTotality: 'લક્ષણ સમગ્રતા / ગ્રેડનો સરવાળો',
+      intakeTitle: 'ક્લિનિકલ કેસ હિસ્ટ્રી અને NLP પાર્સર',
+      intakeSubtitle: 'Sehgal ROH માનસિક સ્થિતિ + Bönninghausen વિશ્લેષણ',
+      patientIdentitySection: '1. દર્દી ઓળખ અને વાઇટલ્સ',
+      fullNameLabel: 'પૂરું નામ',
+      ageLabel: 'ઉંમર',
+      sexLabel: 'જાતિ',
+      sehgalRohSection: '3. DR. M.L. SEHGAL ROH માનસિક સ્થિતિ',
+      boenninghausenSection: '4. DR. VON BÖNNINGHAUSEN 4-ઘટક વિશ્લેષણ',
+      extractCommitBtn: '⚡ મેટ્રિક્સમાં ઉમેરો',
+      cancelBtn: 'રદ કરો',
+      rxSlipTitle: 'ABDM FHIR ડિજિટલ પ્રિસ્ક્રિપ્શન સ્લિપ',
+      rxSlipSubtitle: 'AYUSH OPD નોંધણી // સિમિલીમમ ચકાસાયેલ',
+      primarySimillimumPotency: '1. પ્રાથમિક પોટેન્સી પસંદગી',
+      coPrescribeBurnett: 'Dr. Burnett ઓર્ગેનોપેથી (Chelidonium 1X)',
+      finalOpdOrders: 'અંતિમ પ્રિસ્ક્રિપ્શન ઓર્ડર:',
+      dispatchFhirSms: '🚀 FHIR SMS મોકલો',
       rubricTranslations: {},
     },
   },
