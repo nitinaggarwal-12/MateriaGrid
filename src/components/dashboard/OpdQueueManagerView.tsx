@@ -33,6 +33,206 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const labels = pack.labels;
 
   const getLocalizedQueue = (code: string) => {
+    if (code === 'OR') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'ରମେଶ କୁମାର ଶର୍ମା',
+          ageGender: '44 ପୁରୁଷ',
+          chiefComplaint: 'ତୀବ୍ର ସ୍ପନ୍ଦନ ଜ୍ୱର ଏବଂ କ୍ୟାରୋଟିଡ୍ ଧମନୀ ସ୍ପନ୍ଦନ',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 ମିନିଟ୍',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'ପ୍ରିୟା ପଟେଲ୍',
+          ageGender: '38 ମହିଳା',
+          chiefComplaint: 'ପୁରୁଣା ଯକୃତ ସିରୋସିସ୍ ଏବଂ କାନ୍ଧ ତଳ କଷ୍ଟ',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 ମିନିଟ୍',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'ବିକ୍ରମ ସିଂହ',
+          ageGender: '52 ପୁରୁଷ',
+          chiefComplaint: 'ଗୋଡ଼ ଗଣ୍ଠି ରସ ଫୁଲିବା ଏବଂ କଠିନତା',
+          status: 'WAITING',
+          waitTime: '15 ମିନିଟ୍',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'ଅନନ୍ୟା ବର୍ମା',
+          ageGender: '29 ମହିଳା',
+          chiefComplaint: 'କପାଳ ପ୍ରବଳ ମାଇଗ୍ରେନ୍ କଷ୍ଟ ଏବଂ ଆଲୋକ ଭୟ',
+          status: 'WAITING',
+          waitTime: '22 ମିନିଟ୍',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'PA') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'ਰਮੇਸ਼ ਕੁਮਾਰ ਸ਼ਰਮਾ',
+          ageGender: '44 ਪੁਰਖ',
+          chiefComplaint: 'ਤੀਬਰ ਧੜਕਣ ਵਾਲਾ ਬੁਖਾਰ ਅਤੇ ਕੈਰੋਟਿਡ ਨਬਜ਼ ਧੜਕਣ',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 ਮਿੰਟ',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'ਪ੍ਰਿਯਾ ਪਟੇਲ',
+          ageGender: '38 ਔਰਤ',
+          chiefComplaint: 'ਪੁਰਾਣਾ ਜਿਗਰ ਸਿਰੋਸਿਸ ਅਤੇ ਮੋਢੇ ਦਾ ਦਰਦ',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 ਮਿੰਟ',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'ਵਿਕਰਮ ਸਿੰਘ',
+          ageGender: '52 ਪੁਰਖ',
+          chiefComplaint: 'ਗੋਡੇ ਦੇ ਜੋੜ ਦੀ ਸੋਜ ਅਤੇ ਅਕੜਾਅ',
+          status: 'WAITING',
+          waitTime: '15 ਮਿੰਟ',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'ਅਨੰਨਿਆ ਵਰਮਾ',
+          ageGender: '29 ਔਰਤ',
+          chiefComplaint: 'ਮੱਥੇ ਦਾ ਤੇਜ਼ ਮਾਈਗ੍ਰੇਨ ਦਰਦ ਅਤੇ ਰੌਸ਼ਨੀ ਤੋਂ ਪਰਹੇਜ਼',
+          status: 'WAITING',
+          waitTime: '22 ਮਿੰਟ',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'UR') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'رمیش کمار شرما',
+          ageGender: '44 مرد',
+          chiefComplaint: 'شدید دھڑکن والا تیز بخار اور کیروٹڈ شریان کا دھڑکنا',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 منٹ',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'پریہ پٹیل',
+          ageGender: '38 عورت',
+          chiefComplaint: 'پرانا جگر کا سائروسس اور کندھے کا درد',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 منٹ',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'وکرم سنگھ',
+          ageGender: '52 مرد',
+          chiefComplaint: 'گھٹنے کے جوڑ میں سیال سوجن اور سختی',
+          status: 'WAITING',
+          waitTime: '15 منٹ',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'اننیا ورما',
+          ageGender: '29 عورت',
+          chiefComplaint: 'پیشانی کا شدید مائگرین اور روشنی سے حساسیت',
+          status: 'WAITING',
+          waitTime: '22 منٹ',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'RU') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'Рамеш Кумар Шарма',
+          ageGender: '44M',
+          chiefComplaint: 'Острая пульсирующая гиперпирексия и пульсация сонной артерии',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 мин',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'Прия Патель',
+          ageGender: '38Ж',
+          chiefComplaint: 'Хронический цирроз печени и подлопаточная невралгия',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 мин',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'Викрам Сингх',
+          ageGender: '52M',
+          chiefComplaint: 'Синовиальный выпот коленного сустава и скованность',
+          status: 'WAITING',
+          waitTime: '15 мин',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'Ананья Верма',
+          ageGender: '29Ж',
+          chiefComplaint: 'Пульсирующая височная мигрень и светобоязнь',
+          status: 'WAITING',
+          waitTime: '22 мин',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'AR') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'راميش كومار شارما',
+          ageGender: '44 رجل',
+          chiefComplaint: 'حمى حادة نبضية ونبض في الشريان السباتي',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 دقيقة',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'بريا باتيل',
+          ageGender: '38 امرأة',
+          chiefComplaint: 'تليف كبدي مزمن وألم عصبي تحت الكتف',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 دقائق',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'فيكرام سينغ',
+          ageGender: '52 رجل',
+          chiefComplaint: 'انصباب مفصل الركبة وتصلب مفصلي',
+          status: 'WAITING',
+          waitTime: '15 دقيقة',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'أنانيا فيرما',
+          ageGender: '29 امرأة',
+          chiefComplaint: 'صداع نصفي صدغي نبضي وحساسية للضوء',
+          status: 'WAITING',
+          waitTime: '22 دقيقة',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
     if (code === 'ML') {
       return [
         {
@@ -398,25 +598,25 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const uhiVideoSlots = [
     {
       time: '10:00 AM – 10:15 AM',
-      patientName: langCode === 'ML' ? 'അനന്യ വർമ്മ' : langCode === 'TE' ? 'అనన్య వర్మ' : langCode === 'TA' ? 'அனன்யா வர்மா' : langCode === 'HI' ? 'अनन्या वर्मा' : 'Ananya Verma',
+      patientName: langCode === 'OR' ? 'ଅନନ୍ୟା ବର୍ମା' : langCode === 'PA' ? 'ਅਨੰਨਿਆ ਵਰਮਾ' : langCode === 'UR' ? 'اننیا ورما' : langCode === 'ML' ? 'അനന്യ വർമ്മ' : langCode === 'TE' ? 'అనన్య వర్మ' : langCode === 'TA' ? 'அனன்யா வர்மா' : langCode === 'HI' ? 'अनन्या वर्मा' : 'Ananya Verma',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:15 AM – 10:30 AM',
-      patientName: langCode === 'ML' ? 'വിക്രമാദിത്യ റാവു' : langCode === 'TE' ? 'విక్రమాదిత్య రావు' : langCode === 'TA' ? 'விக்ரமாதித்யா ராவ்' : langCode === 'HI' ? 'विक्रमादित्य राव' : 'Vikramaditya Rao',
+      patientName: langCode === 'OR' ? 'ବିକ୍ରମାଦିତ୍ୟ ରାଓ' : langCode === 'PA' ? 'ਵਿਕਰਮਾਦਿਤਿਆ ਰਾਓ' : langCode === 'UR' ? 'وکرمادتیہ راؤ' : langCode === 'ML' ? 'വിക്രാമാദിത്യ റാവു' : langCode === 'TE' ? 'విక్రమాదిత్య రావు' : langCode === 'TA' ? 'விக்ரமாதித்யா ராவ்' : langCode === 'HI' ? 'विक्रमादित्य राव' : 'Vikramaditya Rao',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:30 AM – 10:45 AM',
-      patientName: langCode === 'ML' ? 'സിദ്ധാർത്ഥ് ദേശ്മുഖ്' : langCode === 'TE' ? 'సిద్ధార్థ్ దేశ్‌ముఖ్' : langCode === 'TA' ? 'சித்தார்த் தேஷ்முக்' : langCode === 'HI' ? 'सिद्धार्थ देशमुख' : 'Siddharth Deshmukh',
+      patientName: langCode === 'OR' ? 'ସିଦ୍ଧାର୍ଥ ଦେଶମୁଖ' : langCode === 'PA' ? 'ਸਿਧਾਰਥ ਦੇਸ਼ਮੁਖ' : langCode === 'UR' ? 'سدھارتھ دیشمکھ' : langCode === 'ML' ? 'സിദ്ധാർത്ഥ് ദേശ്മുഖ്' : langCode === 'TE' ? 'సిద్ధార్థ్ దేశ్‌ముఖ్' : langCode === 'TA' ? 'சித்தார்த் தேஷ்முக்' : langCode === 'HI' ? 'सिद्धार्थ देशमुख' : 'Siddharth Deshmukh',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:45 AM – 11:00 AM',
-      patientName: langCode === 'ML' ? 'കവിത പട്ടേൽ' : langCode === 'TE' ? 'కవితా పటేల్' : langCode === 'TA' ? 'கவிதா படேல்' : langCode === 'HI' ? 'कविता पटेल' : 'Kavita Patel',
+      patientName: langCode === 'OR' ? 'କବିତା ପଟେଲ୍' : langCode === 'PA' ? 'ਕਵਿਤਾ ਪਟੇਲ' : langCode === 'UR' ? 'کویتا پٹیل' : langCode === 'ML' ? 'കവിത പട്ടേൽ' : langCode === 'TE' ? 'కవితా పటేల్' : langCode === 'TA' ? 'கவிதா படேல்' : langCode === 'HI' ? 'कविता पटेल' : 'Kavita Patel',
       status: labels.confirmedUhi,
       isBooked: true,
     },
