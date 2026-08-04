@@ -536,86 +536,86 @@ export const BhmsClinicalAcademyView: React.FC<
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
         <button
           onClick={() => setActiveTab('CURRICULUM_MATRIX' as any)}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             (activeTab as any) === 'CURRICULUM_MATRIX'
               ? 'bg-emerald-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <Award className="w-4 h-4" />
-          <span>🎓 NCH BHMS (5.5 Yr) &amp; MD (3 Yr) Degree Curriculum Breakdown</span>
+          <Award className="w-3.5 h-3.5" />
+          <span>🎓 NCH Degree Matrix</span>
         </button>
 
         <button
           onClick={() => setActiveTab('COURSES')}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             activeTab === 'COURSES'
               ? 'bg-amber-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <BookOpen className="w-4 h-4" />
-          <span>📖 Active Course Modules ({ACADEMIC_COURSES.length})</span>
+          <BookOpen className="w-3.5 h-3.5" />
+          <span>📖 Course Modules ({ACADEMIC_COURSES.length})</span>
         </button>
 
         <button
           onClick={() => setActiveTab('QUIZ')}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             activeTab === 'QUIZ'
               ? 'bg-purple-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <HelpCircle className="w-4 h-4" />
-          <span>❓ Interactive Clinical Case Quizzes</span>
+          <HelpCircle className="w-3.5 h-3.5" />
+          <span>❓ Clinical Quizzes</span>
         </button>
 
         <button
           onClick={() => setActiveTab('SIMULATION')}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             activeTab === 'SIMULATION'
               ? 'bg-cyan-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <Stethoscope className="w-4 h-4" />
-          <span>🧪 Virtual OPD Patient Simulation Sandbox</span>
+          <Stethoscope className="w-3.5 h-3.5" />
+          <span>🧪 Virtual OPD Simulator</span>
         </button>
 
         <button
           onClick={() => setActiveTab('CASE_STUDIES' as any)}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             (activeTab as any) === 'CASE_STUDIES'
               ? 'bg-rose-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <FileText className="w-4 h-4" />
-          <span>🏥 Real-World Case Studies Bank by Remedy</span>
+          <FileText className="w-3.5 h-3.5" />
+          <span>🏥 Real-World Case Bank</span>
         </button>
 
         <button
           onClick={() => setActiveTab('EXAM_PREP' as any)}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             (activeTab as any) === 'EXAM_PREP'
               ? 'bg-amber-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <Award className="w-4 h-4" />
-          <span>📝 University Exam Prep &amp; Previous 10-Yr Question Bank (SAQ/LAQ)</span>
+          <Award className="w-3.5 h-3.5" />
+          <span>📝 10-Yr Exam Question Bank</span>
         </button>
 
         <button
           onClick={() => setActiveTab('PRACTICE_TEST' as any)}
-          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
             (activeTab as any) === 'PRACTICE_TEST'
               ? 'bg-emerald-600 text-white shadow-md'
               : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
           }`}
         >
-          <Zap className="w-4 h-4" />
-          <span>🎯 Subject-by-Year / Semester University Practice Test Generator</span>
+          <Zap className="w-3.5 h-3.5" />
+          <span>🎯 Practice Test Generator</span>
         </button>
       </div>
 
