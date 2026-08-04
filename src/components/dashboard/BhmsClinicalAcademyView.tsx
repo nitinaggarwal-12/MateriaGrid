@@ -775,132 +775,120 @@ export const BhmsClinicalAcademyView: React.FC<
         isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
-      {/* COURSERA-STYLE ACADEMIC HEADER BANNER */}
+      {/* SINGLE-LINE EXECUTIVE ACADEMIC NAVBAR (ZERO VERTICAL WASTE) */}
       <div
-        className={`p-6 rounded-2xl border flex flex-wrap items-center justify-between gap-6 shadow-md ${
+        className={`px-4 py-2.5 rounded-2xl border flex flex-wrap items-center justify-between gap-3 flex-shrink-0 font-sans ${
           isLight
-            ? 'bg-white border-slate-200'
+            ? 'bg-white border-slate-200 shadow-2xs'
             : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 via-emerald-600 to-teal-600 flex items-center justify-center text-white font-black shadow-lg">
-            <GraduationCap className="w-7 h-7" />
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h1 className="text-lg font-black text-white">
-                AYUSH / BHMS &amp; MD (HOM.) INTERACTIVE CLINICAL ACADEMY &amp; OPD SIMULATION
-              </h1>
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-500 text-black font-black text-[10px]">
-                ACADEMIC MASTERY
-              </span>
-            </div>
-            <p className="text-xs text-gray-400 mt-0.5">
-              Coursera-Style Methodological Chapters • Interactive Clinical Case Quizzes • Virtual OPD Patient Simulation Sandbox
-            </p>
-          </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => setActiveTab('CURRICULUM_MATRIX' as any)}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              (activeTab as any) === 'CURRICULUM_MATRIX'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Award className="w-3.5 h-3.5 text-emerald-500" />
+            <span>🎓 NCH Matrix</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('COURSES')}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              activeTab === 'COURSES'
+                ? 'bg-amber-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5 text-amber-500" />
+            <span>📖 Courses ({ACADEMIC_COURSES.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('QUIZ')}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              activeTab === 'QUIZ'
+                ? 'bg-purple-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-purple-500" />
+            <span>❓ Quizzes</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('SIMULATION')}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              activeTab === 'SIMULATION'
+                ? 'bg-cyan-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Stethoscope className="w-3.5 h-3.5 text-cyan-500" />
+            <span>🧪 OPD Simulator</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('CASE_STUDIES' as any)}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              (activeTab as any) === 'CASE_STUDIES'
+                ? 'bg-rose-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5 text-rose-500" />
+            <span>🏥 Case Bank</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('EXAM_PREP' as any)}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              (activeTab as any) === 'EXAM_PREP'
+                ? 'bg-amber-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Award className="w-3.5 h-3.5 text-amber-500" />
+            <span>📝 10-Yr Qs</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('PRACTICE_TEST' as any)}
+            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
+              (activeTab as any) === 'PRACTICE_TEST'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : isLight
+                ? 'text-slate-700 hover:bg-slate-100'
+                : 'text-gray-400 hover:text-white hover:bg-slate-800'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-emerald-500" />
+            <span>🎯 Practice Tests</span>
+          </button>
         </div>
 
-        {/* TOP ACADEMIC MASTERY INDEX CARD */}
-        <div className="flex items-center space-x-3 px-4 py-2 rounded-xl bg-[#05070A] border border-slate-800">
-          <Award className="w-6 h-6 text-amber-400" />
-          <div>
-            <span className="text-[10px] text-gray-400 font-black block uppercase">
-              INTERN CLINICAL MASTERY INDEX
-            </span>
-            <span className="text-sm font-black text-emerald-400">
-              92% Academic Honors (Dr. Nitin Aggarwal)
-            </span>
-          </div>
+        {/* INLINE ACADEMIC MASTERY SCORE (ZERO VERTICAL SPACE LOST) */}
+        <div className="flex items-center space-x-2 px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 font-sans text-xs">
+          <Award className="w-3.5 h-3.5" />
+          <span className="font-black">92% Academic Honors</span>
+          <span className="text-[10px] opacity-75 hidden xl:inline">(Dr. Nitin Aggarwal)</span>
         </div>
-      </div>
-
-      {/* TOP ACADEMIC TABS: CURRICULUM MATRIX vs COURSES vs QUIZZES vs VIRTUAL OPD PATIENT SIMULATION */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
-        <button
-          onClick={() => setActiveTab('CURRICULUM_MATRIX' as any)}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            (activeTab as any) === 'CURRICULUM_MATRIX'
-              ? 'bg-emerald-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <Award className="w-3.5 h-3.5" />
-          <span>🎓 NCH Degree Matrix</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('COURSES')}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            activeTab === 'COURSES'
-              ? 'bg-amber-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>📖 Course Modules ({ACADEMIC_COURSES.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('QUIZ')}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            activeTab === 'QUIZ'
-              ? 'bg-purple-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <HelpCircle className="w-3.5 h-3.5" />
-          <span>❓ Clinical Quizzes</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('SIMULATION')}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            activeTab === 'SIMULATION'
-              ? 'bg-cyan-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <Stethoscope className="w-3.5 h-3.5" />
-          <span>🧪 Virtual OPD Simulator</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('CASE_STUDIES' as any)}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            (activeTab as any) === 'CASE_STUDIES'
-              ? 'bg-rose-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <FileText className="w-3.5 h-3.5" />
-          <span>🏥 Real-World Case Bank</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('EXAM_PREP' as any)}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            (activeTab as any) === 'EXAM_PREP'
-              ? 'bg-amber-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <Award className="w-3.5 h-3.5" />
-          <span>📝 10-Yr Exam Question Bank</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('PRACTICE_TEST' as any)}
-          className={`px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center space-x-1.5 cursor-pointer ${
-            (activeTab as any) === 'PRACTICE_TEST'
-              ? 'bg-emerald-600 text-white shadow-md'
-              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
-          }`}
-        >
-          <Zap className="w-3.5 h-3.5" />
-          <span>🎯 Practice Test Generator</span>
-        </button>
       </div>
 
       {/* TAB 0: NCH DEGREE CURRICULUM BREAKDOWN TABLE (BHMS 1-4 YRS + INTERNSHIP + MD PART I-II) */}
