@@ -35,6 +35,7 @@ import { PatientProfileView } from '@/components/dashboard/PatientProfileView';
 import { DoctorProfileView } from '@/components/dashboard/DoctorProfileView';
 import { HospitalProfileView } from '@/components/dashboard/HospitalProfileView';
 import { SupportContactCenterView } from '@/components/dashboard/SupportContactCenterView';
+import { ProfileCreationStudioView } from '@/components/dashboard/ProfileCreationStudioView';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
 import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/PortalClinicalDecisionFlowchartModal';
@@ -795,6 +796,11 @@ function MasterWorkspaceInner() {
           {/* VIEW 15: SUPPORT, CONTACT US & WHATSAPP CLINICAL CALL HUB */}
           {activeTab === 'SUPPORT_HELP' && (
             <SupportContactCenterView theme={theme} />
+          )}
+
+          {/* VIEW 16: PROFILE CREATION & ABDM REGISTRATION STUDIO */}
+          {activeTab === 'PROFILE_CREATION' && (
+            <ProfileCreationStudioView theme={theme} />
           )}
         </div>
       </main>

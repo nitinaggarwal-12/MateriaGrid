@@ -29,6 +29,7 @@ import {
   BookMarked,
   ChevronDown,
   ChevronRight,
+  UserPlus,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -50,7 +51,8 @@ export type ActiveWorkspaceTab =
   | 'PATIENT_PROFILE'
   | 'DOCTOR_PROFILE'
   | 'HOSPITAL_PROFILE'
-  | 'SUPPORT_HELP';
+  | 'SUPPORT_HELP'
+  | 'PROFILE_CREATION';
 
 interface SidebarNavProps {
   activeTab: ActiveWorkspaceTab;
@@ -132,6 +134,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         ? 'bg-cyan-100 text-cyan-900 border-cyan-300 hover:bg-cyan-200'
         : 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 hover:bg-cyan-900/60',
       items: [
+        {
+          id: 'PROFILE_CREATION' as ActiveWorkspaceTab,
+          label: '+ Create Profile & ABDM Studio',
+          subLabel: 'ABHA Patient, Doctor & Hospital',
+          icon: UserPlus,
+          isNew: true,
+        },
         {
           id: 'PATIENT_PROFILE' as ActiveWorkspaceTab,
           label: 'ABHA Patient Identity & Health Locker',
