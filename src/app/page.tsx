@@ -643,9 +643,9 @@ function MasterWorkspaceInner() {
 
       {/* RIGHT MAIN VIEWPORT */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* EXECUTIVE CLINICAL ENCOUNTER HEADER */}
+        {/* EXECUTIVE CLINICAL ENCOUNTER HEADER - STICKY FLOATING TOP BAR */}
         <div
-          className={`border-b z-30 flex-shrink-0 transition-colors ${
+          className={`sticky top-0 z-40 border-b flex-shrink-0 transition-colors shadow-xs ${
             isLight
               ? 'bg-white/95 border-slate-200/90 text-slate-800 backdrop-blur-md'
               : 'bg-[#05070A]/95 border-[#1C1F26] text-white backdrop-blur-2xl'
