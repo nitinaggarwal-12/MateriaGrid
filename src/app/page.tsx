@@ -66,6 +66,9 @@ import {
   GitBranch,
   Lock,
   CheckCircle2,
+  Monitor,
+  Video,
+  Users,
 } from 'lucide-react';
 
 const INITIAL_REMEDIES: RemedyColumn[] = [
@@ -201,12 +204,32 @@ function MasterWorkspaceInner() {
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
   const [langSwitchNotice, setLangSwitchNotice] = useState<string | null>(null);
 
+  // DOCTOR WORKFLOW UPGRADE: IN-PERSON OPD WORKSPACE MODE (100% MATRIX WIDTH)
+  const [isFullWidthOpdMode, setIsFullWidthOpdMode] = useState(false);
+
+  // DOCTOR WORKFLOW UPGRADE: QUICK FLOATING OPD TOKEN QUEUE SWITCHER
+  const [currentOpdToken, setCurrentOpdToken] = useState({
+    token: 'TOKEN #04',
+    patientName: 'Ramesh Kumar Sharma',
+  });
+
   const handleSelectLanguage = (newCode: IndianLanguageCode) => {
     setLangCode(newCode);
     const pack =
       INDIAN_LANGUAGE_PACKS[newCode] || INDIAN_LANGUAGE_PACKS.EN;
     setLangSwitchNotice(`🌐 ${pack.nativeName} (${pack.englishName})`);
     setTimeout(() => setLangSwitchNotice(null), 3000);
+  };
+
+  const handleCallNextPatientInOpd = () => {
+    const nextPatients = [
+      { token: 'TOKEN #05', patientName: 'Priya Verma (ABHA: 91-8842-1102)' },
+      { token: 'TOKEN #06', patientName: 'Suresh Iyer (ABHA: 91-3312-9904)' },
+      { token: 'TOKEN #07', patientName: 'Anita Das (ABHA: 91-7721-4431)' },
+    ];
+    const randomNext =
+      nextPatients[Math.floor(Math.random() * nextPatients.length)];
+    setCurrentOpdToken(randomNext);
   };
 
   // RESTORE STATE FROM URL ON INITIAL MOUNT (REFRESH-SAFE)
@@ -492,8 +515,8 @@ function MasterWorkspaceInner() {
               : 'bg-[#05070A]/95 border-[#1C1F26] text-white shadow-xl backdrop-blur-2xl'
           }`}
         >
-          {/* ZONE 1: PATIENT ABHA IDENTITY & CLINICAL PERSONA CLONE */}
-          <div className="flex items-center space-x-2.5 relative">
+          {/* ZONE 1: PATIENT ABHA IDENTITY, FLOATING OPD TOKEN SWITCHER & CLINICAL PERSONA CLONE */}
+          <div className="flex flex-wrap items-center gap-2 relative">
             {/* RBAC ROLE & AUTH SWITCHER BUTTON */}
             <button
               onClick={() => setIsLoginModalOpen(true)}
@@ -512,32 +535,46 @@ function MasterWorkspaceInner() {
               <span>ROLE: {currentUser.role}</span>
             </button>
 
-            <div className="relative group">
+            {/* CLINIC OPD FLOATING TOKEN CALL SWITCHER */}
+            <div className="flex items-center space-x-1 border rounded-xl px-2.5 py-1 bg-emerald-500/10 border-emerald-500/40">
+              <span className="font-black text-emerald-600 dark:text-emerald-400 font-mono text-xs">
+                {currentOpdToken.token}: {currentOpdToken.patientName}
+              </span>
               <button
-                onClick={() => setShowAbhaPopover((prev) => !prev)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-bold cursor-pointer transition-all transform hover:scale-105 ${
-                  isLight
-                    ? 'border-emerald-300 bg-emerald-50/80 text-emerald-950 hover:bg-emerald-100/90'
-                    : 'border-emerald-500/50 bg-[#0B0F19] text-emerald-300 hover:bg-emerald-950/40 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
-                }`}
-                title="Click to inspect ABHA Patient Record & EHR"
+                onClick={handleCallNextPatientInOpd}
+                className="ml-1.5 px-2 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer"
+                title="Call Next Patient in OPD Queue"
               >
-                <UserCheck
-                  className={`w-3.5 h-3.5 ${
-                    isLight ? 'text-emerald-700' : 'text-emerald-400'
-                  }`}
-                />
-                <span>
-                  ABHA:{' '}
-                  <strong className={isLight ? 'text-slate-900' : 'text-white'}>
-                    {activePatient ? activePatient.abhaId : '91-4829-1049-3829'}
-                  </strong>
-                </span>
-                <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-600 text-white font-black">
-                  {langPack.labels.verifiedAbha}
-                </span>
+                Next Patient →
               </button>
             </div>
+
+            {/* WORKSPACE VIEWPORT MODE TOGGLE: IN-PERSON OPD (100% MATRIX) vs TELEHEALTH SPLIT */}
+            {activeTab === 'MATRIX_TELEHEALTH' && (
+              <button
+                onClick={() => setIsFullWidthOpdMode((prev) => !prev)}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-black text-xs cursor-pointer transition-all transform hover:scale-105 ${
+                  isFullWidthOpdMode
+                    ? 'border-cyan-500 bg-cyan-600/20 text-cyan-300'
+                    : isLight
+                    ? 'border-slate-300 bg-slate-100 text-slate-800'
+                    : 'border-slate-800 bg-[#111317] text-gray-300'
+                }`}
+                title="Toggle between 100% Full-Screen In-Person OPD Matrix and Telehealth Split Video Stream"
+              >
+                {isFullWidthOpdMode ? (
+                  <>
+                    <Monitor className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>🖥️ OPD Mode: Full-Screen Matrix (100%)</span>
+                  </>
+                ) : (
+                  <>
+                    <Video className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>📹 Telehealth Mode: Split Video View</span>
+                  </>
+                )}
+              </button>
+            )}
 
             {/* + NEW CASE INTAKE */}
             <button
@@ -601,53 +638,6 @@ function MasterWorkspaceInner() {
               <span>{langPack.labels.rxSlip}</span>
             </button>
           </div>
-
-          {/* ZONE 3: INLINE CONSTITUTIONAL TELEMETRY CHIPS */}
-          <div className="hidden xl:flex items-center space-x-2 font-mono text-[11px]">
-            <button
-              onClick={handleCycleThermal}
-              title="Click to cycle Thermal profile"
-              className={`px-2.5 py-1 rounded-lg border font-black cursor-pointer transition-all transform hover:scale-105 ${
-                isLight
-                  ? 'border-orange-300 bg-orange-50 text-orange-900'
-                  : 'border-orange-500/60 bg-orange-950/40 text-orange-300'
-              }`}
-            >
-              🔥 <strong>{thermalProfile === 'HOT' ? langPack.labels.hot : langPack.labels.chilly}</strong>
-            </button>
-
-            <button
-              onClick={handleCycleThirst}
-              title="Click to cycle Thirst profile"
-              className={`px-2.5 py-1 rounded-lg border font-black cursor-pointer transition-all transform hover:scale-105 ${
-                isLight
-                  ? 'border-cyan-300 bg-cyan-50 text-cyan-900'
-                  : 'border-cyan-500/60 bg-cyan-950/40 text-cyan-300'
-              }`}
-            >
-              💧 <strong>{thirstProfile === 'THIRSTLESS' ? langPack.labels.thirstless : langPack.labels.thirsty}</strong>
-            </button>
-
-            <span
-              className={`px-2.5 py-1 rounded-lg border font-black ${
-                isLight
-                  ? 'border-purple-300 bg-purple-50 text-purple-900'
-                  : 'border-purple-500/60 bg-purple-950/40 text-purple-300'
-              }`}
-            >
-              🧭 <strong>{langPack.labels.rightToLeft}</strong>
-            </span>
-
-            <span
-              className={`px-2.5 py-1 rounded-lg border font-black ${
-                isLight
-                  ? 'border-emerald-300 bg-emerald-50 text-emerald-900'
-                  : 'border-emerald-500/60 bg-emerald-950/50 text-emerald-300'
-              }`}
-            >
-              🛡️ <strong>{langPack.labels.vitalForceStrong}</strong>
-            </span>
-          </div>
         </div>
 
         {/* DYNAMIC WORKSPACE MODULE CONTENTS BELOW PERSISTENT EXECUTIVE COMMAND HEADER */}
@@ -655,8 +645,12 @@ function MasterWorkspaceInner() {
           {/* VIEW 1: SIMILIMATRIX & TELEHEALTH WORKSPACE */}
           {activeTab === 'MATRIX_TELEHEALTH' && (
             <div className="flex flex-col lg:flex-row flex-1 w-full h-full overflow-hidden">
-              {/* LEFT CANVAS: DENSE HIGH-VIRTUALIZATION TABLE ENGINE */}
-              <div className="flex-1 h-full overflow-hidden flex flex-col relative">
+              {/* LEFT CANVAS: DENSE HIGH-VIRTUALIZATION TABLE ENGINE (EXPANDS TO 100% IN IN-PERSON OPD MODE) */}
+              <div
+                className={`h-full overflow-hidden flex flex-col relative transition-all duration-300 ${
+                  isFullWidthOpdMode ? 'w-full flex-1' : 'flex-1'
+                }`}
+              >
                 <div className="flex-1 overflow-hidden relative">
                   <WorkspaceMatrix
                     initialRubrics={filteredRubrics}
@@ -683,17 +677,20 @@ function MasterWorkspaceInner() {
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
                     langCode={langCode}
+                    isFullWidthOpdMode={isFullWidthOpdMode}
                   />
                 </div>
               </div>
 
-              {/* RIGHT CANVAS: LIVE TELEHEALTH WEBRTC SCREEN STREAM */}
-              <VideoConsultationHarness
-                sessionId={sessionId}
-                onMediaChunkGenerated={handleLiveMediaChunkStream}
-                isGaitAnalysisActive={isGaitActive}
-                theme={theme}
-              />
+              {/* RIGHT CANVAS: LIVE TELEHEALTH WEBRTC SCREEN STREAM (HIDDEN IN 100% IN-PERSON OPD MODE) */}
+              {!isFullWidthOpdMode && (
+                <VideoConsultationHarness
+                  sessionId={sessionId}
+                  onMediaChunkGenerated={handleLiveMediaChunkStream}
+                  isGaitAnalysisActive={isGaitActive}
+                  theme={theme}
+                />
+              )}
             </div>
           )}
 

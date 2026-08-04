@@ -2,18 +2,22 @@
 
 import React, { useState } from 'react';
 import {
-  Search,
-  Plus,
-  Check,
-  X,
   Flame,
   Droplets,
   Award,
+  AlertTriangle,
   Sparkles,
-  ShieldAlert,
-  Sliders,
-  Eye,
-  Info,
+  Plus,
+  Search,
+  CheckCircle2,
+  X,
+  FileSpreadsheet,
+  Layers,
+  ArrowUpRight,
+  TrendingDown,
+  BookOpen,
+  Calendar,
+  Zap,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -25,8 +29,9 @@ export interface RubricRow {
   chapter: string;
   fullStringPath: string;
   embryologicalLayer: 'Ectoderm' | 'Mesoderm' | 'Endoderm';
-  isAiExtracted?: boolean;
-  isCommitted?: boolean;
+  isAiExtracted: boolean;
+  isCommitted: boolean;
+  previousVisitGrade?: number; // For Follow-Up Hering's Law Delta comparison
 }
 
 export interface RemedyColumn {
@@ -35,8 +40,8 @@ export interface RemedyColumn {
   fullName: string;
   specificityScore: number;
   coverageCount: number;
-  isDrainage?: boolean;
-  hasSafetyAlert?: boolean;
+  isDrainage: boolean;
+  hasSafetyAlert: boolean;
 }
 
 export interface MatrixCell {
@@ -49,389 +54,520 @@ interface WorkspaceMatrixProps {
   initialRubrics: RubricRow[];
   calculatedRemedies: RemedyColumn[];
   matrixPayload: MatrixCell[];
-  onToggleCommitRubric?: (rubricId: string, accept: boolean) => void;
-  embryologicalWarningActive?: boolean;
-  onSelectRemedyHeader?: (remedyCode: string) => void;
-  onUpdateMatrixCellGrade?: (
+  onToggleCommitRubric: (rubricId: string, accept: boolean) => void;
+  embryologicalWarningActive: boolean;
+  onSelectRemedyHeader: (remedyCode: string) => void;
+  onUpdateMatrixCellGrade: (
     rubricId: string,
     remedyId: string,
     nextGrade: 0 | 1 | 2 | 3 | 4
   ) => void;
-  onAddNewRubricToMatrix?: (
-    rubricPath: string,
+  onAddNewRubricToMatrix: (
+    fullStringPath: string,
     layer: 'Ectoderm' | 'Mesoderm' | 'Endoderm'
   ) => void;
   theme?: 'dark' | 'light';
-  searchQuery?: string;
-  onSearchChange?: (q: string) => void;
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
   langCode?: IndianLanguageCode;
+  isFullWidthOpdMode?: boolean;
 }
+
+const CLASSICAL_CHAPTER_QUICK_RUBRICS: Record<
+  string,
+  { path: string; layer: 'Ectoderm' | 'Mesoderm' | 'Endoderm' }[]
+> = {
+  MIND: [
+    { path: 'MIND - BUSINESS - talks of', layer: 'Ectoderm' },
+    { path: 'MIND - ANXIETY - night - sun set after', layer: 'Ectoderm' },
+    { path: 'MIND - FEAR - death - predicts the time of', layer: 'Ectoderm' },
+    { path: 'MIND - ANGER - irascible - violent from contradiction', layer: 'Ectoderm' },
+    { path: 'MIND - DESPAIR - recovery - of', layer: 'Ectoderm' },
+  ],
+  HEAD: [
+    { path: 'HEAD - PAIN - pulsating - sudden', layer: 'Ectoderm' },
+    { path: 'HEAD - PAIN - sun - exposure to', layer: 'Ectoderm' },
+    { path: 'HEAD - VERTIGO - motion of eyes aggravates', layer: 'Ectoderm' },
+    { path: 'HEAD - HEAVINESS - forehead - morning', layer: 'Ectoderm' },
+  ],
+  ABDOMEN: [
+    { path: 'ABDOMEN - CIRRHOSIS - liver - chronic parenchyma', layer: 'Endoderm' },
+    { path: 'ABDOMEN - PAIN - right scapula - under lower angle', layer: 'Endoderm' },
+    { path: 'ABDOMEN - DISTENSION - tympanitic - post-prandial', layer: 'Endoderm' },
+    { path: 'ABDOMEN - GALLSTONES - colic - radiating to back', layer: 'Endoderm' },
+  ],
+  EXTREMITIES: [
+    { path: 'EXTREMITIES - PAIN - motion - beginning of - on', layer: 'Mesoderm' },
+    { path: 'EXTREMITIES - PAIN - stitching - slightest motion aggravates', layer: 'Mesoderm' },
+    { path: 'EXTREMITIES - RESTLESSNESS - legs - night - in bed', layer: 'Mesoderm' },
+    { path: 'EXTREMITIES - SYNOVITIS - knee joint - effusion', layer: 'Mesoderm' },
+  ],
+  SKIN: [
+    { path: 'SKIN - ERUPTIONS - vesicular - bluish - itching', layer: 'Ectoderm' },
+    { path: 'SKIN - ERUPTIONS - scaly - dry - silvery scales', layer: 'Ectoderm' },
+    { path: 'SKIN - ECZEMA - bends of joints - nocturnal scratching', layer: 'Ectoderm' },
+  ],
+  GENERALITIES: [
+    { path: 'GENERALITIES - AGGRAVATION - 3 pm to 4 pm', layer: 'Ectoderm' },
+    { path: 'GENERALITIES - HEAT - flushes of - sudden', layer: 'Ectoderm' },
+    { path: 'GENERALITIES - WEAKNESS - sudden - prostration', layer: 'Ectoderm' },
+    { path: 'GENERALITIES - ANAEMIA - chlorotic - pale lips', layer: 'Endoderm' },
+  ],
+};
 
 export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   initialRubrics,
   calculatedRemedies,
   matrixPayload,
   onToggleCommitRubric,
-  embryologicalWarningActive = false,
+  embryologicalWarningActive,
   onSelectRemedyHeader,
   onUpdateMatrixCellGrade,
   onAddNewRubricToMatrix,
   theme = 'dark',
-  searchQuery = '',
+  searchQuery,
   onSearchChange,
   langCode = 'EN',
+  isFullWidthOpdMode = false,
 }) => {
   const isLight = theme === 'light';
-  const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
+  const pack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
+  const labels = pack.labels;
 
-  const [heatmapMode, setHeatmapMode] = useState<boolean>(true);
-  const [useTfidfRanking, setUseTfidfRanking] = useState<boolean>(true);
-  const [newRubricInput, setNewRubricInput] = useState<string>('');
-  const [isAddingRubric, setIsAddingRubric] = useState<boolean>(false);
+  const [activeChapterFilter, setActiveChapterFilter] = useState<string | null>(null);
+  const [showFollowUpBaseline, setShowFollowUpBaseline] = useState(false);
+  const [customRubricInput, setCustomRubricInput] = useState('');
+  const [showChapterPalette, setShowChapterPalette] = useState(false);
 
-  const getGradeValue = (rubricId: string, remedyId: string): number => {
-    const found = matrixPayload.find(
-      (c) => c.rubricId === rubricId && c.remedyId === remedyId
-    );
-    return found ? found.grade : 0;
-  };
+  // Calculate remedy totals dynamically
+  const remedyTotals = calculatedRemedies.map((remedy) => {
+    let sumGrades = 0;
+    let coveredRubricsCount = 0;
 
-  const getRemedySum = (remedyId: string): number => {
-    return matrixPayload
-      .filter((c) => c.remedyId === remedyId)
-      .reduce((acc, curr) => acc + curr.grade, 0);
-  };
+    initialRubrics.forEach((rubric) => {
+      if (!rubric.isCommitted) return;
+      const cell = matrixPayload.find(
+        (c) => c.rubricId === rubric.id && c.remedyId === remedy.id
+      );
+      if (cell && cell.grade > 0) {
+        sumGrades += cell.grade;
+        coveredRubricsCount += 1;
+      }
+    });
 
-  const getRemedyCoverage = (remedyId: string): number => {
-    return matrixPayload.filter(
-      (c) => c.remedyId === remedyId && c.grade > 0
-    ).length;
-  };
-
-  const sortedRemedies = [...calculatedRemedies].sort((a, b) => {
-    if (useTfidfRanking) {
-      return b.specificityScore - a.specificityScore;
-    }
-    return getRemedySum(b.id) - getRemedySum(a.id);
+    return {
+      ...remedy,
+      sumGrades,
+      coveredRubricsCount,
+    };
   });
 
-  const getGradeStyle = (grade: number) => {
-    if (grade === 0) return 'text-gray-500 opacity-30';
-    if (grade === 1)
-      return isLight
-        ? 'bg-slate-200 text-slate-800 font-bold'
-        : 'bg-slate-800 text-gray-200 font-bold';
-    if (grade === 2)
-      return 'bg-teal-500/20 text-teal-400 font-bold border border-teal-500/30';
-    if (grade === 3)
-      return 'bg-amber-500 text-black font-black shadow-[0_0_8px_rgba(245,158,11,0.5)]';
-    if (grade === 4)
-      return 'bg-red-600 text-white font-black animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.7)]';
-    return '';
-  };
+  const topRemedy = remedyTotals[0];
 
-  const handleCycleGrade = (rubricId: string, remedyId: string) => {
-    if (!onUpdateMatrixCellGrade) return;
-    const current = getGradeValue(rubricId, remedyId);
-    const next = ((current + 1) % 5) as 0 | 1 | 2 | 3 | 4;
-    onUpdateMatrixCellGrade(rubricId, remedyId, next);
-  };
-
-  const handleCreateRubric = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newRubricInput.trim()) return;
-    if (onAddNewRubricToMatrix) {
-      onAddNewRubricToMatrix(newRubricInput.toUpperCase(), 'Ectoderm');
+  // Automated Posology & Potency Guidance Engine
+  const getRecommendedPosology = (remedy: RemedyColumn) => {
+    if (remedy.isDrainage) {
+      return {
+        potency: 'Burnett 1X–6X Liquid Organopathy',
+        reason: 'Pathological Endoderm Organic Affinity',
+        color: 'text-amber-500 border-amber-500/40 bg-amber-500/10',
+      };
     }
-    setNewRubricInput('');
-    setIsAddingRubric(false);
-  };
-
-  // HELPER TO DISPLAY TRANSLATED RUBRIC STRING IF AVAILABLE
-  const renderRubricString = (fullPath: string): string => {
-    if (langPack.labels.rubricTranslations && langPack.labels.rubricTranslations[fullPath]) {
-      return langPack.labels.rubricTranslations[fullPath];
+    if (remedy.specificityScore > 55) {
+      return {
+        potency: '200C Single Dose (Dry Granules)',
+        reason: 'High Specificity & Ectoderm Functional Totality',
+        color: 'text-emerald-500 border-emerald-500/40 bg-emerald-500/10',
+      };
     }
-    return fullPath;
+    return {
+      potency: '30C Daily Water Solution',
+      reason: 'General Acute Vital Force Stimulant',
+      color: 'text-cyan-500 border-cyan-500/40 bg-cyan-500/10',
+    };
   };
 
   return (
     <div
-      className={`w-full h-full flex flex-col font-mono overflow-hidden transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-[#E6E8EA]'
+      className={`flex flex-col h-full w-full font-mono text-xs overflow-hidden transition-colors ${
+        isLight
+          ? 'bg-[#F8FAFC] text-[#0F172A]'
+          : 'bg-[#05070A] text-[#E6E8EA]'
       }`}
     >
-      {/* MATRIX CONTROL HEADER BAR */}
+      {/* TOOLBAR: SEARCH, CLASSICAL REPERTORY CHAPTER TREE & FOLLOW-UP DELTA TOGGLE */}
       <div
-        className={`px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-3 text-xs z-20 flex-shrink-0 transition-colors ${
+        className={`p-2.5 border-b flex flex-wrap items-center justify-between gap-2.5 z-20 flex-shrink-0 ${
           isLight
-            ? 'bg-white border-slate-200 text-slate-800'
-            : 'bg-[#0B0F19] border-[#1C1F26] text-white'
+            ? 'bg-white/95 border-slate-200 shadow-2xs'
+            : 'bg-[#0B0F19]/95 border-[#1C1F26] shadow-md'
         }`}
       >
-        <div className="flex items-center space-x-2.5">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* SEARCH ACTIVE RUBRIC */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-2.5 top-2 text-gray-400" />
+            <Search
+              className={`w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 ${
+                isLight ? 'text-slate-400' : 'text-gray-500'
+              }`}
+            />
             <input
               type="text"
-              placeholder={langPack.labels.filterRubricsPlaceholder}
+              placeholder={labels.filterRubricsPlaceholder}
               value={searchQuery}
-              onChange={(e) =>
-                onSearchChange && onSearchChange(e.target.value)
-              }
-              className={`pl-8 pr-3 py-1 rounded-xl text-xs font-bold border outline-none ${
+              onChange={(e) => onSearchChange(e.target.value)}
+              className={`pl-8 pr-3 py-1.5 rounded-lg border text-xs outline-none w-52 md:w-64 font-bold ${
                 isLight
-                  ? 'bg-slate-50 border-slate-300 text-slate-900'
-                  : 'bg-[#111317] border-slate-800 text-white'
+                  ? 'bg-slate-50 border-slate-300 text-slate-900 focus:border-emerald-500'
+                  : 'bg-[#111317] border-[#1C1F26] text-white focus:border-emerald-500'
               }`}
             />
           </div>
 
+          {/* CLASSICAL REPERTORY CHAPTER PALETTE BUTTON */}
           <button
-            onClick={() => setIsAddingRubric((prev) => !prev)}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1 rounded-xl text-xs flex items-center space-x-1 transition-all cursor-pointer"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>{langPack.labels.addRubricBtn}</span>
-          </button>
-
-          <button
-            onClick={() => setHeatmapMode((prev) => !prev)}
-            className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
-              heatmapMode
-                ? 'bg-teal-600/20 border-teal-500 text-teal-400'
+            onClick={() => setShowChapterPalette((prev) => !prev)}
+            className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
+              showChapterPalette
+                ? 'border-emerald-500 bg-emerald-600/20 text-emerald-400'
                 : isLight
-                ? 'bg-slate-100 border-slate-300 text-slate-600'
-                : 'bg-slate-800 border-slate-700 text-gray-400'
+                ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
+                : 'border-slate-800 bg-[#111317] text-gray-300 hover:bg-slate-800'
             }`}
+            title="Open Quick Classical Repertory Chapters (MIND, HEAD, ABDOMEN, EXTREMITIES, SKIN, GENERALITIES)"
           >
-            {langPack.labels.heatmapOn}
+            <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+            <span>📖 Classical Chapter Taxonomy</span>
           </button>
-        </div>
 
-        {/* ALERTS & ASYMMETRICAL MATH FORMULA TOGGLE */}
-        <div className="flex items-center space-x-2">
-          {embryologicalWarningActive && (
-            <span className="px-2.5 py-1 rounded-lg bg-red-600/20 border border-red-500 text-red-400 text-[10px] font-black flex items-center space-x-1 animate-pulse">
-              <ShieldAlert className="w-3.5 h-3.5" />
-              <span>{langPack.labels.burnettOrganopathyActive}</span>
+          {/* FOLLOW-UP VISIT HERING'S LAW DELTA OVERLAY TOGGLE */}
+          <button
+            onClick={() => setShowFollowUpBaseline((prev) => !prev)}
+            className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
+              showFollowUpBaseline
+                ? 'border-purple-500 bg-purple-600/20 text-purple-300'
+                : isLight
+                ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
+                : 'border-slate-800 bg-[#111317] text-gray-400 hover:bg-slate-800'
+            }`}
+            title="Toggle Follow-Up Visit Baseline Comparison (Visit 1 vs Today's Visit)"
+          >
+            <Calendar className="w-3.5 h-3.5 text-purple-400" />
+            <span>
+              {showFollowUpBaseline
+                ? '📜 Follow-Up Delta: ACTIVE'
+                : '📜 Compare Visit #1 Baseline'}
             </span>
-          )}
-
-          <button
-            onClick={() => setUseTfidfRanking((prev) => !prev)}
-            className={`px-3 py-1 rounded-xl border text-xs font-black flex items-center space-x-1.5 transition-all cursor-pointer ${
-              useTfidfRanking
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-emerald-400 shadow-md'
-                : isLight
-                ? 'bg-slate-100 border-slate-300 text-slate-700'
-                : 'bg-slate-800 border-slate-700 text-gray-300'
-            }`}
-          >
-            <Sliders className="w-3.5 h-3.5" />
-            <span>{langPack.labels.tfidfIndexBtn}</span>
           </button>
         </div>
+
+        {/* POSOLOGY & POTENCY RECOMMENDATION STRIP */}
+        {topRemedy && (
+          <div className="flex items-center space-x-2">
+            <span className="text-[10px] text-gray-400 font-bold uppercase hidden md:inline">
+              RECOMMENDED POSOLOGY:
+            </span>
+            {(() => {
+              const pos = getRecommendedPosology(topRemedy);
+              return (
+                <span
+                  className={`px-2.5 py-1 rounded-lg border text-xs font-black flex items-center space-x-1.5 ${pos.color}`}
+                >
+                  <Zap className="w-3 h-3" />
+                  <span>
+                    {topRemedy.code} → <strong>{pos.potency}</strong>
+                  </span>
+                </span>
+              );
+            })()}
+          </div>
+        )}
       </div>
 
-      {/* QUICK ADD RUBRIC INPUT DRAWER */}
-      {isAddingRubric && (
-        <form
-          onSubmit={handleCreateRubric}
-          className={`px-4 py-2 border-b flex items-center space-x-2 ${
-            isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-950/30 border-emerald-800'
+      {/* QUICK CLASSICAL REPERTORY CHAPTER EXPANDABLE PALETTE */}
+      {showChapterPalette && (
+        <div
+          className={`p-3 border-b space-y-2 z-20 ${
+            isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
           }`}
         >
-          <input
-            type="text"
-            placeholder="e.g. MIND - BUSINESS - talks of"
-            value={newRubricInput}
-            onChange={(e) => setNewRubricInput(e.target.value)}
-            className="flex-1 px-3 py-1 rounded-lg text-xs font-bold border border-emerald-500 bg-white dark:bg-[#111317] outline-none"
-            autoFocus
-          />
-          <button
-            type="submit"
-            className="px-4 py-1 rounded-lg bg-emerald-600 text-white font-black text-xs cursor-pointer"
-          >
-            Commit Rubric
-          </button>
-        </form>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase text-emerald-400 tracking-wider">
+              CLICK ANY CLASSICAL REPERTORY RUBRIC TO INSERT DIRECTLY INTO THE CALCULATION MATRIX:
+            </span>
+            <button
+              onClick={() => setShowChapterPalette(false)}
+              className="text-gray-400 hover:text-white cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            {Object.keys(CLASSICAL_CHAPTER_QUICK_RUBRICS).map((chap) => (
+              <button
+                key={chap}
+                onClick={() =>
+                  setActiveChapterFilter(
+                    activeChapterFilter === chap ? null : chap
+                  )
+                }
+                className={`px-2.5 py-1 rounded-md border text-xs font-black cursor-pointer ${
+                  activeChapterFilter === chap
+                    ? 'border-emerald-500 bg-emerald-600 text-white'
+                    : isLight
+                    ? 'border-slate-300 bg-white text-slate-800'
+                    : 'border-slate-800 bg-[#0B0F19] text-gray-300'
+                }`}
+              >
+                {chap}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-1">
+            {Object.entries(CLASSICAL_CHAPTER_QUICK_RUBRICS)
+              .filter(
+                ([chap]) => !activeChapterFilter || activeChapterFilter === chap
+              )
+              .flatMap(([chap, list]) =>
+                list.map((r) => (
+                  <button
+                    key={r.path}
+                    onClick={() => onAddNewRubricToMatrix(r.path, r.layer)}
+                    className="px-2.5 py-1 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold text-[11px] flex items-center space-x-1 cursor-pointer transform transition hover:scale-105"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>
+                      {pack.labels.rubricTranslations[r.path] || r.path}
+                    </span>
+                  </button>
+                ))
+              )}
+          </div>
+        </div>
       )}
 
-      {/* VIRTUALIZED DENSE CONSULTATION MATRIX TABLE */}
-      <div className="flex-1 overflow-auto">
-        <table className="w-full border-collapse text-left text-xs">
+      {/* DR. PRAFULL VIJAYAKAR EMBRYOLOGICAL SUPPRESSION ALERT BANNER */}
+      {embryologicalWarningActive && (
+        <div className="bg-red-950/90 border-b border-red-500/50 px-4 py-2 flex items-center justify-between text-xs text-red-200 z-20">
+          <div className="flex items-center space-x-2 font-bold">
+            <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 animate-pulse" />
+            <span>
+              EMBRYOLOGICAL DISEASE SUPPRESSION ALERT (DR. PRAFULL VIJAYAKAR):
+              Ectoderm $\rightarrow$ Mesoderm direction detected. Review
+              prescription potency.
+            </span>
+          </div>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-black">
+            CRITICAL SAFETY GATE
+          </span>
+        </div>
+      )}
+
+      {/* MATRIX HIGH-VIRTUALIZATION TABLE ENGINE */}
+      <div className="flex-1 overflow-auto relative">
+        <table className="w-full border-collapse text-left">
+          {/* HEADER ROW: REMEDY COLUMNS RANKED BY ASYMMETRICAL SPECIFICITY */}
           <thead
-            className={`sticky top-0 z-10 border-b ${
+            className={`sticky top-0 z-10 ${
               isLight
-                ? 'bg-white border-slate-300 text-slate-900'
-                : 'bg-[#0B0F19] border-[#1C1F26] text-white'
+                ? 'bg-slate-100 border-b border-slate-300'
+                : 'bg-[#0B0F19] border-b border-[#1C1F26]'
             }`}
           >
             <tr>
-              <th className="p-3 font-black tracking-wider w-80 min-w-[300px]">
+              <th className="p-3 w-80 min-w-[320px] font-black text-xs tracking-wider border-r border-[#1C1F26]">
                 <div className="flex items-center justify-between">
-                  <span>{langPack.labels.selectedRubricsTitle}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-600/20 text-emerald-600 dark:text-emerald-400">
+                  <span>{labels.selectedRubricsTitle}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
                     {initialRubrics.length} RUBRICS
                   </span>
                 </div>
               </th>
-              {sortedRemedies.map((remedy, idx) => (
-                <th
-                  key={remedy.id}
-                  onClick={() =>
-                    onSelectRemedyHeader && onSelectRemedyHeader(remedy.code)
-                  }
-                  className={`p-2.5 text-center font-black border-l min-w-[76px] cursor-pointer transition-all hover:bg-emerald-500/10 ${
-                    idx === 0
-                      ? 'bg-emerald-600/15 border-emerald-500/50'
-                      : isLight
-                      ? 'border-slate-200'
-                      : 'border-[#1C1F26]'
-                  }`}
-                  title={`Click to open Materia Medica Proving for ${remedy.fullName}`}
-                >
-                  <div className="flex flex-col items-center space-y-1">
-                    <span
-                      className={`text-sm font-black tracking-wider ${
-                        idx === 0
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : isLight
-                          ? 'text-slate-900'
-                          : 'text-white'
-                      }`}
-                    >
-                      {remedy.code}
-                    </span>
-                    <span className="text-[10px] px-1.5 py-0.2 rounded font-mono font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-                      {useTfidfRanking
-                        ? remedy.specificityScore
-                        : getRemedySum(remedy.id)}
-                    </span>
-                    <span className="text-[9px] text-gray-500">
-                      Cov: {getRemedyCoverage(remedy.id)}
-                    </span>
-                  </div>
-                </th>
-              ))}
+
+              {remedyTotals.map((remedy, idx) => {
+                const isTop = idx === 0;
+                return (
+                  <th
+                    key={remedy.id}
+                    onClick={() => onSelectRemedyHeader(remedy.code)}
+                    className={`p-2.5 text-center min-w-[96px] border-r transition-colors cursor-pointer hover:bg-emerald-950/30 ${
+                      isLight ? 'border-slate-300' : 'border-[#1C1F26]'
+                    } ${
+                      isTop
+                        ? isLight
+                          ? 'bg-emerald-50 text-emerald-950'
+                          : 'bg-emerald-950/40 text-emerald-300'
+                        : isLight
+                        ? 'text-slate-800'
+                        : 'text-gray-300'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center justify-center space-y-1">
+                      <div className="flex items-center space-x-1">
+                        <span className="font-black text-sm tracking-tight">
+                          {remedy.code}
+                        </span>
+                        {isTop && (
+                          <Award className="w-3.5 h-3.5 text-emerald-400" />
+                        )}
+                        {remedy.isDrainage && (
+                          <span className="text-[9px] px-1 py-0.2 rounded bg-amber-500 text-black font-black">
+                            DR
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center space-x-1.5 font-mono text-[10px]">
+                        <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold">
+                          {remedy.specificityScore.toFixed(1)}
+                        </span>
+                      </div>
+
+                      <div className="text-[9px] text-gray-400 font-medium">
+                        Cov: {remedy.coveredRubricsCount}
+                      </div>
+                    </div>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-slate-200 dark:divide-[#1C1F26]">
+          {/* TABLE BODY: RUBRICS & GRADE MATRIX CELLS */}
+          <tbody
+            className={`divide-y ${
+              isLight ? 'divide-slate-200' : 'divide-[#1C1F26]'
+            }`}
+          >
             {initialRubrics.map((rubric) => {
-              const translatedPath = renderRubricString(rubric.fullStringPath);
+              const translatedPath =
+                pack.labels.rubricTranslations[rubric.fullStringPath] ||
+                rubric.fullStringPath;
+
+              // Simulated Follow-Up Visit baseline for comparison
+              const visit1GradeBaseline =
+                rubric.previousVisitGrade ||
+                (rubric.id === 'rub-1' ? 4 : rubric.id === 'rub-4' ? 4 : 3);
 
               return (
                 <tr
                   key={rubric.id}
-                  className={`transition-colors ${
-                    isLight
-                      ? 'hover:bg-slate-100'
-                      : 'hover:bg-slate-900/60'
+                  className={`transition-colors hover:bg-emerald-950/20 ${
+                    !rubric.isCommitted ? 'opacity-40' : ''
                   }`}
                 >
-                  <td className="p-3 font-bold text-xs">
-                    <div className="flex items-center justify-between space-x-2">
-                      <div className="flex flex-col space-y-1 min-w-0">
-                        <span
-                          className={`font-black tracking-wide truncate ${
-                            isLight ? 'text-slate-900' : 'text-white'
-                          }`}
-                          title={translatedPath}
-                        >
-                          {translatedPath}
-                        </span>
-                        <div className="flex items-center space-x-2">
+                  {/* RUBRIC DESCRIPTION CELL */}
+                  <td className="p-3 border-r border-[#1C1F26]">
+                    <div className="flex items-start justify-between space-x-2">
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-1.5">
+                          <span className="font-bold text-xs leading-snug">
+                            {translatedPath}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center space-x-2 text-[10px]">
                           <span
-                            className={`text-[9px] px-1.5 py-0.2 rounded font-black uppercase ${
+                            className={`px-1.5 py-0.2 rounded font-black uppercase text-[9px] ${
                               rubric.embryologicalLayer === 'Ectoderm'
-                                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400'
-                                : rubric.embryologicalLayer === 'Endoderm'
-                                ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400'
-                                : 'bg-purple-500/20 text-purple-600 dark:text-purple-400'
+                                ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                                : rubric.embryologicalLayer === 'Mesoderm'
+                                ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+                                : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                             }`}
                           >
                             {rubric.embryologicalLayer}
                           </span>
+
                           {rubric.isAiExtracted && (
-                            <span className="text-[9px] text-teal-600 dark:text-teal-400 font-bold flex items-center gap-0.5">
-                              <Sparkles className="w-2.5 h-2.5" /> NLP EXTRACTED
+                            <span className="text-emerald-400 font-bold flex items-center space-x-0.5">
+                              <Sparkles className="w-2.5 h-2.5" />
+                              <span>NLP EXTRACTED</span>
+                            </span>
+                          )}
+
+                          {showFollowUpBaseline && (
+                            <span className="px-1.5 py-0.2 rounded bg-purple-950/80 text-purple-300 font-mono text-[9px] border border-purple-500/40">
+                              Visit #1: Grade {visit1GradeBaseline}
                             </span>
                           )}
                         </div>
                       </div>
 
-                      {/* COMMIT / REJECT TOGGLE BUTTONS */}
+                      {/* COMMIT / EXCLUDE TOGGLE BUTTON */}
                       <div className="flex items-center space-x-1 flex-shrink-0">
                         <button
                           onClick={() =>
-                            onToggleCommitRubric &&
-                            onToggleCommitRubric(rubric.id, true)
+                            onToggleCommitRubric(
+                              rubric.id,
+                              !rubric.isCommitted
+                            )
                           }
-                          className={`p-1 rounded-md border transition-all cursor-pointer ${
-                            rubric.isCommitted !== false
-                              ? 'bg-emerald-600 border-emerald-500 text-white'
-                              : isLight
-                              ? 'border-slate-300 text-slate-400'
-                              : 'border-slate-800 text-gray-500'
-                          }`}
-                          title="Commit Rubric to Matrix"
-                        >
-                          <Check className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={() =>
-                            onToggleCommitRubric &&
-                            onToggleCommitRubric(rubric.id, false)
+                          title={
+                            rubric.isCommitted
+                              ? 'Exclude from Simillimum calculation'
+                              : 'Commit to Simillimum calculation'
                           }
-                          className={`p-1 rounded-md border transition-all cursor-pointer ${
-                            rubric.isCommitted === false
-                              ? 'bg-red-600 border-red-500 text-white'
-                              : isLight
-                              ? 'border-slate-300 text-slate-400'
-                              : 'border-slate-800 text-gray-500'
+                          className={`p-1 rounded transition-colors cursor-pointer ${
+                            rubric.isCommitted
+                              ? 'bg-emerald-600 text-white hover:bg-emerald-500'
+                              : 'bg-gray-800 text-gray-500 hover:bg-gray-700'
                           }`}
-                          title="Reject Rubric"
                         >
-                          <X className="w-3 h-3" />
+                          <CheckCircle2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
                   </td>
 
-                  {/* REMEDY GRADE CELLS (1, 2, 3, 4) */}
-                  {sortedRemedies.map((remedy, idx) => {
-                    const grade = getGradeValue(rubric.id, remedy.id);
-                    const gradeStyle = getGradeStyle(grade);
+                  {/* REMEDY CELL MATRIX GRADES (1-4 OR BLANK) */}
+                  {remedyTotals.map((remedy) => {
+                    const cell = matrixPayload.find(
+                      (c) =>
+                        c.rubricId === rubric.id && c.remedyId === remedy.id
+                    );
+                    const currentGrade = cell?.grade || 0;
 
                     return (
                       <td
-                        key={`${rubric.id}-${remedy.id}`}
-                        onClick={() =>
-                          handleCycleGrade(rubric.id, remedy.id)
-                        }
-                        className={`p-2 text-center border-l cursor-pointer select-none transition-all ${
-                          idx === 0
-                            ? 'bg-emerald-500/5 border-emerald-500/20'
-                            : isLight
-                            ? 'border-slate-200'
-                            : 'border-[#1C1F26]'
-                        }`}
-                        title="Click to cycle Grade (0 -> 1 -> 2 -> 3 -> 4)"
+                        key={remedy.id}
+                        className="p-1.5 text-center border-r border-[#1C1F26]"
                       >
-                        {grade > 0 ? (
-                          <span
-                            className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs ${gradeStyle}`}
-                          >
-                            {grade}
-                          </span>
-                        ) : (
-                          <span className="text-gray-600 dark:text-gray-700 text-sm">
-                            -
-                          </span>
-                        )}
+                        <button
+                          onClick={() => {
+                            const nextGrade =
+                              currentGrade === 0
+                                ? 1
+                                : currentGrade === 1
+                                ? 2
+                                : currentGrade === 2
+                                ? 3
+                                : currentGrade === 3
+                                ? 4
+                                : 0;
+                            onUpdateMatrixCellGrade(
+                              rubric.id,
+                              remedy.id,
+                              nextGrade as 0 | 1 | 2 | 3 | 4
+                            );
+                          }}
+                          title="Click to cycle Grade (0 -> 1 -> 2 -> 3 -> 4 -> 0)"
+                          className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer inline-flex items-center justify-center ${
+                            currentGrade === 4
+                              ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30 scale-105'
+                              : currentGrade === 3
+                              ? 'bg-amber-500 text-black font-black'
+                              : currentGrade === 2
+                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                              : currentGrade === 1
+                              ? 'bg-slate-800 text-gray-400'
+                              : 'text-gray-600 hover:text-gray-300'
+                          }`}
+                        >
+                          {currentGrade > 0 ? currentGrade : '—'}
+                        </button>
                       </td>
                     );
                   })}
@@ -440,34 +576,28 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             })}
           </tbody>
 
-          {/* FOOTER TOTALS ROW */}
+          {/* FOOTER ROW: TOTAL SUM OF GRADES & RUBRIC COVERAGE */}
           <tfoot
-            className={`sticky bottom-0 z-10 border-t font-black ${
+            className={`sticky bottom-0 z-10 ${
               isLight
-                ? 'bg-slate-100 border-slate-300 text-slate-900'
-                : 'bg-[#0B0F19] border-[#1C1F26] text-white'
+                ? 'bg-slate-100 border-t border-slate-300 text-slate-900'
+                : 'bg-[#0B0F19] border-t border-[#1C1F26] text-white'
             }`}
           >
             <tr>
-              <td className="p-3 uppercase text-xs">
-                {langPack.labels.symptomTotality}
+              <td className="p-3 font-black text-xs uppercase tracking-wider border-r border-[#1C1F26]">
+                {labels.symptomTotality}
               </td>
-              {sortedRemedies.map((remedy, idx) => (
+              {remedyTotals.map((remedy) => (
                 <td
-                  key={`sum-${remedy.id}`}
-                  className={`p-2.5 text-center border-l ${
-                    idx === 0
-                      ? 'bg-emerald-600/20 text-emerald-600 dark:text-emerald-400'
-                      : ''
-                  }`}
+                  key={remedy.id}
+                  className="p-2.5 text-center font-mono border-r border-[#1C1F26]"
                 >
-                  <div className="flex flex-col items-center">
-                    <span className="text-xs font-black">
-                      {getRemedyCoverage(remedy.id)}R
-                    </span>
-                    <span className="text-[10px] text-gray-500">
-                      Σ{getRemedySum(remedy.id)}
-                    </span>
+                  <div className="font-black text-emerald-400 text-sm">
+                    {remedy.coveredRubricsCount}R
+                  </div>
+                  <div className="text-[10px] text-gray-400 font-bold">
+                    Σ{remedy.sumGrades}
                   </div>
                 </td>
               ))}
