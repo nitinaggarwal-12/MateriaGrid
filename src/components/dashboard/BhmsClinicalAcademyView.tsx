@@ -1245,7 +1245,7 @@ export const BhmsClinicalAcademyView: React.FC<
 
   return (
     <div
-      className={`w-full h-full overflow-y-auto p-6 font-mono space-y-6 transition-colors ${
+      className={`w-full h-full overflow-y-auto p-6 font-sans antialiased space-y-6 transition-colors ${
         isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
