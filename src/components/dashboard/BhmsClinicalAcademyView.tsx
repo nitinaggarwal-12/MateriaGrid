@@ -1148,7 +1148,7 @@ export const BhmsClinicalAcademyView: React.FC<
             </div>
 
           {/* ACTIVE COURSE CHAPTERS & CONTENT READER (8 COLS) */}
-          <div className="lg:col-span-8 space-y-6">
+          <div className="lg:col-span-8 sticky top-4 self-start space-y-6">
             <div
               className={`p-6 rounded-2xl border space-y-4 ${
                 isLight
