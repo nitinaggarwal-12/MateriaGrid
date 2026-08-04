@@ -455,6 +455,247 @@ const ACADEMIC_COURSES: CourseModule[] = [
       },
     ],
   },
+  {
+    id: 'course-03',
+    code: 'BHMS-102',
+    title: 'Homoeopathic Pharmacy, Dynamization & Pharmacopoeia Standards',
+    instructor: 'Dr. S. K. Mandal, MD (Hom.), Homoeopathic Pharmacopoeia Laboratory',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 90,
+    summary:
+      'Master Samuel Hahnemann’s decimal (X), centesimal (C), and 50-millesimal (LM/Q) potentization rules, vehicle purity testing, and HPI/GHP pharmacopoeia standards.',
+    chapters: [
+      {
+        title: 'Chapter 1: Principles of Dynamization: Trituration vs Succussion',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Insoluble crude substances undergo 1-hour mechanical trituration in lactose sugar before liquid succussion. Dynamization releases dynamic medicinal energy.',
+          aphorismReference:
+            'Organon §269-271: "The homoeopathic system of medicine develops for its special use, to a hitherto unheard-of degree, the internal spirit-like medicinal powers..."',
+          clinicalTakeaway:
+            'Never mix liquid dilutions directly with insoluble metals without proper trituration history.',
+          diagramDescription:
+            'Hahnemannian Trituration Ratio: 1 grain crude to 99 grains lactose.',
+          workedCaseExample:
+            'Silicea 6X trituration tablet preparation verified for mineral suspension.',
+        },
+      },
+      {
+        title: 'Chapter 2: The 50-Millesimal (LM/Q) Potency Scale (§270)',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Hahnemann’s 6th Edition innovation: LM potencies (1/50,000 ratio) allow daily repeated liquid administration with zero violent homeopathic aggravations.',
+          aphorismReference:
+            'Organon 6th Edition §270: "The new dynamization method produces medicines of maximum efficacy with minimum danger of aggravation..."',
+          clinicalTakeaway:
+            'Ideal for sensitive chronic patients where high centesimal potencies cause severe aggravations.',
+          diagramDescription:
+            'LM Potency Preparation Flow: 3C Trituration -> Poppy-seed size globule -> 100 drops alcohol.',
+          workedCaseExample:
+            'Hypersensitive eczema patient managed smoothly on LM/0/1 liquid daily doses.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-04',
+    code: 'BHMS-201',
+    title: 'Organon of Medicine (§71–145): Chronic Miasms (Psora, Sycosis, Syphilis)',
+    instructor: 'Prof. Dr. Rajeshwari Sharma, MD (Hom.)',
+    duration: '6 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 85,
+    summary:
+      'Comprehensive study of Hahnemann’s Chronic Miasms doctrine (§80-84): identifying Psoric functional itch, Sycotic tissue condylomata, and Syphilitic destructive necrosis.',
+    chapters: [
+      {
+        title: 'Chapter 1: Psora - The Mother of All Chronic Miasms (§80)',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Psora is the oldest, most universal miasm, characterized by functional irritation, hypersensitivity, internal itch, and deficiency.',
+          aphorismReference:
+            'Organon §80: "Psora, that real fundamental cause and producer of almost all the numerous forms of disease..."',
+          clinicalTakeaway:
+            'Sulphur, Psorinum, and Calcarea carb are primary anti-psoric constitutional remedies.',
+          diagramDescription:
+            'Psoric Triad: Hypersensitivity + Functional Deficit + Volatile Anxiety.',
+          workedCaseExample:
+            'Patient with burning palms/soles and night restlessness relieved by Sulphur 200C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-05',
+    code: 'BHMS-202',
+    title: 'Polycrest Materia Medica & Triads of Classical Remedies',
+    instructor: 'Dr. Vikramaditya Das, MD (Hom.)',
+    duration: '5.5 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 75,
+    summary:
+      'Master the classical Triads of Materia Medica: Triad of Restlessness (Aconite, Arsenicum, Rhus tox), Triad of Pain (Chamomilla, Coffea, Aconite), and Constitutional Polycrests.',
+    chapters: [
+      {
+        title: 'Chapter 1: The Triad of Restlessness: Aconite vs Arsenicum vs Rhus Tox',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Aconite: Acute mental & physical fear with tossing. Arsenicum: Prostrating anxiety with frequent sipping of warm water. Rhus tox: Physical joint stiffness relieved by continuous motion.',
+          aphorismReference:
+            'Triads of Materia Medica: Differential diagnosis of restlessness.',
+          clinicalTakeaway:
+            'Never confuse Rhus tox physical joint tossing with Arsenicum prostrating mental fear.',
+          diagramDescription:
+            'Restlessness Spectrum Diagram.',
+          workedCaseExample:
+            'Rheumatic fever patient who tosses in bed because joints freeze up -> Rhus tox 200C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-06',
+    code: 'BHMS-301',
+    title: 'Classical Repertory Architecture (Kent, Bönninghausen, BBCR & Synthesis)',
+    instructor: 'Prof. Dr. Nitin Aggarwal, MD (Hom.)',
+    duration: '6 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 80,
+    summary:
+      'Deconstruct the hierarchical logic of Kent’s Repertory (General to Particular), Bönninghausen’s Complete Symptom (Location, Sensation, Modality, Concomitant), and Synthesis Repertory.',
+    chapters: [
+      {
+        title: 'Chapter 1: James Tyler Kent’s Deductive Hierarchy (Generals Before Particulars)',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Kentian philosophy prioritizes Mental Generals and Physical Generals over local organic particulars. "The man is prior to his organs."',
+          aphorismReference:
+            'Kent’s Lectures on Homoeopathic Philosophy: The Doctrine of Evaluation of Symptoms.',
+          clinicalTakeaway:
+            'A strong Mental General (e.g. fear of death) overrides ten local organic complaints.',
+          diagramDescription:
+            'Kentian Symptom Pyramid: Mental Generals -> Physical Generals -> Modalities -> Particulars.',
+          workedCaseExample:
+            'Patient with local knee pain who exhibits intense anxiety of death -> Kentian evaluation favors Aconite.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-07',
+    code: 'BHMS-402',
+    title: 'Practice of Medicine & Clinical Homoeopathic Therapeutics (ICD-11 Mapping)',
+    instructor: 'Dr. Meenakshi Banerjee, MD (Hom.), Practice of Medicine',
+    duration: '5 Hours • 5 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 5,
+    progressPercent: 60,
+    summary:
+      'Bridge modern clinical pathology (ICD-11 codes for hypertension, diabetes, asthma, thyroid disorders) with classical repertorial symptom totality.',
+    chapters: [
+      {
+        title: 'Chapter 1: Metabolic & Endocrine Disorders: Homoeopathic Management of Diabetes & Thyroid',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Integrating endocrine laboratory markers (HbA1c, TSH, Free T3/T4) with constitutional homeopathic evaluation.',
+          aphorismReference:
+            'Clinical OPD Protocol: Auxiliary organ drainage + constitutional totality.',
+          clinicalTakeaway:
+            'Syzygium jambolanum 1X/Q as auxiliary glucose regulator alongside Lycopodium/Calcarea carb constitutional care.',
+          diagramDescription:
+            'Endocrine Recovery Curve.',
+          workedCaseExample:
+            'Type 2 diabetic patient with neuropathic burning relieved by Syzygium jambolanum Q + Sulphur 200C.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-08',
+    code: 'MD-HOM-501',
+    title: 'Advanced Constitutional Repertorization & Asymmetrical Specificity Mathematics',
+    instructor: 'Prof. Dr. Nitin Aggarwal, MD (Hom.)',
+    duration: '6 Hours • 6 Chapters',
+    level: 'MD (HOM.) RESIDENT',
+    chaptersCount: 6,
+    progressPercent: 95,
+    summary:
+      'Post-graduate mathematical modeling: solving broad polychrest dominance using Inverse Rubric Density (TF-IDF), high-yield keynote scoring, and statistical specificity algorithms.',
+    chapters: [
+      {
+        title: 'Chapter 1: The Asymmetrical Specificity Formula ($S_{remedy}$) Applied to Complex Graphs',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Why traditional sum-of-grades formulas fail in multi-rubric repertorization and how TF-IDF weighting elevates rare peculiar symptoms.',
+          aphorismReference:
+            'MateriaGrid Engine Contract: Asymmetrical Specificity Index Formula.',
+          clinicalTakeaway:
+            'Mathematical proof of why small remedies often outperform broad polychrests when keynotes are present.',
+          diagramDescription:
+            'Asymmetrical Specificity TF-IDF Graph Engine.',
+          workedCaseExample:
+            'Rare symptom "Waking from a dream in terror" weighted 8.4x over generic fever rubric.',
+        },
+      },
+    ],
+    quiz: [],
+  },
+  {
+    id: 'course-09',
+    code: 'MD-HOM-601',
+    title: 'CCRH Clinical Research Methodology, Double-Blind Provings & Digital Audit Trails',
+    instructor: 'Dr. Arvind Sen, MD (Hom.), Central Council for Research in Homoeopathy',
+    duration: '5 Hours • 5 Chapters',
+    level: 'MD (HOM.) RESIDENT',
+    chaptersCount: 5,
+    progressPercent: 70,
+    summary:
+      'GCP & CCRH compliant clinical research protocols: randomized controlled trials (RCTs), pathogenetic drug provings, and immutable digital visit chain audit trails.',
+    chapters: [
+      {
+        title: 'Chapter 1: Designing GCP-Compliant Homoeopathic Pathogenetic Provings (HPP)',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Modern double-blind placebo-controlled proving protocols ensuring scientific validation of new medicinal substances.',
+          aphorismReference:
+            'CCRH Guidelines for Homoeopathic Pathogenetic Trials.',
+          clinicalTakeaway:
+            'Strict exclusion of environmental and psychological noise during volunteer drug provings.',
+          diagramDescription:
+            'Double-Blind Proving Trial Workflow.',
+          workedCaseExample:
+            'Proving protocol execution for plant substance verified across 3 research centers.',
+        },
+      },
+    ],
+    quiz: [],
+  },
 ];
 
 export const BhmsClinicalAcademyView: React.FC<
