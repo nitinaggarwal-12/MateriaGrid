@@ -36,6 +36,7 @@ import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDime
 import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/PortalClinicalDecisionFlowchartModal';
 import { RbacProvider, useRbac } from '@/lib/auth/rbac_context';
 import { RbacLoginModal } from '@/components/auth/RbacLoginModal';
+import { SearchableLanguagePicker } from '@/components/dashboard/SearchableLanguagePicker';
 import { MateriaGridSyncQueue } from '@/lib/engine/sync_queue';
 import { mergeConcurrentDoctorOperations } from '@/lib/engine/crdt_session_handler';
 import {
@@ -541,25 +542,12 @@ function MasterWorkspaceInner() {
               <span>{langPack.labels.decisionGates}</span>
             </button>
 
-            {/* INDIAN MULTI-LANGUAGE PACK SWITCHER DROPDOWN */}
-            <div className="flex items-center space-x-1 border rounded-xl px-2 py-1 bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-800">
-              <Globe className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <select
-                value={langCode}
-                onChange={(e) => setLangCode(e.target.value as IndianLanguageCode)}
-                className="bg-transparent text-xs font-black outline-none cursor-pointer text-slate-800 dark:text-white"
-              >
-                {Object.values(INDIAN_LANGUAGE_PACKS).map((pack) => (
-                  <option
-                    key={pack.code}
-                    value={pack.code}
-                    className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-                  >
-                    🌐 {pack.nativeName} ({pack.englishName})
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* INSTANT SEARCHABLE LANGUAGE PICKER FOR ALL 35 LANGUAGES */}
+            <SearchableLanguagePicker
+              selectedCode={langCode}
+              onSelectLanguage={setLangCode}
+              theme={theme}
+            />
           </div>
 
           {/* ZONE 2: SIMILIMATRIX SIMILLIMUM & SPATIAL AI ACTIONS */}
