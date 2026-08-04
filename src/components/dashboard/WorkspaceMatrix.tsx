@@ -19,6 +19,8 @@ import {
   Calendar,
   Zap,
   HelpCircle,
+  Filter,
+  ChevronDown,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -73,6 +75,18 @@ interface WorkspaceMatrixProps {
   langCode?: IndianLanguageCode;
   isFullWidthOpdMode?: boolean;
 }
+
+const ALL_CHAPTERS = [
+  'MIND',
+  'HEAD',
+  'EYES',
+  'ABDOMEN',
+  'EXTREMITIES',
+  'SKIN',
+  'SLEEP',
+  'THROAT',
+  'GENERALITIES',
+];
 
 const CLASSICAL_CHAPTER_QUICK_RUBRICS: Record<
   string,
@@ -136,6 +150,8 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   const labels = pack.labels;
 
   const [activeChapterFilter, setActiveChapterFilter] = useState<string | null>(null);
+  const [selectedChapters, setSelectedChapters] = useState<string[]>([...ALL_CHAPTERS]);
+  const [isChapterDropdownOpen, setIsChapterDropdownOpen] = useState(false);
   const [showFollowUpBaseline, setShowFollowUpBaseline] = useState(false);
   const [showChapterPalette, setShowChapterPalette] = useState(false);
   const [showGradingLegend, setShowGradingLegend] = useState(false);
@@ -219,12 +235,115 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               placeholder={labels.filterRubricsPlaceholder}
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className={`pl-8 pr-3 py-1.5 rounded-lg border text-xs outline-none w-52 md:w-64 font-bold ${
+              className={`pl-8 pr-3 py-1.5 rounded-lg border text-xs outline-none w-48 md:w-56 font-bold ${
                 isLight
                   ? 'bg-slate-50 border-slate-300 text-slate-900 focus:border-emerald-500'
                   : 'bg-[#111317] border-[#1C1F26] text-white focus:border-emerald-500'
               }`}
             />
+          </div>
+
+          {/* MULTI-SELECT CHAPTER FILTER DROPDOWN WITH 'ALL' */}
+          <div className="relative">
+            <button
+              onClick={() => setIsChapterDropdownOpen((prev) => !prev)}
+              className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
+                selectedChapters.length === ALL_CHAPTERS.length
+                  ? isLight
+                    ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
+                    : 'border-slate-700 bg-[#111317] text-white hover:bg-slate-800'
+                  : 'border-emerald-500 bg-emerald-600/20 text-emerald-600 dark:text-emerald-400'
+              }`}
+            >
+              <Filter className="w-3.5 h-3.5 text-emerald-500" />
+              <span>
+                {selectedChapters.length === ALL_CHAPTERS.length
+                  ? 'Chapter: All'
+                  : `Chapters (${selectedChapters.length})`}
+              </span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+
+            {isChapterDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setIsChapterDropdownOpen(false)}
+                />
+                <div
+                  className={`absolute left-0 mt-1.5 w-60 rounded-xl border p-3 shadow-2xl z-40 space-y-2 font-sans ${
+                    isLight
+                      ? 'bg-white border-slate-200 text-slate-900'
+                      : 'bg-[#0B0F19] border-[#1C1F26] text-white'
+                  }`}
+                >
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-800">
+                    <span className="text-[10px] font-black uppercase text-gray-500 dark:text-gray-400">
+                      FILTER BY CHAPTER
+                    </span>
+                    <button
+                      onClick={() => {
+                        if (selectedChapters.length === ALL_CHAPTERS.length) {
+                          setSelectedChapters([]);
+                        } else {
+                          setSelectedChapters([...ALL_CHAPTERS]);
+                        }
+                      }}
+                      className="text-[11px] font-black text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer"
+                    >
+                      {selectedChapters.length === ALL_CHAPTERS.length
+                        ? 'Deselect All'
+                        : 'Select All'}
+                    </button>
+                  </div>
+
+                  {/* 'ALL' TOGGLE OPTION */}
+                  <label className="flex items-center space-x-2.5 px-2 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer font-bold text-xs">
+                    <input
+                      type="checkbox"
+                      checked={selectedChapters.length === ALL_CHAPTERS.length}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedChapters([...ALL_CHAPTERS]);
+                        } else {
+                          setSelectedChapters([]);
+                        }
+                      }}
+                      className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
+                    />
+                    <span className="font-black">All Chapters</span>
+                  </label>
+
+                  <div className="max-h-56 overflow-y-auto space-y-1 pt-1 border-t border-slate-200 dark:border-slate-800">
+                    {ALL_CHAPTERS.map((ch) => {
+                      const isChecked = selectedChapters.includes(ch);
+                      return (
+                        <label
+                          key={ch}
+                          className="flex items-center space-x-2.5 px-2 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer text-xs font-semibold"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => {
+                              if (isChecked) {
+                                setSelectedChapters((prev) =>
+                                  prev.filter((item) => item !== ch)
+                                );
+                              } else {
+                                setSelectedChapters((prev) => [...prev, ch]);
+                              }
+                            }}
+                            className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
+                          />
+                          <span>{ch}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* CLASSICAL REPERTORY CHAPTER PALETTE BUTTON */}
@@ -569,8 +688,10 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               isLight ? 'divide-slate-200' : 'divide-[#1C1F26]'
             }`}
           >
-            {initialRubrics.map((rubric) => {
-              const translatedPath =
+            {initialRubrics
+              .filter((r) => selectedChapters.includes(r.chapter))
+              .map((rubric) => {
+                const translatedPath =
                 pack.labels.rubricTranslations[rubric.fullStringPath] ||
                 rubric.fullStringPath;
 
