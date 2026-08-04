@@ -138,6 +138,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   const [activeChapterFilter, setActiveChapterFilter] = useState<string | null>(null);
   const [showFollowUpBaseline, setShowFollowUpBaseline] = useState(false);
   const [showChapterPalette, setShowChapterPalette] = useState(false);
+  const [showGradingLegend, setShowGradingLegend] = useState(false);
 
   // Calculate remedy totals dynamically
   const remedyTotals = calculatedRemedies.map((remedy) => {
@@ -195,7 +196,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           : 'bg-[#05070A] text-[#E6E8EA]'
       }`}
     >
-      {/* TOOLBAR: SEARCH, CLASSICAL REPERTORY CHAPTER TREE & FOLLOW-UP DELTA TOGGLE */}
+      {/* TOOLBAR: SEARCH, CLASSICAL REPERTORY CHAPTER TREE, GRADING LEGEND & FOLLOW-UP DELTA TOGGLE */}
       <div
         className={`p-2.5 border-b flex flex-wrap items-center justify-between gap-2.5 z-20 flex-shrink-0 ${
           isLight
@@ -238,6 +239,21 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           >
             <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-500" />
             <span>📖 Classical Chapter Taxonomy</span>
+          </button>
+
+          {/* TOGGLE GRADING LEGEND */}
+          <button
+            onClick={() => setShowGradingLegend((prev) => !prev)}
+            className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
+              showGradingLegend
+                ? 'border-cyan-500 bg-cyan-600/20 text-cyan-400'
+                : isLight
+                ? 'border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200'
+                : 'border-slate-800 bg-[#111317] text-gray-400 hover:bg-slate-800'
+            }`}
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-emerald-500" />
+            <span>ℹ️ Grading Guide</span>
           </button>
 
           {/* FOLLOW-UP VISIT HERING'S LAW DELTA OVERLAY TOGGLE */}
@@ -284,47 +300,46 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
         )}
       </div>
 
-      {/* CLASSICAL HOMEOPATHIC GRADING LEGEND STRIP (ELIMINATES NUMERIC CELL CONFUSION) */}
-      <div
-        className={`px-3 py-1.5 border-b flex flex-wrap items-center justify-between text-[11px] font-bold z-10 ${
-          isLight
-            ? 'bg-slate-100/90 border-slate-200 text-slate-700'
-            : 'bg-[#0B0F19]/90 border-[#1C1F26] text-gray-400'
-        }`}
-      >
-        <span className="flex items-center space-x-1">
-          <HelpCircle className="w-3.5 h-3.5 text-emerald-500" />
-          <span className="font-black text-xs uppercase">
-            CLASSICAL TYPOGRAPHY GRADING LEGEND:
+      {/* COLLAPSIBLE CLASSICAL HOMEOPATHIC GRADING LEGEND STRIP */}
+      {showGradingLegend && (
+        <div
+          className={`px-4 py-2 border-b flex flex-wrap items-center justify-between text-[11px] font-bold z-10 ${
+            isLight
+              ? 'bg-slate-100 border-slate-200 text-slate-700'
+              : 'bg-[#0B0F19] border-[#1C1F26] text-gray-400'
+          }`}
+        >
+          <span className="flex items-center space-x-1 font-black uppercase">
+            <span>CLASSICAL TYPOGRAPHY GRADING LEGEND:</span>
           </span>
-        </span>
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="flex items-center space-x-1">
-            <span className="w-4 h-4 rounded bg-slate-800 text-gray-300 font-mono flex items-center justify-center text-[10px]">
-              1
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="flex items-center space-x-1">
+              <span className="w-4 h-4 rounded bg-slate-800 text-gray-300 font-mono flex items-center justify-center text-[10px]">
+                1
+              </span>
+              <span>Grade 1 (Reported / Plain)</span>
             </span>
-            <span>Grade 1 (Reported / Plain)</span>
-          </span>
-          <span className="flex items-center space-x-1">
-            <span className="w-4 h-4 rounded bg-cyan-500/20 text-cyan-500 border border-cyan-500/40 font-mono flex items-center justify-center text-[10px]">
-              2
+            <span className="flex items-center space-x-1">
+              <span className="w-4 h-4 rounded bg-cyan-500/20 text-cyan-500 border border-cyan-500/40 font-mono flex items-center justify-center text-[10px]">
+                2
+              </span>
+              <span>Grade 2 (Italics / Clinical Verified)</span>
             </span>
-            <span>Grade 2 (Italics / Clinical Verified)</span>
-          </span>
-          <span className="flex items-center space-x-1">
-            <span className="w-4 h-4 rounded bg-amber-500 text-black font-black font-mono flex items-center justify-center text-[10px]">
-              3
+            <span className="flex items-center space-x-1">
+              <span className="w-4 h-4 rounded bg-amber-500 text-black font-black font-mono flex items-center justify-center text-[10px]">
+                3
+              </span>
+              <span>Grade 3 (Bold / Strongly Verified)</span>
             </span>
-            <span>Grade 3 (Bold / Strongly Verified)</span>
-          </span>
-          <span className="flex items-center space-x-1">
-            <span className="w-4 h-4 rounded bg-orange-500 text-white font-black font-mono flex items-center justify-center text-[10px]">
-              4
+            <span className="flex items-center space-x-1">
+              <span className="w-4 h-4 rounded bg-orange-500 text-white font-black font-mono flex items-center justify-center text-[10px]">
+                4
+              </span>
+              <span>Grade 4 (BOLD CAPS / Utmost Prominence)</span>
             </span>
-            <span>Grade 4 (BOLD CAPS / Utmost Prominence)</span>
-          </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* QUICK CLASSICAL REPERTORY CHAPTER EXPANDABLE PALETTE */}
       {showChapterPalette && (

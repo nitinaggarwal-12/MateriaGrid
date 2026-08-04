@@ -208,8 +208,8 @@ function MasterWorkspaceInner() {
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
   const [langSwitchNotice, setLangSwitchNotice] = useState<string | null>(null);
 
-  // DOCTOR WORKFLOW UPGRADE: IN-PERSON OPD WORKSPACE MODE (100% MATRIX WIDTH)
-  const [isFullWidthOpdMode, setIsFullWidthOpdMode] = useState(false);
+  // DOCTOR WORKFLOW UPGRADE: IN-PERSON OPD WORKSPACE MODE (100% MATRIX WIDTH BY DEFAULT)
+  const [isFullWidthOpdMode, setIsFullWidthOpdMode] = useState(true);
 
   // DOCTOR WORKFLOW UPGRADE: QUICK FLOATING OPD TOKEN QUEUE SWITCHER
   const [currentOpdToken, setCurrentOpdToken] = useState({
@@ -529,121 +529,131 @@ function MasterWorkspaceInner() {
           </div>
         )}
 
-        {/* ULTRA-CLEAN 3-CLUSTER EXECUTIVE COMMAND BRIDGE HUD (56px) */}
+        {/* SPACIOUS 2-TIER EXECUTIVE COMMAND HEADER */}
         <div
-          className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-3 text-xs z-30 flex-shrink-0 transition-colors ${
+          className={`border-b z-30 flex-shrink-0 transition-colors ${
             isLight
-              ? 'bg-white/95 border-slate-200/90 text-slate-800 shadow-2xs backdrop-blur-md'
-              : 'bg-[#05070A]/95 border-[#1C1F26] text-white shadow-xl backdrop-blur-2xl'
+              ? 'bg-white/95 border-slate-200/90 text-slate-800 backdrop-blur-md'
+              : 'bg-[#05070A]/95 border-[#1C1F26] text-white backdrop-blur-2xl'
           }`}
         >
-          {/* CLUSTER 1: PATIENT IDENTITY, OPD QUEUE TOKEN & CLINICAL INTAKE */}
-          <div className="flex flex-wrap items-center gap-2">
-            {/* CLINIC OPD FLOATING TOKEN CALL SWITCHER */}
-            <div className="flex items-center space-x-1.5 border rounded-xl px-3 py-1 bg-emerald-500/10 border-emerald-500/40">
-              <span className="font-black text-emerald-700 dark:text-emerald-400 font-mono text-xs">
-                {currentOpdToken.token}: {currentOpdToken.patientName}
-              </span>
+          {/* TIER 1: ACTIVE OPD PATIENT, TOP SIMILLIMUM & DOCTOR PERSONA */}
+          <div className="px-5 py-2.5 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200/60 dark:border-slate-800/60 text-xs">
+            {/* LEFT: CLINIC OPD TOKEN CALL & PATIENT BASELINE */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center space-x-2 border rounded-xl px-3 py-1.5 bg-emerald-500/10 border-emerald-500/40">
+                <span className="font-black text-emerald-700 dark:text-emerald-400 font-mono text-xs">
+                  {currentOpdToken.token}: {currentOpdToken.patientName}
+                </span>
+                <button
+                  onClick={handleCallNextPatientInOpd}
+                  className="ml-2 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer"
+                  title="Call Next Patient in OPD Queue"
+                >
+                  Next Patient →
+                </button>
+              </div>
+
+              <div className="hidden md:flex items-center space-x-2 text-[11px] font-black px-3 py-1 rounded-xl bg-slate-100 dark:bg-[#111317] border border-slate-300 dark:border-slate-800">
+                <span className="text-orange-500">🔥 HOT</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-cyan-400">💧 THIRSTLESS</span>
+                <span className="text-gray-400">•</span>
+                <span className="text-emerald-400">▶ RIGHT SIDE</span>
+              </div>
+            </div>
+
+            {/* CENTER: TOP SIMILLIMUM & CASE INTAKE */}
+            <div className="flex flex-wrap items-center gap-2">
               <button
-                onClick={handleCallNextPatientInOpd}
-                className="ml-1 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer"
-                title="Call Next Patient in OPD Queue"
+                onClick={() => setIsPrescriptionModalOpen(true)}
+                className={`flex items-center space-x-2 border px-4 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer ${
+                  isLight
+                    ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-black shadow-xs'
+                    : 'border-emerald-500/60 bg-emerald-950/80 text-emerald-300 font-black shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+                }`}
               >
-                Next Patient →
+                <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>
+                  {langPack.labels.topSimillimum}:{' '}
+                  <strong className={isLight ? 'text-emerald-800' : 'text-white'}>
+                    {remedies[0]?.code || 'Bell'} ({remedies[0]?.specificityScore || 65.2})
+                  </strong>
+                </span>
+              </button>
+
+              <button
+                onClick={() => setIsCaseDrawerOpen(true)}
+                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>+ Case Intake</span>
               </button>
             </div>
 
-            {/* + NEW CASE INTAKE */}
-            <button
-              onClick={() => setIsCaseDrawerOpen(true)}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              <span>{langPack.labels.intake}</span>
-            </button>
+            {/* RIGHT: LANGUAGE & USER PERSONA */}
+            <div className="flex flex-wrap items-center gap-2 font-mono">
+              <SearchableLanguagePicker
+                selectedCode={langCode}
+                onSelectLanguage={handleSelectLanguage}
+                theme={theme}
+              />
+              <UserPersonaHeaderWidget
+                theme={theme}
+                onToggleTheme={toggleTheme}
+                onSelectTab={setActiveTab}
+              />
+            </div>
           </div>
 
-          {/* CLUSTER 2: TOP SIMILLIMUM & CLINICAL DECISION SUPPORT */}
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              onClick={() => setIsPrescriptionModalOpen(true)}
-              className={`flex items-center space-x-2 border px-4 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer ${
-                isLight
-                  ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-black shadow-xs'
-                  : 'border-emerald-500/60 bg-emerald-950/80 text-emerald-300 font-black shadow-[0_0_15px_rgba(16,185,129,0.25)]'
-              }`}
-            >
-              <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>
-                {langPack.labels.topSimillimum}:{' '}
-                <strong className={isLight ? 'text-emerald-800' : 'text-white'}>
-                  {remedies[0]?.code || 'Bell'} ({remedies[0]?.specificityScore || 65.2})
-                </strong>
-              </span>
-            </button>
+          {/* TIER 2: CLEAN CONTENT SEPARATION TABS (DE-CONGESTED WORKSPACE TABS) */}
+          {activeTab === 'MATRIX_TELEHEALTH' && (
+            <div className="px-5 py-1.5 flex flex-wrap items-center justify-between gap-3 text-xs bg-slate-50/80 dark:bg-[#080B11]">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setIsFullWidthOpdMode(true)}
+                  className={`flex items-center space-x-1.5 px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    isFullWidthOpdMode
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Monitor className="w-3.5 h-3.5" />
+                  <span>📊 100% SimiliMatrix Spreadsheet Grid (Full Width)</span>
+                </button>
 
-            {/* CASE DECISION-GATE FLOWCHART TRIGGER BUTTON */}
-            <button
-              onClick={() => setIsDecisionFlowchartOpen(true)}
-              className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
-              title="Inspect interactive Decision-Gate Flowchart & YES/NO gates for each illness"
-            >
-              <GitBranch className="w-3.5 h-3.5" />
-              <span>{langPack.labels.decisionGates}</span>
-            </button>
+                <button
+                  onClick={() => setIsFullWidthOpdMode(false)}
+                  className={`flex items-center space-x-1.5 px-4 py-1.5 rounded-xl font-black transition-all cursor-pointer ${
+                    !isFullWidthOpdMode
+                      ? 'bg-cyan-600 text-white shadow-sm'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Video className="w-3.5 h-3.5" />
+                  <span>📹 Live Telehealth RTC & Gait Stream</span>
+                </button>
+              </div>
 
-            <button
-              onClick={() => setIsPrescriptionModalOpen(true)}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 transition-all transform hover:scale-105 cursor-pointer shadow-sm"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>{langPack.labels.rxSlip}</span>
-            </button>
-          </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setIsDecisionFlowchartOpen(true)}
+                  className="px-3.5 py-1 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black flex items-center space-x-1.5 cursor-pointer"
+                >
+                  <GitBranch className="w-3.5 h-3.5" />
+                  <span>🌿 Decision Gates Flowchart</span>
+                </button>
 
-          {/* CLUSTER 3: WORKSPACE MODE, LANGUAGE & TOP-RIGHT USER PERSONA HEADER WIDGET */}
-          <div className="flex flex-wrap items-center gap-2 font-mono">
-            {/* WORKSPACE VIEWPORT MODE TOGGLE: IN-PERSON OPD (100% MATRIX) vs TELEHEALTH SPLIT */}
-            {activeTab === 'MATRIX_TELEHEALTH' && (
-              <button
-                onClick={() => setIsFullWidthOpdMode((prev) => !prev)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-black text-xs cursor-pointer transition-all transform hover:scale-105 ${
-                  isFullWidthOpdMode
-                    ? 'border-cyan-500 bg-cyan-600/20 text-cyan-700 dark:text-cyan-300'
-                    : isLight
-                    ? 'border-slate-300 bg-slate-100 text-slate-800'
-                    : 'border-slate-800 bg-[#111317] text-gray-300'
-                }`}
-                title="Toggle between 100% Full-Screen In-Person OPD Matrix and Telehealth Split Video Stream"
-              >
-                {isFullWidthOpdMode ? (
-                  <>
-                    <Monitor className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
-                    <span>🖥️ 100% Full OPD Matrix</span>
-                  </>
-                ) : (
-                  <>
-                    <Video className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                    <span>📹 Telehealth Split</span>
-                  </>
-                )}
-              </button>
-            )}
-
-            {/* INSTANT SEARCHABLE LANGUAGE PICKER FOR ALL 44 LANGUAGES */}
-            <SearchableLanguagePicker
-              selectedCode={langCode}
-              onSelectLanguage={handleSelectLanguage}
-              theme={theme}
-            />
-
-            {/* TOP-RIGHT USER PERSONA & ACCOUNT CONTROL WIDGET (LOGGED-IN INFO, PREFERENCES, SETTINGS, LOGIN/LOGOUT) */}
-            <UserPersonaHeaderWidget
-              theme={theme}
-              onToggleTheme={toggleTheme}
-              onSelectTab={setActiveTab}
-            />
-          </div>
+                <button
+                  onClick={() => setIsPrescriptionModalOpen(true)}
+                  className="px-3.5 py-1 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-black flex items-center space-x-1.5 cursor-pointer"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>🖨️ Prescription Slip Builder</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* DYNAMIC WORKSPACE MODULE CONTENTS BELOW PERSISTENT EXECUTIVE COMMAND HEADER */}
