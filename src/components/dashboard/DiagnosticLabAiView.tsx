@@ -1,16 +1,15 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Camera,
-  Upload,
-  CheckCircle2,
-  Sparkles,
-  FileText,
   Activity,
   PlusCircle,
+  CheckCircle2,
+  Sparkles,
   Eye,
-  RefreshCw,
+  FileSpreadsheet,
+  Layers,
 } from 'lucide-react';
 
 interface DiagnosticLabAiViewProps {
@@ -18,353 +17,223 @@ interface DiagnosticLabAiViewProps {
   onCommitRubricToMatrix?: (rubricPath: string) => void;
 }
 
-interface SpatialPatchMatch {
-  rubricPath: string;
-  confidence: number;
-  remedies: string;
-  patchLabel: string;
-  boundingCoords: string;
-}
-
 export const DiagnosticLabAiView: React.FC<DiagnosticLabAiViewProps> = ({
-  theme = 'light',
+  theme = 'dark',
   onCommitRubricToMatrix,
 }) => {
   const isLight = theme === 'light';
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [activeSubMode, setActiveSubMode] = useState<
-    'SKIN_LESION' | 'BLOOD_OCR' | 'VIDEO_GAIT'
-  >('SKIN_LESION');
-
-  const [uploadedImageSrc, setUploadedImageSrc] = useState<string | null>(null);
-  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
-
-  const [matches, setMatches] = useState<SpatialPatchMatch[]>([
+  const lesionPatches = [
     {
-      patchLabel: 'Patch #1: Purplish Vesicular Cluster',
-      boundingCoords: 'X: 140, Y: 85, W: 120, H: 90',
-      rubricPath: 'SKIN - ERUPTIONS - vesicular - bluish - itching',
-      confidence: 98.4,
-      remedies: 'Rhus-t, Lachesis, Ran-b',
+      id: 'patch-1',
+      title: 'Patch #01: Fiery Crimson Erythema & Dusky Edema',
+      region: 'Right Anterior Facial Region',
+      detectedColor: 'Fiery Red / Dusky Hyperemia',
+      structure: 'Warm, swollen, shiny mucosal/epidermal border',
+      matchedRubric: 'HEAD - PAIN - pulsating - sudden',
+      secondaryRubric: 'GENERALITIES - HEAT - flushes of - sudden',
+      confidence: '98.4%',
     },
     {
-      patchLabel: 'Patch #2: Dry Scaly Desquamation',
-      boundingCoords: 'X: 280, Y: 110, W: 95, H: 80',
-      rubricPath: 'SKIN - ERUPTIONS - scaly - dry - silvery scales',
-      confidence: 95.1,
-      remedies: 'Ars, Sulph, Graph',
-    },
-    {
-      patchLabel: 'Patch #3: Dusky Purplish Ulcer Border',
-      boundingCoords: 'X: 190, Y: 210, W: 110, H: 75',
-      rubricPath: 'SKIN - ULCERS - dusky - dark purplish margin',
-      confidence: 91.8,
-      remedies: 'Lach, Arsen-i, Crot-h',
-    },
-  ]);
-
-  const samplePresets = [
-    {
-      title: 'Vesicular Bluish Eruption (Herpes Zoster Patch)',
-      file: 'herpes_zoster_dermatoscopic.png',
-      matches: [
-        {
-          patchLabel: 'Patch #1: Purplish Vesicular Cluster',
-          boundingCoords: 'X: 140, Y: 85, W: 120, H: 90',
-          rubricPath: 'SKIN - ERUPTIONS - vesicular - bluish - itching',
-          confidence: 98.4,
-          remedies: 'Rhus-t, Lachesis, Ran-b',
-        },
-        {
-          patchLabel: 'Patch #2: Burning Heat Ameliorated Warmth',
-          boundingCoords: 'X: 210, Y: 160, W: 85, H: 70',
-          rubricPath: 'GENERALITIES - HEAT - flushes of - burning',
-          confidence: 94.2,
-          remedies: 'Ars, Sulph, Bell',
-        },
-      ],
-    },
-    {
-      title: 'Silvery Scaly Psoriatic Plaque (Elbow Patch)',
-      file: 'psoriasis_plaque_patch.png',
-      matches: [
-        {
-          patchLabel: 'Patch #1: Silvery Scaly Epidermal Thickness',
-          boundingCoords: 'X: 120, Y: 95, W: 160, H: 110',
-          rubricPath: 'SKIN - ERUPTIONS - scaly - dry - silvery scales',
-          confidence: 97.8,
-          remedies: 'Ars, Sulph, Graph, Lyc',
-        },
-        {
-          patchLabel: 'Patch #2: Fissured Deep Margin',
-          boundingCoords: 'X: 240, Y: 180, W: 90, H: 65',
-          rubricPath: 'SKIN - FISSURES - deep - bleeding',
-          confidence: 92.5,
-          remedies: 'Petr, Graph, Nit-ac',
-        },
-      ],
-    },
-    {
-      title: 'Blood Panel Lab OCR (High Uric Acid & Serum Bilirubin)',
-      file: 'lab_report_pathology_ocr.pdf',
-      matches: [
-        {
-          patchLabel: 'OCR Finding: Uric Acid 9.8 mg/dL (High)',
-          boundingCoords: 'Line 14: URIC_ACID_ELEVATED',
-          rubricPath: 'URINARY ORGANS - URINE - sediment - uric acid',
-          confidence: 99.1,
-          remedies: 'Lyc, Colch, Urt-u, Berb',
-        },
-        {
-          patchLabel: 'OCR Finding: Total Bilirubin 3.2 mg/dL',
-          boundingCoords: 'Line 22: HEPATIC_JAUNDICE',
-          rubricPath: 'ABDOMEN - CIRRHOSIS - liver - chronic',
-          confidence: 96.7,
-          remedies: 'Chel, Card-m, Phosph, Lyc',
-        },
-      ],
+      id: 'patch-2',
+      title: 'Patch #02: Bluish Vesicular Eruption with Intense Itching',
+      region: 'Left Intercostal Dermatome',
+      detectedColor: 'Dark Purplish / Bluish Vesicles',
+      structure: 'Moist clustered fluid vesicles on inflamed base',
+      matchedRubric: 'SKIN - ERUPTIONS - vesicular - bluish - itching',
+      secondaryRubric: 'EXTREMITIES - PAIN - motion - beginning of - on',
+      confidence: '96.2%',
     },
   ];
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const gaitAnalysisFrames = [
+    {
+      frameTime: '00:02s (Rising from Seated Position)',
+      modalityDetected: 'Severe initial joint stiffness & limping when moving from rest',
+      mappedRubric: 'EXTREMITIES - PAIN - motion - beginning of - on',
+      indicatedRemedy: 'Rhus toxicodendron 30C (Grade 4)',
+    },
+    {
+      frameTime: '00:08s (Continuous Walking Pace)',
+      modalityDetected: 'Gradual easing of joint limping after continued motion',
+      mappedRubric: 'EXTREMITIES - PAIN - motion - continued motion ameliorates',
+      indicatedRemedy: 'Rhus toxicodendron (Confirmed)',
+    },
+  ];
 
-    setUploadedFileName(file.name);
-    setIsAnalyzing(true);
+  const [activePatchId, setActivePatchId] = useState<string>('patch-1');
+  const [committedRubrics, setCommittedRubrics] = useState<
+    Record<string, boolean>
+  >({});
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setUploadedImageSrc(reader.result as string);
-      setTimeout(() => {
-        setIsAnalyzing(false);
-      }, 700);
-    };
-    reader.readAsDataURL(file);
-  };
+  const activePatch =
+    lesionPatches.find((p) => p.id === activePatchId) || lesionPatches[0];
 
-  const handleSelectSamplePreset = (preset: (typeof samplePresets)[0]) => {
-    setUploadedFileName(preset.file);
-    setUploadedImageSrc(null);
-    setIsAnalyzing(true);
-    setTimeout(() => {
-      setMatches(preset.matches);
-      setIsAnalyzing(false);
-    }, 400);
+  const handleCommit = (rubricPath: string) => {
+    setCommittedRubrics((prev) => ({ ...prev, [rubricPath]: true }));
+    if (onCommitRubricToMatrix) {
+      onCommitRubricToMatrix(rubricPath);
+    }
   };
 
   return (
     <div
-      className={`w-full h-full flex flex-col font-sans select-none overflow-hidden transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#090A0C] text-[#E6E8EA]'
+      className={`w-full h-full overflow-y-auto p-6 space-y-6 font-mono transition-colors ${
+        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
-      {/* HIDDEN FILE INPUT */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*,.pdf"
-        onChange={handleFileUpload}
-        className="hidden"
-      />
-
-      {/* HEADER */}
+      {/* EXECUTIVE HEADER */}
       <div
-        className={`p-3 border-b flex flex-wrap items-center justify-between gap-3 ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
+        className={`p-5 rounded-2xl border shadow-xl flex flex-wrap items-center justify-between gap-4 ${
+          isLight
+            ? 'bg-white border-slate-200'
+            : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
-        <div className="flex items-center space-x-2">
-          <Camera className="w-4 h-4 text-emerald-600" />
+        <div className="flex items-center space-x-3">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black shadow-lg">
+            <Camera className="w-6 h-6" />
+          </div>
           <div>
-            <h2 className="font-bold text-xs uppercase tracking-wider">
-              Multimodal Vision & Diagnostic Laboratory AI Studio
+            <h2 className="font-black text-base uppercase tracking-wider text-cyan-400">
+              MULTIMODAL VISION AI, SKIN LESION SPATIAL PARSER & GAIT MODALITY ENGINE
             </h2>
-            <p className="text-[10px] text-gray-500 font-mono">
-              Spatial Patch Dermatoscopy, Alphanumeric Blood OCR & Video Kinetic Gait Analysis
+            <p className="text-xs text-gray-400">
+              Gemini 2.5 Pro Multimodal Spatial Patch Vision & Time-Series Video Joint Kinematics
             </p>
           </div>
         </div>
 
-        {/* SUB-MODE PILLS */}
+        <span className="px-3 py-1.5 rounded-xl bg-cyan-950 border border-cyan-500/50 text-cyan-300 font-bold text-xs flex items-center gap-1.5">
+          <Sparkles className="w-4 h-4 text-cyan-400" />
+          SPATIAL PATCH PARSER ACTIVE
+        </span>
+      </div>
+
+      {/* WORKBENCH GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* LEFT: SKIN LESION VISION SPATIAL PATCH PARSER (7 COLUMNS) */}
         <div
-          className={`flex items-center p-1 rounded-xl border ${
+          className={`lg:col-span-7 p-6 rounded-2xl border space-y-4 shadow-lg ${
             isLight
-              ? 'bg-slate-100 border-slate-200'
-              : 'bg-[#090A0C] border-[#1C1F26]'
+              ? 'bg-white border-slate-200'
+              : 'bg-[#0B0F19] border-[#1C1F26]'
           }`}
         >
-          <button
-            onClick={() => setActiveSubMode('SKIN_LESION')}
-            className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-              activeSubMode === 'SKIN_LESION'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'text-gray-500 hover:text-slate-800'
-            }`}
-          >
-            Skin & Lesion Spatial AI
-          </button>
-          <button
-            onClick={() => setActiveSubMode('BLOOD_OCR')}
-            className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-              activeSubMode === 'BLOOD_OCR'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'text-gray-500 hover:text-slate-800'
-            }`}
-          >
-            Blood Panel OCR & Pathology
-          </button>
-          <button
-            onClick={() => setActiveSubMode('VIDEO_GAIT')}
-            className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-              activeSubMode === 'VIDEO_GAIT'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'text-gray-500 hover:text-slate-800'
-            }`}
-          >
-            Video Gait & Motion Kinetic
-          </button>
-        </div>
-      </div>
-
-      {/* SAMPLE PRESET QUICK CHIPS BAR */}
-      <div
-        className={`px-3 py-2 border-b flex flex-wrap items-center gap-2 ${
-          isLight ? 'bg-slate-100/90 border-slate-200' : 'bg-[#090A0C] border-[#1C1F26]'
-        }`}
-      >
-        <span className="text-[10px] font-bold uppercase font-mono text-emerald-600">
-          Load Sample Clinical Presets:
-        </span>
-        {samplePresets.map((p, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleSelectSamplePreset(p)}
-            className={`border px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold transition-all cursor-pointer ${
-              isLight
-                ? 'bg-white border-slate-300 text-slate-700 hover:border-emerald-500 hover:text-emerald-700'
-                : 'bg-[#111317] border-[#1C1F26] text-gray-300 hover:border-emerald-500'
-            }`}
-          >
-            {p.title}
-          </button>
-        ))}
-      </div>
-
-      {/* WORKBENCH BODY */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 overflow-y-auto">
-        {/* LEFT COLUMN: FILE UPLOAD DROPZONE / SPATIAL CANVAS PREVIEW */}
-        <div className="lg:col-span-6 flex flex-col space-y-3">
-          <div
-            className={`flex-1 border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden transition-all ${
-              isLight
-                ? 'bg-white border-slate-300 hover:border-emerald-500'
-                : 'bg-[#111317] border-[#1C1F26] hover:border-emerald-500'
-            }`}
-          >
-            {uploadedImageSrc ? (
-              <div className="w-full h-full flex flex-col items-center justify-center relative">
-                {/* eslint-next-line @next/next/no-img-element */}
-                <img
-                  src={uploadedImageSrc}
-                  alt="Clinical Image"
-                  className="max-h-72 object-contain rounded-lg border shadow-md"
-                />
-                {/* OVERLAY SPATIAL PATCH BOUNDING BOX */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="border-2 border-emerald-500 bg-emerald-500/20 px-2 py-1 rounded text-[10px] font-mono font-bold text-white shadow-lg animate-pulse">
-                    SPATIAL PATCH #1 DETECTED [98.4% CONFIDENCE]
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center space-y-3">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border border-emerald-300 shadow-sm">
-                  <Upload className="w-6 h-6" />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="font-bold text-sm">
-                    {uploadedFileName
-                      ? `Active Document: ${uploadedFileName}`
-                      : 'Drop Skin Lesion / Eruption Clinical Photo or Blood Report PDF'}
-                  </h3>
-                  <p className="text-xs text-gray-500">
-                    Supported: High-Res JPG/PNG Dermatoscope spatial patch & Laboratory Blood OCR
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center space-x-2 shadow-md transition-all cursor-pointer"
-                >
-                  <Upload className="w-4 h-4" />
-                  <span>Upload Clinical Image for Spatial Patch Resolution</span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: MULTIMODAL AI SPATIAL PATCH MATCH RESULTS */}
-        <div className="lg:col-span-6 flex flex-col space-y-3">
-          <div
-            className={`p-3 border-b flex items-center justify-between ${
-              isLight ? 'bg-white border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <span className="font-bold text-xs uppercase tracking-wider text-emerald-600 font-mono flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4" /> Multimodal AI Spatial Patch Match Results
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span className="font-black text-sm uppercase text-cyan-400 flex items-center gap-2">
+              <Eye className="w-4 h-4" /> SKIN / ERUPTION SPATIAL PATCH PARSER
             </span>
-            {isAnalyzing && (
-              <span className="text-xs text-emerald-600 font-mono flex items-center gap-1">
-                <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Analyzing visual spatial patches...
-              </span>
-            )}
+            <span className="text-xs text-gray-400">CLICK PATCH TO INSPECT</span>
           </div>
 
-          <div className="space-y-3 flex-1 overflow-y-auto">
-            {matches.map((match, idx) => (
-              <div
-                key={idx}
-                className={`p-4 rounded-xl border space-y-2 transition-all ${
-                  isLight
-                    ? 'bg-white border-slate-200 shadow-2xs hover:border-emerald-300'
-                    : 'bg-[#111317] border-[#1C1F26]'
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {lesionPatches.map((patch) => (
+              <button
+                key={patch.id}
+                onClick={() => setActivePatchId(patch.id)}
+                className={`text-left p-4 rounded-xl border transition-all cursor-pointer ${
+                  activePatch.id === patch.id
+                    ? 'bg-cyan-950/40 border-cyan-500 text-white font-bold'
+                    : 'bg-[#111317] border-slate-800 text-gray-300 hover:border-slate-700'
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono font-bold text-slate-500">
-                    {match.patchLabel} ({match.boundingCoords})
-                  </span>
-                  <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold">
-                    Confidence: {match.confidence}%
+                <div className="flex items-center justify-between text-xs font-black">
+                  <span className="text-cyan-400">{patch.title}</span>
+                  <span className="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px]">
+                    {patch.confidence}
                   </span>
                 </div>
+                <p className="text-xs font-bold text-white mt-2">
+                  Region: {patch.region}
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Color: {patch.detectedColor}
+                </p>
+              </button>
+            ))}
+          </div>
 
-                <h4 className="font-mono font-black text-xs text-emerald-600">
-                  {match.rubricPath}
-                </h4>
+          {/* ACTIVE PATCH DETAILS & ONE-CLICK RUBRIC INJECTION */}
+          <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="font-black text-xs text-cyan-400">
+                ACTIVE SPATIAL PARSE RESULT: {activePatch.title}
+              </span>
+            </div>
+            <p className="text-xs text-gray-300">
+              Structural Feature: <strong className="text-white">{activePatch.structure}</strong>
+            </p>
+            <div className="p-3 rounded-lg bg-emerald-950/50 border border-emerald-500/40 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-[10px] text-emerald-400 font-bold">
+                  DETECTED HISTORICAL REPERTORY PATH:
+                </p>
+                <p className="text-xs font-black text-white">
+                  {activePatch.matchedRubric}
+                </p>
+              </div>
 
-                <div className="flex items-center justify-between pt-1">
-                  <span className="text-xs font-mono text-gray-500">
-                    Top Proving Match: <strong className="text-slate-800">{match.remedies}</strong>
-                  </span>
-
-                  <button
-                    onClick={() => {
-                      if (onCommitRubricToMatrix) {
-                        onCommitRubricToMatrix(match.rubricPath);
-                      } else {
-                        alert(`Committed rubric: ${match.rubricPath} to SimiliMatrix!`);
-                      }
-                    }}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 cursor-pointer transition-colors"
-                  >
+              <button
+                onClick={() => handleCommit(activePatch.matchedRubric)}
+                className={`px-4 py-2 rounded-lg font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
+                  committedRubrics[activePatch.matchedRubric]
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-cyan-600 hover:bg-cyan-500 text-white'
+                }`}
+              >
+                {committedRubrics[activePatch.matchedRubric] ? (
+                  <>
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>COMMITTED TO MATRIX</span>
+                  </>
+                ) : (
+                  <>
                     <PlusCircle className="w-3.5 h-3.5" />
-                    <span>Commit Rubric to Matrix</span>
-                  </button>
+                    <span>+ Commit Rubric to Matrix</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: VIDEO GAIT TIMELINE & MODALITY PARSER (5 COLUMNS) */}
+        <div
+          className={`lg:col-span-5 p-6 rounded-2xl border space-y-4 shadow-lg ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#0B0F19] border-[#1C1F26]'
+          }`}
+        >
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span className="font-black text-sm uppercase text-purple-400 flex items-center gap-2">
+              <Activity className="w-4 h-4" /> VIDEO GAIT & MOTION KINEMATICS
+            </span>
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-black bg-purple-600 text-white">
+              60 FPS PARSE
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {gaitAnalysisFrames.map((frame, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-xl bg-[#111317] border border-slate-800 space-y-2"
+              >
+                <span className="text-xs font-black text-purple-300">
+                  {frame.frameTime}
+                </span>
+                <p className="text-xs text-white leading-relaxed">
+                  {frame.modalityDetected}
+                </p>
+                <div className="p-2.5 rounded bg-emerald-950/40 border border-emerald-500/40 text-xs flex items-center justify-between">
+                  <span className="font-bold text-emerald-300">
+                    {frame.mappedRubric}
+                  </span>
+                  <span className="text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded">
+                    {frame.indicatedRemedy}
+                  </span>
                 </div>
               </div>
             ))}

@@ -3,300 +3,160 @@
 import React, { useState } from 'react';
 import {
   FlaskConical,
-  QrCode,
-  CheckCircle2,
-  AlertTriangle,
-  RefreshCw,
-  Search,
-  Plus,
   PackageCheck,
+  Plus,
+  CheckCircle2,
+  AlertCircle,
+  Sparkles,
 } from 'lucide-react';
 
 interface PharmacyDispensaryViewProps {
   theme?: 'dark' | 'light';
 }
 
-interface StockItem {
-  id: string;
-  remedyName: string;
-  code: string;
-  potencyScale: string;
-  vehicle: string;
-  stockLevel: number;
-  unit: string;
-  status: 'STOCK_OPTIMAL' | 'REORDER_NEEDED' | 'DISPENSING_ACTIVE';
-  expiryBatch: string;
-}
-
-export const PharmacyDispensaryView: React.FC<PharmacyDispensaryViewProps> = ({
-  theme = 'light',
-}) => {
+export const PharmacyDispensaryView: React.FC<
+  PharmacyDispensaryViewProps
+> = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isScanningQr, setIsScanningQr] = useState(false);
-  const [dispensedCount, setDispensedCount] = useState(14);
 
-  const [stock, setStock] = useState<StockItem[]>([
+  const [inventory, setInventory] = useState([
     {
-      id: 'STK-01',
-      remedyName: 'Belladonna',
-      code: 'Bell',
-      potencyScale: 'LM 0/1 to LM 0/6 Liquid',
-      vehicle: '20% Ethanol Pure Spring Water',
-      stockLevel: 42,
-      unit: 'Bottles (100ml)',
-      status: 'STOCK_OPTIMAL',
-      expiryBatch: 'BATCH-2027-B01',
+      id: 'inv-1',
+      remedy: 'Belladonna LM 0/1 (30ml Aqueous Succussion Bottle)',
+      stockVials: 42,
+      minThreshold: 10,
+      batchNo: 'BATCH-2026-BELL-LM01',
+      expiry: 'Dec 2029',
     },
     {
-      id: 'STK-02',
-      remedyName: 'Chelidonium majus',
-      code: 'Chel',
-      potencyScale: '1X Mother Tincture / LM 0/1',
-      vehicle: 'Liquid Hydro-Alcoholic Organopathy',
-      stockLevel: 18,
-      unit: 'Bottles (100ml)',
-      status: 'STOCK_OPTIMAL',
-      expiryBatch: 'BATCH-2027-C04',
+      id: 'inv-2',
+      remedy: 'Chelidonium majus 1X Organopathy Mother Tincture (100ml)',
+      stockVials: 28,
+      minThreshold: 8,
+      batchNo: 'BATCH-2026-CHEL-1X',
+      expiry: 'Nov 2028',
     },
     {
-      id: 'STK-03',
-      remedyName: 'Sulphur',
-      code: 'Sulph',
-      potencyScale: '30C & 200C Centesimal Globules',
-      vehicle: 'Cane Sugar Pellets #40',
-      stockLevel: 65,
-      unit: 'Phials (30g)',
-      status: 'STOCK_OPTIMAL',
-      expiryBatch: 'BATCH-2028-S12',
+      id: 'inv-3',
+      remedy: 'Sulphur 200C Globules (Size 30 Cane Sugar Pellets)',
+      stockVials: 18,
+      minThreshold: 15,
+      batchNo: 'BATCH-2026-SULP-200C',
+      expiry: 'Aug 2030',
     },
     {
-      id: 'STK-04',
-      remedyName: 'Aconitum napellus',
-      code: 'Acon',
-      potencyScale: '1M Single Dose High Potency',
-      vehicle: 'Lactose Dry Powder Dose',
-      stockLevel: 12,
-      unit: 'Phials (15g)',
-      status: 'REORDER_NEEDED',
-      expiryBatch: 'BATCH-2026-A09',
-    },
-    {
-      id: 'STK-05',
-      remedyName: 'Bryonia alba',
-      code: 'Bry',
-      potencyScale: 'LM 0/1 Liquid & 200C Globules',
-      vehicle: 'Liquid & Cane Pellets',
-      stockLevel: 34,
-      unit: 'Bottles (100ml)',
-      status: 'STOCK_OPTIMAL',
-      expiryBatch: 'BATCH-2027-BR2',
-    },
-    {
-      id: 'STK-06',
-      remedyName: 'Pulsatilla nigricans',
-      code: 'Puls',
-      potencyScale: '30C & 200C Centesimal',
-      vehicle: 'Cane Sugar Pellets #40',
-      stockLevel: 28,
-      unit: 'Phials (30g)',
-      status: 'STOCK_OPTIMAL',
-      expiryBatch: 'BATCH-2028-P05',
-    },
-    {
-      id: 'STK-07',
-      remedyName: 'Rhus toxicodendron',
-      code: 'Rhus-t',
-      potencyScale: '200C & 1M High Potency',
-      vehicle: 'Cane Sugar Pellets #40',
-      stockLevel: 9,
-      unit: 'Phials (30g)',
-      status: 'REORDER_NEEDED',
-      expiryBatch: 'BATCH-2026-RT8',
-    },
-    {
-      id: 'STK-08',
-      remedyName: 'Arsenicum album',
-      code: 'Ars',
-      potencyScale: 'LM 0/1 to LM 0/3 Liquid',
-      vehicle: '20% Ethanol Pure Spring Water',
-      stockLevel: 51,
-      unit: 'Bottles (100ml)',
-      status: 'STOCK_OPTIMAL',
-      expiryBatch: 'BATCH-2028-AR1',
+      id: 'inv-4',
+      remedy: 'Rhus toxicodendron 30C (Aqueous Liquid Potency 15ml)',
+      stockVials: 5,
+      minThreshold: 10,
+      batchNo: 'BATCH-2026-RHUS-30C',
+      expiry: 'May 2029',
     },
   ]);
 
-  const handleDispenseBottle = (id: string) => {
-    setStock((prev) =>
-      prev.map((s) =>
-        s.id === id ? { ...s, stockLevel: Math.max(0, s.stockLevel - 1) } : s
+  const [dispatchedAlert, setDispatchedAlert] = useState<string | null>(null);
+
+  const handleDispatch = (id: string, remedyName: string) => {
+    setInventory((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, stockVials: Math.max(0, item.stockVials - 1) }
+          : item
       )
     );
-    setDispensedCount((prev) => prev + 1);
+    setDispatchedAlert(`Dispatched 1 Bottle of ${remedyName} to OPD Cabin 1!`);
+    setTimeout(() => setDispatchedAlert(null), 3000);
   };
-
-  const handleScanBarcodeQr = () => {
-    setIsScanningQr(true);
-    setTimeout(() => {
-      setIsScanningQr(false);
-      handleDispenseBottle('STK-01');
-    }, 600);
-  };
-
-  const filteredStock = stock.filter(
-    (s) =>
-      s.remedyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.code.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div
-      className={`w-full h-full flex flex-col font-sans select-none overflow-hidden transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#090A0C] text-[#E6E8EA]'
+      className={`w-full h-full overflow-y-auto p-6 space-y-6 font-mono transition-colors ${
+        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
-      {/* HEADER */}
+      {/* EXECUTIVE HEADER */}
       <div
-        className={`p-3 border-b flex flex-wrap items-center justify-between gap-3 ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
+        className={`p-5 rounded-2xl border shadow-xl flex flex-wrap items-center justify-between gap-4 ${
+          isLight
+            ? 'bg-white border-slate-200'
+            : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
-        <div className="flex items-center space-x-2.5">
-          <FlaskConical className="w-5 h-5 text-emerald-600" />
+        <div className="flex items-center space-x-3">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-lg">
+            <FlaskConical className="w-6 h-6" />
+          </div>
           <div>
-            <h2 className="font-bold text-xs uppercase tracking-wider">
-              Classical Homeopathic Pharmacy & Liquid LM Potency Dispensary
+            <h2 className="font-black text-base uppercase tracking-wider text-emerald-400">
+              PHARMACY & CLASSICAL LIQUID LM POTENCY DISPENSARY INVENTORY
             </h2>
-            <p className="text-[10px] text-gray-500 font-mono">
-              Hahnemannian LM Liquid Dilution Control, Stock Audit & Barcode QR Dispatch
+            <p className="text-xs text-gray-400">
+              50-Millesimal (LM 0/1 to LM 0/30) Aqueous Succussion & Centesimal (C) Dispensing Track
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <span className="text-[11px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl">
-            TODAY DISPENSED: {dispensedCount} BOTTLES
+        {dispatchedAlert && (
+          <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5 animate-pulse">
+            <CheckCircle2 className="w-4 h-4" />
+            {dispatchedAlert}
           </span>
-
-          <button
-            onClick={handleScanBarcodeQr}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-2 shadow-sm transition-all cursor-pointer"
-          >
-            <QrCode className="w-4 h-4" />
-            <span>{isScanningQr ? 'Scanning Barcode...' : 'Scan Prescription Barcode QR'}</span>
-          </button>
-        </div>
+        )}
       </div>
 
-      {/* SEARCH & FILTERS TOOLBAR */}
+      {/* INVENTORY TABLE & ACTIONS */}
       <div
-        className={`px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-3 ${
-          isLight ? 'bg-slate-100/80 border-slate-200' : 'bg-[#090A0C] border-[#1C1F26]'
+        className={`p-6 rounded-2xl border space-y-4 shadow-lg ${
+          isLight ? 'bg-white border-slate-200' : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
-        <div className="relative flex-1 max-w-md">
-          <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search remedy by name or classical code (Bell, Chel, Sulph)..."
-            className={`w-full rounded-xl pl-9 pr-4 py-1.5 text-xs font-mono focus:outline-none ${
-              isLight
-                ? 'bg-white border border-slate-300 text-slate-900 focus:border-emerald-600'
-                : 'bg-[#111317] border border-[#1C1F26] text-white focus:border-emerald-500'
-            }`}
-          />
-        </div>
-
-        <div className="flex items-center space-x-2 text-[11px] font-mono">
-          <span className="text-gray-500">LM Liquid Dispensing Standard:</span>
-          <span className="font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg">
-            10 Successions per Sip Bottle
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <span className="font-black text-sm uppercase text-emerald-400">
+            CLASSICAL PHARMACY STOCK & LM POTENCY VIAL STOCK
           </span>
+          <span className="text-xs text-gray-400">CLICK DISPATCH TO ISSUE VIAL</span>
         </div>
-      </div>
 
-      {/* DISPENSARY INVENTORY TABLE */}
-      <div className="flex-1 overflow-y-auto p-4 font-mono text-xs">
-        <div
-          className={`border rounded-xl overflow-hidden ${
-            isLight ? 'bg-white border-slate-200 shadow-2xs' : 'bg-[#111317] border-[#1C1F26]'
-          }`}
-        >
-          <table className="w-full text-left">
-            <thead
-              className={`border-b text-[11px] ${
-                isLight
-                  ? 'bg-slate-100 border-slate-200 text-slate-700'
-                  : 'bg-[#090A0C] border-[#1C1F26] text-gray-400'
-              }`}
-            >
-              <tr>
-                <th className="px-4 py-2.5">REMEDY CODE & NAME</th>
-                <th className="px-4 py-2.5">POTENCY SCALE & VEHICLE</th>
-                <th className="px-4 py-2.5">AVAILABLE STOCK LEVEL</th>
-                <th className="px-4 py-2.5">BATCH & EXPIRY</th>
-                <th className="px-4 py-2.5">STOCK STATUS</th>
-                <th className="px-4 py-2.5 text-right">ACTION</th>
-              </tr>
-            </thead>
-            <tbody
-              className={`divide-y ${
-                isLight ? 'divide-slate-200' : 'divide-[#1C1F26]'
-              }`}
-            >
-              {filteredStock.map((s) => (
-                <tr
-                  key={s.id}
-                  className={`transition-colors ${
-                    isLight ? 'hover:bg-slate-50' : 'hover:bg-[#1C1F26]/50'
-                  }`}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {inventory.map((item) => {
+            const isLowStock = item.stockVials <= item.minThreshold;
+            return (
+              <div
+                key={item.id}
+                className="p-5 rounded-xl bg-[#111317] border border-slate-800 space-y-3 hover:border-emerald-500/60 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-xs text-white">
+                    {item.remedy}
+                  </span>
+                  {isLowStock ? (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-orange-600 text-white">
+                      LOW STOCK ALERT
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-600 text-white">
+                      IN STOCK
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-gray-400">Batch: {item.batchNo}</span>
+                  <span className="text-emerald-400 font-black text-sm">
+                    {item.stockVials} Vials Left
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => handleDispatch(item.id, item.remedy)}
+                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center justify-center space-x-1.5 shadow-md transition-all cursor-pointer"
                 >
-                  <td className="px-4 py-3">
-                    <span className="font-black text-emerald-600 text-xs block">
-                      {s.code}
-                    </span>
-                    <span className="font-bold text-slate-800 text-xs">
-                      {s.remedyName}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="font-bold block">{s.potencyScale}</span>
-                    <span className="text-[10px] text-gray-500">
-                      {s.vehicle}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 font-black text-sm">
-                    {s.stockLevel} <span className="text-xs font-normal text-gray-500">{s.unit}</span>
-                  </td>
-                  <td className="px-4 py-3 text-xs text-gray-500">
-                    {s.expiryBatch}
-                  </td>
-                  <td className="px-4 py-3">
-                    {s.status === 'STOCK_OPTIMAL' ? (
-                      <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
-                        STOCK OPTIMAL
-                      </span>
-                    ) : (
-                      <span className="bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
-                        REORDER NEEDED
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => handleDispenseBottle(s.id)}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition-colors cursor-pointer"
-                    >
-                      Dispense 1 Unit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  <PackageCheck className="w-4 h-4" />
+                  <span>🚀 Dispatch Prescription Vial to Patient</span>
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
