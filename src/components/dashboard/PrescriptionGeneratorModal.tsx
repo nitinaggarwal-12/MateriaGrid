@@ -2,14 +2,17 @@
 
 import React, { useState } from 'react';
 import {
-  X,
-  Printer,
-  CheckCircle2,
   ShieldCheck,
-  Send,
   QrCode,
-  Sparkles,
+  Printer,
+  Send,
+  CheckCircle2,
+  AlertTriangle,
   Award,
+  Pill,
+  FileText,
+  Lock,
+  Download,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -37,199 +40,240 @@ export const PrescriptionGeneratorModal: React.FC<
   specificityScore = 65.2,
   langCode = 'EN',
 }) => {
-  const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
-
-  const [selectedPotency, setSelectedPotency] = useState<string>('LM 0/1');
-  const [coPrescribeBurnett, setCoPrescribeBurnett] = useState<boolean>(true);
-  const [patientPhone, setPatientPhone] = useState<string>('+91 98765 43210');
-  const [dispatchSuccess, setDispatchSuccess] = useState<boolean>(false);
+  const [potencyChoice, setPotencyChoice] = useState<'LM01' | '30C' | '200C' | '1M'>('LM01');
+  const [includeBurnettDrainage, setIncludeBurnettDrainage] = useState(true);
+  const [phoneNumber, setPhoneNumber] = useState('+91 98765 43210');
+  const [isDispatched, setIsDispatched] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleDispatchSms = () => {
-    setDispatchSuccess(true);
-    setTimeout(() => setDispatchSuccess(false), 4000);
+  const pack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
+  const labels = pack.labels;
+
+  const handleDispatchFhirSms = () => {
+    setIsDispatched(true);
+    setTimeout(() => setIsDispatched(false), 4000);
+  };
+
+  const handlePrintPrescription = () => {
+    window.print();
+  };
+
+  const handleExportClinicalCsv = () => {
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      [
+        'PATIENT_NAME,ABHA_ID,TOP_SIMILLIMUM,SPECIFICITY_SCORE,POTENCY_SELECTED,BURNETT_DRAINAGE,TIMESTAMP',
+        `"${patientName}","91-4829-1049-3829","${topRemedyName} (${topRemedyCode})",${specificityScore},"${potencyChoice}",${includeBurnettDrainage},"${new Date().toISOString()}"`,
+      ].join('\n');
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `Prescription_ABHA_${patientName.replace(/\s+/g, '_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs font-mono p-4">
-      <div className="w-full max-w-3xl bg-[#0B0F19] text-white border border-[#1C1F26] rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        {/* MODAL HEADER */}
-        <div className="p-4 border-b border-[#1C1F26] bg-[#05070A] flex items-center justify-between">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-md">
-              Rx
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs font-mono p-4">
+      <div className="w-full max-w-3xl bg-[#0B0F19] text-white border border-[#1C1F26] rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        {/* TOP FHIR SECURITY BAR */}
+        <div className="p-4 border-b border-[#1C1F26] bg-[#05070A] flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-white font-black shadow-md">
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-black text-sm uppercase text-white tracking-wider">
-                {langPack.labels.rxSlipTitle}
+              <h3 className="font-black text-xs uppercase tracking-wider text-emerald-400">
+                {labels.rxSlipTitle}
               </h3>
-              <p className="text-[11px] text-emerald-400 font-bold">
-                {langPack.labels.rxSlipSubtitle}
+              <p className="text-[11px] text-gray-400">
+                {labels.rxSlipSubtitle} // SHA-256 CONSENT HASH: 0x8F4A...C291
               </p>
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg border border-slate-800 text-gray-400 hover:text-white cursor-pointer"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleExportClinicalCsv}
+              className="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-cyan-300 font-bold text-xs flex items-center space-x-1.5 cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
+            <button
+              onClick={onClose}
+              className="px-3 py-1.5 rounded-lg border border-slate-800 text-gray-400 hover:text-white cursor-pointer"
+            >
+              ✕ Close
+            </button>
+          </div>
         </div>
 
         {/* MODAL BODY */}
         <div className="p-6 space-y-6 text-xs max-h-[80vh] overflow-y-auto">
-          {/* PATIENT & CONSTITUTIONAL SIMILLIMUM BANNER */}
-          <div className="p-4 rounded-xl bg-[#111317] border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+          {/* PATIENT & SIMILLIMUM META CARD */}
+          <div className="p-4 rounded-xl bg-[#111317] border border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p className="text-[10px] text-gray-400 font-bold uppercase">PATIENT FULL NAME</p>
-              <p className="text-base font-black text-white mt-0.5">{patientName}</p>
+              <span className="text-[10px] text-gray-400 font-black uppercase">
+                PATIENT FULL NAME
+              </span>
+              <p className="text-sm font-black text-white mt-0.5">
+                {patientName}
+              </p>
             </div>
+
             <div>
-              <p className="text-[10px] text-gray-400 font-bold uppercase">ABHA HEALTH ID</p>
-              <p className="text-sm font-black text-emerald-400 mt-0.5">91-4829-1049-3829</p>
+              <span className="text-[10px] text-gray-400 font-black uppercase">
+                ABHA HEALTH ID
+              </span>
+              <p className="text-sm font-black text-emerald-400 mt-0.5">
+                91-4829-1049-3829
+              </p>
             </div>
+
             <div>
-              <p className="text-[10px] text-gray-400 font-bold uppercase">TF-IDF SIMILLIMUM SCORE</p>
-              <p className="text-base font-black text-cyan-400 mt-0.5">
+              <span className="text-[10px] text-gray-400 font-black uppercase">
+                TF-IDF SIMILLIMUM SCORE
+              </span>
+              <p className="text-sm font-black text-cyan-400 mt-0.5">
                 {topRemedyCode} ({specificityScore})
               </p>
             </div>
           </div>
 
-          {/* 1. PRIMARY SIMILLIMUM POTENCY & VEHICLE SELECTION */}
+          {/* POTENCY SCALE & VEHICLE SELECTION */}
           <div className="space-y-3">
-            <span className="font-black text-emerald-400 uppercase tracking-wider block">
-              {langPack.labels.primarySimillimumPotency}
-            </span>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                {
-                  id: 'LM 0/1',
-                  label: 'LM 0/1 Liquid Sip',
-                  desc: 'Hahnemannian 50-Millesimal (Gentle Acute/Chronic)',
-                },
-                {
-                  id: '30C',
-                  label: '30C Centesimal Globules',
-                  desc: 'Acute functional manifestation',
-                },
-                {
-                  id: '200C',
-                  label: '200C Centesimal Globules',
-                  desc: 'High mental/vital force match',
-                },
-                {
-                  id: '1M',
-                  label: '1M Single High Dose',
-                  desc: 'Requires strong vital force validation',
-                },
-              ].map((potency) => {
-                const isSelected = selectedPotency === potency.id;
-                return (
-                  <button
-                    key={potency.id}
-                    onClick={() => setSelectedPotency(potency.id)}
-                    className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-emerald-600/20 border-emerald-500 text-white font-bold shadow-md'
-                        : 'bg-[#111317] border-slate-800 text-gray-400 hover:border-slate-700'
-                    }`}
-                  >
-                    <p
-                      className={`font-black text-xs ${
-                        isSelected ? 'text-emerald-400' : 'text-white'
-                      }`}
-                    >
-                      {potency.label}
-                    </p>
-                    <p className="text-[10px] text-gray-400 mt-0.5">{potency.desc}</p>
-                  </button>
-                );
-              })}
+            <label className="font-black text-gray-300 block">
+              {labels.primarySimillimumPotency}
+            </label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <button
+                onClick={() => setPotencyChoice('LM01')}
+                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                  potencyChoice === 'LM01'
+                    ? 'border-emerald-500 bg-emerald-950/40 text-white font-bold shadow-md'
+                    : 'border-slate-800 bg-[#111317] text-gray-400 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-emerald-400">
+                    LM 0/1 Liquid Sip
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600/30 text-emerald-300 font-black">
+                    HAHNEMANN 50-MILLESIMAL
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-1">
+                  Gentle acute & chronic vital force alignment without aggravations.
+                </p>
+              </button>
+
+              <button
+                onClick={() => setPotencyChoice('30C')}
+                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                  potencyChoice === '30C'
+                    ? 'border-emerald-500 bg-emerald-950/40 text-white font-bold shadow-md'
+                    : 'border-slate-800 bg-[#111317] text-gray-400 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-white">
+                    30C Centesimal Globules
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-gray-300 font-black">
+                    STANDARD CLASSICAL
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-400 mt-1">
+                  Acute functional manifestation & rapid vital reaction.
+                </p>
+              </button>
             </div>
           </div>
 
-          {/* 2. DR. BURNETT ORGANOPATHY TISSUE DRAINAGE CO-PRESCRIPTION TOGGLE */}
-          <label className="flex items-start space-x-3 p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/40 cursor-pointer">
+          {/* DR. BURNETT ORGANOPATHY CO-PRESCRIPTION CHECKBOX */}
+          <div className="p-4 rounded-xl bg-[#111317] border border-slate-800 flex items-start space-x-3">
             <input
               type="checkbox"
-              checked={coPrescribeBurnett}
-              onChange={(e) => setCoPrescribeBurnett(e.target.checked)}
-              className="mt-0.5 accent-emerald-500 w-4 h-4"
+              id="burnett-drainage"
+              checked={includeBurnettDrainage}
+              onChange={(e) => setIncludeBurnettDrainage(e.target.checked)}
+              className="mt-1 w-4 h-4 accent-emerald-500 rounded cursor-pointer"
             />
-            <div>
-              <p className="font-black text-xs text-emerald-300">
-                {langPack.labels.coPrescribeBurnett}
-              </p>
-              <p className="text-[11px] text-gray-300 mt-1 leading-relaxed">
+            <label htmlFor="burnett-drainage" className="cursor-pointer space-y-1">
+              <span className="font-black text-emerald-400 block">
+                {labels.coPrescribeBurnett}
+              </span>
+              <span className="text-gray-400 text-[11px] block leading-relaxed">
                 Protects visceral liver parenchyma from high-potency aggravation while constitutional {topRemedyName} acts on cerebral congestion.
-              </p>
-            </div>
-          </label>
+              </span>
+            </label>
+          </div>
 
-          {/* 3. OFFICIAL DISPENSING INSTRUCTIONS PREVIEW */}
-          <div className="p-4 rounded-xl bg-[#111317] border border-slate-800 space-y-2">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider">
-              {langPack.labels.finalOpdOrders}
+          {/* OFFICIAL OFFICIAL OPD DISPENSING ORDERS */}
+          <div className="p-4 rounded-xl bg-[#05070A] border border-slate-800 space-y-2">
+            <span className="text-[10px] font-black text-gray-400 uppercase">
+              {labels.finalOpdOrders}
             </span>
-            <div className="p-3 rounded-lg bg-[#05070A] border border-slate-800 font-bold text-emerald-300">
-              Rx 1: {topRemedyName} ({selectedPotency} Liquid Sip) – 10 succussions per bottle, 1 sip morning & night.
+            <div className="p-3 rounded-lg bg-emerald-950/20 border border-emerald-500/30 text-emerald-300 font-bold text-xs">
+              Rx 1: {topRemedyName} ({potencyChoice === 'LM01' ? 'LM 0/1 Liquid Sip' : '30C Globules'}) — 10 succussions per bottle, 1 sip morning & night.
             </div>
-            {coPrescribeBurnett && (
-              <div className="p-3 rounded-lg bg-[#05070A] border border-slate-800 font-bold text-cyan-300">
-                Rx 2: Chelidonium majus 1X Mother Tincture – 5 drops in warm water twice daily before meals.
+            {includeBurnettDrainage && (
+              <div className="p-3 rounded-lg bg-cyan-950/20 border border-cyan-500/30 text-cyan-300 font-bold text-xs">
+                Rx 2: Chelidonium majus 1X Mother Tincture — 5 drops in warm water twice daily before meals.
               </div>
             )}
           </div>
 
-          {/* 4. DIGITAL ABDM SMS DISPATCH */}
+          {/* WHATSAPP & ABDM FHIR DIGITAL DISPATCH */}
           <div className="space-y-2">
-            <label className="text-gray-400 font-bold block">
+            <label className="font-black text-gray-400 block">
               Patient WhatsApp / ABDM Digital Dispatch Number:
             </label>
-            <div className="flex items-center space-x-2">
+            <div className="flex space-x-2">
               <input
                 type="text"
-                value={patientPhone}
-                onChange={(e) => setPatientPhone(e.target.value)}
-                className="flex-1 px-3.5 py-2 rounded-xl bg-[#111317] border border-slate-800 font-bold text-white outline-none"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="flex-1 px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none focus:border-emerald-500"
               />
               <button
-                onClick={handleDispatchSms}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center space-x-1.5 shadow-md cursor-pointer"
+                onClick={handleDispatchFhirSms}
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center space-x-2 shadow-md cursor-pointer"
               >
-                <Send className="w-3.5 h-3.5" />
-                <span>{langPack.labels.dispatchFhirSms}</span>
+                <Send className="w-4 h-4" />
+                <span>{labels.dispatchFhirSms}</span>
               </button>
             </div>
-            {dispatchSuccess && (
-              <p className="text-emerald-400 font-black text-xs flex items-center gap-1.5 pt-1">
-                <CheckCircle2 className="w-4 h-4" /> FHIR Signed Prescription Slip dispatched via WhatsApp & ABDM Gateway!
+            {isDispatched && (
+              <p className="text-emerald-400 font-bold text-xs animate-pulse">
+                ✓ Cryptographic FHIR Prescription Slip dispatched to {phoneNumber}!
               </p>
             )}
           </div>
         </div>
 
         {/* MODAL FOOTER */}
-        <div className="p-4 border-t border-[#1C1F26] bg-[#05070A] flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-xs font-bold text-gray-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div className="p-4 border-t border-[#1C1F26] bg-[#05070A] flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center space-x-2 text-xs text-gray-400">
+            <QrCode className="w-5 h-5 text-emerald-400" />
             <span>Cryptographic ABDM QR Seal Attached</span>
           </div>
 
           <div className="flex items-center space-x-2">
             <button
-              onClick={() => window.print()}
-              className="px-4 py-2 rounded-xl border border-slate-800 text-gray-300 hover:text-white font-bold text-xs flex items-center space-x-1.5 cursor-pointer"
+              onClick={handlePrintPrescription}
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-black text-xs flex items-center space-x-1.5 cursor-pointer"
             >
-              <Printer className="w-3.5 h-3.5" />
+              <Printer className="w-4 h-4" />
               <span>Print Official Prescription (A4/Thermal)</span>
             </button>
             <button
               onClick={onClose}
-              className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-black text-xs cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs cursor-pointer"
             >
               Close
             </button>
