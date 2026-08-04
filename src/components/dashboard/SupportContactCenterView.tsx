@@ -157,10 +157,18 @@ export const SupportContactCenterView: React.FC<
             <HelpCircle className="w-7 h-7" />
           </div>
           <div>
-            <h1 className="text-lg font-black text-white">
+            <h1
+              className={`text-lg font-black ${
+                isLight ? 'text-slate-900' : 'text-white'
+              }`}
+            >
               MATERIAGRID 24/7 SUPPORT, CONTACT US & GOVERNMENT EMERGENCY CALL CENTER
             </h1>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p
+              className={`text-xs mt-0.5 ${
+                isLight ? 'text-slate-600' : 'text-gray-400'
+              }`}
+            >
               Direct Doctor WhatsApp Voice/Video Call • Government Emergency 108/14443 Helplines • ABDM UHI Support
             </p>
           </div>
@@ -177,10 +185,16 @@ export const SupportContactCenterView: React.FC<
       </div>
 
       {/* GOVERNMENT EMERGENCY HELPLINES ONE-CLICK CALL PANEL */}
-      <div className="p-5 rounded-2xl border border-red-500/40 bg-red-950/20 space-y-4">
+      <div
+        className={`p-5 rounded-2xl border space-y-4 ${
+          isLight
+            ? 'bg-red-50/70 border-red-200'
+            : 'bg-red-950/20 border-red-500/40'
+        }`}
+      >
         <div className="flex items-center justify-between">
-          <span className="font-black text-xs uppercase text-red-400 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-red-400" /> OFFICIAL GOVERNMENT EMERGENCY & AYUSH DIALER DIRECTORIES (ONE-CLICK CALL)
+          <span className="font-black text-xs uppercase text-red-600 dark:text-red-400 flex items-center gap-2">
+            <ShieldAlert className="w-4 h-4 text-red-500" /> OFFICIAL GOVERNMENT EMERGENCY & AYUSH DIALER DIRECTORIES (ONE-CLICK CALL)
           </span>
           <span className="text-[10px] px-2.5 py-0.5 rounded bg-red-600 text-white font-black">
             24/7 FREE TOLL-FREE
@@ -191,21 +205,39 @@ export const SupportContactCenterView: React.FC<
           {emergencyNumbers.map((item) => (
             <div
               key={item.number}
-              className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 flex flex-col justify-between space-y-2"
+              className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 ${
+                isLight
+                  ? 'bg-white border-slate-200 shadow-xs'
+                  : 'bg-[#0B0F19] border-slate-800'
+              }`}
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-black text-emerald-400">
+                  <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
                     DIAL: {item.number}
                   </span>
-                  <span className="text-[9px] px-2 py-0.5 rounded bg-slate-800 text-gray-300 font-bold">
+                  <span
+                    className={`text-[9px] px-2 py-0.5 rounded font-bold ${
+                      isLight
+                        ? 'bg-slate-100 text-slate-700'
+                        : 'bg-slate-800 text-gray-300'
+                    }`}
+                  >
                     GOVT HELPLINE
                   </span>
                 </div>
-                <p className="font-black text-xs text-white mt-1">
+                <p
+                  className={`font-black text-xs mt-1 ${
+                    isLight ? 'text-slate-900' : 'text-white'
+                  }`}
+                >
                   {item.title}
                 </p>
-                <p className="text-[11px] text-gray-400 mt-0.5">
+                <p
+                  className={`text-[11px] mt-0.5 ${
+                    isLight ? 'text-slate-600' : 'text-gray-400'
+                  }`}
+                >
                   {item.desc}
                 </p>
               </div>
@@ -233,7 +265,7 @@ export const SupportContactCenterView: React.FC<
           }`}
         >
           <div className="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
-            <span className="font-black text-xs uppercase text-emerald-400 flex items-center gap-2">
+            <span className="font-black text-xs uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
               <Bot className="w-4 h-4" /> LIVE AI SUPPORT CHAT
             </span>
             <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600 text-white font-black">
@@ -241,13 +273,21 @@ export const SupportContactCenterView: React.FC<
             </span>
           </div>
 
-          <div className="flex-1 min-h-[240px] max-h-[300px] overflow-y-auto space-y-2.5 p-2 bg-[#05070A] rounded-xl border border-slate-800">
+          <div
+            className={`flex-1 min-h-[240px] max-h-[300px] overflow-y-auto space-y-2.5 p-2.5 rounded-xl border ${
+              isLight
+                ? 'bg-slate-50 border-slate-200'
+                : 'bg-[#05070A] border-slate-800'
+            }`}
+          >
             {chatMessages.map((m, i) => (
               <div
                 key={i}
                 className={`p-3 rounded-xl text-xs max-w-[90%] leading-relaxed ${
                   m.sender === 'USER'
                     ? 'bg-emerald-600 text-white ml-auto font-bold'
+                    : isLight
+                    ? 'bg-white border border-slate-200 text-slate-800 shadow-xs'
                     : 'bg-[#111317] border border-slate-800 text-gray-200'
                 }`}
               >
@@ -265,7 +305,11 @@ export const SupportContactCenterView: React.FC<
               placeholder="Ask support or help..."
               value={inputQuery}
               onChange={(e) => setInputQuery(e.target.value)}
-              className="flex-1 px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold text-xs outline-none focus:border-emerald-500"
+              className={`flex-1 px-3 py-2 rounded-xl border font-bold text-xs outline-none focus:border-emerald-500 ${
+                isLight
+                  ? 'bg-white border-slate-300 text-slate-900'
+                  : 'bg-[#111317] border-slate-800 text-white'
+              }`}
             />
             <button
               type="submit"
@@ -284,19 +328,29 @@ export const SupportContactCenterView: React.FC<
               : 'bg-[#0B0F19] border-[#1C1F26]'
           }`}
         >
-          <span className="font-black text-xs uppercase text-cyan-400 block border-b pb-3 border-slate-200 dark:border-slate-800">
+          <span className="font-black text-xs uppercase text-cyan-600 dark:text-cyan-400 block border-b pb-3 border-slate-200 dark:border-slate-800">
             DIRECT CONTACT & WHATSAPP CHAT
           </span>
 
           <div className="space-y-3 text-xs">
-            <div className="p-3.5 rounded-xl bg-[#111317] border border-slate-800 space-y-1.5">
-              <span className="text-[10px] text-gray-400 font-black uppercase">
+            <div
+              className={`p-3.5 rounded-xl border space-y-1.5 ${
+                isLight
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#111317] border-slate-800'
+              }`}
+            >
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-black uppercase">
                 WHATSAPP CONSULTATION HELPLINE
               </span>
-              <p className="font-black text-emerald-400 text-sm">
+              <p className="font-black text-emerald-600 dark:text-emerald-400 text-sm">
                 +91 98765 43210 (Dr. Nitin Aggarwal, MD Hom.)
               </p>
-              <p className="text-gray-400 text-[11px]">
+              <p
+                className={`text-[11px] ${
+                  isLight ? 'text-slate-600' : 'text-gray-400'
+                }`}
+              >
                 Instant prescription slip dispatch, clinical second opinions & acute emergencies.
               </p>
               <button
@@ -307,20 +361,40 @@ export const SupportContactCenterView: React.FC<
               </button>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#111317] border border-slate-800 space-y-1">
-              <span className="text-[10px] text-gray-400 font-black uppercase">
+            <div
+              className={`p-3.5 rounded-xl border space-y-1 ${
+                isLight
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#111317] border-slate-800'
+              }`}
+            >
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-black uppercase">
                 NATIONAL AYUSH HELPLINE
               </span>
-              <p className="font-black text-white text-sm">
+              <p
+                className={`font-black text-sm ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}
+              >
                 14443 / 1800-11-22-33 (Toll Free across India)
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#111317] border border-slate-800 space-y-1">
-              <span className="text-[10px] text-gray-400 font-black uppercase">
+            <div
+              className={`p-3.5 rounded-xl border space-y-1 ${
+                isLight
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#111317] border-slate-800'
+              }`}
+            >
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-black uppercase">
                 INSTITUTIONAL HEADQUARTERS & CLINIC
               </span>
-              <p className="font-bold text-white text-xs">
+              <p
+                className={`font-bold text-xs ${
+                  isLight ? 'text-slate-800' : 'text-white'
+                }`}
+              >
                 National Institute of Homeopathy, Block GE, Sector V, Salt Lake, Kolkata, West Bengal 700106
               </p>
             </div>
@@ -335,17 +409,25 @@ export const SupportContactCenterView: React.FC<
               : 'bg-[#0B0F19] border-[#1C1F26]'
           }`}
         >
-          <span className="font-black text-xs uppercase text-purple-400 block border-b pb-3 border-slate-200 dark:border-slate-800">
+          <span className="font-black text-xs uppercase text-purple-600 dark:text-purple-400 block border-b pb-3 border-slate-200 dark:border-slate-800">
             CONTACT US / CLINICAL INQUIRY FORM
           </span>
 
           {ticketCreated ? (
-            <div className="p-6 rounded-xl bg-emerald-950/40 border border-emerald-500 text-center space-y-2">
-              <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-              <p className="font-black text-white text-xs">
+            <div className="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500 text-center space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
+              <p
+                className={`font-black text-xs ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}
+              >
                 SUPPORT TICKET #MG-2026-9901 CREATED!
               </p>
-              <p className="text-gray-400 text-[11px]">
+              <p
+                className={`text-[11px] ${
+                  isLight ? 'text-slate-600' : 'text-gray-400'
+                }`}
+              >
                 Our medical officer will contact you within 15 minutes.
               </p>
             </div>
@@ -358,38 +440,62 @@ export const SupportContactCenterView: React.FC<
               className="space-y-3 text-xs"
             >
               <div>
-                <label className="text-gray-400 font-bold block mb-1">
+                <label
+                  className={`font-bold block mb-1 ${
+                    isLight ? 'text-slate-700' : 'text-gray-400'
+                  }`}
+                >
                   Your Full Name
                 </label>
                 <input
                   type="text"
                   required
                   defaultValue="Ramesh Kumar Sharma"
-                  className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none"
+                  className={`w-full px-3 py-2 rounded-xl border font-bold outline-none ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 />
               </div>
 
               <div>
-                <label className="text-gray-400 font-bold block mb-1">
+                <label
+                  className={`font-bold block mb-1 ${
+                    isLight ? 'text-slate-700' : 'text-gray-400'
+                  }`}
+                >
                   ABHA ID or Mobile Number
                 </label>
                 <input
                   type="text"
                   required
                   defaultValue="+91 98765 43210"
-                  className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none"
+                  className={`w-full px-3 py-2 rounded-xl border font-bold outline-none ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 />
               </div>
 
               <div>
-                <label className="text-gray-400 font-bold block mb-1">
+                <label
+                  className={`font-bold block mb-1 ${
+                    isLight ? 'text-slate-700' : 'text-gray-400'
+                  }`}
+                >
                   Inquiry / Clinical Request
                 </label>
                 <textarea
                   rows={3}
                   required
                   placeholder="Describe your question or clinic requirement..."
-                  className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none"
+                  className={`w-full px-3 py-2 rounded-xl border font-bold outline-none ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 />
               </div>
 
