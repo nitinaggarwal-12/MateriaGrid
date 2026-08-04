@@ -449,6 +449,14 @@ export const BhmsClinicalAcademyView: React.FC<
   const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(0);
   const [selectedCaseRemedyIdx, setSelectedCaseRemedyIdx] = useState<number>(0);
 
+  // PRACTICE TEST GENERATOR STATE
+  const [testDegree, setTestDegree] = useState<string>('BHMS');
+  const [testYear, setTestYear] = useState<string>('YR4');
+  const [testSubject, setTestSubject] = useState<string>('ORGANON');
+  const [testAnswers, setTestAnswers] = useState<Record<string, number>>({});
+  const [testSubmitted, setTestSubmitted] = useState<boolean>(false);
+  const [testScore, setTestScore] = useState<number>(0);
+
   const activeCourse =
     ACADEMIC_COURSES.find((c) => c.id === selectedCourseId) ||
     ACADEMIC_COURSES[0];
@@ -596,6 +604,18 @@ export const BhmsClinicalAcademyView: React.FC<
         >
           <Award className="w-4 h-4" />
           <span>📝 University Exam Prep &amp; Previous 10-Yr Question Bank (SAQ/LAQ)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('PRACTICE_TEST' as any)}
+          className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all flex items-center space-x-2 cursor-pointer ${
+            (activeTab as any) === 'PRACTICE_TEST'
+              ? 'bg-emerald-600 text-white shadow-md'
+              : 'bg-[#0B0F19] text-gray-400 hover:text-white border border-slate-800'
+          }`}
+        >
+          <Zap className="w-4 h-4" />
+          <span>🎯 Subject-by-Year / Semester University Practice Test Generator</span>
         </button>
       </div>
 
@@ -1511,6 +1531,192 @@ export const BhmsClinicalAcademyView: React.FC<
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 6: SUBJECT-BY-YEAR / SEMESTER UNIVERSITY PRACTICE TEST GENERATOR */}
+      {(activeTab as any) === 'PRACTICE_TEST' && (
+        <div className="p-6 rounded-2xl border border-emerald-500/40 bg-[#0B0F19] space-y-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span className="text-xs px-2.5 py-0.5 rounded font-black bg-emerald-600 text-white">
+                NCH &amp; UNIVERSITY TIMED PRACTICE TEST GENERATOR
+              </span>
+              <h2 className="text-base font-black text-white mt-1">
+                CONFIGURE &amp; LAUNCH YOUR PRACTICE EXAM BY DEGREE, YEAR / SEMESTER &amp; CLINICAL SUBJECT
+              </h2>
+            </div>
+
+            {testSubmitted && (
+              <div className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center space-x-2 shadow-lg">
+                <Award className="w-5 h-5" />
+                <span>
+                  SCORECARD: {testScore}% ({testScore >= 80 ? 'FIRST CLASS WITH DISTINCTION' : 'PASS'})
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* TEST CONFIGURATION FILTERS (DEGREE -> YEAR/SEMESTER -> SUBJECT) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-[#05070A] border border-slate-800">
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black uppercase text-emerald-400 block">
+                1. Select Degree Program:
+              </label>
+              <select
+                value={testDegree}
+                onChange={(e) => setTestDegree(e.target.value)}
+                className="w-full bg-[#111317] border border-slate-700 rounded-xl px-3 py-2 text-xs font-black text-white outline-none"
+              >
+                <option value="BHMS">BHMS (Bachelor of Homeopathic Medicine &amp; Surgery)</option>
+                <option value="MD">MD (Hom.) Post-Graduate Specialization</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black uppercase text-cyan-400 block">
+                2. Select Academic Year / Semester:
+              </label>
+              <select
+                value={testYear}
+                onChange={(e) => setTestYear(e.target.value)}
+                className="w-full bg-[#111317] border border-slate-700 rounded-xl px-3 py-2 text-xs font-black text-white outline-none"
+              >
+                <option value="YR1">BHMS 1st Professional Year (Sem 1 &amp; 2)</option>
+                <option value="YR2">BHMS 2nd Professional Year (Sem 3 &amp; 4)</option>
+                <option value="YR3">BHMS 3rd Professional Year (Sem 5 &amp; 6)</option>
+                <option value="YR4">BHMS 4th Professional Year (Sem 7 &amp; 8)</option>
+                <option value="INT">BHMS Compulsory Rotational Internship</option>
+                <option value="MDR">MD (Hom.) Residency Specialization</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black uppercase text-purple-400 block">
+                3. Select Core Examination Subject:
+              </label>
+              <select
+                value={testSubject}
+                onChange={(e) => setTestSubject(e.target.value)}
+                className="w-full bg-[#111317] border border-slate-700 rounded-xl px-3 py-2 text-xs font-black text-white outline-none"
+              >
+                <option value="ORGANON">Organon of Medicine &amp; Philosophy (§1–294)</option>
+                <option value="MATERIA_MEDICA">Homoeopathic Materia Medica &amp; Proving Profiles</option>
+                <option value="REPERTORY">Repertory Architecture &amp; Specificity Math</option>
+                <option value="MEDICINE">Practice of Medicine &amp; Burnett Organopathy</option>
+              </select>
+            </div>
+          </div>
+
+          {/* ACTIVE PRACTICE TEST QUESTIONS */}
+          <div className="space-y-6">
+            {[
+              {
+                id: 'pt-1',
+                q: 'According to Organon §153, which symptoms must receive highest priority during case repertorization?',
+                opts: [
+                  'Common physical signs present in thousands of remedies',
+                  'Striking, singular, uncommon and peculiar (characteristic) symptoms',
+                  'The patient’s superficial demographic details',
+                  'Generic blood pressure numbers without individual modalities',
+                ],
+                correct: 1,
+                citation: 'Organon of Medicine §153: Characteristic peculiar symptoms carry highest therapeutic weight.',
+              },
+              {
+                id: 'pt-2',
+                q: 'Why does MateriaGrid apply Asymmetrical TF-IDF Specificity Scaling rather than simple rubric counting?',
+                opts: [
+                  'To ensure broad polychrests like Sulphur hit #1 in every case',
+                  'To prevent broad polychrests from overwhelmingly dominating rare, targeted keynote remedies',
+                  'To slow down database calculations',
+                  'To ignore physical thermal baseline constants',
+                ],
+                correct: 1,
+                citation: 'Inverse Rubric Density elevates rare keynote matches over generic polychrests.',
+              },
+              {
+                id: 'pt-3',
+                q: 'Under Dr. J.C. Burnett’s Tissue Drainage override, what should be done when severe structural liver cirrhosis is present?',
+                opts: [
+                  'Immediately prescribe Sulphur 10M single dry dose',
+                  'Start low-potency organ-affine drainage remedies (Chelidonium 1X-6X) before high potencies >30C',
+                  'Do not give any homeopathic support',
+                  'Give dry granules every 15 minutes',
+                ],
+                correct: 1,
+                citation: 'Burnett Organopathy Rule: Clear pathological tissues with low-potency drainage before high potencies.',
+              },
+            ].map((item, idx) => (
+              <div
+                key={item.id}
+                className="p-5 rounded-2xl bg-[#05070A] border border-slate-800 space-y-3"
+              >
+                <span className="text-xs font-black text-emerald-400">
+                  QUESTION {idx + 1} • [{testDegree} - {testYear} - {testSubject}]
+                </span>
+                <p className="text-sm font-black text-white">{item.q}</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                  {item.opts.map((opt, oIdx) => {
+                    const isSel = testAnswers[item.id] === oIdx;
+                    const isRight = item.correct === oIdx;
+
+                    let cls = 'bg-[#111317] border-slate-800 text-gray-300 hover:border-slate-700';
+                    if (isSel && !testSubmitted) {
+                      cls = 'bg-emerald-600/20 border-emerald-500 text-emerald-300 font-bold';
+                    } else if (testSubmitted) {
+                      if (isRight) cls = 'bg-emerald-600/20 border-emerald-500 text-emerald-300 font-bold';
+                      else if (isSel && !isRight) cls = 'bg-red-600/20 border-red-500 text-red-300 font-bold';
+                    }
+
+                    return (
+                      <button
+                        key={oIdx}
+                        onClick={() => setTestAnswers((prev) => ({ ...prev, [item.id]: oIdx }))}
+                        className={`p-3.5 rounded-xl border text-left text-xs transition-all cursor-pointer ${cls}`}
+                      >
+                        <span className="font-black mr-2">{String.fromCharCode(65 + oIdx)}.</span>
+                        {opt}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {testSubmitted && (
+                  <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-xs text-emerald-300">
+                    💡 Citation: {item.citation}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between border-t border-slate-800 pt-4">
+            <button
+              onClick={() => {
+                setTestAnswers({});
+                setTestSubmitted(false);
+              }}
+              className="px-4 py-2 rounded-xl bg-slate-800 text-gray-300 font-black text-xs hover:text-white cursor-pointer"
+            >
+              Reset Answers
+            </button>
+
+            <button
+              onClick={() => {
+                let sc = 0;
+                if (testAnswers['pt-1'] === 1) sc += 34;
+                if (testAnswers['pt-2'] === 1) sc += 33;
+                if (testAnswers['pt-3'] === 1) sc += 33;
+                setTestScore(sc);
+                setTestSubmitted(true);
+              }}
+              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md cursor-pointer"
+            >
+              Submit Practice Test &amp; Generate NCH Scorecard
+            </button>
           </div>
         </div>
       )}
