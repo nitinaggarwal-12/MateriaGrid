@@ -271,8 +271,8 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             <Calendar className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
             <span>
               {showFollowUpBaseline
-                ? '📜 Follow-Up Delta: ACTIVE'
-                : '📜 Compare Visit #1 Baseline'}
+                ? '📜 Hering’s Law Delta: ACTIVE'
+                : '📜 Hering’s Law Visit #1 Comparison'}
             </span>
           </button>
         </div>

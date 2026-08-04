@@ -104,7 +104,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'MATRIX_TELEHEALTH' as ActiveWorkspaceTab,
           label: labels.similiMatrixEngine,
-          subLabel: 'Grid & RTC Consultation',
+          subLabel: 'SimiliMatrix Grid & Video OPD',
           icon: Grid,
           isLive: true,
         },
@@ -152,7 +152,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'PATIENT_REPOSITORY' as ActiveWorkspaceTab,
           label: 'Longitudinal Case Chain & Audit Ledger',
-          subLabel: 'SHA-256 Parent-Child Encounter Link',
+          subLabel: 'Tamper-Proof Longitudinal Visit Chain',
           icon: History,
         },
         {
@@ -228,13 +228,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'AYUSH_RESEARCH_HUB' as ActiveWorkspaceTab,
           label: 'AYUSH Academic Research Hub',
-          subLabel: 'CCRH Trials & TF-IDF Proofs',
+          subLabel: 'CCRH Clinical Trials & Mathematical Specificity Index',
           icon: Award,
         },
         {
           id: 'ENTERPRISE_SUITE' as ActiveWorkspaceTab,
           label: labels.enterpriseSuite,
-          subLabel: 'Fleet RBAC, RWE & UHI Claims',
+          subLabel: 'Multi-Doctor Clinic Staff & UHI Insurance Claims',
           icon: Building,
         },
       ],
