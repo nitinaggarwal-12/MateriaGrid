@@ -165,8 +165,8 @@ export const MateriaMedicaLibraryView: React.FC<
       <div
         className={`p-4 border-b flex flex-wrap items-center justify-between gap-4 flex-shrink-0 ${
           isLight
-            ? 'bg-white border-slate-200'
-            : 'bg-[#0B0F19] border-[#1C1F26]'
+            ? 'bg-white border-slate-200 text-slate-900'
+            : 'bg-[#0B0F19] border-[#1C1F26] text-white'
         }`}
       >
         <div className="flex items-center space-x-3">
@@ -177,7 +177,11 @@ export const MateriaMedicaLibraryView: React.FC<
             <h2 className="font-black text-sm uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
               CLASSICAL MATERIA MEDICA & PROVING DIFFERENTIAL EXPLORER
             </h2>
-            <p className="text-xs text-gray-400">
+            <p
+              className={`text-xs ${
+                isLight ? 'text-slate-600' : 'text-gray-400'
+              }`}
+            >
               Verbatim Provenance across Hahnemann Pure Materia Medica, Kent Lectures & Vijayakar Keynotes
             </p>
           </div>
@@ -244,7 +248,9 @@ export const MateriaMedicaLibraryView: React.FC<
                   onClick={() => setSelectedRemedyCode(remedy.code)}
                   className={`w-full text-left p-3 rounded-xl border transition-all transform hover:scale-[1.01] cursor-pointer ${
                     isActive
-                      ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/10 border-emerald-500 text-white font-bold shadow-md'
+                      ? isLight
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-950 font-bold shadow-sm'
+                        : 'bg-gradient-to-r from-emerald-600/20 to-teal-600/10 border-emerald-500 text-white font-bold shadow-md'
                       : isLight
                       ? 'bg-white border-slate-200 text-slate-800 hover:bg-slate-100'
                       : 'bg-[#111317] border-slate-800 text-gray-300 hover:border-slate-700'
@@ -254,14 +260,28 @@ export const MateriaMedicaLibraryView: React.FC<
                     <span className="font-black text-sm text-emerald-600 dark:text-emerald-400">
                       {remedy.code}
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded font-black bg-slate-800 text-gray-300">
+                    <span
+                      className={`text-[10px] px-2 py-0.5 rounded font-black ${
+                        isLight
+                          ? 'bg-slate-200 text-slate-800'
+                          : 'bg-slate-800 text-gray-300'
+                      }`}
+                    >
                       Grade 4
                     </span>
                   </div>
-                  <p className="text-xs font-bold mt-0.5 text-white">
+                  <p
+                    className={`text-xs font-bold mt-0.5 ${
+                      isLight ? 'text-slate-900' : 'text-white'
+                    }`}
+                  >
                     {remedy.fullName}
                   </p>
-                  <p className="text-[10px] text-gray-400 mt-0.5">
+                  <p
+                    className={`text-[10px] mt-0.5 ${
+                      isLight ? 'text-slate-500' : 'text-gray-400'
+                    }`}
+                  >
                     {remedy.family}
                   </p>
                 </button>
@@ -282,22 +302,48 @@ export const MateriaMedicaLibraryView: React.FC<
           >
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl font-black text-white flex items-center gap-2">
-                  <span>{activeRemedy.fullName}</span>
-                  <span className="text-sm font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 px-3 py-1 rounded-xl">
+                <h1
+                  className={`text-2xl font-black flex items-center gap-2 ${
+                    isLight ? 'text-slate-900' : 'text-white'
+                  }`}
+                >
+                  <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-lg">
                     {activeRemedy.code}
                   </span>
+                  <span>{activeRemedy.fullName}</span>
                 </h1>
-                <p className="text-xs text-gray-400 mt-1">
-                  Botanical / Mineral Profile: <strong className="text-white">{activeRemedy.botanicalName}</strong> • {activeRemedy.family}
+                <p
+                  className={`text-xs mt-1.5 ${
+                    isLight ? 'text-slate-600' : 'text-gray-400'
+                  }`}
+                >
+                  Botanical / Mineral Profile:{' '}
+                  <strong
+                    className={isLight ? 'text-slate-900' : 'text-white'}
+                  >
+                    {activeRemedy.botanicalName}
+                  </strong>{' '}
+                  • {activeRemedy.family}
                 </p>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1.5 rounded-xl bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black text-xs">
+                <span
+                  className={`px-3 py-1.5 rounded-xl border font-black text-xs ${
+                    isLight
+                      ? 'bg-orange-50 border-orange-300 text-orange-900'
+                      : 'bg-orange-500/20 border-orange-500/40 text-orange-400'
+                  }`}
+                >
                   🔥 {activeRemedy.thermal}
                 </span>
-                <span className="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 font-black text-xs">
+                <span
+                  className={`px-3 py-1.5 rounded-xl border font-black text-xs ${
+                    isLight
+                      ? 'bg-cyan-50 border-cyan-300 text-cyan-900'
+                      : 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400'
+                  }`}
+                >
                   💧 {activeRemedy.thirst}
                 </span>
               </div>
@@ -306,10 +352,14 @@ export const MateriaMedicaLibraryView: React.FC<
             {/* CORE PROVING KEYNOTES WITH ONE-CLICK "ADD TO LIVE SIMILIMATRIX" */}
             <div className="space-y-3 pt-2">
               <div className="flex items-center justify-between">
-                <span className="font-black text-xs uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                <span className="font-black text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
                   <Sparkles className="w-4 h-4" /> CORE PROVING KEYNOTES & ONE-CLICK RUBRIC INJECTION
                 </span>
-                <span className="text-[11px] text-gray-400">
+                <span
+                  className={`text-[11px] ${
+                    isLight ? 'text-slate-500' : 'text-gray-400'
+                  }`}
+                >
                   HOVER KEYNOTE FOR EXACT HAHNEMANN PROVING CITATION
                 </span>
               </div>
@@ -320,21 +370,33 @@ export const MateriaMedicaLibraryView: React.FC<
                   return (
                     <div
                       key={idx}
-                      className="p-4 rounded-xl border border-slate-800 bg-[#111317] hover:border-emerald-500/80 transition-all transform hover:scale-[1.02] flex flex-col justify-between space-y-3 group relative"
+                      className={`p-4 rounded-xl border transition-all transform hover:scale-[1.02] flex flex-col justify-between space-y-3 ${
+                        isLight
+                          ? 'bg-slate-50 border-slate-200'
+                          : 'bg-[#111317] border-slate-800'
+                      }`}
                     >
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-600 text-white">
                             GRADE {keynote.grade}
                           </span>
-                          <span className="text-[10px] text-cyan-400 font-bold">
+                          <span className="text-[10px] text-cyan-600 dark:text-cyan-400 font-bold">
                             {keynote.provingNumber}
                           </span>
                         </div>
-                        <p className="font-black text-xs text-white leading-snug">
+                        <p
+                          className={`font-black text-xs leading-snug ${
+                            isLight ? 'text-slate-900' : 'text-white'
+                          }`}
+                        >
                           {keynote.rubricPath}
                         </p>
-                        <p className="text-xs text-gray-300 leading-relaxed">
+                        <p
+                          className={`text-xs leading-relaxed ${
+                            isLight ? 'text-slate-600' : 'text-gray-300'
+                          }`}
+                        >
                           {keynote.description}
                         </p>
                       </div>
@@ -345,6 +407,8 @@ export const MateriaMedicaLibraryView: React.FC<
                         className={`w-full py-2 rounded-lg font-black text-xs flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
                           isAdded
                             ? 'bg-emerald-600 text-white'
+                            : isLight
+                            ? 'bg-slate-200 hover:bg-emerald-600 text-slate-800 hover:text-white'
                             : 'bg-slate-800 hover:bg-emerald-600 text-gray-300 hover:text-white'
                         }`}
                       >
@@ -368,22 +432,44 @@ export const MateriaMedicaLibraryView: React.FC<
 
             {/* SEHGAL ROH MENTAL AXIS & ORGAN AFFINITIES */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-500/40 space-y-1.5 text-xs">
-                <span className="font-black text-purple-300 uppercase">
+              <div
+                className={`p-4 rounded-xl border space-y-1.5 text-xs ${
+                  isLight
+                    ? 'bg-purple-50 border-purple-200 text-purple-950'
+                    : 'bg-purple-950/40 border-purple-500/40 text-white'
+                }`}
+              >
+                <span className="font-black text-purple-700 dark:text-purple-300 uppercase">
                   🧠 MENTAL & EMOTIONAL KEYNOTES (SEHGAL ROH AXIS)
                 </span>
-                <p className="text-white leading-relaxed">{activeRemedy.mentalROH}</p>
+                <p
+                  className={`leading-relaxed font-bold ${
+                    isLight ? 'text-slate-800' : 'text-white'
+                  }`}
+                >
+                  {activeRemedy.mentalROH}
+                </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 space-y-1.5 text-xs">
-                <span className="font-black text-cyan-300 uppercase">
+              <div
+                className={`p-4 rounded-xl border space-y-1.5 text-xs ${
+                  isLight
+                    ? 'bg-cyan-50 border-cyan-200 text-cyan-950'
+                    : 'bg-cyan-950/40 border-cyan-500/40 text-white'
+                }`}
+              >
+                <span className="font-black text-cyan-700 dark:text-cyan-300 uppercase">
                   🎯 PARTICULAR ORGAN AFFINITIES & PATHOLOGICAL TROPISM
                 </span>
                 <div className="flex flex-wrap gap-2 pt-1">
                   {activeRemedy.organAffinities.map((org, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 rounded bg-cyan-900/60 text-cyan-200 font-bold"
+                      className={`px-2.5 py-1 rounded font-bold ${
+                        isLight
+                          ? 'bg-cyan-100 text-cyan-900'
+                          : 'bg-cyan-900/60 text-cyan-200'
+                      }`}
                     >
                       {org}
                     </span>
@@ -393,11 +479,23 @@ export const MateriaMedicaLibraryView: React.FC<
             </div>
 
             {/* SAFE CLINICAL POTENCY RANGE */}
-            <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs flex items-center justify-between">
-              <span className="font-black text-emerald-300">
+            <div
+              className={`p-3.5 rounded-xl border text-xs flex flex-wrap items-center justify-between gap-2 ${
+                isLight
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+                  : 'bg-emerald-950/40 border-emerald-500/40 text-white'
+              }`}
+            >
+              <span className="font-black text-emerald-700 dark:text-emerald-300">
                 🛡️ Safe Potency Range & Clinical Administration:
               </span>
-              <span className="font-bold text-white">{activeRemedy.safePotencyRange}</span>
+              <span
+                className={`font-black ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}
+              >
+                {activeRemedy.safePotencyRange}
+              </span>
             </div>
           </div>
         </div>
