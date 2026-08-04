@@ -283,7 +283,11 @@ export const CaseHistoryIntakeDrawer: React.FC<
                 <select
                   value={sex}
                   onChange={(e) => setSex(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#111317] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold outline-none ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 >
                   <option value="Female">Female</option>
                   <option value="Male">Male</option>
@@ -294,17 +298,29 @@ export const CaseHistoryIntakeDrawer: React.FC<
           </div>
 
           {/* 2. PREDICTIVE THERMAL / THIRST BASELINE */}
-          <div className="p-4 rounded-xl bg-[#111317] border border-slate-800 space-y-3">
-            <span className="font-black text-orange-400 uppercase flex items-center gap-1.5">
+          <div
+            className={`p-4 rounded-xl border space-y-3 ${
+              isLight
+                ? 'bg-slate-50 border-slate-200'
+                : 'bg-[#111317] border-slate-800'
+            }`}
+          >
+            <span className="font-black text-orange-600 dark:text-orange-400 uppercase flex items-center gap-1.5">
               <Flame className="w-3.5 h-3.5" /> 2. IMMUTABLE PHYSICAL BASELINE (PREDICTIVE AXIS)
             </span>
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Thermal Baseline</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Thermal Baseline
+                </label>
                 <select
                   value={thermal}
                   onChange={(e) => setThermal(e.target.value as any)}
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-orange-500/50 text-orange-300 font-black"
+                  className={`w-full px-2.5 py-1.5 rounded-lg border font-black outline-none ${
+                    isLight
+                      ? 'bg-white border-orange-400 text-orange-800'
+                      : 'bg-slate-900 border-orange-500/50 text-orange-300'
+                  }`}
                 >
                   <option value="HOT">HOT (Amel. by Cold)</option>
                   <option value="CHILLY">CHILLY (Amel. by Heat)</option>
@@ -313,11 +329,17 @@ export const CaseHistoryIntakeDrawer: React.FC<
               </div>
 
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Thirst Baseline</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Thirst Baseline
+                </label>
                 <select
                   value={thirst}
                   onChange={(e) => setThirst(e.target.value as any)}
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-cyan-500/50 text-cyan-300 font-black"
+                  className={`w-full px-2.5 py-1.5 rounded-lg border font-black outline-none ${
+                    isLight
+                      ? 'bg-white border-cyan-400 text-cyan-800'
+                      : 'bg-slate-900 border-cyan-500/50 text-cyan-300'
+                  }`}
                 >
                   <option value="THIRSTLESS">THIRSTLESS</option>
                   <option value="THIRSTY">THIRSTY</option>
@@ -326,71 +348,117 @@ export const CaseHistoryIntakeDrawer: React.FC<
               </div>
 
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Sleep Position</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Sleep Position
+                </label>
                 <input
                   type="text"
                   value={sleepPosition}
                   onChange={(e) => setSleepPosition(e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 font-bold"
+                  className={`w-full px-2.5 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-slate-900 border-slate-800 text-white'
+                  }`}
                 />
               </div>
             </div>
           </div>
 
           {/* 3. DR. M.L. SEHGAL ROH PRESENT MENTAL STATE (PPP) */}
-          <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 space-y-2">
-            <span className="font-black text-purple-300 uppercase flex items-center gap-1.5">
-              <Brain className="w-3.5 h-3.5 text-purple-400" /> {langPack.labels.sehgalRohSection}
+          <div
+            className={`p-4 rounded-xl border space-y-2 ${
+              isLight
+                ? 'bg-purple-50/80 border-purple-200'
+                : 'bg-purple-950/20 border-purple-500/30'
+            }`}
+          >
+            <span className="font-black text-purple-700 dark:text-purple-300 uppercase flex items-center gap-1.5">
+              <Brain className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" /> {langPack.labels.sehgalRohSection}
             </span>
             <textarea
               rows={3}
               value={rohNarrative}
               onChange={(e) => setRohNarrative(e.target.value)}
-              className="w-full p-2.5 rounded-lg bg-[#05070A] border border-purple-500/40 text-purple-100 font-bold leading-relaxed outline-none"
+              className={`w-full p-2.5 rounded-lg border font-bold leading-relaxed outline-none ${
+                isLight
+                  ? 'bg-white border-purple-300 text-purple-950'
+                  : 'bg-[#05070A] border-purple-500/40 text-purple-100'
+              }`}
             />
           </div>
 
           {/* 4. DR. VON BÖNNINGHAUSEN 4-COMPONENT SYMPTOM SPLITTER */}
-          <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
-            <span className="font-black text-cyan-400 uppercase flex items-center gap-1.5">
+          <div
+            className={`p-4 rounded-xl border space-y-3 ${
+              isLight
+                ? 'bg-slate-50 border-slate-200'
+                : 'bg-slate-900/80 border-slate-800'
+            }`}
+          >
+            <span className="font-black text-cyan-700 dark:text-cyan-400 uppercase flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5" /> {langPack.labels.boenninghausenSection}
             </span>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Location / Anatomical Site</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Location / Anatomical Site
+                </label>
                 <input
                   type="text"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#05070A] border-slate-800 text-white'
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Sensation / Character</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Sensation / Character
+                </label>
                 <input
                   type="text"
                   value={sensation}
                   onChange={(e) => setSensation(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#05070A] border-slate-800 text-white'
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Modalities (Agg. / Amel.)</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Modalities (Agg. / Amel.)
+                </label>
                 <input
                   type="text"
                   value={modality}
                   onChange={(e) => setModality(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#05070A] border-slate-800 text-white'
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">Concomitants</label>
+                <label className={`block mb-1 font-bold ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Concomitants
+                </label>
                 <input
                   type="text"
                   value={concomitants}
                   onChange={(e) => setConcomitants(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#05070A] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-white border-slate-300 text-slate-900'
+                      : 'bg-[#05070A] border-slate-800 text-white'
+                  }`}
                 />
               </div>
             </div>
@@ -398,14 +466,24 @@ export const CaseHistoryIntakeDrawer: React.FC<
         </div>
 
         {/* FOOTER ACTIONS */}
-        <div className="p-4 border-t border-[#1C1F26] bg-[#05070A] flex items-center justify-between">
-          <span className="text-[11px] text-teal-400 font-bold">
+        <div
+          className={`p-4 border-t flex items-center justify-between ${
+            isLight
+              ? 'bg-slate-100 border-slate-200'
+              : 'bg-[#05070A] border-[#1C1F26]'
+          }`}
+        >
+          <span className={`font-bold text-[11px] ${isLight ? 'text-teal-700' : 'text-teal-400'}`}>
             SimiliMatrix NLP Extraction Ready
           </span>
           <div className="flex items-center space-x-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-slate-800 text-gray-300 hover:text-white text-xs font-bold cursor-pointer"
+              className={`px-4 py-2 rounded-xl border text-xs font-bold cursor-pointer ${
+                isLight
+                  ? 'border-slate-300 text-slate-700 hover:bg-slate-200'
+                  : 'border-slate-800 text-gray-300 hover:text-white'
+              }`}
             >
               {langPack.labels.cancelBtn}
             </button>
