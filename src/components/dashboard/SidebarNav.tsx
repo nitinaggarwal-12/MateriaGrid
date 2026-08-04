@@ -85,18 +85,18 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
   // EXPAND ALL / COLLAPSE ALL + INDIVIDUAL GROUP TOGGLE STATE
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-    'CLINICAL PRACTICE SUITE': true,
-    'PROFILES & HELP DESK': false,
-    'AI INTELLIGENCE & VISION': false,
-    'KNOWLEDGE & ENTERPRISE': false,
+    'OPD & PATIENT CARE SUITE': true,
+    'AI DIFFERENTIAL & ANALYTICS': false,
+    'MATERIA MEDICA & ACADEMY': false,
+    'CLINIC ADMIN & ENTERPRISE': false,
   });
 
   const handleExpandAll = () => {
     setOpenGroups({
-      'CLINICAL PRACTICE SUITE': true,
-      'PROFILES & HELP DESK': true,
-      'AI INTELLIGENCE & VISION': true,
-      'KNOWLEDGE & ENTERPRISE': true,
+      'OPD & PATIENT CARE SUITE': true,
+      'AI DIFFERENTIAL & ANALYTICS': true,
+      'MATERIA MEDICA & ACADEMY': true,
+      'CLINIC ADMIN & ENTERPRISE': true,
     });
   };
 
@@ -113,7 +113,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
   const navGroups = [
     {
-      groupTitle: 'CLINICAL PRACTICE SUITE',
+      groupTitle: 'OPD & PATIENT CARE SUITE',
       groupIcon: Stethoscope,
       accentColor: isLight
         ? 'bg-emerald-100 text-emerald-900 border-emerald-300 hover:bg-emerald-200'
@@ -134,32 +134,10 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           isUhi: true,
         },
         {
-          id: 'PHARMACY_DISPENSARY' as ActiveWorkspaceTab,
-          label: labels.pharmacy,
-          subLabel: 'Classical Liquid Potency Stock',
-          icon: Pill,
-        },
-        {
-          id: 'DIFFERENTIAL_WORKBENCH' as ActiveWorkspaceTab,
-          label: labels.differentialWorkbench,
-          subLabel: 'Side-by-Side Comparison',
-          icon: GitCompare,
-        },
-      ],
-    },
-    {
-      groupTitle: 'PROFILES & HELP DESK',
-      groupIcon: ShieldCheck,
-      accentColor: isLight
-        ? 'bg-cyan-100 text-cyan-900 border-cyan-300 hover:bg-cyan-200'
-        : 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 hover:bg-cyan-900/60',
-      items: [
-        {
-          id: 'PROFILE_CREATION' as ActiveWorkspaceTab,
-          label: '+ Create Profile & ABDM Studio',
-          subLabel: 'ABHA Patient, Doctor & Hospital',
-          icon: UserPlus,
-          isNew: true,
+          id: 'PATIENT_REPOSITORY' as ActiveWorkspaceTab,
+          label: 'Longitudinal Case Chain & Audit Ledger',
+          subLabel: 'Tamper-Proof Longitudinal Visit Chain',
+          icon: History,
         },
         {
           id: 'PATIENT_PROFILE' as ActiveWorkspaceTab,
@@ -168,34 +146,15 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           icon: User,
         },
         {
-          id: 'PATIENT_REPOSITORY' as ActiveWorkspaceTab,
-          label: 'Longitudinal Case Chain & Audit Ledger',
-          subLabel: 'Tamper-Proof Longitudinal Visit Chain',
-          icon: History,
-        },
-        {
-          id: 'DOCTOR_PROFILE' as ActiveWorkspaceTab,
-          label: labels.doctorProfile,
-          subLabel: 'Dr. Nitin Aggarwal, MD Hom.',
-          icon: UserCheck,
-        },
-        {
-          id: 'HOSPITAL_PROFILE' as ActiveWorkspaceTab,
-          label: labels.hospitalProfile,
-          subLabel: 'NIH Central AYUSH Hub',
-          icon: Building2,
-        },
-        {
-          id: 'SUPPORT_HELP' as ActiveWorkspaceTab,
-          label: labels.supportHelp,
-          subLabel: 'Live Chat, Contact & WhatsApp Call',
-          icon: HelpCircle,
-          isLive: true,
+          id: 'PHARMACY_DISPENSARY' as ActiveWorkspaceTab,
+          label: labels.pharmacy,
+          subLabel: 'Classical Liquid Potency Stock',
+          icon: Pill,
         },
       ],
     },
     {
-      groupTitle: 'AI INTELLIGENCE & VISION',
+      groupTitle: 'AI DIFFERENTIAL & ANALYTICS',
       groupIcon: Sparkles,
       accentColor: isLight
         ? 'bg-purple-100 text-purple-900 border-purple-300 hover:bg-purple-200'
@@ -221,27 +180,26 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           subLabel: 'Miasmatic & Layer Vectors',
           icon: BarChart2,
         },
+        {
+          id: 'DIFFERENTIAL_WORKBENCH' as ActiveWorkspaceTab,
+          label: labels.differentialWorkbench,
+          subLabel: 'Side-by-Side Specificity Comparison',
+          icon: GitCompare,
+        },
       ],
     },
     {
-      groupTitle: 'KNOWLEDGE & ENTERPRISE',
+      groupTitle: 'MATERIA MEDICA & ACADEMY',
       groupIcon: BookMarked,
       accentColor: isLight
-        ? 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
-        : 'bg-amber-950/80 text-amber-300 border-amber-500/40 hover:bg-amber-900/60',
+        ? 'bg-cyan-100 text-cyan-900 border-cyan-300 hover:bg-cyan-200'
+        : 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 hover:bg-cyan-900/60',
       items: [
         {
           id: 'MATERIA_MEDICA_LIBRARY' as ActiveWorkspaceTab,
           label: labels.materiaMedica,
           subLabel: 'Boericke & Kent Reference',
           icon: BookOpen,
-        },
-        {
-          id: 'DISCUSSION_BLOGS' as ActiveWorkspaceTab,
-          label: 'Clinical Discussion Blogs',
-          subLabel: 'Sehgal ROH & Burnett Case Studies',
-          icon: MessageSquare,
-          isNew: true,
         },
         {
           id: 'AYUSH_RESEARCH_HUB' as ActiveWorkspaceTab,
@@ -257,10 +215,52 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           isNew: true,
         },
         {
+          id: 'DISCUSSION_BLOGS' as ActiveWorkspaceTab,
+          label: 'Clinical Discussion Blogs',
+          subLabel: 'Sehgal ROH & Burnett Case Studies',
+          icon: MessageSquare,
+          isNew: true,
+        },
+      ],
+    },
+    {
+      groupTitle: 'CLINIC ADMIN & ENTERPRISE',
+      groupIcon: ShieldCheck,
+      accentColor: isLight
+        ? 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
+        : 'bg-amber-950/80 text-amber-300 border-amber-500/40 hover:bg-amber-900/60',
+      items: [
+        {
+          id: 'HOSPITAL_PROFILE' as ActiveWorkspaceTab,
+          label: labels.hospitalProfile,
+          subLabel: 'NIH Central AYUSH Hub',
+          icon: Building2,
+        },
+        {
+          id: 'DOCTOR_PROFILE' as ActiveWorkspaceTab,
+          label: labels.doctorProfile,
+          subLabel: 'Dr. Nitin Aggarwal, MD Hom.',
+          icon: UserCheck,
+        },
+        {
+          id: 'PROFILE_CREATION' as ActiveWorkspaceTab,
+          label: '+ Create Profile & ABDM Studio',
+          subLabel: 'ABHA Patient, Doctor & Hospital',
+          icon: UserPlus,
+          isNew: true,
+        },
+        {
           id: 'ENTERPRISE_SUITE' as ActiveWorkspaceTab,
           label: labels.enterpriseSuite,
           subLabel: 'Multi-Doctor Clinic Staff & UHI Insurance Claims',
           icon: Building,
+        },
+        {
+          id: 'SUPPORT_HELP' as ActiveWorkspaceTab,
+          label: labels.supportHelp,
+          subLabel: 'Live Chat, Contact & WhatsApp Call',
+          icon: HelpCircle,
+          isLive: true,
         },
       ],
     },
