@@ -216,7 +216,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
     >
       {/* TOOLBAR: SEARCH, CLASSICAL REPERTORY CHAPTER TREE, GRADING LEGEND & FOLLOW-UP DELTA TOGGLE */}
       <div
-        className={`p-2.5 border-b flex flex-wrap items-center justify-between gap-2.5 z-20 flex-shrink-0 ${
+        className={`p-2.5 border-b flex flex-wrap items-center justify-between gap-2.5 z-50 relative flex-shrink-0 ${
           isLight
             ? 'bg-white/95 border-slate-200 shadow-2xs'
             : 'bg-[#0B0F19]/95 border-[#1C1F26] shadow-md'
