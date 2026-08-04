@@ -65,18 +65,58 @@ export interface LanguagePack {
     vitalForceStrong: string;
     verifiedAbha: string;
     similiMatrixEngine: string;
+    similiMatrixSub: string;
     clinicalAnalytics: string;
+    clinicalAnalyticsSub: string;
     aiCopilot: string;
+    aiCopilotSub: string;
+    aiDiagnosticLab: string;
+    aiDiagnosticLabSub: string;
     patientEhr: string;
     materiaMedica: string;
+    materiaMedicaSub: string;
+    clinicalAcademy: string;
+    clinicalAcademySub: string;
+    ayushResearchHub: string;
+    ayushResearchHubSub: string;
+    discussionBlogs: string;
+    discussionBlogsSub: string;
     opdQueue: string;
+    opdQueueSub: string;
     pharmacy: string;
+    pharmacySub: string;
     differentialWorkbench: string;
+    differentialWorkbenchSub: string;
     enterpriseSuite: string;
+    enterpriseSuiteSub: string;
     patientProfile: string;
+    patientProfileSub: string;
+    patientRepository: string;
+    patientRepositorySub: string;
     doctorProfile: string;
+    doctorProfileSub: string;
     hospitalProfile: string;
+    hospitalProfileSub: string;
     supportHelp: string;
+    supportHelpSub: string;
+    opdCareSuite: string;
+    aiAnalyticsSuite: string;
+    materiaMedicaAcademySuite: string;
+    clinicAdminEnterpriseSuite: string;
+    opdQueueManagerTitle: string;
+    opdQueueManagerSub: string;
+    checkInWalkInPatient: string;
+    physicalOpdTokenQueue: string;
+    inOpdCabin: string;
+    callToken: string;
+    hoverExpandedCollapsible: string;
+    activeSessionVerification: string;
+    viewAsPersonaSimulation: string;
+    userPreferencesClinicSettings: string;
+    visualAppearance: string;
+    defaultRxPotency: string;
+    switchRbacLogin: string;
+    logOut: string;
     selectedRubricsTitle: string;
     filterRubricsPlaceholder: string;
     addRubricBtn: string;
@@ -125,18 +165,58 @@ const BASE_EN_LABELS = {
   vitalForceStrong: 'Vital Force: STRONG',
   verifiedAbha: 'VERIFIED',
   similiMatrixEngine: 'SimiliMatrix & Telehealth',
+  similiMatrixSub: 'SimiliMatrix Grid & Video OPD',
   clinicalAnalytics: 'Clinical Analytics & Radar',
+  clinicalAnalyticsSub: 'Miasmatic & Layer Vectors',
   aiCopilot: 'AI Clinical Copilot',
+  aiCopilotSub: 'Gemini 2.5 Pro Differential',
+  aiDiagnosticLab: 'AI Diagnostic Lab & OCR',
+  aiDiagnosticLabSub: 'Lesion, Blood OCR & Gait',
   patientEhr: 'Patient EHR & ABHA Database',
   materiaMedica: 'Materia Medica Library',
+  materiaMedicaSub: 'Allen & Boericke Reference',
+  clinicalAcademy: 'BHMS & MD Clinical Academy',
+  clinicalAcademySub: '360° Anatomy & Viva Exam',
+  ayushResearchHub: 'AYUSH Clinical Research Hub',
+  ayushResearchHubSub: 'Peer-Reviewed Case Studies',
+  discussionBlogs: 'Clinical Discussion Blogs',
+  discussionBlogsSub: 'ROH & Burnett Practitioner Q&A',
   opdQueue: 'OPD Waiting Queue & UHI',
+  opdQueueSub: 'Waiting Room & Video Slots',
   pharmacy: 'Pharmacy & LM Dispensary',
+  pharmacySub: 'Classical Liquid Potency Stock',
   differentialWorkbench: 'Tri-Remedy Differential Table',
-  enterpriseSuite: 'Enterprise $1B Platform Suite',
-  patientProfile: 'Patient Profile & ABHA',
+  differentialWorkbenchSub: 'Comparative Modality Grid',
+  enterpriseSuite: 'Enterprise Platform Suite',
+  enterpriseSuiteSub: 'Hospital Fleet & ABDM Billing',
+  patientProfile: 'ABHA Patient Identity & Health Locker',
+  patientProfileSub: 'ABDM Health Locker & Profile',
+  patientRepository: 'Longitudinal Case Chain & Audit Ledger',
+  patientRepositorySub: 'Tamper-Proof Longitudinal Visit Chain',
   doctorProfile: 'Physician Credentials',
+  doctorProfileSub: 'AYUSH Registration & License',
   hospitalProfile: 'Hospital & OPD Fleet',
+  hospitalProfileSub: 'Department & Token Flow',
   supportHelp: '24/7 Support & WhatsApp',
+  supportHelpSub: 'Clinical Desk Help',
+  opdCareSuite: 'OPD & PATIENT CARE SUITE',
+  aiAnalyticsSuite: 'AI DIFFERENTIAL & ANALYTICS',
+  materiaMedicaAcademySuite: 'MATERIA MEDICA & ACADEMY',
+  clinicAdminEnterpriseSuite: 'CLINIC ADMIN & ENTERPRISE',
+  opdQueueManagerTitle: 'OPD WAITING QUEUE MANAGER & NHA UHI TELEHEALTH SLOT SCHEDULER',
+  opdQueueManagerSub: 'Unified Health Interface (UHI v1.2) ABDM Patient Flow & Token Dispatch Engine',
+  checkInWalkInPatient: '+ Check-In Walk-In OPD Patient',
+  physicalOpdTokenQueue: 'CLINIC PHYSICAL OPD TOKEN QUEUE',
+  inOpdCabin: 'IN OPD CABIN',
+  callToken: 'Call Token',
+  hoverExpandedCollapsible: 'HOVER EXPANDED • COLLAPSIBLE BY DEFAULT',
+  activeSessionVerification: 'ACTIVE SESSION VERIFICATION',
+  viewAsPersonaSimulation: 'VIEW AS PERSONA (ROLE SIMULATION):',
+  userPreferencesClinicSettings: 'USER PREFERENCES & CLINIC SETTINGS',
+  visualAppearance: 'Visual Appearance',
+  defaultRxPotency: 'Default Rx Potency',
+  switchRbacLogin: 'Switch RBAC Login',
+  logOut: 'Log Out',
   selectedRubricsTitle: 'SELECTED RUBRICS / SYMPTOMS',
   filterRubricsPlaceholder: 'Filter active rubrics...',
   addRubricBtn: '+ Add Rubric',
@@ -167,7 +247,7 @@ const BASE_EN_LABELS = {
   rubricTranslations: {},
 };
 
-export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
+export const INDIAN_LANGUAGE_PACKS: Record<string, LanguagePack> = {
   EN: { code: 'EN', nativeName: 'English', englishName: 'English', labels: BASE_EN_LABELS },
   HI: {
     code: 'HI',
@@ -183,11 +263,59 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       decisionGates: '🔀 निर्णय द्वार',
       rxSlip: 'दवा पर्चा',
       verifiedAbha: 'सत्यापित ABHA',
-      similiMatrixEngine: 'समिलिमैट्रिक्स एवं टेलीस्वास्थ्य',
-      patientProfile: 'रोगी प्रोफ़ाइल एवं ABHA',
-      doctorProfile: 'चिकित्सक साख एवं AYUSH',
-      hospitalProfile: 'अस्पताल एवं OPD फ़्लीट',
-      supportHelp: '24/7 सहायता एवं व्हाट्सऐप्प',
+      similiMatrixEngine: 'समिलिमैट्रिक्स एवं दूरस्थ चिकित्सा',
+      similiMatrixSub: 'रेपर्टरी ग्रिड एवं वीडियो परामर्श',
+      opdQueue: 'बाह्यरोगी प्रतीक्षा कतार एवं यूएचआई',
+      opdQueueSub: 'प्रतीक्षा कक्ष एवं वीडियो परामर्श समय',
+      patientRepository: 'दीर्घकालिक केस इतिहास एवं लेखा बही',
+      patientRepositorySub: 'अपरिवर्तनीय दीर्घकालिक परामर्श इतिहास',
+      patientProfile: 'आभा रोगी पहचान एवं स्वास्थ्य लॉकर',
+      patientProfileSub: 'आयुष्मान भारत डिजिटल स्वास्थ्य रिकॉर्ड',
+      pharmacy: 'औषधालय एवं एलएम पोटेंसी भंडार',
+      pharmacySub: 'शास्त्रीय तरल एवं ठोस औषधि भण्डारण',
+      clinicalAnalytics: 'नैदानिक विश्लेषिकी एवं चित्रांकन',
+      clinicalAnalyticsSub: 'मियास्म एवं भ्रूणीय परत विश्लेषण',
+      aiCopilot: 'कृत्रिम बुद्धिमत्ता क्लिनिकल सहायक',
+      aiCopilotSub: 'जेमिनी २.५ प्रो अंतर निदानात्मक',
+      aiDiagnosticLab: 'एआई निदानात्मक प्रयोगशाला व ओसीआर',
+      aiDiagnosticLabSub: 'त्वचा विकार, रक्त रिपोर्ट व चाल विश्लेषण',
+      patientEhr: 'रोगी स्वास्थ्य रिकॉर्ड व आभा डेटाबेस',
+      materiaMedica: 'होम्योपैथिक मटेरिया मेडिका पुस्तकालय',
+      materiaMedicaSub: 'एलन व बोरिक प्रामाणिक ग्रंथ',
+      clinicalAcademy: 'बीएचएमएस एवं एमडी क्लिनिकल अकादमी',
+      clinicalAcademySub: '३६०° मानव शरीर रचना व मौखिक परीक्षा',
+      ayushResearchHub: 'आयुष क्लिनिकल शोध केंद्र',
+      ayushResearchHubSub: 'समकक्ष-समीक्षित उपचार केस अध्ययन',
+      discussionBlogs: 'चिकित्सकीय चर्चा ब्लॉग व केस विनिमय',
+      discussionBlogsSub: 'सेहगल व बर्नेट कार्यप्रणाली प्रश्नोत्तरी',
+      differentialWorkbench: 'त्रि-औषधि तुलनात्मक कार्यमंच',
+      differentialWorkbenchSub: 'तुलनात्मक मोडैलिटी ग्रिड तालिका',
+      enterpriseSuite: 'संस्थागत चिकित्सालय मंच सुइट',
+      enterpriseSuiteSub: 'अस्पताल नेटवर्क व बिलिंग प्रबंधन',
+      doctorProfile: 'चिकित्सक साख एवं आयुष पंजीकरण',
+      doctorProfileSub: 'पंजीकरण संख्या व लाइसेंस विवरण',
+      hospitalProfile: 'अस्पताल व बाह्यरोगी विभाग नेटवर्क',
+      hospitalProfileSub: 'विभाग व टोकन प्रवाह प्रबंधन',
+      supportHelp: '२४/७ सहायता एवं व्हाट्सऐप्प डेस्क',
+      supportHelpSub: 'क्लिनिकल सहायता केंद्र',
+      opdCareSuite: 'बाह्यरोगी एवं रोगी देखभाल सेवा',
+      aiAnalyticsSuite: 'एआई अंतर निदानात्मक व विश्लेषिकी',
+      materiaMedicaAcademySuite: 'मटेरिया मेडिका व बीएचएमएस अकादमी',
+      clinicAdminEnterpriseSuite: 'चिकित्सालय प्रशासन व संस्थागत तंत्र',
+      opdQueueManagerTitle: 'बाह्यरोगी प्रतीक्षा कतार प्रबंधक एवं एकीकृत स्वास्थ्य प्रणाली',
+      opdQueueManagerSub: 'राष्ट्रीय स्वास्थ्य प्राधिकरण (NHA UHI v1.2) रोगी प्रवाह एवं टोकन प्रेषण प्रणाली',
+      checkInWalkInPatient: '+ नया वाक-इन रोगी पंजीकृत करें',
+      physicalOpdTokenQueue: 'चिकित्सालय भौतिक टोकन कतार',
+      inOpdCabin: 'परामर्श कक्ष में सक्रिय',
+      callToken: 'टोकन बुलाएं',
+      hoverExpandedCollapsible: 'होवर पर विस्तारित • स्वतः संकुचन',
+      activeSessionVerification: 'सक्रिय सत्र सत्यापन',
+      viewAsPersonaSimulation: 'भूमिका अनुकरण द्वारा देखें:',
+      userPreferencesClinicSettings: 'उपयोगकर्ता प्राथमिकताएं एवं क्लीनिक सेटिंग्स',
+      visualAppearance: 'दृश्य स्वरूप (थीम)',
+      defaultRxPotency: 'मानक पर्चा पोटेंसी',
+      switchRbacLogin: 'उपयोगकर्ता भूमिका बदलें',
+      logOut: 'सत्र समाप्त करें (लॉग आउट)',
       rubricTranslations: {
         'MIND - BUSINESS - talks of': 'मन - व्यापार - दिन-रात व्यापार की बात करता है',
         'MIND - ANXIETY - night - sun set after': 'मन - चिंता - सूर्यास्त के बाद रात में घबराहट',
@@ -248,100 +376,30 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       launchOpd: 'MateriaGrid OPD শুরু করুন',
       openClinicalPortal: 'ক্লিনিকাল OPD পোর্টাল খুলুন',
       topSimillimum: 'শীর্ষ সিমিলিমাম',
-      intake: '+ রোগী কেস',
-      decisionGates: '🔀 সিদ্ধান্ত দ্বার',
-      rxSlip: 'প্রেসক্রিপশন',
-      verifiedAbha: 'যাচাইকৃত ABHA',
+      intake: '+ রোগী নিবন্ধন',
+      decisionGates: '🔀 সিদ্ধান্ত গেট',
+      rxSlip: 'প্রেসক্রিপশন স্লিপ',
+      verifiedAbha: 'সত্যাপিত ABHA',
       similiMatrixEngine: 'সিমিলিম্যাট্রিক্স ও টেলিহেলথ',
-      patientProfile: 'রোগী প্রোফাইল ও ABHA',
+      opdQueue: 'OPD অপেক্ষা সারি ও UHI',
+      pharmacy: 'ফার্মেসি ও LM পোটেন্সি',
+      differentialWorkbench: 'পার্থক্যমূলক সারণী',
+      patientProfile: 'রোগীর প্রোফাইল ও ABHA',
       doctorProfile: 'চিকিৎসক শংসাপত্র',
       hospitalProfile: 'হাসপাতাল ও OPD নেটওয়ার্ক',
       supportHelp: '২৪/৭ সহায়তা ও হোয়াটসঅ্যাপ',
       rubricTranslations: {
         'MIND - BUSINESS - talks of': 'মন - ব্যবসা - দিনরাত ব্যবসার কথা বলে',
-        'MIND - ANXIETY - night - sun set after': 'মন - উদ্বেগ - সূর্যাস্তের পর রাতে ভয় ও উদ্বেগ',
-        'HEAD - PAIN - pulsating - sudden': 'মাথা - ব্যথা - হঠাৎ তীব্র স্পন্দনশীল ব্যথা',
+        'MIND - ANXIETY - night - sun set after': 'মন - উদ্বেগ - সূর্যাস্তের পর রাতে অস্বস্তি',
+        'MIND - IMPATIENCE - business in': 'মন - অধৈর্য্য - কাজে তাড়াহুড়া',
+        'HEAD - PAIN - pulsating - sudden': 'মাথা - ব্যথা - হঠাৎ স্পন্দনশীল ব্যথা',
+        'HEAD - PAIN - sun - exposure to': 'মাথা - ব্যথা - রোদের তাপে বৃদ্ধি',
+        'HEAD - CONGESTION - violent - carotid pulsation': 'মাথা - রক্তসঞ্চালন - তীব্র ক্যারোটিড ধমনি স্পন্দন',
+        'EYES - PUPILS - dilated - insensitive to light': 'চোখ - তারারন্ধ্র - প্রসারিত - আলোতে নিষ্প্রভ',
+        'ABDOMEN - CIRRHOSIS - liver - chronic parenchyma': 'পেট - লিভার সিরোসিস - দীর্ঘস্থায়ী যকৃৎ রোগ',
+        'ABDOMEN - PAIN - right scapula - under lower angle': 'পেট - ব্যথা - ডান কাঁধের হাড়ের নিচে',
+        'ABDOMEN - JAUNDICE - yellow sclera - stool clay colored': 'পেট - জন্ডিস - হলুদ চোখ ও মাটির রঙের মল',
       },
     },
   },
-  MR: {
-    code: 'MR',
-    nativeName: 'मराठी',
-    englishName: 'Marathi',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'अचूक होमिओपॅथिक रेपरटरायझेशन व NHA UHI क्लिनिकल टेलिहेल्थ',
-      launchOpd: 'MateriaGrid OPD सुरू करा',
-      openClinicalPortal: 'क्लिनिकल OPD पोर्टल उघडा',
-      topSimillimum: 'शीर्ष सिमिलीमम',
-      intake: '+ केस नोंदणी',
-      decisionGates: '🔀 निर्णयद्वारे',
-      rxSlip: 'औषध चिठ्ठी',
-      verifiedAbha: 'सत्यापित ABHA',
-      similiMatrixEngine: 'सिमिलीमॅट्रिक्स व टेलिहेल्थ',
-      patientProfile: 'रुग्ण प्रोफाइल व ABHA',
-      doctorProfile: 'डॉक्टर प्रमाणपत्रे',
-      hospitalProfile: 'रुग्णालय व OPD नेटवर्क',
-      supportHelp: '२४/७ मदत व व्हॉट्सॲप',
-    },
-  },
-  GU: {
-    code: 'GU',
-    nativeName: 'ગુજરાતી',
-    englishName: 'Gujarati',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'ચોક્કસ હોમિયોપેથિક રેપર્ટરાઇઝેશન અને NHA UHI ક્લિનિકલ ટેલિહેલ્થ',
-      launchOpd: 'MateriaGrid OPD શરૂ કરો',
-      openClinicalPortal: 'ક્લિનિકલ OPD પોર્ટલ ખોલો',
-      topSimillimum: 'ટોચનું સિમિલીમમ',
-      intake: '+ કેસ નોંધણી',
-      decisionGates: '🔀 નિર્ણય દ્વાર',
-      rxSlip: 'પ્રિસ્ક્રિપ્શન',
-      verifiedAbha: 'ચકાસાયેલ ABHA',
-      similiMatrixEngine: 'સિમિલીમેટ્રિક્સ અને ટેલિહેલ્થ',
-      patientProfile: 'દર્દી પ્રોફાઇલ અને ABHA',
-      doctorProfile: 'ડોક્ટર લાયકાત',
-      hospitalProfile: 'હોસ્પિટલ અને OPD ફ્લીટ',
-      supportHelp: '24/7 સપોર્ટ અને વોટ્સએપ',
-    },
-  },
-  ML: { code: 'ML', nativeName: 'മലയാളം', englishName: 'Malayalam', labels: BASE_EN_LABELS },
-  TE: { code: 'TE', nativeName: 'తెలుగు', englishName: 'Telugu', labels: BASE_EN_LABELS },
-  KN: { code: 'KN', nativeName: 'ಕನ್ನಡ', englishName: 'Kannada', labels: BASE_EN_LABELS },
-  OR: { code: 'OR', nativeName: 'ଓଡ଼ିଆ', englishName: 'Odia', labels: BASE_EN_LABELS },
-  PA: { code: 'PA', nativeName: 'ਪੰਜਾਬੀ', englishName: 'Punjabi', labels: BASE_EN_LABELS },
-  UR: { code: 'UR', nativeName: 'اردو', englishName: 'Urdu', labels: BASE_EN_LABELS },
-  AS: { code: 'AS', nativeName: 'অসমীয়া', englishName: 'Assamese', labels: BASE_EN_LABELS },
-  KOK: { code: 'KOK', nativeName: 'कोंकणी', englishName: 'Konkani', labels: BASE_EN_LABELS },
-  MNI: { code: 'MNI', nativeName: 'মৈতৈলোন্', englishName: 'Manipuri', labels: BASE_EN_LABELS },
-  NEP: { code: 'NEP', nativeName: 'नेपाली', englishName: 'Nepali', labels: BASE_EN_LABELS },
-  BHO: { code: 'BHO', nativeName: 'भोजपुरी', englishName: 'Bhojpuri', labels: BASE_EN_LABELS },
-  RAJ: { code: 'RAJ', nativeName: 'मारवाड़ी', englishName: 'Marwari', labels: BASE_EN_LABELS },
-  CHH: { code: 'CHH', nativeName: 'छत्तीसगढ़ी', englishName: 'Chhattisgarhi', labels: BASE_EN_LABELS },
-  HAR: { code: 'HAR', nativeName: 'हरियाणवी', englishName: 'Haryanvi', labels: BASE_EN_LABELS },
-  TCY: { code: 'TCY', nativeName: 'ತುಳು', englishName: 'Tulu', labels: BASE_EN_LABELS },
-  GBR: { code: 'GBR', nativeName: 'गढ़वाली', englishName: 'Garhwali', labels: BASE_EN_LABELS },
-  KUM: { code: 'KUM', nativeName: 'कुमाऊँनी', englishName: 'Kumaoni', labels: BASE_EN_LABELS },
-  MAG: { code: 'MAG', nativeName: 'मगही', englishName: 'Magahi', labels: BASE_EN_LABELS },
-  MIZ: { code: 'MIZ', nativeName: 'Mizo', englishName: 'Mizo', labels: BASE_EN_LABELS },
-  KHA: { code: 'KHA', nativeName: 'Khasi', englishName: 'Khasi', labels: BASE_EN_LABELS },
-  GRT: { code: 'GRT', nativeName: 'Garo', englishName: 'Garo', labels: BASE_EN_LABELS },
-  NAG: { code: 'NAG', nativeName: 'Nagamese', englishName: 'Nagamese', labels: BASE_EN_LABELS },
-  LBJ: { code: 'LBJ', nativeName: 'ལ་དྭགས་སྐད།', englishName: 'Ladakhi', labels: BASE_EN_LABELS },
-  KFV: { code: 'KFV', nativeName: 'కొడవ තක්ක්', englishName: 'Kodava', labels: BASE_EN_LABELS },
-  KS: { code: 'KS', nativeName: 'كأشُر', englishName: 'Kashmiri', labels: BASE_EN_LABELS },
-  SD: { code: 'SD', nativeName: 'سنڌي', englishName: 'Sindhi', labels: BASE_EN_LABELS },
-  MAI: { code: 'MAI', nativeName: 'मैथिली', englishName: 'Maithili', labels: BASE_EN_LABELS },
-  SAT: { code: 'SAT', nativeName: 'ᱥᱟᱱᱛᱟᱲᱤ', englishName: 'Santali', labels: BASE_EN_LABELS },
-  BRX: { code: 'BRX', nativeName: 'बर\'', englishName: 'Bodo', labels: BASE_EN_LABELS },
-  DOI: { code: 'DOI', nativeName: 'डोगरी', englishName: 'Dogri', labels: BASE_EN_LABELS },
-  SA: { code: 'SA', nativeName: 'संस्कृतम्', englishName: 'Sanskrit', labels: BASE_EN_LABELS },
-  DE: { code: 'DE', nativeName: 'Deutsch', englishName: 'German', labels: BASE_EN_LABELS },
-  FR: { code: 'FR', nativeName: 'Français', englishName: 'French', labels: BASE_EN_LABELS },
-  ES: { code: 'ES', nativeName: 'Español', englishName: 'Spanish', labels: BASE_EN_LABELS },
-  PT: { code: 'PT', nativeName: 'Português', englishName: 'Portuguese', labels: BASE_EN_LABELS },
-  IT: { code: 'IT', nativeName: 'Italiano', englishName: 'Italian', labels: BASE_EN_LABELS },
-  RU: { code: 'RU', nativeName: 'Русский', englishName: 'Russian', labels: BASE_EN_LABELS },
-  AR: { code: 'AR', nativeName: 'العربية', englishName: 'Arabic', labels: BASE_EN_LABELS },
 };

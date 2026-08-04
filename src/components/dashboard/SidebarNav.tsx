@@ -113,7 +113,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
   const navGroups = [
     {
-      groupTitle: 'OPD & PATIENT CARE SUITE',
+      groupTitle: labels.opdCareSuite,
       groupIcon: Stethoscope,
       accentColor: isLight
         ? 'bg-emerald-100 text-emerald-900 border-emerald-300 hover:bg-emerald-200'
@@ -122,39 +122,39 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'MATRIX_TELEHEALTH' as ActiveWorkspaceTab,
           label: labels.similiMatrixEngine,
-          subLabel: 'SimiliMatrix Grid & Video OPD',
+          subLabel: labels.similiMatrixSub,
           icon: Grid,
           isLive: true,
         },
         {
           id: 'OPD_QUEUE_MANAGER' as ActiveWorkspaceTab,
           label: labels.opdQueue,
-          subLabel: 'Waiting Room & Video Slots',
+          subLabel: labels.opdQueueSub,
           icon: Calendar,
           isUhi: true,
         },
         {
           id: 'PATIENT_REPOSITORY' as ActiveWorkspaceTab,
-          label: 'Longitudinal Case Chain & Audit Ledger',
-          subLabel: 'Tamper-Proof Longitudinal Visit Chain',
+          label: labels.patientRepository,
+          subLabel: labels.patientRepositorySub,
           icon: History,
         },
         {
           id: 'PATIENT_PROFILE' as ActiveWorkspaceTab,
-          label: 'ABHA Patient Identity & Health Locker',
-          subLabel: 'ABDM Health Locker & Profile',
+          label: labels.patientProfile,
+          subLabel: labels.patientProfileSub,
           icon: User,
         },
         {
           id: 'PHARMACY_DISPENSARY' as ActiveWorkspaceTab,
           label: labels.pharmacy,
-          subLabel: 'Classical Liquid Potency Stock',
+          subLabel: labels.pharmacySub,
           icon: Pill,
         },
       ],
     },
     {
-      groupTitle: 'AI DIFFERENTIAL & ANALYTICS',
+      groupTitle: labels.aiAnalyticsSuite,
       groupIcon: Sparkles,
       accentColor: isLight
         ? 'bg-purple-100 text-purple-900 border-purple-300 hover:bg-purple-200'
@@ -163,33 +163,33 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'AI_CHATBOT' as ActiveWorkspaceTab,
           label: labels.aiCopilot,
-          subLabel: 'Gemini 2.5 Pro Differential',
+          subLabel: labels.aiCopilotSub,
           icon: Bot,
           isAi: true,
         },
         {
           id: 'DIAGNOSTIC_LAB_AI' as ActiveWorkspaceTab,
-          label: 'AI Diagnostic Lab & OCR',
-          subLabel: 'Lesion, Blood OCR & Gait',
+          label: labels.aiDiagnosticLab,
+          subLabel: labels.aiDiagnosticLabSub,
           icon: Microscope,
           isNew: true,
         },
         {
           id: 'ANALYTICS_GRAPHS' as ActiveWorkspaceTab,
           label: labels.clinicalAnalytics,
-          subLabel: 'Miasmatic & Layer Vectors',
+          subLabel: labels.clinicalAnalyticsSub,
           icon: BarChart2,
         },
         {
           id: 'DIFFERENTIAL_WORKBENCH' as ActiveWorkspaceTab,
           label: labels.differentialWorkbench,
-          subLabel: 'Side-by-Side Specificity Comparison',
+          subLabel: labels.differentialWorkbenchSub,
           icon: GitCompare,
         },
       ],
     },
     {
-      groupTitle: 'MATERIA MEDICA & ACADEMY',
+      groupTitle: labels.materiaMedicaAcademySuite,
       groupIcon: BookMarked,
       accentColor: isLight
         ? 'bg-cyan-100 text-cyan-900 border-cyan-300 hover:bg-cyan-200'
@@ -198,33 +198,33 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'MATERIA_MEDICA_LIBRARY' as ActiveWorkspaceTab,
           label: labels.materiaMedica,
-          subLabel: 'Boericke & Kent Reference',
+          subLabel: labels.materiaMedicaSub,
           icon: BookOpen,
         },
         {
           id: 'AYUSH_RESEARCH_HUB' as ActiveWorkspaceTab,
-          label: 'AYUSH Academic Research Hub',
-          subLabel: 'CCRH Clinical Trials & Mathematical Specificity Index',
+          label: labels.ayushResearchHub,
+          subLabel: labels.ayushResearchHubSub,
           icon: Award,
         },
         {
           id: 'CLINICAL_ACADEMY' as ActiveWorkspaceTab,
-          label: 'BHMS / MD Clinical Academy',
-          subLabel: 'Interactive Courses, Quizzes & Virtual OPD Simulation',
+          label: labels.clinicalAcademy,
+          subLabel: labels.clinicalAcademySub,
           icon: GraduationCap,
           isNew: true,
         },
         {
           id: 'DISCUSSION_BLOGS' as ActiveWorkspaceTab,
-          label: 'Clinical Discussion Blogs',
-          subLabel: 'Sehgal ROH & Burnett Case Studies',
+          label: labels.discussionBlogs,
+          subLabel: labels.discussionBlogsSub,
           icon: MessageSquare,
           isNew: true,
         },
       ],
     },
     {
-      groupTitle: 'CLINIC ADMIN & ENTERPRISE',
+      groupTitle: labels.clinicAdminEnterpriseSuite,
       groupIcon: ShieldCheck,
       accentColor: isLight
         ? 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
@@ -233,32 +233,32 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         {
           id: 'HOSPITAL_PROFILE' as ActiveWorkspaceTab,
           label: labels.hospitalProfile,
-          subLabel: 'NIH Central AYUSH Hub',
+          subLabel: labels.hospitalProfileSub,
           icon: Building2,
         },
         {
           id: 'DOCTOR_PROFILE' as ActiveWorkspaceTab,
           label: labels.doctorProfile,
-          subLabel: 'Dr. Nitin Aggarwal, MD Hom.',
+          subLabel: labels.doctorProfileSub,
           icon: UserCheck,
         },
         {
           id: 'PROFILE_CREATION' as ActiveWorkspaceTab,
-          label: '+ Create Profile & ABDM Studio',
-          subLabel: 'ABHA Patient, Doctor & Hospital',
+          label: labels.patientProfile,
+          subLabel: labels.patientProfileSub,
           icon: UserPlus,
           isNew: true,
         },
         {
           id: 'ENTERPRISE_SUITE' as ActiveWorkspaceTab,
           label: labels.enterpriseSuite,
-          subLabel: 'Multi-Doctor Clinic Staff & UHI Insurance Claims',
+          subLabel: labels.enterpriseSuiteSub,
           icon: Building,
         },
         {
           id: 'SUPPORT_HELP' as ActiveWorkspaceTab,
           label: labels.supportHelp,
-          subLabel: 'Live Chat, Contact & WhatsApp Call',
+          subLabel: labels.supportHelpSub,
           icon: HelpCircle,
           isLive: true,
         },

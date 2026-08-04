@@ -24,6 +24,10 @@ import {
   X,
 } from 'lucide-react';
 import { useRbac } from '@/lib/auth/rbac_context';
+import {
+  INDIAN_LANGUAGE_PACKS,
+  IndianLanguageCode,
+} from '@/lib/i18n/indian_language_packs';
 
 export type RbacRole =
   | 'PHYSICIAN'
@@ -43,6 +47,8 @@ export const UserPersonaHeaderWidget: React.FC<
   UserPersonaHeaderWidgetProps
 > = ({ theme, onToggleTheme, onSelectTab, langCode = 'EN', onSelectLanguage }) => {
   const isLight = theme === 'light';
+  const pack = INDIAN_LANGUAGE_PACKS[(langCode as IndianLanguageCode)] || INDIAN_LANGUAGE_PACKS.EN;
+  const labels = pack.labels;
   const { currentUser, switchRole, setIsLoginModalOpen } = useRbac();
   const [isOpen, setIsOpen] = useState(false);
   const [defaultPotency, setDefaultPotency] = useState('200C (Constitutional)');
@@ -197,7 +203,7 @@ export const UserPersonaHeaderWidget: React.FC<
           <div className="flex items-center justify-between border-b pb-2.5 border-slate-200 dark:border-slate-800">
             <span className="text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 tracking-wider flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              HOVER EXPANDED • COLLAPSIBLE BY DEFAULT
+              {labels.hoverExpandedCollapsible}
             </span>
             <button
               onClick={(e) => {
@@ -222,7 +228,7 @@ export const UserPersonaHeaderWidget: React.FC<
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-black uppercase text-slate-500 dark:text-gray-400 tracking-wider">
-                ACTIVE SESSION VERIFICATION
+                {labels.activeSessionVerification}
               </span>
               <span className="text-[9px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-black shadow-2xs flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3" /> ABDM SIGNED
@@ -253,7 +259,7 @@ export const UserPersonaHeaderWidget: React.FC<
           <div className="space-y-2">
             <div className="flex items-center justify-between px-1">
               <span className="text-[10px] font-black uppercase text-slate-500 dark:text-gray-400 tracking-wider flex items-center gap-1.5">
-                <Eye className="w-3.5 h-3.5 text-cyan-500" /> VIEW AS PERSONA (ROLE SIMULATION):
+                <Eye className="w-3.5 h-3.5 text-cyan-500" /> {labels.viewAsPersonaSimulation}
               </span>
             </div>
 
@@ -322,13 +328,13 @@ export const UserPersonaHeaderWidget: React.FC<
             }`}
           >
             <span className="text-[10px] font-black uppercase text-slate-500 dark:text-gray-400 block tracking-wider">
-              USER PREFERENCES &amp; CLINIC SETTINGS
+              {labels.userPreferencesClinicSettings}
             </span>
 
             {/* LIGHT / DARK THEME TOGGLE */}
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-700 dark:text-gray-300">
-                Visual Appearance
+                {labels.visualAppearance}
               </span>
               <button
                 onClick={onToggleTheme}
@@ -378,7 +384,7 @@ export const UserPersonaHeaderWidget: React.FC<
             {/* DEFAULT SIMILLIMUM POTENCY */}
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-700 dark:text-gray-300">
-                Default Rx Potency
+                {labels.defaultRxPotency}
               </span>
               <select
                 value={defaultPotency}
