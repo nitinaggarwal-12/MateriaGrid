@@ -585,20 +585,36 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                     <div className="flex items-center justify-between space-x-3">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
-                          <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                          <span
+                            className={`text-[11px] font-black uppercase tracking-wider ${
+                              isLight ? 'text-emerald-700' : 'text-emerald-400'
+                            }`}
+                          >
                             {rubric.chapter}
                           </span>
-                          <span className="text-gray-300 font-light">•</span>
-                          <span className="font-semibold text-xs text-slate-900 dark:text-gray-100 leading-snug">
+                          <span className={isLight ? 'text-slate-400' : 'text-slate-500'}>•</span>
+                          <span
+                            className={`font-semibold text-xs leading-snug ${
+                              isLight ? 'text-slate-900' : 'text-white'
+                            }`}
+                          >
                             {translatedPath.includes(' - ')
                               ? translatedPath.split(' - ').slice(1).join(' — ')
                               : translatedPath}
                           </span>
                         </div>
 
-                        <div className="flex items-center space-x-2 text-[11px] text-slate-400 dark:text-gray-400">
+                        <div
+                          className={`flex items-center space-x-2 text-[11px] ${
+                            isLight ? 'text-slate-500' : 'text-slate-300'
+                          }`}
+                        >
                           <span>Embryological Layer:</span>
-                          <span className="font-semibold text-slate-600 dark:text-gray-300">
+                          <span
+                            className={`font-semibold ${
+                              isLight ? 'text-slate-700' : 'text-slate-100'
+                            }`}
+                          >
                             {rubric.embryologicalLayer}
                           </span>
 
