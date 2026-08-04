@@ -33,6 +33,46 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const labels = pack.labels;
 
   const getLocalizedQueue = (code: string) => {
+    if (code === 'ML') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'രമേഷ് കുമാർ ശർമ്മ',
+          ageGender: '44 പുരുഷൻ',
+          chiefComplaint: 'കഠിനമായ തുടിപ്പോടു കൂടിയ പനിയും കരോട്ടിഡ് ധമനി സ്പന്ദനവും',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 മിനിറ്റ്',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'പ്രിയ പട്ടേൽ',
+          ageGender: '38 സ്ത്രീ',
+          chiefComplaint: 'ദീർഘകാല കരൾ സിറോസിസും തോളെല്ല് വേദനയും',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 മിനിറ്റ്',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'വിക്രം സിംഗ്',
+          ageGender: '52 പുരുഷൻ',
+          chiefComplaint: 'മുട്ടുകണ്ണി സന്ധിയിലെ ദ്രാവക വീക്കവും കാഠിന്യവും',
+          status: 'WAITING',
+          waitTime: '15 മിനിറ്റ്',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'അനന്യ വർമ്മ',
+          ageGender: '29 സ്ത്രീ',
+          chiefComplaint: 'നെറ്റിയിലെ കഠിനമായ മൈഗ്രേൻ വേദനയും വെളിച്ചക്കൂച്ചവും',
+          status: 'WAITING',
+          waitTime: '22 മിനിറ്റ്',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
     if (code === 'TE') {
       return [
         {
@@ -358,25 +398,25 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const uhiVideoSlots = [
     {
       time: '10:00 AM – 10:15 AM',
-      patientName: langCode === 'TE' ? 'అనన్య వర్మ' : langCode === 'TA' ? 'அனன்யா வர்மா' : langCode === 'HI' ? 'अनन्या वर्मा' : 'Ananya Verma',
+      patientName: langCode === 'ML' ? 'അനന്യ വർമ്മ' : langCode === 'TE' ? 'అనన్య వర్మ' : langCode === 'TA' ? 'அனன்யா வர்மா' : langCode === 'HI' ? 'अनन्या वर्मा' : 'Ananya Verma',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:15 AM – 10:30 AM',
-      patientName: langCode === 'TE' ? 'విక్రమాదిత్య రావు' : langCode === 'TA' ? 'விக்ரமாதித்யா ராவ்' : langCode === 'HI' ? 'विक्रमादित्य राव' : 'Vikramaditya Rao',
+      patientName: langCode === 'ML' ? 'വിക്രമാദിത്യ റാവു' : langCode === 'TE' ? 'విక్రమాదిత్య రావు' : langCode === 'TA' ? 'விக்ரமாதித்யா ராவ்' : langCode === 'HI' ? 'विक्रमादित्य राव' : 'Vikramaditya Rao',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:30 AM – 10:45 AM',
-      patientName: langCode === 'TE' ? 'సిద్ధార్థ్ దేశ్‌ముఖ్' : langCode === 'TA' ? 'சித்தார்த் தேஷ்முக்' : langCode === 'HI' ? 'सिद्धार्थ देशमुख' : 'Siddharth Deshmukh',
+      patientName: langCode === 'ML' ? 'സിദ്ധാർത്ഥ് ദേശ്മുഖ്' : langCode === 'TE' ? 'సిద్ధార్థ్ దేశ్‌ముఖ్' : langCode === 'TA' ? 'சித்தார்த் தேஷ்முக்' : langCode === 'HI' ? 'सिद्धार्थ देशमुख' : 'Siddharth Deshmukh',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:45 AM – 11:00 AM',
-      patientName: langCode === 'TE' ? 'కవితా పటేల్' : langCode === 'TA' ? 'கவிதா படேல்' : langCode === 'HI' ? 'कविता पटेल' : 'Kavita Patel',
+      patientName: langCode === 'ML' ? 'കവിത പട്ടേൽ' : langCode === 'TE' ? 'కవితా పటేల్' : langCode === 'TA' ? 'கவிதா படேல்' : langCode === 'HI' ? 'कविता पटेल' : 'Kavita Patel',
       status: labels.confirmedUhi,
       isBooked: true,
     },
