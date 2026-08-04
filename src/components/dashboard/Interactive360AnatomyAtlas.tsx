@@ -40,7 +40,7 @@ export const Interactive360AnatomyAtlas: React.FC<
 > = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
 
-  const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-skeletal');
+  const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-head');
   const [workbenchTab, setWorkbenchTab] = useState<StudyWorkbenchTab>('ATLAS_360');
   const [showLandmarkLabels, setShowLandmarkLabels] = useState<boolean>(true);
   const [yaw, setYaw] = useState<number>(0);
@@ -49,7 +49,7 @@ export const Interactive360AnatomyAtlas: React.FC<
   const lastTouchRef = useRef<{ x: number; y: number } | null>(null);
 
   const [zoomLevel, setZoomLevel] = useState<number>(95);
-  const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>('hs-synovial-joint');
+  const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>('hs-frontal-cortex');
 
   // Viva Spotter Exam State
   const [spotterQuestionIdx, setSpotterQuestionIdx] = useState<number>(0);
@@ -111,7 +111,7 @@ export const Interactive360AnatomyAtlas: React.FC<
     return '270° SAGITTAL HISTOLOGY CROSS-SECTION';
   };
 
-  // ALL 8 COMPLETE MAJOR HUMAN ANATOMICAL SYSTEMS WITH DETAILED CLINICAL DISSECTION
+  // ALL 8 COMPLETE MAJOR HUMAN ANATOMICAL SYSTEMS WITH DETAILED CLINICAL DISSECTION & MULTI-HOTSPOTS
   const ORGAN_SYSTEMS = [
     {
       id: 'organ-head',
@@ -130,9 +130,9 @@ export const Interactive360AnatomyAtlas: React.FC<
       atlasIllustration: {
         bgGradient: 'from-[#1A1024] via-[#281736] to-[#110A1A]',
         landmarkLabels: [
-          { label: 'Cerebral Cortex Gyri & Sulci', pos: 'top-[10%] left-[10%]' },
-          { label: 'Circle of Willis Ring', pos: 'top-[42%] right-[10%]' },
-          { label: 'Carotid Bifurcation (Belladonna)', pos: 'bottom-[10%] left-[12%]' },
+          { label: 'Cerebral Cortex Gyri & Sulci', pos: 'top-[8%] left-[8%]' },
+          { label: 'Circle of Willis Ring', pos: 'top-[8%] right-[8%]' },
+          { label: 'Carotid Bifurcation (Belladonna)', pos: 'bottom-[8%] left-[8%]' },
         ],
       },
       hotspots: [
@@ -142,16 +142,60 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'MIND - ANXIETY - future, about',
           remedy: 'Aconite / Arsenicum Album',
           note: 'Ectodermal neural locus of acute mental restlessness and anticipation fear.',
-          coords: 'top-[22%] left-[28%]',
+          coords: 'top-[24%] left-[28%]',
+        },
+        {
+          id: 'hs-hypothalamus',
+          label: 'Hypothalamic Thermal Center',
+          rubric: 'GENERALITIES - HEAT - flushes of',
+          remedy: 'Vijayakar Thermal-Thirst Constant Filter',
+          note: 'Immutable baseline regulator governing thermal baseline (Hot/Chilly) and thirst dynamics.',
+          coords: 'top-[48%] left-[48%]',
+        },
+        {
+          id: 'hs-occipital',
+          label: 'Occipital-Cervical Neural Junction',
+          rubric: 'HEAD - PAIN - occiput - extending to forehead',
+          remedy: 'Gelsemium Sempervirens 30C',
+          note: 'Dull heavy occipital headache spreading forward over eyes with muscle eyelids heaviness.',
+          coords: 'top-[36%] right-[22%]',
+        },
+        {
+          id: 'hs-carotid-plexus',
+          label: 'Carotid Arterial Surge Plexus',
+          rubric: 'HEAD - CONGESTION - blood - surge of',
+          remedy: 'Belladonna 30C / 200C',
+          note: 'Sudden throbbing carotid artery pulsation, dilated pupils, flushed red face, cerebral congestion.',
+          coords: 'top-[78%] left-[48%]',
         },
       ],
-      spotterQuestions: [],
+      spotterQuestions: [
+        {
+          question:
+            'Q1 (BHMS 2nd Yr Viva): Which anatomical vascular structure causes the intense throbbing carotid headache characteristic of Belladonna?',
+          options: [
+            'Vertebral Artery within Foramen Transversarium',
+            'Internal Carotid Artery & Circle of Willis Arterial Ring',
+            'Superior Sagittal Dural Sinus',
+            'Middle Meningeal Artery',
+          ],
+          correctIdx: 1,
+          explanation:
+            'Belladonna acts intensely on the arterial blood vessels supplying the cerebral cortex and carotid bifurcation, causing violent arterial congestion (§210–213).',
+        },
+      ],
       organopathyRemedies: [
         {
           name: 'Belladonna',
           potency: '30C / 200C',
           keynote:
             'Sudden intense carotid artery throbbing, dilated pupils, flushed red face, cerebral congestion.',
+        },
+        {
+          name: 'Gelsemium Sempervirens',
+          potency: '30C',
+          keynote:
+            'Dull heavy occipital headache spreading forward over head, eyelid ptosis, motor trembling.',
         },
       ],
     },
@@ -165,14 +209,14 @@ export const Interactive360AnatomyAtlas: React.FC<
         'The hepatic parenchyma and biliary system represent the primary metabolic vascular filtration organ derived from Endoderm.',
       anatomicalLandmarks: [
         'Right & Left Hepatic Parenchymal Lobes separated by Falciform Ligament',
-        'Gallbladder, Cystic Duct & Common Bile Duct',
-        'Portal Vein Triad (Bile Duct, Hepatic Artery, Portal Vein)',
+        'Pear-Shaped Gallbladder, Cystic Duct & Common Bile Duct',
+        'Portal Vein Triad at Porta Hepatis (Bile Duct, Hepatic Artery, Portal Vein)',
       ],
       atlasIllustration: {
         bgGradient: 'from-[#0B261D] via-[#133A2D] to-[#071812]',
         landmarkLabels: [
-          { label: 'Right Hepatic Parenchymal Lobe', pos: 'top-[10%] left-[10%]' },
-          { label: 'Hepatic Hexagonal Lobule', pos: 'top-[44%] right-[10%]' },
+          { label: 'Right & Left Hepatic Lobes (Falciform Ligament)', pos: 'top-[8%] left-[8%]' },
+          { label: 'Portal Vein Triad & Porta Hepatis', pos: 'top-[8%] right-[8%]' },
         ],
       },
       hotspots: [
@@ -182,7 +226,23 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'ABDOMEN - CIRRHOSIS - liver',
           remedy: 'Chelidonium Majus 1X / Q',
           note: 'Primary target for Chelidonium right scapular nerve referral pain and hepatic enlargement.',
-          coords: 'top-[28%] left-[28%]',
+          coords: 'top-[32%] left-[28%]',
+        },
+        {
+          id: 'hs-portal-vein',
+          label: 'Portal Vein Vascular Axis & Triad',
+          rubric: 'GENERALITIES - VARICOSE veins',
+          remedy: 'Carduus Marianus / Lycopodium',
+          note: 'Portal hypertension, hepatic venous congestion, and jaundice mitigation.',
+          coords: 'top-[52%] left-[48%]',
+        },
+        {
+          id: 'hs-gallbladder',
+          label: 'Gallbladder & Cystic/Bile Ducts',
+          rubric: 'ABDOMEN - GALLBLADDER - complaints of',
+          remedy: 'Carduus Marianus Q / Berberis',
+          note: 'Biliary dyskinesia, cholelithiasis, clay-colored stools, and right hypochondriac pain.',
+          coords: 'top-[78%] right-[24%]',
         },
       ],
       spotterQuestions: [],
@@ -207,12 +267,13 @@ export const Interactive360AnatomyAtlas: React.FC<
         'Renal Capsule & Glomerular Renal Cortex (Solidago target)',
         '8 Medullary Renal Pyramids with Striations & Papillae',
         'Major & Minor Calyces Draining to Renal Pelvis',
+        'Bilateral Ureters Radiating to Urinary Bladder (Berberis target)',
       ],
       atlasIllustration: {
         bgGradient: 'from-[#06202B] via-[#0E3445] to-[#04141C]',
         landmarkLabels: [
-          { label: 'Glomerular Renal Cortex (Solidago)', pos: 'top-[10%] left-[10%]' },
-          { label: 'Medullary Pyramids & Calyces', pos: 'top-[42%] right-[10%]' },
+          { label: 'Glomerular Renal Cortex (Solidago)', pos: 'top-[8%] left-[8%]' },
+          { label: 'Medullary Pyramids & Calyces', pos: 'top-[8%] right-[8%]' },
         ],
       },
       hotspots: [
@@ -223,6 +284,22 @@ export const Interactive360AnatomyAtlas: React.FC<
           remedy: 'Solidago Virgaurea Q / 3X',
           note: 'Burnett Kidney Drainage: Tender renal zone on pressure, albuminuria.',
           coords: 'top-[32%] left-[28%]',
+        },
+        {
+          id: 'hs-medullary-pyramids',
+          label: 'Medullary Renal Pyramids & Calyces',
+          rubric: 'URINARY ORGANS - KIDNEYS - stone in',
+          remedy: 'Berberis Vulgaris 6X / Pareira Brava',
+          note: 'Renal parenchyma calcification and medullary renal colic.',
+          coords: 'top-[48%] right-[22%]',
+        },
+        {
+          id: 'hs-ureter',
+          label: 'Ureteric Colic Radiation Locus',
+          rubric: 'URINARY ORGANS - URETERS - pain - radiating',
+          remedy: 'Berberis Vulgaris Q / 6X',
+          note: 'Radiating stone colic down ureter to thigh and testicle.',
+          coords: 'top-[78%] left-[48%]',
         },
       ],
       spotterQuestions: [],
@@ -251,18 +328,34 @@ export const Interactive360AnatomyAtlas: React.FC<
       atlasIllustration: {
         bgGradient: 'from-[#2E0B10] via-[#4A141A] to-[#1F070A]',
         landmarkLabels: [
-          { label: 'Ascending Aorta Arch & Brachiocephalic Branches', pos: 'top-[10%] left-[10%]' },
-          { label: 'Left Anterior Interventricular Coronary Artery', pos: 'top-[44%] right-[10%]' },
+          { label: 'Ascending Aorta Arch & Brachiocephalic Branches', pos: 'top-[8%] left-[8%]' },
+          { label: 'Left Anterior Interventricular Coronary Artery', pos: 'top-[8%] right-[8%]' },
         ],
       },
       hotspots: [
+        {
+          id: 'hs-aorta-arch',
+          label: 'Ascending Aorta Arch & Carotids',
+          rubric: 'CHEST - CONGESTION - heart',
+          remedy: 'Glonoine 6C / Aurum Metallicum',
+          note: 'Aortic surge congestion, carotid throbbing, and hypertension surge.',
+          coords: 'top-[24%] left-[48%]',
+        },
         {
           id: 'hs-coronary-artery',
           label: 'Coronary Interventricular Artery Tree',
           rubric: 'CHEST - CONSTRICTION - heart - wire around it, as if',
           remedy: 'Cactus Grandiflorus 30C / Q',
           note: 'Sensation as if an iron hand or wire tightly constricted the cardiac myocardium.',
-          coords: 'top-[42%] right-[24%]',
+          coords: 'top-[44%] right-[22%]',
+        },
+        {
+          id: 'hs-myocardium',
+          label: 'Ventricular Myocardial Wall',
+          rubric: 'HEART - PALPITATION - exertion, on slightest',
+          remedy: 'Crataegus Oxyacantha Q',
+          note: 'Burnett Heart Tonic: Cardiac hypertrophy, dyspnea on exertion, and feeble pulse.',
+          coords: 'top-[74%] left-[32%]',
         },
       ],
       spotterQuestions: [],
@@ -291,18 +384,34 @@ export const Interactive360AnatomyAtlas: React.FC<
       atlasIllustration: {
         bgGradient: 'from-[#0A1F30] via-[#123652] to-[#061421]',
         landmarkLabels: [
-          { label: 'Trachea & Carina Bronchial Bifurcation', pos: 'top-[10%] left-[10%]' },
-          { label: 'Right 3-Lobe Lung vs Left Cardiac Notch', pos: 'top-[42%] right-[10%]' },
+          { label: 'Trachea & Carina Bronchial Bifurcation', pos: 'top-[8%] left-[8%]' },
+          { label: 'Right 3-Lobe Lung vs Left Cardiac Notch', pos: 'top-[8%] right-[8%]' },
         ],
       },
       hotspots: [
+        {
+          id: 'hs-trachea-carina',
+          label: 'Tracheal Cartilage & Carina Bifurcation',
+          rubric: 'COUGH - SPASMODIC - larynx, from',
+          remedy: 'Drosera Rotundifolia 30C / Spongia Tosta',
+          note: 'Violent barky spasmodic cough originating at the bronchial carina bifurcation.',
+          coords: 'top-[24%] left-[48%]',
+        },
         {
           id: 'hs-bronchi',
           label: 'Bronchial Exudate & Alveolar Exudation Zone',
           rubric: 'CHEST - RATTLING - mucus',
           remedy: 'Antimonium Tartaricum 6C / 30C',
           note: 'Coarse rattling mucus in chest with complete inability to expectorate, cyanosis, drowsiness.',
-          coords: 'top-[42%] left-[30%]',
+          coords: 'top-[44%] left-[28%]',
+        },
+        {
+          id: 'hs-pleura',
+          label: 'Visceral Pleural Membrane Stitching Locus',
+          rubric: 'CHEST - PAIN - stitching - motion, on',
+          remedy: 'Bryonia Alba 30C / 200C',
+          note: 'Dry stitching pleuritic chest pain, worse slightest breath or motion, holding chest still.',
+          coords: 'top-[74%] right-[24%]',
         },
       ],
       spotterQuestions: [],
@@ -327,20 +436,14 @@ export const Interactive360AnatomyAtlas: React.FC<
         'Distal Femur Epiphysis with Medial & Lateral Condyles',
         'Proximal Tibia Plateau & Fibular Head Architecture',
         'Medial & Lateral Meniscus Cartilage Pads (Symphytum Officinale)',
-        'Anterior & Posterior Cruciate Ligaments (ACL / PCL)',
-        'Synovial Joint Capsule Membrane & Synovial Fluid Cavity (Rhus Tox)',
-        'Patella Kneecap & Patellar Ligament (Ruta Graveolens)',
       ],
       atlasIllustration: {
         bgGradient: 'from-[#2D1B0F] via-[#472C19] to-[#1C1008]',
-        // Non-overlapping corner landmark labels positioned high and low
         landmarkLabels: [
           { label: 'Distal Femoral Condyles & ACL/PCL Ligaments', pos: 'top-[8%] left-[8%]' },
           { label: 'Medial & Lateral Meniscus Cartilage Pads', pos: 'top-[8%] right-[8%]' },
-          { label: 'Synovial Joint Capsule Cavity (Rhus Tox)', pos: 'bottom-[8%] left-[8%]' },
         ],
       },
-      // Collision-free vertical & horizontal node pins
       hotspots: [
         {
           id: 'hs-synovial-joint',
@@ -348,7 +451,7 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'EXTREMITIES - STIFFNESS - motion - beginning of, on',
           remedy: 'Rhus Toxicodendron 30C / 200C',
           note: 'Extreme joint stiffness on beginning motion, progressively relieved by continued motion and warm bath.',
-          coords: 'top-[36%] left-[30%]',
+          coords: 'top-[36%] left-[28%]',
         },
         {
           id: 'hs-meniscus-cartilage',
@@ -367,39 +470,13 @@ export const Interactive360AnatomyAtlas: React.FC<
           coords: 'top-[78%] left-[48%]',
         },
       ],
-      spotterQuestions: [
-        {
-          question:
-            'Q1 (BHMS Orthopedic Anatomy): Which anatomical tissue structure within the knee joint capsule becomes inflamed in acute rheumatic polyarthritis requiring Rhus Toxicodendron?',
-          options: [
-            'Periosteal Bone Cortex of Femur',
-            'Synovial Membrane & Articular Fluid Capsule',
-            'Subchondral Trabecular Bone',
-            'Femoral Epiphyseal Plate',
-          ],
-          correctIdx: 1,
-          explanation:
-            'Rhus Toxicodendron acts specifically on the synovial membrane, articular fluid capsule, and peri-articular fibrous ligaments.',
-        },
-      ],
+      spotterQuestions: [],
       organopathyRemedies: [
         {
           name: 'Rhus Toxicodendron',
           potency: '30C / 200C',
           keynote:
             'Joint stiffness extreme on beginning motion, progressively relieved by continued motion and warm bath.',
-        },
-        {
-          name: 'Symphytum Officinale (Bone-Set)',
-          potency: 'Q / 6C',
-          keynote:
-            'Accelerates cartilage repair, non-union bone fracture callus formation, and mechanical trauma.',
-        },
-        {
-          name: 'Ruta Graveolens',
-          potency: '30C',
-          keynote:
-            'Periosteal bone soreness, tendon insertions strain, bruised bone pain worse cold damp.',
         },
       ],
     },
@@ -415,13 +492,12 @@ export const Interactive360AnatomyAtlas: React.FC<
         'Stomach Greater & Lesser Curvatures with Mucous Rugae Folds (Nux Vomica target)',
         'C-Shaped Duodenum & Pancreatic Head Duct Loop',
         'Large Intestine Colon Haustra Sacculations & Teniae Coli Bands (Hydrastis target)',
-        'Cecum & Vermiform Appendix (Lachesis / Bryonia target)',
       ],
       atlasIllustration: {
         bgGradient: 'from-[#2B230B] via-[#453913] to-[#1C1706]',
         landmarkLabels: [
-          { label: 'Stomach Curvature & Rugae Folds (Nux Vomica)', pos: 'top-[10%] left-[10%]' },
-          { label: 'Colon Haustral Sacculations (Hydrastis)', pos: 'top-[44%] right-[10%]' },
+          { label: 'Stomach Curvature & Rugae Folds (Nux Vomica)', pos: 'top-[8%] left-[8%]' },
+          { label: 'Colon Haustral Sacculations (Hydrastis)', pos: 'top-[8%] right-[8%]' },
         ],
       },
       hotspots: [
@@ -431,7 +507,23 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'STOMACH - NAUSEA - morning, in',
           remedy: 'Nux Vomica 30C / 200C',
           note: 'Irritable hyper-acidity from sedentary lifestyle, stimulants, and over-work.',
-          coords: 'top-[36%] left-[30%]',
+          coords: 'top-[36%] left-[28%]',
+        },
+        {
+          id: 'hs-colon-haustra',
+          label: 'Colon Haustra Mucous Mucosa Segmentations',
+          rubric: 'RECTUM - DIARRHEA - yellow ropy mucus',
+          remedy: 'Hydrastis Canadensis Q / 3X',
+          note: 'Burnett Mucous Drainage: Thick yellow ropy mucous discharges and visceral sinking sensation.',
+          coords: 'top-[68%] right-[22%]',
+        },
+        {
+          id: 'hs-appendix',
+          label: 'Cecum & Vermiform Appendix Locus',
+          rubric: 'ABDOMEN - INFLAMMATION - cecum',
+          remedy: 'Bryonia Alba 200C / Lachesis Mutus',
+          note: 'Appendiceal localized right lower quadrant pain worse slightest breath or motion.',
+          coords: 'top-[78%] left-[48%]',
         },
       ],
       spotterQuestions: [],
@@ -456,14 +548,24 @@ export const Interactive360AnatomyAtlas: React.FC<
         'Thyroid Cartilage & Tracheal Ring Architecture',
         'Thyroid Gland (Bilateral Lobes & Central Isthmus)',
         'Superior & Inferior Thyroid Vascular Supply',
+        'Cervical & Axillary Lymph Node Chain',
       ],
       atlasIllustration: {
         bgGradient: 'from-[#17162E] via-[#242347] to-[#0F0E1E]',
         landmarkLabels: [
-          { label: 'Thyroid Cartilage & Trachea Rings', pos: 'top-[10%] left-[10%]' },
+          { label: 'Thyroid Cartilage & Trachea Rings', pos: 'top-[8%] left-[8%]' },
+          { label: 'Bilateral Thyroid Lobes & Isthmus', pos: 'top-[8%] right-[8%]' },
         ],
       },
       hotspots: [
+        {
+          id: 'hs-thyroid-cartilage',
+          label: 'Thyroid Cartilage & Laryngeal Arch',
+          rubric: 'LARYNX - CONGESTION',
+          remedy: 'Spongia Tosta 30C / Hepar Sulph',
+          note: 'Laryngeal dry croupy barky constriction worse lying down.',
+          coords: 'top-[24%] left-[48%]',
+        },
         {
           id: 'hs-thyroid-lobe',
           label: 'Bilateral Thyroid Glandular Lobes & Isthmus',
@@ -471,6 +573,14 @@ export const Interactive360AnatomyAtlas: React.FC<
           remedy: 'Iodium 30C / 1M',
           note: 'Ravenous hunger yet rapid emaciation, extreme heat intolerance, hyper-metabolic goiter.',
           coords: 'top-[45%] left-[28%]',
+        },
+        {
+          id: 'hs-cervical-lymph-node',
+          label: 'Cervical Lymphatic Node Chain',
+          rubric: 'GENERALITIES - SWELLING - glands',
+          remedy: 'Calcarea Fluorica 6X / Conium Maculatum',
+          note: 'Hard stony indurated lymphatic nodes and chronic glandular hypertrophy.',
+          coords: 'top-[72%] right-[22%]',
         },
       ],
       spotterQuestions: [],
@@ -693,7 +803,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-head' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdBrainTissue10" cx="45%" cy="38%" r="65%">
+                        <radialGradient id="hdBrainTissue13" cx="45%" cy="38%" r="65%">
                           <stop offset="0%" stopColor="#F5D0C5" />
                           <stop offset="45%" stopColor="#E2A698" />
                           <stop offset="85%" stopColor="#B36959" />
@@ -703,7 +813,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                       <g>
                         <path
                           d="M 260 25 C 135 25, 65 110, 75 200 C 82 265, 135 315, 225 315 L 225 385 L 295 385 L 295 315 C 385 315, 438 265, 445 200 C 455 110, 385 25, 260 25 Z"
-                          fill="url(#hdBrainTissue10)"
+                          fill="url(#hdBrainTissue13)"
                           stroke="#FFF1EE"
                           strokeWidth="4"
                         />
@@ -727,33 +837,69 @@ export const Interactive360AnatomyAtlas: React.FC<
                   )}
 
                   {/* ======================================================= */}
-                  {/* 2. HEPATO-BILIARY LIVER & GALLBLADDER (DETAILED DISSECTION) */}
+                  {/* 2. HEPATO-BILIARY LIVER & GALLBLADDER (AUTHENTIC NETTER DISSECTION) */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-liver' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdLiverTissue10" cx="42%" cy="38%" r="65%">
-                          <stop offset="0%" stopColor="#A34839" />
-                          <stop offset="65%" stopColor="#75281C" />
-                          <stop offset="100%" stopColor="#4A150D" />
+                        <radialGradient id="hdRightLiverLobe13" cx="42%" cy="40%" r="65%">
+                          <stop offset="0%" stopColor="#B45309" />
+                          <stop offset="65%" stopColor="#78350F" />
+                          <stop offset="100%" stopColor="#451A03" />
+                        </radialGradient>
+                        <radialGradient id="hdLeftLiverLobe13" cx="55%" cy="40%" r="65%">
+                          <stop offset="0%" stopColor="#D97706" />
+                          <stop offset="70%" stopColor="#92400E" />
+                          <stop offset="100%" stopColor="#451A03" />
                         </radialGradient>
                       </defs>
                       <g>
                         <path
-                          d="M 95 175 C 145 75, 375 75, 435 180 C 465 235, 410 335, 305 345 C 205 355, 105 295, 95 175 Z"
-                          fill="url(#hdLiverTissue10)"
-                          stroke="#FECACA"
+                          d="M 85 185 C 110 75, 290 65, 305 155 Q 315 285, 260 325 C 190 345, 80 295, 85 185 Z"
+                          fill="url(#hdRightLiverLobe13)"
+                          stroke="#FEF3C7"
                           strokeWidth="4"
                         />
-                        <path d="M 325 95 Q 330 215 335 345" stroke="#FCA5A5" strokeWidth="3.5" strokeDasharray="7 5" />
-                        <path d="M 305 270 Q 310 305 315 335" stroke="#F59E0B" strokeWidth="5" />
-                        <ellipse cx="320" cy="345" rx="25" ry="36" fill="#D97706" stroke="#FEF3C7" strokeWidth="3.5" />
                         <path
-                          d="M 295 280 Q 265 220 185 155 M 295 280 Q 325 220 395 165"
-                          fill="none"
-                          stroke="#60A5FA"
-                          strokeWidth="6"
+                          d="M 305 155 C 345 75, 435 95, 445 175 C 455 245, 395 305, 305 315 Z"
+                          fill="url(#hdLeftLiverLobe13)"
+                          stroke="#FEF3C7"
+                          strokeWidth="4"
                         />
+                        <path
+                          d="M 305 75 L 305 320"
+                          stroke="#FDE68A"
+                          strokeWidth="3.5"
+                          strokeDasharray="6 4"
+                        />
+                        <g>
+                          <path
+                            d="M 275 390 L 275 270 Q 240 220 175 165 M 275 270 Q 320 220 385 165"
+                            fill="none"
+                            stroke="#2563EB"
+                            strokeWidth="8"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d="M 295 390 L 295 275 Q 260 230 205 185 M 295 275 Q 330 230 365 185"
+                            fill="none"
+                            stroke="#EF4444"
+                            strokeWidth="5"
+                            strokeLinecap="round"
+                          />
+                        </g>
+                        <g>
+                          <path
+                            d="M 315 390 L 315 285 Q 345 315 355 350"
+                            fill="none"
+                            stroke="#10B981"
+                            strokeWidth="6"
+                            strokeLinecap="round"
+                          />
+                          <ellipse cx="360" cy="365" rx="22" ry="32" fill="#059669" stroke="#A7F3D0" strokeWidth="3.5" />
+                        </g>
+                        <polygon points="175,120 195,110 215,120 215,142 195,152 175,142" fill="none" stroke="#FDE68A" strokeWidth="2" opacity="0.6" />
+                        <circle cx="195" cy="131" r="5" fill="#EF4444" />
                       </g>
                     </svg>
                   )}
@@ -764,12 +910,12 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-kidneys' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdRenalCortexGrad10" cx="50%" cy="45%" r="65%">
+                        <radialGradient id="hdRenalCortexGrad13" cx="50%" cy="45%" r="65%">
                           <stop offset="0%" stopColor="#22D3EE" />
                           <stop offset="70%" stopColor="#0891B2" />
                           <stop offset="100%" stopColor="#164E63" />
                         </radialGradient>
-                        <radialGradient id="hdRenalPyramidGrad10" cx="50%" cy="50%" r="50%">
+                        <radialGradient id="hdRenalPyramidGrad13" cx="50%" cy="50%" r="50%">
                           <stop offset="0%" stopColor="#FB7185" />
                           <stop offset="100%" stopColor="#9F1239" />
                         </radialGradient>
@@ -779,23 +925,23 @@ export const Interactive360AnatomyAtlas: React.FC<
                         <path d="M 330 90 Q 355 65 380 85 Z" fill="#F59E0B" stroke="#FEF3C7" strokeWidth="2.5" />
                         <path
                           d="M 165 95 C 105 130, 95 270, 165 305 C 220 330, 260 265, 235 200 C 260 155, 220 70, 165 95 Z"
-                          fill="url(#hdRenalCortexGrad10)"
+                          fill="url(#hdRenalCortexGrad13)"
                           stroke="#CFFAFE"
                           strokeWidth="4"
                         />
                         <path
                           d="M 355 95 C 295 70, 255 155, 280 200 C 255 265, 295 330, 355 305 C 425 270, 415 130, 355 95 Z"
-                          fill="url(#hdRenalCortexGrad10)"
+                          fill="url(#hdRenalCortexGrad13)"
                           stroke="#CFFAFE"
                           strokeWidth="4"
                         />
                         <g>
-                          <path d="M 140 140 L 165 165 L 135 185 Z" fill="url(#hdRenalPyramidGrad10)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 130 200 L 165 200 L 135 230 Z" fill="url(#hdRenalPyramidGrad10)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 145 250 L 175 235 L 165 270 Z" fill="url(#hdRenalPyramidGrad10)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 380 140 L 355 165 L 385 185 Z" fill="url(#hdRenalPyramidGrad10)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 390 200 L 355 200 L 385 230 Z" fill="url(#hdRenalPyramidGrad10)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 375 250 L 345 235 L 355 270 Z" fill="url(#hdRenalPyramidGrad10)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 140 140 L 165 165 L 135 185 Z" fill="url(#hdRenalPyramidGrad13)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 130 200 L 165 200 L 135 230 Z" fill="url(#hdRenalPyramidGrad13)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 145 250 L 175 235 L 165 270 Z" fill="url(#hdRenalPyramidGrad13)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 380 140 L 355 165 L 385 185 Z" fill="url(#hdRenalPyramidGrad13)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 390 200 L 355 200 L 385 230 Z" fill="url(#hdRenalPyramidGrad13)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 375 250 L 345 235 L 355 270 Z" fill="url(#hdRenalPyramidGrad13)" stroke="#FFE4E6" strokeWidth="1.5" />
                         </g>
                         <g>
                           <path d="M 260 170 L 210 185 M 260 170 L 310 185" stroke="#EF4444" strokeWidth="8" strokeLinecap="round" />
@@ -813,7 +959,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-heart' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdMyocardiumGrad10" cx="45%" cy="45%" r="65%">
+                        <radialGradient id="hdMyocardiumGrad13" cx="45%" cy="45%" r="65%">
                           <stop offset="0%" stopColor="#EF4444" />
                           <stop offset="65%" stopColor="#B91C1C" />
                           <stop offset="100%" stopColor="#7F1D1D" />
@@ -841,7 +987,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                         />
                         <path
                           d="M 230 175 C 160 215, 165 330, 260 380 C 355 330, 360 215, 290 175 Z"
-                          fill="url(#hdMyocardiumGrad10)"
+                          fill="url(#hdMyocardiumGrad13)"
                           stroke="#FECACA"
                           strokeWidth="4.5"
                         />
@@ -864,12 +1010,12 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-lungs' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdRightLungGrad10" cx="45%" cy="45%" r="65%">
+                        <radialGradient id="hdRightLungGrad13" cx="45%" cy="45%" r="65%">
                           <stop offset="0%" stopColor="#93C5FD" />
                           <stop offset="55%" stopColor="#3B82F6" />
                           <stop offset="100%" stopColor="#1D4ED8" />
                         </radialGradient>
-                        <radialGradient id="hdLeftLungGrad10" cx="55%" cy="45%" r="65%">
+                        <radialGradient id="hdLeftLungGrad13" cx="55%" cy="45%" r="65%">
                           <stop offset="0%" stopColor="#93C5FD" />
                           <stop offset="55%" stopColor="#3B82F6" />
                           <stop offset="100%" stopColor="#1D4ED8" />
@@ -905,7 +1051,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                         <g>
                           <path
                             d="M 185 105 C 125 125, 95 235, 145 350 L 225 340 C 235 265, 230 150, 185 105 Z"
-                            fill="url(#hdRightLungGrad10)"
+                            fill="url(#hdRightLungGrad13)"
                             fillOpacity="0.88"
                             stroke="#DBEAFE"
                             strokeWidth="3.5"
@@ -916,7 +1062,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                         <g>
                           <path
                             d="M 335 105 C 395 145, 385 260, 375 350 L 295 340 Q 325 240 295 190 C 295 150, 315 115, 335 105 Z"
-                            fill="url(#hdLeftLungGrad10)"
+                            fill="url(#hdLeftLungGrad13)"
                             fillOpacity="0.88"
                             stroke="#DBEAFE"
                             strokeWidth="3.5"
@@ -928,63 +1074,47 @@ export const Interactive360AnatomyAtlas: React.FC<
                   )}
 
                   {/* ======================================================= */}
-                  {/* 6. MUSCULOSKELETAL SYNCOVIAL KNEE JOINT (REALISTIC NETTER CLINICAL DISSECTION) */}
+                  {/* 6. MUSCULOSKELETAL SYNCOVIAL KNEE JOINT (AUTHENTIC NETTER DISSECTION) */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-skeletal' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <linearGradient id="femurBoneTexture" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <linearGradient id="femurBoneTexture13" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="#FDE68A" />
-                          <stop offset="45%" stopColor="#F59E0B" />
+                          <stop offset="50%" stopColor="#F59E0B" />
                           <stop offset="100%" stopColor="#B45309" />
                         </linearGradient>
-                        <radialGradient id="synovialFluidGrad" cx="50%" cy="50%" r="50%">
+                        <radialGradient id="synovialFluidGrad13" cx="50%" cy="50%" r="50%">
                           <stop offset="0%" stopColor="rgba(34, 211, 238, 0.5)" />
                           <stop offset="100%" stopColor="rgba(8, 145, 178, 0.15)" />
                         </radialGradient>
                       </defs>
                       <g>
-                        {/* DISTAL FEMUR BONE SHAFT & MEDIAL/LATERAL CONDYLES */}
                         <path
                           d="M 215 25 L 305 25 L 300 135 C 325 155, 335 180, 310 195 C 290 205, 275 190, 260 190 C 245 190, 230 205, 210 195 C 185 180, 195 155, 220 135 Z"
-                          fill="url(#femurBoneTexture)"
+                          fill="url(#femurBoneTexture13)"
                           stroke="#FFFBEB"
                           strokeWidth="3.5"
                         />
-                        {/* Trabecular Spongy Bone Micro-Patterning */}
-                        <path d="M 230 60 L 290 60 M 225 100 L 295 100 M 235 140 L 285 140" stroke="#92400E" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
-
-                        {/* PROXIMAL TIBIA PLATEAU & FIBULA BONE HEAD */}
                         <path
                           d="M 210 215 C 230 205, 245 220, 260 220 C 275 220, 290 205, 310 215 C 330 225, 320 245, 300 260 L 305 395 L 220 395 L 225 260 C 205 245, 195 225, 210 215 Z"
-                          fill="url(#femurBoneTexture)"
+                          fill="url(#femurBoneTexture13)"
                           stroke="#FFFBEB"
                           strokeWidth="3.5"
                         />
-                        {/* Fibula Head on Lateral Side */}
-                        <path d="M 320 240 L 340 240 L 335 395 L 315 395 Z" fill="url(#femurBoneTexture)" stroke="#FFFBEB" strokeWidth="2.5" />
-
-                        {/* ARTICULAR CARTILAGE CONDYLAR LINING (SYMPHYTUM TARGET) */}
+                        <path d="M 320 240 L 340 240 L 335 395 L 315 395 Z" fill="url(#femurBoneTexture13)" stroke="#FFFBEB" strokeWidth="2.5" />
                         <path d="M 205 192 Q 260 182 315 192" fill="none" stroke="#67E8F9" strokeWidth="7" strokeLinecap="round" />
                         <path d="M 205 218 Q 260 228 315 218" fill="none" stroke="#67E8F9" strokeWidth="7" strokeLinecap="round" />
-
-                        {/* ANTERIOR & POSTERIOR CRUCIATE LIGAMENTS (ACL / PCL) */}
                         <path d="M 245 190 L 275 220 M 275 190 L 245 220" stroke="#FDE047" strokeWidth="5" strokeLinecap="round" />
-
-                        {/* MEDIAL & LATERAL MENISCUS CARTILAGE CRESCENT PADS */}
                         <ellipse cx="222" cy="205" rx="24" ry="8" fill="#22D3EE" stroke="#FFFFFF" strokeWidth="2" />
                         <ellipse cx="298" cy="205" rx="24" ry="8" fill="#22D3EE" stroke="#FFFFFF" strokeWidth="2" />
-
-                        {/* SYNOVIAL JOINT CAPSULE MEMBRANE & ARTICULAR CAVITY (RHUS TOX TARGET) */}
                         <path
                           d="M 180 155 Q 165 205 180 245 L 340 245 Q 355 205 340 155 Z"
-                          fill="url(#synovialFluidGrad)"
+                          fill="url(#synovialFluidGrad13)"
                           stroke="#06B6D4"
                           strokeWidth="3.5"
                           strokeDasharray="6 4"
                         />
-
-                        {/* PATELLA (KNEECAP) & PATELLAR LIGAMENT (RUTA GRAVEOLENS TARGET) */}
                         <g>
                           <ellipse cx="260" cy="170" rx="26" ry="19" fill="#FEF08A" stroke="#CA8A04" strokeWidth="3" />
                           <path d="M 260 189 L 260 265" stroke="#FACC15" strokeWidth="9" strokeLinecap="round" />
@@ -999,11 +1129,11 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-gastro' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdStomachGrad10" cx="50%" cy="50%" r="60%">
+                        <radialGradient id="hdStomachGrad13" cx="50%" cy="50%" r="60%">
                           <stop offset="0%" stopColor="#FACC15" />
                           <stop offset="100%" stopColor="#A16207" />
                         </radialGradient>
-                        <linearGradient id="colonGrad10" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <linearGradient id="colonGrad13" x1="0%" y1="0%" x2="0%" y2="100%">
                           <stop offset="0%" stopColor="#F59E0B" />
                           <stop offset="100%" stopColor="#B45309" />
                         </linearGradient>
@@ -1013,7 +1143,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                         <g>
                           <path
                             d="M 225 105 C 160 130, 145 255, 260 270 Q 330 275, 340 220 Q 350 155, 247 105 Z"
-                            fill="url(#hdStomachGrad10)"
+                            fill="url(#hdStomachGrad13)"
                             stroke="#FEF9C3"
                             strokeWidth="4"
                           />
@@ -1044,7 +1174,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                           <path
                             d="M 125 350 L 125 180 Q 260 140, 395 180 L 395 350"
                             fill="none"
-                            stroke="url(#colonGrad10)"
+                            stroke="url(#colonGrad13)"
                             strokeWidth="20"
                             strokeLinecap="round"
                             strokeDasharray="16 6"
@@ -1072,12 +1202,12 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-endocrine' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdThyroidTissue10" cx="50%" cy="45%" r="55%">
+                        <radialGradient id="hdThyroidTissue13" cx="50%" cy="45%" r="55%">
                           <stop offset="0%" stopColor="#A5B4FC" />
                           <stop offset="60%" stopColor="#6366F1" />
                           <stop offset="100%" stopColor="#312E81" />
                         </radialGradient>
-                        <linearGradient id="tracheaCartilage10" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <linearGradient id="tracheaCartilage13" x1="0%" y1="0%" x2="0%" y2="100%">
                           <stop offset="0%" stopColor="#E2E8F0" />
                           <stop offset="100%" stopColor="#94A3B8" />
                         </linearGradient>
@@ -1085,7 +1215,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                       <g>
                         <path
                           d="M 225 35 L 295 35 L 305 110 L 260 130 L 215 110 Z"
-                          fill="url(#tracheaCartilage10)"
+                          fill="url(#tracheaCartilage13)"
                           stroke="#F8FAFC"
                           strokeWidth="3.5"
                         />
@@ -1096,16 +1226,16 @@ export const Interactive360AnatomyAtlas: React.FC<
                           <rect key={i} x="235" y={y} width="50" height="18" rx="6" fill="#CBD5E1" stroke="#475569" strokeWidth="2" />
                         ))}
                         <g>
-                          <rect x="215" y="180" width="90" height="36" rx="12" fill="url(#hdThyroidTissue10)" stroke="#EEF2FF" strokeWidth="3" />
+                          <rect x="215" y="180" width="90" height="36" rx="12" fill="url(#hdThyroidTissue13)" stroke="#EEF2FF" strokeWidth="3" />
                           <path
                             d="M 180 120 C 150 145, 150 245, 195 270 Q 225 270 230 220 C 235 170, 205 110, 180 120 Z"
-                            fill="url(#hdThyroidTissue10)"
+                            fill="url(#hdThyroidTissue13)"
                             stroke="#EEF2FF"
                             strokeWidth="3.5"
                           />
                           <path
                             d="M 340 120 C 370 145, 370 245, 325 270 Q 295 270 290 220 C 285 170, 315 110, 340 120 Z"
-                            fill="url(#hdThyroidTissue10)"
+                            fill="url(#hdThyroidTissue13)"
                             stroke="#EEF2FF"
                             strokeWidth="3.5"
                           />
