@@ -163,7 +163,8 @@ function MasterWorkspaceInner() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
     'WORKSPACE'
   );
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  // SET LIGHT THEME & ENGLISH AS DEFAULT
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const isLight = theme === 'light';
 
   const [langCode, setLangCode] = useState<IndianLanguageCode>('EN');
