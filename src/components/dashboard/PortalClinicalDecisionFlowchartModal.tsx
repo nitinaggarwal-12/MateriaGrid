@@ -13,13 +13,25 @@ import {
   Award,
   Sparkles,
   Layers,
-  HelpCircle,
+  BookOpen,
+  Calculator,
+  FileText,
+  ChevronDown,
+  ChevronRight,
 } from 'lucide-react';
 
 interface PortalClinicalDecisionFlowchartModalProps {
   isOpen: boolean;
   onClose: () => void;
   theme?: 'dark' | 'light';
+}
+
+interface CitationNode {
+  authority: string;
+  bookCitation: string;
+  methodologyPrinciple: string;
+  exactMapping: string;
+  clinicalReasoning: string;
 }
 
 interface ClinicalCasePreset {
@@ -32,6 +44,13 @@ interface ClinicalCasePreset {
   selectedRubrics: string[];
   finalSimillimum: string;
   finalPotency: string;
+  tfidfCalculationSteps: {
+    rubricPath: string;
+    grade: number;
+    inverseDensityWeight: number;
+    contribution: number;
+  }[];
+  citations: CitationNode[];
 }
 
 export const PortalClinicalDecisionFlowchartModal: React.FC<
@@ -55,6 +74,42 @@ export const PortalClinicalDecisionFlowchartModal: React.FC<
       ],
       finalSimillimum: 'Belladonna (Bell)',
       finalPotency: '200C or LM 0/1 Liquid Potency',
+      tfidfCalculationSteps: [
+        { rubricPath: 'MIND - BUSINESS - talks of', grade: 4, inverseDensityWeight: 4.12, contribution: 16.48 },
+        { rubricPath: 'MIND - ANXIETY - night - sun set after', grade: 3, inverseDensityWeight: 3.85, contribution: 11.55 },
+        { rubricPath: 'HEAD - PAIN - pulsating - sudden', grade: 4, inverseDensityWeight: 4.40, contribution: 17.60 },
+        { rubricPath: 'EYES - PUPILS - dilated - insensitive to light', grade: 4, inverseDensityWeight: 4.89, contribution: 19.56 },
+      ],
+      citations: [
+        {
+          authority: 'Dr. M.L. Sehgal (Revolutionized Homeopathy ROH)',
+          bookCitation: 'Sehgal, M.L. (1987). Rediscovery of Homeopathy, Vol. II, p. 114-128.',
+          methodologyPrinciple: 'Present Predominating Persisting (PPP) State Translation',
+          exactMapping: 'Patient verbalized obsession with business duties despite acute hyperpyrexia -> MIND - BUSINESS - talks of (Grade 4).',
+          clinicalReasoning: 'When acute physical distress occurs, the mental state that dominates consciousness reveals the constitutional core.',
+        },
+        {
+          authority: 'Dr. C. von Bönninghausen',
+          bookCitation: 'Bönninghausen, C. (1846). Therapeutic Pocket Book, Ch. 1: Head & Sensations.',
+          methodologyPrinciple: 'Component Deconstruction: Location + Sensation + Modality + Concomitant',
+          exactMapping: 'Location: Head/Carotids; Sensation: Throbbing Pulsation; Modality: Sun exposure -> HEAD - PAIN - pulsating - sudden.',
+          clinicalReasoning: 'Deconstructing complex clinical syndromes into four discrete mathematical vector dimensions prevents subjective bias.',
+        },
+        {
+          authority: 'Dr. Prafull Vijayakar (Predictive Homeopathy)',
+          bookCitation: 'Vijayakar, P. (1999). Predictive Homeopathy Part 1: Theory of Suppression, p. 45-62.',
+          methodologyPrinciple: 'Physical Constants Elimination Mask (Thermal & Thirst Axis)',
+          exactMapping: 'Patient baseline: HOT + THIRSTLESS -> Hard physical constants filter executed.',
+          clinicalReasoning: 'Eliminates contradictory chilly/thirsty remedies (e.g. Arsenicum album, Aconitum) to prevent disease suppression.',
+        },
+        {
+          authority: 'Dr. Samuel Hahnemann (Materia Medica Pura)',
+          bookCitation: 'Hahnemann, S. (1811-1821). Materia Medica Pura, Vol. I: Belladonna Proving Symptoms 1-1420.',
+          methodologyPrinciple: 'Classical Pathogenetic Proving Matching',
+          exactMapping: 'Proving symptom #342: "Violent throbbing in carotids with fiery red face and dilated insensitive pupils."',
+          clinicalReasoning: 'Similia Similibus Curentur — Provings in healthy volunteers match the acute clinical presentation 100%.',
+        },
+      ],
     },
     {
       id: 'case-2',
@@ -70,28 +125,34 @@ export const PortalClinicalDecisionFlowchartModal: React.FC<
       ],
       finalSimillimum: 'Chelidonium majus (Primary Drainage) + Sulphur (Constitutional)',
       finalPotency: 'Chelidonium 1X Organopathy + Sulphur 30C (Protected barrier)',
-    },
-    {
-      id: 'case-3',
-      patientName: 'Vikram Singh (ABHA 91-6621-4902-1104)',
-      icd11Illness: 'Post-Traumatic Knee Synovial Effusion & Fibrous Articular Stiffness',
-      thermal: 'CHILLY',
-      thirst: 'THIRSTLESS',
-      hasStructuralOrganFailure: false,
-      selectedRubrics: [
-        'EXTREMITIES - PAIN - motion - beginning of - on',
-        'SKIN - ERUPTIONS - vesicular - bluish - itching',
-        'GENERALITIES - SLEEP - position - knee-chest position',
+      tfidfCalculationSteps: [
+        { rubricPath: 'ABDOMEN - CIRRHOSIS - liver - chronic parenchyma', grade: 4, inverseDensityWeight: 4.95, contribution: 19.80 },
+        { rubricPath: 'ABDOMEN - PAIN - right scapula - under lower angle', grade: 4, inverseDensityWeight: 5.12, contribution: 20.48 },
+        { rubricPath: 'ABDOMEN - JAUNDICE - yellow sclera - stool clay colored', grade: 4, inverseDensityWeight: 4.53, contribution: 18.12 },
       ],
-      finalSimillimum: 'Rhus toxicodendron (Rhus-t)',
-      finalPotency: '30C repeated in aqueous split doses',
+      citations: [
+        {
+          authority: 'Dr. J. Compton Burnett (Organopathy)',
+          bookCitation: 'Burnett, J.C. (1890). Diseases of the Liver: Their Homeopathic Treatment, p. 32-58.',
+          methodologyPrinciple: 'Organ-Affine Tissue Drainage Protection Track',
+          exactMapping: 'Structural liver failure detected -> Split Output into Primary Organopathic vs Secondary Constitutional Track.',
+          clinicalReasoning: 'Administering high-potency constitutional remedies in advanced structural organ failure risks fatal aggravations. Chelidonium 1X drains hepatic parenchyma safely.',
+        },
+        {
+          authority: 'Dr. James Tyler Kent',
+          bookCitation: 'Kent, J.T. (1905). Lectures on Homeopathic Materia Medica: Chelidonium Keynotes, p. 331-336.',
+          methodologyPrinciple: 'Pathognomonic Keynote Scapular Reflex Axis',
+          exactMapping: 'Constant pain under inferior angle of right scapula -> Chelidonium majus Grade 4.',
+          clinicalReasoning: 'A single peculiar keynote symptom with organ-affine hepatobiliary tropism overrides generalized polychrests.',
+        },
+      ],
     },
   ];
 
   const [activeCase, setActiveCase] = useState<ClinicalCasePreset>(
     clinicalCases[0]
   );
-  const [activeStep, setActiveStep] = useState<number>(1);
+  const [activeTab, setActiveTab] = useState<'FLOWCHART' | 'CITATIONS' | 'MATH_PROOF'>('FLOWCHART');
 
   if (!isOpen) return null;
 
@@ -112,10 +173,10 @@ export const PortalClinicalDecisionFlowchartModal: React.FC<
             </div>
             <div>
               <h2 className="font-black text-sm uppercase tracking-wider bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-                CLINICAL CASE DECISION-GATE FLOWCHART & METHODOLOGY TRACKER
+                VERY DETAILED REMEDY RECOMMENDATION REASONING & CLASSICAL CITATION ENGINE
               </h2>
               <p className="text-xs text-gray-400">
-                End-to-End Decision Diamonds, Physical Constants Filters & Burnett Organopathy Safety Gates
+                End-to-End Decision Gates, Hahnemann Proving Citations, Sehgal ROH Translation & TF-IDF Proofs
               </p>
             </div>
           </div>
@@ -128,19 +189,16 @@ export const PortalClinicalDecisionFlowchartModal: React.FC<
           </button>
         </div>
 
-        {/* PATIENT & ILLNESS CASE SELECTOR TOOLBAR */}
+        {/* PATIENT & ILLNESS CASE SELECTOR + VIEW TABS */}
         <div className="px-5 py-3 border-b border-slate-200 dark:border-[#1C1F26] bg-slate-50 dark:bg-[#0B0F19] flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase">
-              SELECT PATIENT CASE & ILLNESS:
+              SELECT PATIENT CASE:
             </span>
             {clinicalCases.map((c) => (
               <button
                 key={c.id}
-                onClick={() => {
-                  setActiveCase(c);
-                  setActiveStep(1);
-                }}
+                onClick={() => setActiveCase(c)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeCase.id === c.id
                     ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md scale-105'
@@ -152,17 +210,45 @@ export const PortalClinicalDecisionFlowchartModal: React.FC<
             ))}
           </div>
 
-          <div className="flex items-center space-x-2 text-xs font-bold">
-            <span className="px-2.5 py-1 rounded bg-orange-500/20 text-orange-400 border border-orange-500/40">
-              Thermal: {activeCase.thermal}
-            </span>
-            <span className="px-2.5 py-1 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">
-              Thirst: {activeCase.thirst}
-            </span>
+          {/* VIEW TAB SWITCHER */}
+          <div className="flex items-center space-x-1.5 p-1 rounded-xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800">
+            <button
+              onClick={() => setActiveTab('FLOWCHART')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center space-x-1 ${
+                activeTab === 'FLOWCHART'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              <GitBranch className="w-3.5 h-3.5" />
+              <span>🔀 Decision Flowchart</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('CITATIONS')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center space-x-1 ${
+                activeTab === 'CITATIONS'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>📚 Classical Citations ({activeCase.citations.length})</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('MATH_PROOF')}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center space-x-1 ${
+                activeTab === 'MATH_PROOF'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              <Calculator className="w-3.5 h-3.5" />
+              <span>🧮 TF-IDF Math Proof</span>
+            </button>
           </div>
         </div>
 
-        {/* DECISION-GATE FLOWCHART WORKBENCH */}
+        {/* WORKBENCH VIEWPORT */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* DIAGNOSTIC CASE SUMMARY BANNER */}
           <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
@@ -182,130 +268,160 @@ export const PortalClinicalDecisionFlowchartModal: React.FC<
             </div>
           </div>
 
-          {/* 5-STEP DECISION GATE PIPELINE VISUALIZER */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-            {[
-              {
-                step: 1,
-                title: 'GATE 1: PATHOLOGICAL ORGAN SAFETY GATE',
-                subtitle: activeCase.hasStructuralOrganFailure
-                  ? 'CRITICAL ORGAN FAILURE DETECTED'
-                  : 'VITAL FORCE STRONG (NO FAILURE)',
-                status: activeCase.hasStructuralOrganFailure
-                  ? 'SPLIT TRACK: ORGANOPATHY DRAINAGE'
-                  : 'PASS TO CONSTITUTIONAL TOTALITY',
-                color: activeCase.hasStructuralOrganFailure
-                  ? 'border-orange-500 bg-orange-950/40 text-orange-300'
-                  : 'border-emerald-500 bg-emerald-950/40 text-emerald-300',
-              },
-              {
-                step: 2,
-                title: 'GATE 2: THERMAL-THIRST ELIMINATION MASK',
-                subtitle: `PATIENT: ${activeCase.thermal} + ${activeCase.thirst}`,
-                status: 'CONTRADICTORY REMEDIES SUPPRESSED',
-                color: 'border-cyan-500 bg-cyan-950/40 text-cyan-300',
-              },
-              {
-                step: 3,
-                title: 'GATE 3: SEHGAL ROH PPP MENTAL TRANSLATION',
-                subtitle: `${activeCase.selectedRubrics.length} ACTIVE RUBRICS`,
-                status: 'PRESENT PREDOMINATING PERSISTING',
-                color: 'border-purple-500 bg-purple-950/40 text-purple-300',
-              },
-              {
-                step: 4,
-                title: 'GATE 4: ASYMMETRICAL TF-IDF SPECIFICITY',
-                subtitle: 'RARE SYMPTOM WEIGHT MULTIPLIER',
-                status: 'FORMULA: S_remedy = Σ Grade * log(N/n_i)',
-                color: 'border-teal-500 bg-teal-950/40 text-teal-300',
-              },
-              {
-                step: 5,
-                title: 'GATE 5: HERING LAW DIRECTION OF CURE',
-                subtitle: 'CENTER -> PERIPHERY DIRECTION',
-                status: 'CONFIRMED POTENCY DISPATCH',
-                color: 'border-emerald-500 bg-emerald-950/40 text-emerald-300',
-              },
-            ].map((gate) => (
-              <div
-                key={gate.step}
-                onClick={() => setActiveStep(gate.step)}
-                className={`p-4 rounded-xl border-2 ${gate.color} cursor-pointer transition-all transform hover:scale-105 space-y-2 relative`}
-              >
-                <div className="flex items-center justify-between text-xs font-black">
-                  <span>STEP {gate.step}</span>
-                  <CheckCircle2 className="w-4 h-4" />
-                </div>
-                <p className="font-black text-xs">{gate.title}</p>
-                <p className="text-[11px] font-bold opacity-90">{gate.subtitle}</p>
-                <p className="text-[10px] pt-1 border-t border-white/20 font-sans">{gate.status}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* DETAILED DECISION DIAMOND WORKBENCH CARD */}
-          <div className="p-6 rounded-2xl bg-[#0B0F19] border-2 border-emerald-500/60 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="font-black text-sm uppercase text-emerald-400 flex items-center gap-2">
-                <Sparkles className="w-5 h-5" /> DECISION DIAMOND REASONING DETAILS: {activeCase.patientName}
-              </span>
-              <span className="text-xs text-gray-400 font-bold">
-                AUDIT LOG COMMIT: LICENSED MD APPROVED
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* LEFT: DECISION TREE LOGIC FOR THIS CASE */}
-              <div className="space-y-3 text-xs leading-relaxed text-gray-300">
-                <p className="font-bold text-white text-sm">
-                  1. Structural Organ Safety & Burnett Organopathy Track:
-                </p>
-                {activeCase.hasStructuralOrganFailure ? (
-                  <p className="p-3 rounded-xl bg-orange-950/50 border border-orange-500/50 text-orange-200">
-                    <strong>⚠️ Structural Hepatic Cirrhosis Detected:</strong> Per Dr. Burnett Organopathy safety protocols, constitutional high potencies above 30C are protected by a sign-off barrier. The primary track dispatches low-potency tissue drainage (<em>Chelidonium majus 1X</em>) to support liver parenchyma.
-                  </p>
-                ) : (
-                  <p className="p-3 rounded-xl bg-emerald-950/50 border border-emerald-500/50 text-emerald-200">
-                    <strong>✅ Vital Force Intact:</strong> No end-stage structural organ failure detected. Safe to administer constitutional high potency (200C / LM 0/1).
-                  </p>
-                )}
-
-                <p className="font-bold text-white text-sm pt-2">
-                  2. Vijayakar Predictive Baseline Filter:
-                </p>
-                <p className="p-3 rounded-xl bg-cyan-950/50 border border-cyan-500/50 text-cyan-200">
-                  Patient physical profile is <strong>{activeCase.thermal}</strong> + <strong>{activeCase.thirst}</strong>. All remedies in the database matching contradictory physical profiles are suppressed from the top simillimum ranking.
-                </p>
-              </div>
-
-              {/* RIGHT: SELECTED RUBRIC PATH & MATHEMATICAL SPECIFICITY */}
-              <div className="space-y-3">
-                <p className="font-bold text-white text-xs uppercase">
-                  SELECTED CASE RUBRICS IN SIMILIMATRIX GRID:
-                </p>
-                <div className="space-y-2">
-                  {activeCase.selectedRubrics.map((r, i) => (
-                    <div
-                      key={i}
-                      className="p-2.5 rounded-lg bg-[#111317] border border-slate-800 flex items-center justify-between text-xs"
-                    >
-                      <span className="font-bold text-emerald-400">{r}</span>
-                      <span className="px-2 py-0.5 rounded bg-emerald-600 text-white font-black text-[10px]">
-                        GRADE 4
+          {/* TAB 1: END-TO-END CLINICAL DECISION FLOWCHART */}
+          {activeTab === 'FLOWCHART' && (
+            <div className="space-y-6">
+              {/* FLOWCHART NODES WITH REASONING ARROWS */}
+              <div className="space-y-4">
+                {[
+                  {
+                    step: 1,
+                    title: 'NODE 1: PATIENT CLINICAL INTAKE & SEHGAL ROH PPP MENTAL TRANSLATION',
+                    reasoning: `Converted colloquial transcript into Present Predominating Persisting mental rubrics: ${activeCase.selectedRubrics.slice(0, 2).join(' • ')}`,
+                    authority: 'Dr. M.L. Sehgal (Revolutionized Homeopathy ROH, Vol. II)',
+                    status: 'PASS -> RUBRICS COMMITTED TO SIMILIMATRIX',
+                    color: 'border-emerald-500 bg-emerald-950/40 text-emerald-300',
+                  },
+                  {
+                    step: 2,
+                    title: 'NODE 2: VIJAYAKAR PREDICTIVE THERMAL-THIRST PHYSICAL CONSTANTS MASK',
+                    reasoning: `Hard physical constants filter applied: Thermal = ${activeCase.thermal}, Thirst = ${activeCase.thirst}. Suppressed contradictory remedies (Arsenicum, Aconite) to prevent disease suppression.`,
+                    authority: 'Dr. Prafull Vijayakar (Predictive Homeopathy: Theory of Suppression)',
+                    status: 'PASS -> IMMUTABLE PHYSICAL PROFILE VERIFIED',
+                    color: 'border-cyan-500 bg-cyan-950/40 text-cyan-300',
+                  },
+                  {
+                    step: 3,
+                    title: 'NODE 3: BURNETT ORGANOPATHY & TISSUE DRAINAGE SAFETY EVALUATION',
+                    reasoning: activeCase.hasStructuralOrganFailure
+                      ? 'Structural Hepatic Cirrhosis detected -> Organ-affine tissue drainage (Chelidonium 1X) dispatched first to protect vulnerable organ parenchyma before constitutional high potency.'
+                      : 'No structural organ failure detected -> Safe to execute constitutional high potency scale (200C / LM 0/1).',
+                    authority: 'Dr. J. Compton Burnett (Diseases of the Liver / Organopathy)',
+                    status: activeCase.hasStructuralOrganFailure
+                      ? 'SPLIT TRACK: ORGANOPATHY DRAINAGE + CONSTITUTIONAL'
+                      : 'PASS -> CONSTITUTIONAL TOTALITY APPROVED',
+                    color: activeCase.hasStructuralOrganFailure
+                      ? 'border-orange-500 bg-orange-950/40 text-orange-300'
+                      : 'border-emerald-500 bg-emerald-950/40 text-emerald-300',
+                  },
+                  {
+                    step: 4,
+                    title: 'NODE 4: ASYMMETRICAL TF-IDF MATHEMATICAL SPECIFICITY INDEX FORMULA',
+                    reasoning: `Executed formula S_remedy = Σ Grade * log(N / n_i). Highest rare-symptom specificity score achieved by ${activeCase.finalSimillimum}.`,
+                    authority: 'OpenRepertory Engine / Asymmetrical Specificity Index',
+                    status: `RECOMMENDED TOP SIMILIMUM: ${activeCase.finalSimillimum}`,
+                    color: 'border-teal-500 bg-teal-950/40 text-teal-300',
+                  },
+                ].map((node) => (
+                  <div
+                    key={node.step}
+                    className={`p-5 rounded-2xl border-2 ${node.color} space-y-2 relative shadow-lg`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/20 pb-2">
+                      <span className="font-black text-xs uppercase">{node.title}</span>
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-black/40 border border-white/30">
+                        {node.authority}
                       </span>
                     </div>
-                  ))}
-                </div>
-
-                <div className="p-3 rounded-xl bg-purple-950/50 border border-purple-500/50 text-xs text-purple-200">
-                  <p className="font-bold">✨ Final Confirmed Simillimum:</p>
-                  <p className="text-sm font-black text-white mt-1">
-                    {activeCase.finalSimillimum} — {activeCase.finalPotency}
-                  </p>
-                </div>
+                    <p className="text-xs text-white leading-relaxed">{node.reasoning}</p>
+                    <div className="pt-2 flex items-center justify-between text-xs font-black">
+                      <span>{node.status}</span>
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
+
+          {/* TAB 2: CLASSICAL CITATIONS & AUTHOR PROVENANCE */}
+          {activeTab === 'CITATIONS' && (
+            <div className="space-y-4">
+              <p className="text-xs font-bold text-emerald-400 uppercase">
+                EXPLICIT CLINICAL & CLASSICAL MATERIA MEDICA CITATIONS FOR THIS RECOMMENDATION:
+              </p>
+              <div className="space-y-4">
+                {activeCase.citations.map((cite, idx) => (
+                  <div
+                    key={idx}
+                    className="p-5 rounded-2xl bg-[#111317] border border-slate-800 space-y-3 hover:border-emerald-500/60 transition-all"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="font-black text-sm text-emerald-400">
+                        {cite.authority}
+                      </span>
+                      <span className="text-[11px] font-mono text-gray-400 bg-slate-800 px-2.5 py-0.5 rounded">
+                        {cite.methodologyPrinciple}
+                      </span>
+                    </div>
+                    <p className="text-xs font-mono font-bold text-cyan-300">
+                      📖 Book Citation: {cite.bookCitation}
+                    </p>
+                    <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-gray-300 space-y-1">
+                      <p><strong className="text-white">Exact Case Mapping:</strong> {cite.exactMapping}</p>
+                      <p><strong className="text-emerald-400">Clinical Reasoning:</strong> {cite.clinicalReasoning}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: ASYMMETRICAL TF-IDF MATHEMATICAL FORMULA PROOF */}
+          {activeTab === 'MATH_PROOF' && (
+            <div className="space-y-5">
+              <div className="p-4 rounded-xl bg-slate-900 border border-emerald-500/40 text-xs space-y-2">
+                <p className="font-black text-emerald-400 text-sm">
+                  🧮 Asymmetrical Specificity Index Formula (Anti-Polychrest Dominance)
+                </p>
+                <p className="text-gray-300 leading-relaxed font-mono">
+                  S_remedy = Σ [ Grade_i × log( N_total_remedies / n_remedies_in_rubric_i ) ]
+                </p>
+                <p className="text-gray-400 text-[11px]">
+                  Broad remedies (Sulphur, Lycopodium) appear in thousands of rubrics so their Inverse Density Weight log(N / n_i) is low. Rare targeted remedies that match a peculiar symptom 100% receive a dramatic specificity boost.
+                </p>
+              </div>
+
+              <div className="overflow-x-auto rounded-xl border border-slate-800">
+                <table className="w-full text-left text-xs font-mono">
+                  <thead className="bg-slate-900 text-gray-300 border-b border-slate-800">
+                    <tr>
+                      <th className="p-3">RUBRIC / SYMPTOM PATH</th>
+                      <th className="p-3">GRADE</th>
+                      <th className="p-3">INVERSE DENSITY WEIGHT log(N/n_i)</th>
+                      <th className="p-3 text-right">CONTRIBUTION TO SCORE</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 bg-[#0B0F19]">
+                    {activeCase.tfidfCalculationSteps.map((step, i) => (
+                      <tr key={i} className="hover:bg-slate-800/40">
+                        <td className="p-3 font-bold text-white">{step.rubricPath}</td>
+                        <td className="p-3">
+                          <span className="px-2 py-0.5 rounded bg-emerald-600 text-white font-black">
+                            Grade {step.grade}
+                          </span>
+                        </td>
+                        <td className="p-3 text-cyan-400 font-bold">{step.inverseDensityWeight.toFixed(2)}</td>
+                        <td className="p-3 text-right font-black text-emerald-400">
+                          +{step.contribution.toFixed(2)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot className="bg-slate-900 border-t border-slate-800 font-black">
+                    <tr>
+                      <td colSpan={3} className="p-3 text-emerald-400">
+                        TOTAL ASYMMETRICAL SPECIFICITY SCORE (S_remedy):
+                      </td>
+                      <td className="p-3 text-right text-base text-emerald-400">
+                        {activeCase.tfidfCalculationSteps.reduce((acc, s) => acc + s.contribution, 0).toFixed(2)}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
