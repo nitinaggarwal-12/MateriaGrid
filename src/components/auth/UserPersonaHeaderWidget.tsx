@@ -164,21 +164,21 @@ export const UserPersonaHeaderWidget: React.FC<
         />
       </button>
 
-      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (100% OPAQUE SOLID SURFACE) */}
+      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (HIGH-Z Z-[9999] OPAQUE SURFACE) */}
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-[9998]"
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`fixed sm:absolute right-4 sm:right-0 top-16 sm:top-full mt-3 w-88 rounded-2xl border p-4 shadow-2xl z-50 space-y-4 transition-all ${
+            className={`absolute right-0 top-full mt-4 w-88 rounded-2xl border p-4 shadow-2xl z-[9999] space-y-4 transition-all ${
               isLight
                 ? 'bg-white border-slate-200 text-slate-900 shadow-slate-400/30'
                 : 'bg-[#0B0F19] border-[#1C1F26] text-white shadow-black/90'
             }`}
           >
-            {/* ACTIVE LOGGED-IN SESSION CARD (100% SOLID BACKGROUND) */}
+            {/* ACTIVE LOGGED-IN SESSION CARD */}
             <div
               className={`p-3.5 rounded-xl border space-y-2.5 ${
                 isLight
