@@ -78,13 +78,36 @@ interface WorkspaceMatrixProps {
 
 const ALL_CHAPTERS = [
   'MIND',
+  'VERTIGO',
   'HEAD',
   'EYES',
-  'ABDOMEN',
-  'EXTREMITIES',
-  'SKIN',
-  'SLEEP',
+  'VISION',
+  'EARS',
+  'HEARING',
+  'NOSE',
+  'FACE',
+  'MOUTH',
+  'TEETH',
   'THROAT',
+  'STOMACH',
+  'ABDOMEN',
+  'RECTUM',
+  'STOOL',
+  'BLADDER',
+  'KIDNEYS',
+  'URINE',
+  'GENITALIA MALE',
+  'GENITALIA FEMALE',
+  'RESPIRATION',
+  'COUGH',
+  'CHEST',
+  'BACK',
+  'EXTREMITIES',
+  'SLEEP',
+  'CHILL',
+  'FEVER',
+  'PERSPIRATION',
+  'SKIN',
   'GENERALITIES',
 ];
 
@@ -314,7 +337,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                     <span className="font-black">All Chapters</span>
                   </label>
 
-                  <div className="max-h-60 overflow-y-auto space-y-1 pt-1 border-t border-slate-200 dark:border-slate-800">
+                  <div className="max-h-64 overflow-y-auto space-y-1 mt-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
                     {ALL_CHAPTERS.map((ch) => {
                       const isChecked = selectedChapters.includes(ch);
                       return (
