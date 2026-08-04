@@ -559,27 +559,29 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                   }`}
                 >
                   {/* RUBRIC DESCRIPTION CELL */}
-                  <td className="p-3 border-r border-slate-200 dark:border-[#1C1F26] group-hover:bg-emerald-500/5 transition-colors">
-                    <div className="flex items-center justify-between space-x-2">
+                  <td className="p-3.5 border-r border-slate-200 dark:border-[#1C1F26] font-sans">
+                    <div className="flex items-center justify-between space-x-3">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
-                          <span className="font-mono text-[10px] uppercase font-black tracking-wider text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                             {rubric.chapter}
                           </span>
-                          <span className="font-bold text-xs text-slate-900 dark:text-gray-100 leading-snug">
+                          <span className="text-gray-300 font-light">•</span>
+                          <span className="font-semibold text-xs text-slate-900 dark:text-gray-100 leading-snug">
                             {translatedPath.includes(' - ')
-                              ? translatedPath.split(' - ').slice(1).join(' • ')
+                              ? translatedPath.split(' - ').slice(1).join(' — ')
                               : translatedPath}
                           </span>
                         </div>
 
-                        <div className="flex items-center space-x-2 text-[10px]">
-                          <span className="text-[10px] text-slate-400 dark:text-gray-400 font-medium">
-                            Layer: <strong className="text-slate-600 dark:text-gray-300">{rubric.embryologicalLayer}</strong>
+                        <div className="flex items-center space-x-2 text-[11px] text-slate-400 dark:text-gray-400">
+                          <span>Embryological Layer:</span>
+                          <span className="font-semibold text-slate-600 dark:text-gray-300">
+                            {rubric.embryologicalLayer}
                           </span>
 
                           {showFollowUpBaseline && (
-                            <span className="px-1.5 py-0.2 rounded bg-purple-950/80 text-purple-300 font-mono text-[9px] border border-purple-500/40">
+                            <span className="px-1.5 py-0.2 rounded bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 font-mono text-[10px]">
                               Visit #1: Grade {visit1GradeBaseline}
                             </span>
                           )}
@@ -600,13 +602,13 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                               ? 'Exclude from Simillimum calculation'
                               : 'Commit to Simillimum calculation'
                           }
-                          className={`p-1 rounded transition-colors cursor-pointer ${
+                          className={`p-1.5 rounded-md transition-all cursor-pointer ${
                             rubric.isCommitted
-                              ? 'bg-emerald-600 text-white hover:bg-emerald-500'
-                              : 'bg-gray-800 text-gray-500 hover:bg-gray-700'
+                              ? 'text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50'
+                              : 'text-gray-400 hover:text-gray-600'
                           }`}
                         >
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <CheckCircle2 className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -623,7 +625,11 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                     return (
                       <td
                         key={remedy.id}
-                        className="p-1.5 text-center border-r border-[#1C1F26]"
+                        className={`p-2 text-center border-r border-slate-200 dark:border-[#1C1F26] font-sans transition-colors ${
+                          currentGrade === 4
+                            ? 'bg-emerald-500/8'
+                            : ''
+                        }`}
                       >
                         <button
                           onClick={() => {
@@ -645,24 +651,22 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                           }}
                           title={
                             currentGrade === 4
-                              ? 'Grade 4: CAPITAL BOLD (Utmost Prominence)'
+                              ? 'Grade 4: CAPITAL BOLD EMERALD (Utmost Prominence)'
                               : currentGrade === 3
-                              ? 'Grade 3: BOLD (Strongly Verified)'
+                              ? 'Grade 3: BOLD NAVY (Strongly Verified)'
                               : currentGrade === 2
-                              ? 'Grade 2: ITALICS (Clinical Verified)'
+                              ? 'Grade 2: ITALICS SLATE (Clinical Verified)'
                               : currentGrade === 1
                               ? 'Grade 1: PLAIN (Reported Symptom)'
                               : 'Click to assign Homeopathic Grade (1-4)'
                           }
-                          className={`w-7 h-7 rounded-md font-mono transition-all cursor-pointer inline-flex items-center justify-center ${
+                          className={`w-7 h-7 rounded-md font-sans transition-all cursor-pointer inline-flex items-center justify-center ${
                             currentGrade === 4
-                              ? isLight
-                                ? 'bg-emerald-100 text-emerald-900 border border-emerald-400 font-black text-xs shadow-2xs'
-                                : 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/50 font-black text-xs'
+                              ? 'text-emerald-700 dark:text-emerald-400 font-black text-sm tracking-tight'
                               : currentGrade === 3
                               ? isLight
-                                ? 'text-slate-900 font-black text-xs'
-                                : 'text-white font-black text-xs'
+                                ? 'text-slate-900 font-extrabold text-xs'
+                                : 'text-white font-extrabold text-xs'
                               : currentGrade === 2
                               ? isLight
                                 ? 'text-slate-600 italic font-bold text-xs'
@@ -672,8 +676,8 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                                 ? 'text-slate-400 font-medium text-xs'
                                 : 'text-gray-400 font-medium text-xs'
                               : isLight
-                              ? 'text-slate-300 hover:text-emerald-600 text-xs'
-                              : 'text-gray-700 hover:text-emerald-400 text-xs'
+                              ? 'text-slate-200 hover:text-slate-400 text-xs'
+                              : 'text-gray-800 hover:text-gray-500 text-xs'
                           }`}
                         >
                           {currentGrade > 0 ? currentGrade : '—'}
