@@ -30,6 +30,7 @@ import {
   ChevronDown,
   ChevronRight,
   UserPlus,
+  MessageSquare,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -52,7 +53,8 @@ export type ActiveWorkspaceTab =
   | 'DOCTOR_PROFILE'
   | 'HOSPITAL_PROFILE'
   | 'SUPPORT_HELP'
-  | 'PROFILE_CREATION';
+  | 'PROFILE_CREATION'
+  | 'DISCUSSION_BLOGS';
 
 interface SidebarNavProps {
   activeTab: ActiveWorkspaceTab;
@@ -215,6 +217,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           label: labels.materiaMedica,
           subLabel: 'Boericke & Kent Reference',
           icon: BookOpen,
+        },
+        {
+          id: 'DISCUSSION_BLOGS' as ActiveWorkspaceTab,
+          label: 'Clinical Discussion Blogs',
+          subLabel: 'Sehgal ROH & Burnett Case Studies',
+          icon: MessageSquare,
+          isNew: true,
         },
         {
           id: 'AYUSH_RESEARCH_HUB' as ActiveWorkspaceTab,

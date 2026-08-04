@@ -19,8 +19,11 @@ import {
   IndianLanguageCode,
 } from '@/lib/i18n/indian_language_packs';
 
+import { ActiveWorkspaceTab } from '@/components/dashboard/SidebarNav';
+
 interface LandingPageProps {
   onLaunchWorkspace: () => void;
+  onNavigateToTab?: (tab: ActiveWorkspaceTab) => void;
   theme?: 'dark' | 'light';
   langCode?: IndianLanguageCode;
   onSelectLangCode?: (code: IndianLanguageCode) => void;
@@ -28,12 +31,21 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({
   onLaunchWorkspace,
+  onNavigateToTab,
   theme = 'dark',
   langCode = 'EN',
   onSelectLangCode,
 }) => {
   const isLight = theme === 'light';
   const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
+
+  const handleOpenModule = (tab: ActiveWorkspaceTab) => {
+    if (onNavigateToTab) {
+      onNavigateToTab(tab);
+    } else {
+      onLaunchWorkspace();
+    }
+  };
 
   return (
     <div
@@ -50,18 +62,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         }`}
       >
         <div className="max-w-8xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-md">
-              M
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-md">
+                M
+              </div>
+              <div>
+                <span className="font-black tracking-wider text-sm uppercase">
+                  MATERIAGRID
+                </span>
+                <span className="hidden sm:inline-block ml-2 text-[10px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-black">
+                  AYUSH / ABDM NHA v2.4
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="font-black tracking-wider text-sm uppercase">
-                MATERIAGRID
-              </span>
-              <span className="hidden sm:inline-block ml-2 text-[10px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-black">
-                AYUSH / ABDM NHA v2.4
-              </span>
-            </div>
+
+            {/* DIRECT LINKS TO SUPPORT, CONTACT US & DISCUSSION BLOGS */}
+            <nav className="hidden lg:flex items-center space-x-2 border-l pl-4 border-slate-700">
+              <button
+                onClick={() => handleOpenModule('SUPPORT_HELP')}
+                className="px-3 py-1.5 rounded-lg text-xs font-black text-gray-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+              >
+                📞 Support & Contact Us
+              </button>
+              <button
+                onClick={() => handleOpenModule('DISCUSSION_BLOGS')}
+                className="px-3 py-1.5 rounded-lg text-xs font-black text-gray-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+              >
+                💬 Discussion Blogs & Case Studies
+              </button>
+            </nav>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -121,6 +151,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           >
             <span>{langPack.labels.openClinicalPortal}</span>
             <ArrowRight className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={() => handleOpenModule('DISCUSSION_BLOGS')}
+            className="px-6 py-4 rounded-2xl bg-[#0B0F19] hover:bg-slate-900 border border-purple-500/40 text-purple-300 font-black text-sm flex items-center space-x-2 shadow-lg transition-all transform hover:scale-105 cursor-pointer"
+          >
+            <span>💬 Explore Peer Discussion Blogs & Case Studies</span>
+          </button>
+
+          <button
+            onClick={() => handleOpenModule('SUPPORT_HELP')}
+            className="px-6 py-4 rounded-2xl bg-[#0B0F19] hover:bg-slate-900 border border-slate-700 text-white font-black text-sm flex items-center space-x-2 shadow-lg transition-all transform hover:scale-105 cursor-pointer"
+          >
+            <span>📞 24/7 Support & WhatsApp Doctor Desk</span>
           </button>
         </div>
       </section>

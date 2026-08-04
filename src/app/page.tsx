@@ -36,6 +36,7 @@ import { DoctorProfileView } from '@/components/dashboard/DoctorProfileView';
 import { HospitalProfileView } from '@/components/dashboard/HospitalProfileView';
 import { SupportContactCenterView } from '@/components/dashboard/SupportContactCenterView';
 import { ProfileCreationStudioView } from '@/components/dashboard/ProfileCreationStudioView';
+import { ClinicalDiscussionBlogsView } from '@/components/dashboard/ClinicalDiscussionBlogsView';
 import { UserPersonaHeaderWidget } from '@/components/auth/UserPersonaHeaderWidget';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
@@ -165,8 +166,9 @@ const INITIAL_MATRIX_CELLS: MatrixCell[] = [
 
 function MasterWorkspaceInner() {
   const { currentUser, setIsLoginModalOpen } = useRbac();
+  // DEFAULT TO LANDING PAGE ON INITIAL LOAD
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
-    'WORKSPACE'
+    'LANDING'
   );
   // SET LIGHT THEME & ENGLISH AS DEFAULT
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
@@ -238,11 +240,18 @@ function MasterWorkspaceInner() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
+      const urlView = params.get('view');
+      const urlModule = params.get('module') as ActiveWorkspaceTab;
+      if (urlView === 'WORKSPACE' || urlModule) {
+        setCurrentView('WORKSPACE');
+      } else {
+        setCurrentView('LANDING');
+      }
+
       const urlLang = params.get('lang') as IndianLanguageCode;
       if (urlLang && INDIAN_LANGUAGE_PACKS[urlLang]) {
         setLangCode(urlLang);
       }
-      const urlModule = params.get('module') as ActiveWorkspaceTab;
       if (urlModule) {
         setActiveTab(urlModule);
       }
@@ -260,6 +269,7 @@ function MasterWorkspaceInner() {
       if (currentView === 'WORKSPACE') {
         url.searchParams.set('module', activeTab);
         url.searchParams.set('lang', langCode);
+        url.searchParams.delete('view');
 
         if (isCaseDrawerOpen) {
           url.searchParams.set('modal', 'INTAKE_DRAWER');
@@ -271,8 +281,10 @@ function MasterWorkspaceInner() {
           url.searchParams.delete('modal');
         }
       } else {
+        url.searchParams.delete('view');
         url.searchParams.delete('module');
         url.searchParams.delete('modal');
+        url.searchParams.delete('lang');
       }
       window.history.replaceState({}, '', url.toString());
     }
@@ -289,6 +301,10 @@ function MasterWorkspaceInner() {
     return (
       <LandingPage
         onLaunchWorkspace={() => setCurrentView('WORKSPACE')}
+        onNavigateToTab={(tab) => {
+          setCurrentView('WORKSPACE');
+          setActiveTab(tab);
+        }}
         theme={theme}
         langCode={langCode}
         onSelectLangCode={handleSelectLanguage}
@@ -758,6 +774,11 @@ function MasterWorkspaceInner() {
           {/* VIEW 16: PROFILE CREATION & ABDM REGISTRATION STUDIO */}
           {activeTab === 'PROFILE_CREATION' && (
             <ProfileCreationStudioView theme={theme} />
+          )}
+
+          {/* VIEW 17: CLINICAL DISCUSSION BLOGS & CASE STUDY EXCHANGE */}
+          {activeTab === 'DISCUSSION_BLOGS' && (
+            <ClinicalDiscussionBlogsView theme={theme} />
           )}
         </div>
       </main>
