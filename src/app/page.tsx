@@ -188,11 +188,15 @@ export default function MateriaGridMasterWorkspace() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
 
-  // SYNC ACTIVE TAB TO UNIQUE DEEP-LINKABLE URL
+  // CLEAN URL DEEP-LINK SYNCHRONIZATION
   useEffect(() => {
-    if (typeof window !== 'undefined' && currentView === 'WORKSPACE') {
+    if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
-      url.searchParams.set('module', activeTab);
+      if (currentView === 'WORKSPACE') {
+        url.searchParams.set('module', activeTab);
+      } else {
+        url.searchParams.delete('module');
+      }
       window.history.replaceState({}, '', url.toString());
     }
   }, [activeTab, currentView]);
