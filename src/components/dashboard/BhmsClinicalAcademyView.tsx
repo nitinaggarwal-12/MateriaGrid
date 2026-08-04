@@ -775,119 +775,63 @@ export const BhmsClinicalAcademyView: React.FC<
         isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
-      {/* SINGLE-LINE EXECUTIVE ACADEMIC NAVBAR (ZERO VERTICAL WASTE) */}
+      {/* SINGLE EXECUTIVE 40px DROPDOWN CONTROL BAR (ZERO VERTICAL WASTE) */}
       <div
-        className={`px-4 py-2.5 rounded-2xl border flex flex-wrap items-center justify-between gap-3 flex-shrink-0 font-sans ${
+        className={`px-4 py-2 rounded-2xl border flex flex-wrap items-center justify-between gap-3 flex-shrink-0 font-sans ${
           isLight
             ? 'bg-white border-slate-200 shadow-2xs'
             : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
-        <div className="flex flex-wrap items-center gap-1.5">
-          <button
-            onClick={() => setActiveTab('CURRICULUM_MATRIX' as any)}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              (activeTab as any) === 'CURRICULUM_MATRIX'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <Award className="w-3.5 h-3.5 text-emerald-500" />
-            <span>🎓 NCH Matrix</span>
-          </button>
+        <div className="flex flex-wrap items-center gap-3">
+          {/* ACADEMY MODULE DROPDOWN SELECTOR */}
+          <div className="flex items-center space-x-1.5">
+            <span className="text-xs font-black uppercase text-slate-400">Mode:</span>
+            <select
+              value={activeTab as string}
+              onChange={(e) => setActiveTab(e.target.value as any)}
+              className={`px-3 py-1.5 rounded-xl border text-xs font-black outline-none cursor-pointer ${
+                isLight
+                  ? 'bg-slate-50 border-slate-300 text-slate-900 focus:border-emerald-500'
+                  : 'bg-[#05070A] border-slate-800 text-white focus:border-emerald-500'
+              }`}
+            >
+              <option value="CURRICULUM_MATRIX">🎓 NCH Degree Matrix</option>
+              <option value="COURSES">📖 Course Modules ({ACADEMIC_COURSES.length})</option>
+              <option value="QUIZ">❓ Clinical Quizzes</option>
+              <option value="SIMULATION">🧪 Virtual OPD Simulator</option>
+              <option value="CASE_STUDIES">🏥 Real-World Case Bank</option>
+              <option value="EXAM_PREP">📝 10-Yr Exam Question Bank</option>
+              <option value="PRACTICE_TEST">🎯 Practice Test Generator</option>
+            </select>
+          </div>
 
-          <button
-            onClick={() => setActiveTab('COURSES')}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              activeTab === 'COURSES'
-                ? 'bg-amber-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5 text-amber-500" />
-            <span>📖 Courses ({ACADEMIC_COURSES.length})</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('QUIZ')}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              activeTab === 'QUIZ'
-                ? 'bg-purple-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <HelpCircle className="w-3.5 h-3.5 text-purple-500" />
-            <span>❓ Quizzes</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('SIMULATION')}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              activeTab === 'SIMULATION'
-                ? 'bg-cyan-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <Stethoscope className="w-3.5 h-3.5 text-cyan-500" />
-            <span>🧪 OPD Simulator</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('CASE_STUDIES' as any)}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              (activeTab as any) === 'CASE_STUDIES'
-                ? 'bg-rose-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5 text-rose-500" />
-            <span>🏥 Case Bank</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('EXAM_PREP' as any)}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              (activeTab as any) === 'EXAM_PREP'
-                ? 'bg-amber-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <Award className="w-3.5 h-3.5 text-amber-500" />
-            <span>📝 10-Yr Qs</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('PRACTICE_TEST' as any)}
-            className={`px-3 py-1.5 rounded-xl font-black text-xs transition-all flex items-center space-x-1 cursor-pointer ${
-              (activeTab as any) === 'PRACTICE_TEST'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : isLight
-                ? 'text-slate-700 hover:bg-slate-100'
-                : 'text-gray-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <Zap className="w-3.5 h-3.5 text-emerald-500" />
-            <span>🎯 Practice Tests</span>
-          </button>
+          {/* DEGREE LEVEL DROPDOWN FILTER (VISIBLE IN COURSES VIEW) */}
+          {activeTab === 'COURSES' && (
+            <div className="flex items-center space-x-1.5 border-l pl-3 border-slate-200 dark:border-slate-800">
+              <span className="text-xs font-black uppercase text-slate-400">Degree:</span>
+              <select
+                value={selectedAcademicStage}
+                onChange={(e) => setSelectedAcademicStage(e.target.value as any)}
+                className={`px-3 py-1.5 rounded-xl border text-xs font-black outline-none cursor-pointer ${
+                  isLight
+                    ? 'bg-emerald-50/70 border-emerald-300 text-emerald-900'
+                    : 'bg-[#05070A] border-emerald-500/40 text-emerald-400'
+                }`}
+              >
+                <option value="ALL">🌐 All Degree Courses ({ACADEMIC_COURSES.length})</option>
+                <option value="BHMS_INTERN">🎓 BHMS Undergraduate &amp; Intern ({ACADEMIC_COURSES.filter((c) => c.level === 'BHMS INTERN').length})</option>
+                <option value="MD_RESIDENT">🔬 MD (Hom.) Post-Graduate ({ACADEMIC_COURSES.filter((c) => c.level === 'MD (HOM.) RESIDENT').length})</option>
+              </select>
+            </div>
+          )}
         </div>
 
-        {/* INLINE ACADEMIC MASTERY SCORE (ZERO VERTICAL SPACE LOST) */}
+        {/* INLINE ACADEMIC MASTERY BADGE */}
         <div className="flex items-center space-x-2 px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 font-sans text-xs">
           <Award className="w-3.5 h-3.5" />
           <span className="font-black">92% Academic Honors</span>
-          <span className="text-[10px] opacity-75 hidden xl:inline">(Dr. Nitin Aggarwal)</span>
+          <span className="text-[10px] opacity-75 hidden md:inline">(Dr. Nitin Aggarwal)</span>
         </div>
       </div>
 
@@ -1034,51 +978,6 @@ export const BhmsClinicalAcademyView: React.FC<
       {/* TAB 1: COURSERA-STYLE COURSES & CHAPTERS */}
       {activeTab === 'COURSES' && (
         <div className="space-y-4 font-sans">
-          {/* DEGREE LEVEL SUB-TABS (BHMS vs MD) */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-slate-800">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-black uppercase text-slate-400 mr-1">
-                Filter Degree Level:
-              </span>
-              <button
-                onClick={() => setSelectedAcademicStage('ALL')}
-                className={`px-3.5 py-1.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
-                  selectedAcademicStage === 'ALL'
-                    ? 'bg-slate-900 text-white dark:bg-emerald-600'
-                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-gray-300'
-                }`}
-              >
-                🌐 All Courses ({ACADEMIC_COURSES.length})
-              </button>
-
-              <button
-                onClick={() => setSelectedAcademicStage('BHMS_INTERN')}
-                className={`px-3.5 py-1.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
-                  selectedAcademicStage === 'BHMS_INTERN'
-                    ? 'bg-amber-600 text-white'
-                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-gray-300'
-                }`}
-              >
-                🎓 BHMS Degree &amp; Intern ({ACADEMIC_COURSES.filter((c) => c.level === 'BHMS INTERN').length})
-              </button>
-
-              <button
-                onClick={() => setSelectedAcademicStage('MD_RESIDENT')}
-                className={`px-3.5 py-1.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
-                  selectedAcademicStage === 'MD_RESIDENT'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-gray-300'
-                }`}
-              >
-                🔬 MD (Hom.) Post-Graduate ({ACADEMIC_COURSES.filter((c) => c.level === 'MD (HOM.) RESIDENT').length})
-              </button>
-            </div>
-
-            <span className="text-xs font-bold text-slate-500">
-              Showing {filteredCourses.length} Degree Courses
-            </span>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* COURSE LIST (4 COLS) */}
             <div className="lg:col-span-4 space-y-3">
