@@ -14,15 +14,23 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
+import {
+  INDIAN_LANGUAGE_PACKS,
+  IndianLanguageCode,
+} from '@/lib/i18n/indian_language_packs';
 
 interface OpdQueueManagerViewProps {
   theme?: 'dark' | 'light';
+  langCode?: IndianLanguageCode;
 }
 
 export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   theme = 'dark',
+  langCode = 'EN',
 }) => {
   const isLight = theme === 'light';
+  const pack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
+  const labels = pack.labels;
 
   const [opdQueue, setOpdQueue] = useState([
     {
@@ -66,38 +74,38 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const uhiVideoSlots = [
     {
       time: '10:00 AM – 10:15 AM',
-      patientName: 'Ananya Verma (ABHA verified)',
-      status: 'CONFIRMED UHI',
+      patientName: 'Ananya Verma',
+      status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:15 AM – 10:30 AM',
-      patientName: 'Vikramaditya Rao (ABHA verified)',
-      status: 'CONFIRMED UHI',
+      patientName: 'Vikramaditya Rao',
+      status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:30 AM – 10:45 AM',
       patientName: 'Siddharth Deshmukh',
-      status: 'CONFIRMED UHI',
+      status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:45 AM – 11:00 AM',
       patientName: 'Kavita Patel',
-      status: 'CONFIRMED UHI',
+      status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '11:00 AM – 11:15 AM',
-      patientName: 'Available UHI Telehealth Slot',
-      status: 'AVAILABLE',
+      patientName: labels.availableSlot,
+      status: labels.availableSlot,
       isBooked: false,
     },
     {
       time: '11:15 AM – 11:30 AM',
-      patientName: 'Available UHI Telehealth Slot',
-      status: 'AVAILABLE',
+      patientName: labels.availableSlot,
+      status: labels.availableSlot,
       isBooked: false,
     },
   ];
@@ -122,25 +130,25 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
           </div>
           <div>
             <h2 className="font-black text-base uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-              OPD WAITING QUEUE MANAGER & NHA UHI TELEHEALTH SLOT SCHEDULER
+              {labels.opdQueueManagerTitle}
             </h2>
             <p
               className={`text-xs ${
                 isLight ? 'text-slate-600' : 'text-slate-300'
               }`}
             >
-              Unified Health Interface (UHI v1.2) ABDM Patient Flow & Token Dispatch Engine
+              {labels.opdQueueManagerSub}
             </p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm">
-            LIVE OPD TRIAGE ACTIVE (8 PATIENTS IN QUEUE)
+            {labels.liveOpdTriageActive}
           </span>
           <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center space-x-1.5 shadow-md transition-all transform hover:scale-105 cursor-pointer">
             <UserPlus className="w-4 h-4" />
-            <span>+ Check-In Walk-In OPD Patient</span>
+            <span>{labels.checkInWalkInPatient}</span>
           </button>
         </div>
       </div>
@@ -157,10 +165,10 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
         >
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
             <span className="font-black text-sm uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-              <Users className="w-4 h-4" /> CLINIC PHYSICAL OPD TOKEN QUEUE
+              <Users className="w-4 h-4" /> {labels.physicalOpdTokenQueue}
             </span>
             <span className="text-xs font-bold text-gray-500 dark:text-slate-300">
-              REAL-TIME UHI AUDIT LOG
+              {labels.realTimeAuditLog}
             </span>
           </div>
 
@@ -178,54 +186,43 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
                     : 'bg-[#111317] border-slate-800 hover:border-emerald-500/60'
                 }`}
               >
-                <div className="flex items-center space-x-3.5 min-w-0">
+                <div className="flex items-center space-x-4">
                   <div
-                    className={`px-3 py-2 rounded-xl font-black text-sm border flex-shrink-0 ${
+                    className={`px-3 py-2 rounded-xl font-black text-xs border ${
                       item.status === 'IN_CONSULTATION'
-                        ? 'bg-emerald-600 text-white border-emerald-500'
+                        ? 'bg-emerald-600 text-white border-emerald-500 shadow-sm'
                         : isLight
-                        ? 'bg-white text-slate-900 border-slate-300'
-                        : 'bg-slate-900 text-white border-slate-700'
+                        ? 'bg-white text-slate-800 border-slate-300'
+                        : 'bg-slate-900 text-gray-200 border-slate-800'
                     }`}
                   >
                     {item.token}
                   </div>
-
-                  <div className="min-w-0 space-y-1">
+                  <div>
                     <div className="flex items-center space-x-2">
-                      {/* WCAG AAA HIGH CONTRAST PURE WHITE / CHARCOAL SLATE */}
-                      <p
-                        className={`font-black text-sm ${
-                          isLight ? 'text-slate-900' : 'text-white'
-                        }`}
-                      >
-                        {item.patientName} ({item.ageGender})
-                      </p>
-                      <span className="px-2 py-0.5 rounded text-[9px] font-black bg-emerald-600 text-white">
-                        ABHA VERIFIED
+                      <span className="font-bold text-sm">{item.patientName}</span>
+                      <span className="text-xs text-gray-500 dark:text-slate-400 font-medium">
+                        ({item.ageGender})
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[10px] font-black border border-emerald-500/30">
+                        {labels.verifiedAbha}
                       </span>
                     </div>
-                    <p
-                      className={`text-xs leading-tight font-bold ${
-                        isLight ? 'text-slate-600' : 'text-slate-300'
-                      }`}
-                    >
+                    <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5 font-medium">
                       {item.chiefComplaint}
                     </p>
                   </div>
                 </div>
 
-                {/* ZERO BUTTON TRUNCATION - EXPANDED ACTION BUTTON */}
-                <div className="flex items-center space-x-2 flex-shrink-0">
+                <div className="flex items-center space-x-3">
                   {item.status === 'IN_CONSULTATION' ? (
-                    <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                      IN OPD CABIN
+                    <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> {labels.inOpdCabin}
                     </span>
                   ) : (
-                    <button className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center space-x-1.5 shadow-sm transition-all cursor-pointer">
+                    <button className="px-3.5 py-1.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600 hover:text-white text-emerald-600 dark:text-emerald-400 font-black text-xs border border-emerald-500/30 flex items-center space-x-1.5 cursor-pointer transition-all">
                       <PhoneCall className="w-3.5 h-3.5" />
-                      <span>Call Token</span>
+                      <span>{labels.callToken}</span>
                     </button>
                   )}
                 </div>
@@ -234,7 +231,7 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: HIGH-CONTRAST NHA UHI TELEHEALTH VIDEO SLOT SCHEDULER (5 COLUMNS) */}
+        {/* RIGHT COLUMN: NHA UHI TELEHEALTH VIDEO SLOT SCHEDULER (5 COLUMNS) */}
         <div
           className={`lg:col-span-5 p-6 rounded-2xl border space-y-4 shadow-lg ${
             isLight
@@ -243,76 +240,51 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
           }`}
         >
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-            <span className="font-black text-sm uppercase text-purple-600 dark:text-purple-300 flex items-center gap-2">
-              <Video className="w-4 h-4" /> UHI TELEHEALTH VIDEO SLOT SCHEDULER
+            <span className="font-black text-sm uppercase text-purple-600 dark:text-purple-400 flex items-center gap-2">
+              <Video className="w-4 h-4" /> {labels.uhiVideoSlotsTitle}
             </span>
-            <span className="px-2.5 py-0.5 rounded text-[10px] font-black bg-purple-600 text-white">
-              NHA UHI v1.2
+            <span className="text-xs font-bold text-gray-500 dark:text-slate-300">
+              {labels.liveWebRtcRooms}
             </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {uhiVideoSlots.map((slot, idx) => (
               <div
                 key={idx}
-                className={`p-4 rounded-xl border flex items-center justify-between gap-3 transition-all ${
+                className={`p-3.5 rounded-xl border flex items-center justify-between ${
                   slot.isBooked
                     ? isLight
-                      ? 'bg-purple-50 border-purple-300'
-                      : 'bg-purple-950/40 border-purple-500/60'
+                      ? 'bg-purple-50/70 border-purple-200'
+                      : 'bg-purple-950/20 border-purple-500/30'
                     : isLight
                     ? 'bg-slate-50 border-slate-200'
                     : 'bg-[#111317] border-slate-800'
                 }`}
               >
-                <div className="space-y-1">
-                  {/* HIGH-CONTRAST WCAG AAA PURE WHITE / CHARCOAL TEXT */}
-                  <p
-                    className={`font-black text-xs ${
-                      isLight ? 'text-purple-900' : 'text-white'
-                    }`}
-                  >
-                    {slot.time}
-                  </p>
-                  <p
-                    className={`font-bold text-xs ${
-                      slot.isBooked
-                        ? isLight
-                          ? 'text-slate-800'
-                          : 'text-slate-200'
-                        : 'text-gray-400'
-                    }`}
-                  >
-                    {slot.patientName}
-                  </p>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-3.5 h-3.5 text-purple-500" />
+                    <span className="text-xs font-bold text-purple-600 dark:text-purple-300">
+                      {slot.time}
+                    </span>
+                  </div>
+                  <p className="font-bold text-xs mt-1">{slot.patientName}</p>
                 </div>
 
-                {slot.isBooked ? (
-                  <span className="px-3 py-1.5 rounded-xl bg-purple-600 text-white font-black text-[11px] shadow-sm">
-                    CONFIRMED UHI
-                  </span>
-                ) : (
-                  <button className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition-all cursor-pointer">
-                    + Book Slot
-                  </button>
-                )}
+                <div>
+                  {slot.isBooked ? (
+                    <span className="px-2.5 py-1 rounded-lg bg-purple-600 text-white font-black text-[10px] uppercase shadow-2xs">
+                      {slot.status}
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-gray-400 font-bold text-[10px] uppercase">
+                      {slot.status}
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
-          </div>
-
-          <div
-            className={`p-4 rounded-xl border text-xs space-y-1.5 ${
-              isLight
-                ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
-                : 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
-            }`}
-          >
-            <p className="font-black text-emerald-600 dark:text-emerald-400">
-              ⚡ ABDM Unified Health Interface (UHI) Live Sync
-            </p>
-            <p className="text-[#94A3B8] dark:text-slate-300 leading-relaxed text-[11px]">
-              Any patient booking through Aarogya Setu or ABHA app is automatically synced into this scheduler with WCAG AAA clinical contrast.
-            </p>
           </div>
         </div>
       </div>

@@ -660,7 +660,7 @@ function MasterWorkspaceInner() {
                   className="ml-2 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer whitespace-nowrap"
                   title="Call Next Patient in OPD Queue"
                 >
-                  Next Patient →
+                  {INDIAN_LANGUAGE_PACKS[langCode]?.labels.nextPatient || 'Next Patient →'}
                 </button>
               </div>
             </div>
@@ -678,7 +678,7 @@ function MasterWorkspaceInner() {
                   }`}
                 >
                   <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>⚡ Clinical Actions</span>
+                  <span>⚡ {INDIAN_LANGUAGE_PACKS[langCode]?.labels.clinicalActions || 'Clinical Actions'}</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform ${
                       isToolsDropdownOpen ? 'rotate-180' : ''
@@ -917,7 +917,7 @@ function MasterWorkspaceInner() {
 
           {/* VIEW 8: OPD WAITING QUEUE & UHI SLOT MANAGER */}
           {activeTab === 'OPD_QUEUE_MANAGER' && (
-            <OpdQueueManagerView theme={theme} />
+            <OpdQueueManagerView theme={theme} langCode={langCode} />
           )}
 
           {/* VIEW 9: PHARMACY & LM DISPENSARY */}

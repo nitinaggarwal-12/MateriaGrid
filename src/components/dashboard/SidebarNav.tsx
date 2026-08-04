@@ -324,7 +324,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         </button>
       </div>
 
-      {/* EXPAND ALL / COLLAPSE ALL ACTION BAR */}
+      {/* EXPAND ALL / COLLAPSIBLE ACTION BAR */}
       <div
         className={`px-3 py-2 border-b flex items-center justify-between font-mono text-[10px] ${
           isLight
@@ -333,7 +333,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         }`}
       >
         <span className="font-bold uppercase tracking-wider text-[9px]">
-          Suites Tree
+          {labels.suitesTree}
         </span>
         <div className="flex items-center space-x-1.5">
           <button
@@ -341,7 +341,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             className="px-2 py-0.5 rounded border border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-black hover:bg-emerald-500/20 cursor-pointer transition-all"
             title="Expand all 4 clinical suites"
           >
-            Expand All
+            {labels.expandAll}
           </button>
           <button
             onClick={handleCollapseAll}
@@ -352,7 +352,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             }`}
             title="Collapse all clinical suites"
           >
-            Collapse All
+            {labels.collapseAll}
           </button>
         </div>
       </div>

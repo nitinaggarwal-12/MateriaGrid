@@ -214,7 +214,7 @@ export const UserPersonaHeaderWidget: React.FC<
               title="Click to collapse profile menu"
             >
               <X className="w-3 h-3" />
-              <span>Collapse</span>
+              <span>{labels.collapseBtn}</span>
             </button>
           </div>
 
@@ -231,7 +231,7 @@ export const UserPersonaHeaderWidget: React.FC<
                 {labels.activeSessionVerification}
               </span>
               <span className="text-[9px] px-2 py-0.5 rounded-full bg-emerald-600 text-white font-black shadow-2xs flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3" /> ABDM SIGNED
+                <ShieldCheck className="w-3 h-3" /> {labels.abdmSigned}
               </span>
             </div>
 
@@ -417,7 +417,7 @@ export const UserPersonaHeaderWidget: React.FC<
               }`}
             >
               <LogIn className="w-3.5 h-3.5" />
-              <span>Switch RBAC Login</span>
+              <span>{labels.switchRbacLogin}</span>
             </button>
 
             <button
@@ -428,7 +428,7 @@ export const UserPersonaHeaderWidget: React.FC<
               className="py-2.5 px-3.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 font-bold text-xs flex items-center justify-center space-x-1.5 cursor-pointer transition-all"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span>Log Out</span>
+              <span>{labels.logOut}</span>
             </button>
           </div>
         </div>
