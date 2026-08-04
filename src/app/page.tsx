@@ -37,6 +37,10 @@ import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/Por
 import { MateriaGridSyncQueue } from '@/lib/engine/sync_queue';
 import { mergeConcurrentDoctorOperations } from '@/lib/engine/crdt_session_handler';
 import {
+  INDIAN_LANGUAGE_PACKS,
+  IndianLanguageCode,
+} from '@/lib/i18n/indian_language_packs';
+import {
   Flame,
   Droplets,
   Compass,
@@ -151,6 +155,9 @@ export default function MateriaGridMasterWorkspace() {
   );
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const isLight = theme === 'light';
+
+  const [langCode, setLangCode] = useState<IndianLanguageCode>('EN');
+  const langPack = INDIAN_LANGUAGE_PACKS[langCode];
 
   const [activeTab, setActiveTab] =
     useState<ActiveWorkspaceTab>('MATRIX_TELEHEALTH');
@@ -443,53 +450,9 @@ export default function MateriaGridMasterWorkspace() {
                   </strong>
                 </span>
                 <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-600 text-white font-black">
-                  VERIFIED
+                  {langPack.labels.verifiedAbha}
                 </span>
               </button>
-
-              {/* INTERACTIVE HOVER EHR PREVIEW CARD */}
-              <div
-                className={`hidden group-hover:block absolute left-0 top-10 w-72 p-3.5 rounded-2xl border-2 shadow-2xl z-50 font-mono text-xs animate-in fade-in zoom-in duration-150 ${
-                  isLight
-                    ? 'bg-white border-emerald-600 text-slate-900'
-                    : 'bg-[#090A0C] border-emerald-500/80 text-white'
-                }`}
-              >
-                <div className="flex items-center justify-between border-b pb-2 mb-2 border-slate-200 dark:border-slate-800">
-                  <span className="font-black text-emerald-600 dark:text-emerald-400">
-                    ABDM VERIFIED EHR CARD
-                  </span>
-                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
-                    NHA v2.4
-                  </span>
-                </div>
-                <div className="space-y-1.5 text-[11px]">
-                  <p>
-                    Patient:{' '}
-                    <strong className={isLight ? 'text-slate-900' : 'text-white'}>
-                      Ramesh Kumar Sharma (44M)
-                    </strong>
-                  </p>
-                  <p>
-                    Blood Group:{' '}
-                    <strong className="text-emerald-600 dark:text-emerald-400 font-black">
-                      B+ Positive
-                    </strong>
-                  </p>
-                  <p>
-                    Mobile:{' '}
-                    <strong className="text-gray-600 dark:text-gray-300">
-                      +91 98765 43210
-                    </strong>
-                  </p>
-                  <p>
-                    Consent Hash:{' '}
-                    <strong className="text-cyan-600 dark:text-cyan-400">
-                      0x8F4A...C291
-                    </strong>
-                  </p>
-                </div>
-              </div>
             </div>
 
             {/* + NEW CASE INTAKE */}
@@ -498,7 +461,7 @@ export default function MateriaGridMasterWorkspace() {
               className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
-              <span>+ Intake</span>
+              <span>{langPack.labels.intake}</span>
             </button>
 
             {/* CASE DECISION-GATE FLOWCHART TRIGGER BUTTON */}
@@ -508,16 +471,27 @@ export default function MateriaGridMasterWorkspace() {
               title="Inspect interactive Decision-Gate Flowchart & YES/NO gates for each illness"
             >
               <GitBranch className="w-3.5 h-3.5" />
-              <span>🔀 Decision Gates</span>
+              <span>{langPack.labels.decisionGates}</span>
             </button>
 
-            {/* DOCTOR PERSONA CLONE SELECTOR TRAY */}
-            <div className="hidden sm:block">
-              <CloneSelectorTray
-                activeCloneName={activeCloneName}
-                onSelectClone={handleSelectDoctorClone}
-                theme={theme}
-              />
+            {/* INDIAN MULTI-LANGUAGE PACK SWITCHER DROPDOWN */}
+            <div className="flex items-center space-x-1 border rounded-xl px-2 py-1 bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-800">
+              <Globe className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <select
+                value={langCode}
+                onChange={(e) => setLangCode(e.target.value as IndianLanguageCode)}
+                className="bg-transparent text-xs font-black outline-none cursor-pointer text-slate-800 dark:text-white"
+              >
+                {Object.values(INDIAN_LANGUAGE_PACKS).map((pack) => (
+                  <option
+                    key={pack.code}
+                    value={pack.code}
+                    className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                  >
+                    🌐 {pack.nativeName} ({pack.englishName})
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -534,7 +508,7 @@ export default function MateriaGridMasterWorkspace() {
               >
                 <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>
-                  Top Simillimum:{' '}
+                  {langPack.labels.topSimillimum}:{' '}
                   <strong className={isLight ? 'text-emerald-700' : 'text-white'}>
                     {remedies[0]?.code || 'Bell'} ({remedies[0]?.specificityScore || 65.2})
                   </strong>
@@ -543,27 +517,11 @@ export default function MateriaGridMasterWorkspace() {
             </div>
 
             <button
-              onClick={() => setIsHyper8dOpen(true)}
-              className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-black px-3 py-1.5 rounded-xl shadow-sm transition-all transform hover:scale-105 cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-              <span>10D Quantum</span>
-            </button>
-
-            <button
-              onClick={() => setIsAnatomicalMapOpen(true)}
-              className="hidden md:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black px-3 py-1.5 rounded-xl shadow-sm transition-all transform hover:scale-105 cursor-pointer"
-            >
-              <Activity className="w-3.5 h-3.5 text-purple-300" />
-              <span>360° Body Map</span>
-            </button>
-
-            <button
               onClick={() => setIsPrescriptionModalOpen(true)}
               className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1 transition-all transform hover:scale-105 cursor-pointer"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>Rx Slip</span>
+              <span>{langPack.labels.rxSlip}</span>
             </button>
           </div>
 
@@ -578,7 +536,7 @@ export default function MateriaGridMasterWorkspace() {
                   : 'border-orange-500/60 bg-orange-950/40 text-orange-300'
               }`}
             >
-              🔥 <strong>{thermalProfile}</strong>
+              🔥 <strong>{thermalProfile === 'HOT' ? langPack.labels.hot : langPack.labels.chilly}</strong>
             </button>
 
             <button
@@ -590,7 +548,7 @@ export default function MateriaGridMasterWorkspace() {
                   : 'border-cyan-500/60 bg-cyan-950/40 text-cyan-300'
               }`}
             >
-              💧 <strong>{thirstProfile}</strong>
+              💧 <strong>{thirstProfile === 'THIRSTLESS' ? langPack.labels.thirstless : langPack.labels.thirsty}</strong>
             </button>
 
             <span
@@ -600,7 +558,7 @@ export default function MateriaGridMasterWorkspace() {
                   : 'border-purple-500/60 bg-purple-950/40 text-purple-300'
               }`}
             >
-              🧭 <strong>RIGHT-TO-LEFT</strong>
+              🧭 <strong>{langPack.labels.rightToLeft}</strong>
             </span>
 
             <span
@@ -610,7 +568,7 @@ export default function MateriaGridMasterWorkspace() {
                   : 'border-emerald-500/60 bg-emerald-950/50 text-emerald-300'
               }`}
             >
-              🛡️ Vital Force: <strong>STRONG</strong>
+              🛡️ <strong>{langPack.labels.vitalForceStrong}</strong>
             </span>
           </div>
         </div>
