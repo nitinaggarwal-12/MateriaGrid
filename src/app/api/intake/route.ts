@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+export const dynamic = 'force-dynamic';
+
 // Strict environmental interface check with safe fallback for local dev
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://materiagrid-demo.supabase.co';

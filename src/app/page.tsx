@@ -342,7 +342,7 @@ export default function MateriaGridMasterWorkspace() {
   return (
     <div
       className={`flex flex-col lg:flex-row w-full h-screen overflow-hidden font-sans antialiased transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#090A0C] text-[#E6E8EA]'
+        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-[#E6E8EA]'
       }`}
     >
       {/* MOBILE / TABLET TOP NAVIGATION BAR (< 1024PX) */}
@@ -409,9 +409,9 @@ export default function MateriaGridMasterWorkspace() {
         {/* VIEW 1: SIMILIMATRIX & TELEHEALTH WORKSPACE */}
         {activeTab === 'MATRIX_TELEHEALTH' && (
           <div className="flex flex-col w-full h-full overflow-hidden">
-            {/* 1. EXECUTIVE CONSOLIDATED COMMAND STRIP 1 — CLEANLY CONTAINED WITH NO OVERFLOW INTO LIVE VIDEO STREAM */}
+            {/* TIER 1: PATIENT IDENTIFICATION, CLONE SELECTOR & INTAKE CTAS */}
             <div
-              className={`px-3 py-2 z-20 flex flex-wrap items-center justify-between gap-2 border-b overflow-hidden transition-colors ${
+              className={`px-3 py-2 z-20 flex flex-wrap items-center justify-between gap-2 border-b transition-colors ${
                 isLight
                   ? 'bg-white/95 border-slate-200/90 backdrop-blur-md shadow-2xs'
                   : 'bg-[#0B0F19]/95 border-[#1C1F26] backdrop-blur-md'
@@ -425,7 +425,6 @@ export default function MateriaGridMasterWorkspace() {
                   />
                 </div>
 
-                {/* LUXURY METALLIC GLASS CASE INTAKE CAPSULE CTA */}
                 <button
                   onClick={() => setIsCaseDrawerOpen(true)}
                   className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer flex-shrink-0"
@@ -434,7 +433,7 @@ export default function MateriaGridMasterWorkspace() {
                   <span>+ New Case Intake</span>
                 </button>
 
-                <div className="max-w-[250px] flex-shrink">
+                <div className="max-w-[270px] flex-shrink">
                   <CloneSelectorTray
                     activeCloneName={activeCloneName}
                     onSelectClone={handleSelectDoctorClone}
@@ -447,7 +446,7 @@ export default function MateriaGridMasterWorkspace() {
               <div className="flex items-center space-x-1.5 flex-shrink-0">
                 <button
                   onClick={() => setIsHyper8dOpen(true)}
-                  className="hidden 2xl:flex items-center space-x-1 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
+                  className="hidden xl:flex items-center space-x-1 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>🔮 10D Quantum Engine</span>
@@ -455,7 +454,7 @@ export default function MateriaGridMasterWorkspace() {
 
                 <button
                   onClick={() => setIsAnatomicalMapOpen(true)}
-                  className="hidden xl:flex items-center space-x-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
+                  className="hidden lg:flex items-center space-x-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
                 >
                   <Activity className="w-3.5 h-3.5" />
                   <span>🧍 3D Body Map</span>
@@ -473,19 +472,18 @@ export default function MateriaGridMasterWorkspace() {
                   <span>3D Portal</span>
                 </button>
 
-                {/* HOLOGRAPHIC SIMILLIMUM PILL BADGE */}
                 <button
                   onClick={() => setIsPrescriptionModalOpen(true)}
-                  className={`hidden sm:flex items-center space-x-1.5 border px-2.5 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
+                  className={`flex items-center space-x-1.5 border px-2.5 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
                     isLight
                       ? 'bg-emerald-50/90 hover:bg-emerald-100/90 border-emerald-300 text-emerald-950 font-bold shadow-2xs'
-                      : 'bg-emerald-950/50 hover:bg-emerald-900/60 border-emerald-500/40 text-emerald-300 font-bold'
+                      : 'bg-emerald-950/60 hover:bg-emerald-900/70 border-emerald-500/50 text-emerald-300 font-bold'
                   }`}
                 >
-                  <Award className="w-3.5 h-3.5 text-emerald-600" />
+                  <Award className="w-3.5 h-3.5 text-emerald-400" />
                   <span>
                     Top:{' '}
-                    <strong className="text-emerald-600 font-mono">
+                    <strong className="text-emerald-400 font-mono">
                       Belladonna (65.2)
                     </strong>
                   </span>
@@ -501,7 +499,7 @@ export default function MateriaGridMasterWorkspace() {
               </div>
             </div>
 
-            {/* 2. EXECUTIVE CONSTITUTIONAL TELEMETRY STRIP 2 WITH CLICK-TO-TOGGLE BASELINES */}
+            {/* TIER 2: CONSTITUTIONAL TELEMETRY STRIP WITH CLICK-TO-TOGGLE BASELINES */}
             <div
               className={`px-4 py-1.5 border-b flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono ${
                 isLight
@@ -542,8 +540,8 @@ export default function MateriaGridMasterWorkspace() {
               </div>
 
               <div className="flex items-center space-x-2">
-                <span className="flex items-center gap-1 text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg">
-                  <Pill className="w-3 h-3 text-emerald-600" /> Safe Potency Scale: LM 0/1 Liquid
+                <span className="flex items-center gap-1 text-emerald-400 font-bold bg-emerald-950/60 border border-emerald-500/40 px-2.5 py-0.5 rounded-lg">
+                  <Pill className="w-3 h-3 text-emerald-400" /> Safe Potency Scale: LM 0/1 Liquid
                 </span>
               </div>
             </div>
