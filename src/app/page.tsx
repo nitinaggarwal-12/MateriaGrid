@@ -31,6 +31,10 @@ import { OpdQueueManagerView } from '@/components/dashboard/OpdQueueManagerView'
 import { PharmacyDispensaryView } from '@/components/dashboard/PharmacyDispensaryView';
 import { DifferentialWorkbenchView } from '@/components/dashboard/DifferentialWorkbenchView';
 import { EnterpriseUnicornSuiteView } from '@/components/dashboard/EnterpriseUnicornSuiteView';
+import { PatientProfileView } from '@/components/dashboard/PatientProfileView';
+import { DoctorProfileView } from '@/components/dashboard/DoctorProfileView';
+import { HospitalProfileView } from '@/components/dashboard/HospitalProfileView';
+import { SupportContactCenterView } from '@/components/dashboard/SupportContactCenterView';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
 import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/PortalClinicalDecisionFlowchartModal';
@@ -728,6 +732,26 @@ function MasterWorkspaceInner() {
           {/* VIEW 11: ENTERPRISE $1B PLATFORM SUITE (FLEET RBAC, RWE & UHI CLAIMS) */}
           {activeTab === 'ENTERPRISE_SUITE' && (
             <EnterpriseUnicornSuiteView theme={theme} />
+          )}
+
+          {/* VIEW 12: DEDICATED PATIENT PROFILE & ABHA HEALTH LOCKER */}
+          {activeTab === 'PATIENT_PROFILE' && (
+            <PatientProfileView theme={theme} />
+          )}
+
+          {/* VIEW 13: DEDICATED PHYSICIAN CREDENTIALS & AYUSH REGISTRATION */}
+          {activeTab === 'DOCTOR_PROFILE' && (
+            <DoctorProfileView theme={theme} />
+          )}
+
+          {/* VIEW 14: DEDICATED HOSPITAL INSTITUTIONAL & UHI GATEWAY PROFILE */}
+          {activeTab === 'HOSPITAL_PROFILE' && (
+            <HospitalProfileView theme={theme} />
+          )}
+
+          {/* VIEW 15: SUPPORT, CONTACT US & WHATSAPP CLINICAL CALL HUB */}
+          {activeTab === 'SUPPORT_HELP' && (
+            <SupportContactCenterView theme={theme} />
           )}
         </div>
       </main>
