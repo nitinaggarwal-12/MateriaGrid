@@ -36,6 +36,7 @@ import { DoctorProfileView } from '@/components/dashboard/DoctorProfileView';
 import { HospitalProfileView } from '@/components/dashboard/HospitalProfileView';
 import { SupportContactCenterView } from '@/components/dashboard/SupportContactCenterView';
 import { ProfileCreationStudioView } from '@/components/dashboard/ProfileCreationStudioView';
+import { UserPersonaHeaderWidget } from '@/components/auth/UserPersonaHeaderWidget';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
 import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/PortalClinicalDecisionFlowchartModal';
@@ -518,24 +519,6 @@ function MasterWorkspaceInner() {
         >
           {/* CLUSTER 1: PATIENT IDENTITY, OPD QUEUE TOKEN & CLINICAL INTAKE */}
           <div className="flex flex-wrap items-center gap-2">
-            {/* RBAC ROLE & AUTH SWITCHER BUTTON */}
-            <button
-              onClick={() => setIsLoginModalOpen(true)}
-              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-black cursor-pointer transition-all transform hover:scale-105 ${
-                currentUser.role === 'PHYSICIAN'
-                  ? 'border-emerald-500 bg-emerald-600/15 text-emerald-600 dark:text-emerald-400'
-                  : currentUser.role === 'PATIENT'
-                  ? 'border-cyan-500 bg-cyan-600/15 text-cyan-600 dark:text-cyan-400'
-                  : currentUser.role === 'HOSPITAL_ADMIN'
-                  ? 'border-purple-500 bg-purple-600/15 text-purple-600 dark:text-purple-400'
-                  : 'border-amber-500 bg-amber-600/15 text-amber-600 dark:text-amber-400'
-              }`}
-              title="Click to manage RBAC Auth & Switch Role"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              <span>{currentUser.role}</span>
-            </button>
-
             {/* CLINIC OPD FLOATING TOKEN CALL SWITCHER */}
             <div className="flex items-center space-x-1.5 border rounded-xl px-3 py-1 bg-emerald-500/10 border-emerald-500/40">
               <span className="font-black text-emerald-700 dark:text-emerald-400 font-mono text-xs">
@@ -598,7 +581,7 @@ function MasterWorkspaceInner() {
             </button>
           </div>
 
-          {/* CLUSTER 3: WORKSPACE MODE, LANGUAGE & CONSTITUTIONAL TELEMETRY */}
+          {/* CLUSTER 3: WORKSPACE MODE, LANGUAGE & TOP-RIGHT USER PERSONA HEADER WIDGET */}
           <div className="flex flex-wrap items-center gap-2 font-mono">
             {/* WORKSPACE VIEWPORT MODE TOGGLE: IN-PERSON OPD (100% MATRIX) vs TELEHEALTH SPLIT */}
             {activeTab === 'MATRIX_TELEHEALTH' && (
@@ -634,38 +617,12 @@ function MasterWorkspaceInner() {
               theme={theme}
             />
 
-            {/* INLINE CONSTITUTIONAL TELEMETRY CHIPS */}
-            <div className="hidden xl:flex items-center space-x-1.5 text-[11px]">
-              <button
-                onClick={handleCycleThermal}
-                title="Click to cycle Thermal profile"
-                className={`px-2 py-1 rounded-lg border font-black cursor-pointer ${
-                  isLight
-                    ? 'border-orange-300 bg-orange-50 text-orange-900'
-                    : 'border-orange-500/60 bg-orange-950/40 text-orange-300'
-                }`}
-              >
-                🔥 {thermalProfile === 'HOT' ? langPack.labels.hot : langPack.labels.chilly}
-              </button>
-
-              <button
-                onClick={handleCycleThirst}
-                title="Click to cycle Thirst profile"
-                className={`px-2 py-1 rounded-lg border font-black cursor-pointer ${
-                  isLight
-                    ? 'border-cyan-300 bg-cyan-50 text-cyan-900'
-                    : 'border-cyan-500/60 bg-cyan-950/40 text-cyan-300'
-                }`}
-              >
-                💧 {thirstProfile === 'THIRSTLESS' ? langPack.labels.thirstless : langPack.labels.thirsty}
-              </button>
-            </div>
-
-            {langSwitchNotice && (
-              <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-xs animate-bounce">
-                {langSwitchNotice}
-              </span>
-            )}
+            {/* TOP-RIGHT USER PERSONA & ACCOUNT CONTROL WIDGET (LOGGED-IN INFO, PREFERENCES, SETTINGS, LOGIN/LOGOUT) */}
+            <UserPersonaHeaderWidget
+              theme={theme}
+              onToggleTheme={toggleTheme}
+              onSelectTab={setActiveTab}
+            />
           </div>
         </div>
 
@@ -693,7 +650,7 @@ function MasterWorkspaceInner() {
                     onUpdateMatrixCellGrade={handleUpdateMatrixCellGrade}
                     onAddNewRubricToMatrix={(path, layer) => {
                       const newRub: RubricRow = {
-                        id: `rub-${Date.now()}`,
+                        id: `rub-ai-${Date.now()}`,
                         chapter: path.split(' - ')[0] || 'MIND',
                         fullStringPath: path,
                         embryologicalLayer: layer,
