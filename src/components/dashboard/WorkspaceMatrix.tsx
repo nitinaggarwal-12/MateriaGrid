@@ -413,15 +413,15 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                       return 'bg-emerald-100/70 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-400 font-bold rounded-lg';
                     }
 
-                    // THERMAL HEATMAP MODE: FULL CELL COLOR INTENSITY MATRIX
+                    // MULTI-SPECTRUM SCIENTIFIC THERMAL HEATMAP PALETTE (RED / ORANGE / GREEN / CYAN)
                     if (grade === 4)
-                      return 'bg-gradient-to-br from-emerald-600 to-teal-700 text-white font-black rounded-md shadow-sm border border-emerald-400 scale-[0.96]';
+                      return 'bg-gradient-to-br from-red-600 via-red-500 to-rose-700 text-white font-black rounded-md shadow-sm border border-red-400 scale-[0.96]';
                     if (grade === 3)
-                      return 'bg-emerald-500/85 text-white font-bold rounded-md border border-emerald-400/50';
+                      return 'bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 text-white font-black rounded-md border border-amber-300 shadow-2xs';
                     if (grade === 2)
-                      return 'bg-emerald-300/60 dark:bg-emerald-900/70 text-emerald-950 dark:text-emerald-300 font-bold rounded-md';
+                      return 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold rounded-md border border-emerald-400/50';
                     if (grade === 1)
-                      return 'bg-emerald-100/70 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-400 font-bold rounded-md';
+                      return 'bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold rounded-md border border-cyan-400/50';
                     return 'text-gray-300 dark:text-gray-700';
                   };
 
