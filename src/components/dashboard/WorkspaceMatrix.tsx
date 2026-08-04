@@ -18,6 +18,7 @@ import {
   BookOpen,
   Calendar,
   Zap,
+  HelpCircle,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -136,7 +137,6 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
 
   const [activeChapterFilter, setActiveChapterFilter] = useState<string | null>(null);
   const [showFollowUpBaseline, setShowFollowUpBaseline] = useState(false);
-  const [customRubricInput, setCustomRubricInput] = useState('');
   const [showChapterPalette, setShowChapterPalette] = useState(false);
 
   // Calculate remedy totals dynamically
@@ -170,20 +170,20 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
       return {
         potency: 'Burnett 1X–6X Liquid Organopathy',
         reason: 'Pathological Endoderm Organic Affinity',
-        color: 'text-amber-500 border-amber-500/40 bg-amber-500/10',
+        color: 'text-amber-600 dark:text-amber-400 border-amber-500/40 bg-amber-500/10',
       };
     }
     if (remedy.specificityScore > 55) {
       return {
         potency: '200C Single Dose (Dry Granules)',
         reason: 'High Specificity & Ectoderm Functional Totality',
-        color: 'text-emerald-500 border-emerald-500/40 bg-emerald-500/10',
+        color: 'text-emerald-700 dark:text-emerald-400 border-emerald-500/40 bg-emerald-500/10',
       };
     }
     return {
       potency: '30C Daily Water Solution',
       reason: 'General Acute Vital Force Stimulant',
-      color: 'text-cyan-500 border-cyan-500/40 bg-cyan-500/10',
+      color: 'text-cyan-700 dark:text-cyan-400 border-cyan-500/40 bg-cyan-500/10',
     };
   };
 
@@ -229,14 +229,14 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             onClick={() => setShowChapterPalette((prev) => !prev)}
             className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
               showChapterPalette
-                ? 'border-emerald-500 bg-emerald-600/20 text-emerald-400'
+                ? 'border-emerald-500 bg-emerald-600/20 text-emerald-600 dark:text-emerald-400'
                 : isLight
                 ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
                 : 'border-slate-800 bg-[#111317] text-gray-300 hover:bg-slate-800'
             }`}
             title="Open Quick Classical Repertory Chapters (MIND, HEAD, ABDOMEN, EXTREMITIES, SKIN, GENERALITIES)"
           >
-            <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+            <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-500" />
             <span>📖 Classical Chapter Taxonomy</span>
           </button>
 
@@ -245,14 +245,14 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             onClick={() => setShowFollowUpBaseline((prev) => !prev)}
             className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
               showFollowUpBaseline
-                ? 'border-purple-500 bg-purple-600/20 text-purple-300'
+                ? 'border-purple-500 bg-purple-600/20 text-purple-700 dark:text-purple-300'
                 : isLight
                 ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
                 : 'border-slate-800 bg-[#111317] text-gray-400 hover:bg-slate-800'
             }`}
             title="Toggle Follow-Up Visit Baseline Comparison (Visit 1 vs Today's Visit)"
           >
-            <Calendar className="w-3.5 h-3.5 text-purple-400" />
+            <Calendar className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
             <span>
               {showFollowUpBaseline
                 ? '📜 Follow-Up Delta: ACTIVE'
@@ -264,7 +264,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
         {/* POSOLOGY & POTENCY RECOMMENDATION STRIP */}
         {topRemedy && (
           <div className="flex items-center space-x-2">
-            <span className="text-[10px] text-gray-400 font-bold uppercase hidden md:inline">
+            <span className="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase hidden md:inline">
               RECOMMENDED POSOLOGY:
             </span>
             {(() => {
@@ -284,6 +284,48 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
         )}
       </div>
 
+      {/* CLASSICAL HOMEOPATHIC GRADING LEGEND STRIP (ELIMINATES NUMERIC CELL CONFUSION) */}
+      <div
+        className={`px-3 py-1.5 border-b flex flex-wrap items-center justify-between text-[11px] font-bold z-10 ${
+          isLight
+            ? 'bg-slate-100/90 border-slate-200 text-slate-700'
+            : 'bg-[#0B0F19]/90 border-[#1C1F26] text-gray-400'
+        }`}
+      >
+        <span className="flex items-center space-x-1">
+          <HelpCircle className="w-3.5 h-3.5 text-emerald-500" />
+          <span className="font-black text-xs uppercase">
+            CLASSICAL TYPOGRAPHY GRADING LEGEND:
+          </span>
+        </span>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="flex items-center space-x-1">
+            <span className="w-4 h-4 rounded bg-slate-800 text-gray-300 font-mono flex items-center justify-center text-[10px]">
+              1
+            </span>
+            <span>Grade 1 (Reported / Plain)</span>
+          </span>
+          <span className="flex items-center space-x-1">
+            <span className="w-4 h-4 rounded bg-cyan-500/20 text-cyan-500 border border-cyan-500/40 font-mono flex items-center justify-center text-[10px]">
+              2
+            </span>
+            <span>Grade 2 (Italics / Clinical Verified)</span>
+          </span>
+          <span className="flex items-center space-x-1">
+            <span className="w-4 h-4 rounded bg-amber-500 text-black font-black font-mono flex items-center justify-center text-[10px]">
+              3
+            </span>
+            <span>Grade 3 (Bold / Strongly Verified)</span>
+          </span>
+          <span className="flex items-center space-x-1">
+            <span className="w-4 h-4 rounded bg-orange-500 text-white font-black font-mono flex items-center justify-center text-[10px]">
+              4
+            </span>
+            <span>Grade 4 (BOLD CAPS / Utmost Prominence)</span>
+          </span>
+        </div>
+      </div>
+
       {/* QUICK CLASSICAL REPERTORY CHAPTER EXPANDABLE PALETTE */}
       {showChapterPalette && (
         <div
@@ -292,7 +334,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase text-emerald-400 tracking-wider">
+            <span className="text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 tracking-wider">
               CLICK ANY CLASSICAL REPERTORY RUBRIC TO INSERT DIRECTLY INTO THE CALCULATION MATRIX:
             </span>
             <button
@@ -335,7 +377,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                   <button
                     key={r.path}
                     onClick={() => onAddNewRubricToMatrix(r.path, r.layer)}
-                    className="px-2.5 py-1 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold text-[11px] flex items-center space-x-1 cursor-pointer transform transition hover:scale-105"
+                    className="px-2.5 py-1 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-[11px] flex items-center space-x-1 cursor-pointer transform transition hover:scale-105"
                   >
                     <Plus className="w-3 h-3" />
                     <span>
@@ -380,7 +422,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               <th className="p-3 w-80 min-w-[320px] font-black text-xs tracking-wider border-r border-[#1C1F26]">
                 <div className="flex items-center justify-between">
                   <span>{labels.selectedRubricsTitle}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
                     {initialRubrics.length} RUBRICS
                   </span>
                 </div>
@@ -420,12 +462,12 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                       </div>
 
                       <div className="flex items-center space-x-1.5 font-mono text-[10px]">
-                        <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-bold">
+                        <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold">
                           {remedy.specificityScore.toFixed(1)}
                         </span>
                       </div>
 
-                      <div className="text-[9px] text-gray-400 font-medium">
+                      <div className="text-[9px] text-gray-500 dark:text-gray-400 font-medium">
                         Cov: {remedy.coveredRubricsCount}
                       </div>
                     </div>
@@ -472,17 +514,17 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                           <span
                             className={`px-1.5 py-0.2 rounded font-black uppercase text-[9px] ${
                               rubric.embryologicalLayer === 'Ectoderm'
-                                ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                                ? 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-400 border border-cyan-500/30'
                                 : rubric.embryologicalLayer === 'Mesoderm'
-                                ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
-                                : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                                ? 'bg-purple-500/20 text-purple-700 dark:text-purple-400 border border-purple-500/30'
+                                : 'bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30'
                             }`}
                           >
                             {rubric.embryologicalLayer}
                           </span>
 
                           {rubric.isAiExtracted && (
-                            <span className="text-emerald-400 font-bold flex items-center space-x-0.5">
+                            <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center space-x-0.5">
                               <Sparkles className="w-2.5 h-2.5" />
                               <span>NLP EXTRACTED</span>
                             </span>
@@ -553,17 +595,27 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                               nextGrade as 0 | 1 | 2 | 3 | 4
                             );
                           }}
-                          title="Click to cycle Grade (0 -> 1 -> 2 -> 3 -> 4 -> 0)"
+                          title={
+                            currentGrade === 4
+                              ? 'Grade 4: CAPITAL BOLD (Utmost Prominence)'
+                              : currentGrade === 3
+                              ? 'Grade 3: BOLD (Strongly Verified)'
+                              : currentGrade === 2
+                              ? 'Grade 2: ITALICS (Clinical Verified)'
+                              : currentGrade === 1
+                              ? 'Grade 1: PLAIN (Reported Symptom)'
+                              : 'Click to assign Homeopathic Grade (1-4)'
+                          }
                           className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer inline-flex items-center justify-center ${
                             currentGrade === 4
                               ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30 scale-105'
                               : currentGrade === 3
                               ? 'bg-amber-500 text-black font-black'
                               : currentGrade === 2
-                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                              ? 'bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40'
                               : currentGrade === 1
-                              ? 'bg-slate-800 text-gray-400'
-                              : 'text-gray-600 hover:text-gray-300'
+                              ? 'bg-slate-800 text-gray-300'
+                              : 'text-gray-400 hover:text-gray-200'
                           }`}
                         >
                           {currentGrade > 0 ? currentGrade : '—'}
@@ -593,10 +645,10 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                   key={remedy.id}
                   className="p-2.5 text-center font-mono border-r border-[#1C1F26]"
                 >
-                  <div className="font-black text-emerald-400 text-sm">
+                  <div className="font-black text-emerald-600 dark:text-emerald-400 text-sm">
                     {remedy.coveredRubricsCount}R
                   </div>
-                  <div className="text-[10px] text-gray-400 font-bold">
+                  <div className="text-[10px] text-gray-500 dark:text-gray-400 font-bold">
                     Σ{remedy.sumGrades}
                   </div>
                 </td>

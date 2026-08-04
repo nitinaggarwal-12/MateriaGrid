@@ -22,6 +22,7 @@ import {
   Building2,
   HelpCircle,
   PhoneCall,
+  History,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -107,9 +108,15 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       items: [
         {
           id: 'PATIENT_PROFILE' as ActiveWorkspaceTab,
-          label: labels.patientProfile,
+          label: 'ABHA Patient Identity & Health Locker',
           subLabel: 'ABDM Health Locker & Profile',
           icon: User,
+        },
+        {
+          id: 'PATIENT_REPOSITORY' as ActiveWorkspaceTab,
+          label: 'Longitudinal Case Chain & Audit Ledger',
+          subLabel: 'SHA-256 Parent-Child Encounter Link',
+          icon: History,
         },
         {
           id: 'DOCTOR_PROFILE' as ActiveWorkspaceTab,
@@ -154,12 +161,6 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           label: labels.clinicalAnalytics,
           subLabel: 'Miasmatic & Layer Vectors',
           icon: BarChart2,
-        },
-        {
-          id: 'PATIENT_REPOSITORY' as ActiveWorkspaceTab,
-          label: labels.patientEhr,
-          subLabel: 'ABDM FHIR Case Repository',
-          icon: Users,
         },
       ],
     },

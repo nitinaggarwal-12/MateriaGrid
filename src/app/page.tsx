@@ -507,7 +507,7 @@ function MasterWorkspaceInner() {
           </div>
         )}
 
-        {/* ULTRA-COMPACT SINGLE-ROW EXECUTIVE COMMAND BRIDGE HUD (56px) WITH UNIFIED THEME */}
+        {/* ULTRA-CLEAN 3-CLUSTER EXECUTIVE COMMAND BRIDGE HUD (56px) */}
         <div
           className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-3 text-xs z-30 flex-shrink-0 transition-colors ${
             isLight
@@ -515,66 +515,39 @@ function MasterWorkspaceInner() {
               : 'bg-[#05070A]/95 border-[#1C1F26] text-white shadow-xl backdrop-blur-2xl'
           }`}
         >
-          {/* ZONE 1: PATIENT ABHA IDENTITY, FLOATING OPD TOKEN SWITCHER & CLINICAL PERSONA CLONE */}
-          <div className="flex flex-wrap items-center gap-2 relative">
+          {/* CLUSTER 1: PATIENT IDENTITY, OPD QUEUE TOKEN & CLINICAL INTAKE */}
+          <div className="flex flex-wrap items-center gap-2">
             {/* RBAC ROLE & AUTH SWITCHER BUTTON */}
             <button
               onClick={() => setIsLoginModalOpen(true)}
               className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-black cursor-pointer transition-all transform hover:scale-105 ${
                 currentUser.role === 'PHYSICIAN'
-                  ? 'border-emerald-500 bg-emerald-600/15 text-emerald-400'
+                  ? 'border-emerald-500 bg-emerald-600/15 text-emerald-600 dark:text-emerald-400'
                   : currentUser.role === 'PATIENT'
-                  ? 'border-cyan-500 bg-cyan-600/15 text-cyan-400'
+                  ? 'border-cyan-500 bg-cyan-600/15 text-cyan-600 dark:text-cyan-400'
                   : currentUser.role === 'HOSPITAL_ADMIN'
-                  ? 'border-purple-500 bg-purple-600/15 text-purple-400'
-                  : 'border-amber-500 bg-amber-600/15 text-amber-400'
+                  ? 'border-purple-500 bg-purple-600/15 text-purple-600 dark:text-purple-400'
+                  : 'border-amber-500 bg-amber-600/15 text-amber-600 dark:text-amber-400'
               }`}
-              title="Click to manage RBAC Auth & Switch Role (Physician / Patient / Hospital Admin / System Admin)"
+              title="Click to manage RBAC Auth & Switch Role"
             >
               <Lock className="w-3.5 h-3.5" />
-              <span>ROLE: {currentUser.role}</span>
+              <span>{currentUser.role}</span>
             </button>
 
             {/* CLINIC OPD FLOATING TOKEN CALL SWITCHER */}
-            <div className="flex items-center space-x-1 border rounded-xl px-2.5 py-1 bg-emerald-500/10 border-emerald-500/40">
-              <span className="font-black text-emerald-600 dark:text-emerald-400 font-mono text-xs">
+            <div className="flex items-center space-x-1.5 border rounded-xl px-3 py-1 bg-emerald-500/10 border-emerald-500/40">
+              <span className="font-black text-emerald-700 dark:text-emerald-400 font-mono text-xs">
                 {currentOpdToken.token}: {currentOpdToken.patientName}
               </span>
               <button
                 onClick={handleCallNextPatientInOpd}
-                className="ml-1.5 px-2 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer"
+                className="ml-1 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer"
                 title="Call Next Patient in OPD Queue"
               >
                 Next Patient →
               </button>
             </div>
-
-            {/* WORKSPACE VIEWPORT MODE TOGGLE: IN-PERSON OPD (100% MATRIX) vs TELEHEALTH SPLIT */}
-            {activeTab === 'MATRIX_TELEHEALTH' && (
-              <button
-                onClick={() => setIsFullWidthOpdMode((prev) => !prev)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-black text-xs cursor-pointer transition-all transform hover:scale-105 ${
-                  isFullWidthOpdMode
-                    ? 'border-cyan-500 bg-cyan-600/20 text-cyan-300'
-                    : isLight
-                    ? 'border-slate-300 bg-slate-100 text-slate-800'
-                    : 'border-slate-800 bg-[#111317] text-gray-300'
-                }`}
-                title="Toggle between 100% Full-Screen In-Person OPD Matrix and Telehealth Split Video Stream"
-              >
-                {isFullWidthOpdMode ? (
-                  <>
-                    <Monitor className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>🖥️ OPD Mode: Full-Screen Matrix (100%)</span>
-                  </>
-                ) : (
-                  <>
-                    <Video className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>📹 Telehealth Mode: Split Video View</span>
-                  </>
-                )}
-              </button>
-            )}
 
             {/* + NEW CASE INTAKE */}
             <button
@@ -583,6 +556,26 @@ function MasterWorkspaceInner() {
             >
               <FileText className="w-3.5 h-3.5" />
               <span>{langPack.labels.intake}</span>
+            </button>
+          </div>
+
+          {/* CLUSTER 2: TOP SIMILLIMUM & CLINICAL DECISION SUPPORT */}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => setIsPrescriptionModalOpen(true)}
+              className={`flex items-center space-x-2 border px-4 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer ${
+                isLight
+                  ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-black shadow-xs'
+                  : 'border-emerald-500/60 bg-emerald-950/80 text-emerald-300 font-black shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+              }`}
+            >
+              <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>
+                {langPack.labels.topSimillimum}:{' '}
+                <strong className={isLight ? 'text-emerald-800' : 'text-white'}>
+                  {remedies[0]?.code || 'Bell'} ({remedies[0]?.specificityScore || 65.2})
+                </strong>
+              </span>
             </button>
 
             {/* CASE DECISION-GATE FLOWCHART TRIGGER BUTTON */}
@@ -595,6 +588,44 @@ function MasterWorkspaceInner() {
               <span>{langPack.labels.decisionGates}</span>
             </button>
 
+            <button
+              onClick={() => setIsPrescriptionModalOpen(true)}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 transition-all transform hover:scale-105 cursor-pointer shadow-sm"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>{langPack.labels.rxSlip}</span>
+            </button>
+          </div>
+
+          {/* CLUSTER 3: WORKSPACE MODE, LANGUAGE & CONSTITUTIONAL TELEMETRY */}
+          <div className="flex flex-wrap items-center gap-2 font-mono">
+            {/* WORKSPACE VIEWPORT MODE TOGGLE: IN-PERSON OPD (100% MATRIX) vs TELEHEALTH SPLIT */}
+            {activeTab === 'MATRIX_TELEHEALTH' && (
+              <button
+                onClick={() => setIsFullWidthOpdMode((prev) => !prev)}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-black text-xs cursor-pointer transition-all transform hover:scale-105 ${
+                  isFullWidthOpdMode
+                    ? 'border-cyan-500 bg-cyan-600/20 text-cyan-700 dark:text-cyan-300'
+                    : isLight
+                    ? 'border-slate-300 bg-slate-100 text-slate-800'
+                    : 'border-slate-800 bg-[#111317] text-gray-300'
+                }`}
+                title="Toggle between 100% Full-Screen In-Person OPD Matrix and Telehealth Split Video Stream"
+              >
+                {isFullWidthOpdMode ? (
+                  <>
+                    <Monitor className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+                    <span>🖥️ 100% Full OPD Matrix</span>
+                  </>
+                ) : (
+                  <>
+                    <Video className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>📹 Telehealth Split</span>
+                  </>
+                )}
+              </button>
+            )}
+
             {/* INSTANT SEARCHABLE LANGUAGE PICKER FOR ALL 44 LANGUAGES */}
             <SearchableLanguagePicker
               selectedCode={langCode}
@@ -602,41 +633,38 @@ function MasterWorkspaceInner() {
               theme={theme}
             />
 
+            {/* INLINE CONSTITUTIONAL TELEMETRY CHIPS */}
+            <div className="hidden xl:flex items-center space-x-1.5 text-[11px]">
+              <button
+                onClick={handleCycleThermal}
+                title="Click to cycle Thermal profile"
+                className={`px-2 py-1 rounded-lg border font-black cursor-pointer ${
+                  isLight
+                    ? 'border-orange-300 bg-orange-50 text-orange-900'
+                    : 'border-orange-500/60 bg-orange-950/40 text-orange-300'
+                }`}
+              >
+                🔥 {thermalProfile === 'HOT' ? langPack.labels.hot : langPack.labels.chilly}
+              </button>
+
+              <button
+                onClick={handleCycleThirst}
+                title="Click to cycle Thirst profile"
+                className={`px-2 py-1 rounded-lg border font-black cursor-pointer ${
+                  isLight
+                    ? 'border-cyan-300 bg-cyan-50 text-cyan-900'
+                    : 'border-cyan-500/60 bg-cyan-950/40 text-cyan-300'
+                }`}
+              >
+                💧 {thirstProfile === 'THIRSTLESS' ? langPack.labels.thirstless : langPack.labels.thirsty}
+              </button>
+            </div>
+
             {langSwitchNotice && (
               <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-xs animate-bounce">
                 {langSwitchNotice}
               </span>
             )}
-          </div>
-
-          {/* ZONE 2: SIMILIMATRIX SIMILLIMUM & SPATIAL AI ACTIONS */}
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="relative group">
-              <button
-                onClick={() => setIsPrescriptionModalOpen(true)}
-                className={`flex items-center space-x-1.5 border px-3.5 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer ${
-                  isLight
-                    ? 'border-emerald-300 bg-emerald-50 text-emerald-950 font-black shadow-2xs'
-                    : 'border-emerald-500/60 bg-emerald-950/80 text-emerald-300 font-black shadow-[0_0_15px_rgba(16,185,129,0.25)]'
-                }`}
-              >
-                <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>
-                  {langPack.labels.topSimillimum}:{' '}
-                  <strong className={isLight ? 'text-emerald-700' : 'text-white'}>
-                    {remedies[0]?.code || 'Bell'} ({remedies[0]?.specificityScore || 65.2})
-                  </strong>
-                </span>
-              </button>
-            </div>
-
-            <button
-              onClick={() => setIsPrescriptionModalOpen(true)}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1 transition-all transform hover:scale-105 cursor-pointer"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>{langPack.labels.rxSlip}</span>
-            </button>
           </div>
         </div>
 
