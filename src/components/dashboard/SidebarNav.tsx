@@ -257,7 +257,11 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           isLight ? 'border-slate-200' : 'border-[#1C1F26]'
         }`}
       >
-        <div className="flex items-center space-x-2.5">
+        <button
+          onClick={() => onOpenLandingPage && onOpenLandingPage()}
+          title="Return to Home / Landing Portal"
+          className="flex items-center space-x-2.5 text-left cursor-pointer hover:opacity-80 transition-opacity"
+        >
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center text-white font-black text-sm shadow-md">
             M
           </div>
@@ -278,7 +282,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               PRECISION CLINICAL AI
             </p>
           </div>
-        </div>
+        </button>
 
         <button
           onClick={onToggleTheme}
