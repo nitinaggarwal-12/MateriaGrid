@@ -51,8 +51,6 @@ import {
   ShieldCheck,
   Activity,
   UserCheck,
-  ChevronDown,
-  Info,
 } from 'lucide-react';
 
 const INITIAL_REMEDIES: RemedyColumn[] = [
@@ -149,7 +147,7 @@ export default function MateriaGridMasterWorkspace() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
     'WORKSPACE'
   );
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const isLight = theme === 'light';
 
   const [activeTab, setActiveTab] =
@@ -179,7 +177,6 @@ export default function MateriaGridMasterWorkspace() {
   const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
-  const [hoveredSimillimumCard, setHoveredSimillimumCard] = useState(false);
 
   // SYNC ACTIVE TAB TO UNIQUE DEEP-LINKABLE URL
   useEffect(() => {
@@ -390,7 +387,7 @@ export default function MateriaGridMasterWorkspace() {
         </div>
       </div>
 
-      {/* EXECUTIVE FUTURISTIC SCI-FI CYBER-MEDICAL LEFT SIDEBAR NAVIGATION */}
+      {/* HARMONIZED EXECUTIVE LEFT SIDEBAR NAVIGATION */}
       <SidebarNav
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -403,7 +400,7 @@ export default function MateriaGridMasterWorkspace() {
 
       {/* RIGHT MAIN VIEWPORT */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* AMBIENT BIO-EMERALD VOLUMETRIC LIGHT FIELDS */}
+        {/* AMBIENT BIO-EMERALD VOLUMETRIC LIGHT FIELDS (DARK MODE ONLY) */}
         {!isLight && (
           <div className="fixed inset-0 pointer-events-none z-0">
             <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px]" />
@@ -411,50 +408,91 @@ export default function MateriaGridMasterWorkspace() {
           </div>
         )}
 
-        {/* ULTRA-COMPACT SINGLE-ROW APPLE / SPACEX EXECUTIVE COMMAND BRIDGE HUD (56px) WITH HOVER POPUPS */}
-        <div className="px-4 py-2 border-b border-[#1C1F26] bg-[#05070A]/95 backdrop-blur-2xl flex flex-wrap items-center justify-between gap-3 text-xs z-30 flex-shrink-0">
-          {/* ZONE 1: PATIENT ABHA IDENTITY & CLINICAL PERSONA CLONE WITH HOVER POPUP */}
+        {/* ULTRA-COMPACT SINGLE-ROW EXECUTIVE COMMAND BRIDGE HUD (56px) WITH UNIFIED THEME */}
+        <div
+          className={`px-4 py-2 border-b flex flex-wrap items-center justify-between gap-3 text-xs z-30 flex-shrink-0 transition-colors ${
+            isLight
+              ? 'bg-white/95 border-slate-200/90 text-slate-800 shadow-2xs backdrop-blur-md'
+              : 'bg-[#05070A]/95 border-[#1C1F26] text-white shadow-xl backdrop-blur-2xl'
+          }`}
+        >
+          {/* ZONE 1: PATIENT ABHA IDENTITY & CLINICAL PERSONA CLONE */}
           <div className="flex items-center space-x-2.5 relative">
             <div className="relative group">
               <button
                 onClick={() => setShowAbhaPopover((prev) => !prev)}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-emerald-500/50 bg-[#0B0F19] hover:bg-emerald-950/40 text-emerald-300 font-mono font-bold cursor-pointer transition-all transform hover:scale-105 shadow-[0_0_12px_rgba(16,185,129,0.2)]"
+                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-bold cursor-pointer transition-all transform hover:scale-105 ${
+                  isLight
+                    ? 'border-emerald-300 bg-emerald-50/80 text-emerald-950 hover:bg-emerald-100/90'
+                    : 'border-emerald-500/50 bg-[#0B0F19] text-emerald-300 hover:bg-emerald-950/40 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+                }`}
                 title="Click to inspect ABHA Patient Record & EHR"
               >
-                <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <UserCheck
+                  className={`w-3.5 h-3.5 ${
+                    isLight ? 'text-emerald-700' : 'text-emerald-400'
+                  }`}
+                />
                 <span>
                   ABHA:{' '}
-                  <strong className="text-white">
+                  <strong className={isLight ? 'text-slate-900' : 'text-white'}>
                     {activePatient ? activePatient.abhaId : '91-4829-1049-3829'}
                   </strong>
                 </span>
-                <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-black">
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-600 text-white font-black">
                   VERIFIED
                 </span>
               </button>
 
               {/* INTERACTIVE HOVER EHR PREVIEW CARD */}
-              <div className="hidden group-hover:block absolute left-0 top-10 w-72 p-3.5 rounded-2xl bg-[#090A0C] border-2 border-emerald-500/80 shadow-2xl z-50 text-white font-mono text-xs animate-in fade-in zoom-in duration-150">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                  <span className="font-black text-emerald-400">ABDM VERIFIED EHR CARD</span>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">NHA v2.4</span>
+              <div
+                className={`hidden group-hover:block absolute left-0 top-10 w-72 p-3.5 rounded-2xl border-2 shadow-2xl z-50 font-mono text-xs animate-in fade-in zoom-in duration-150 ${
+                  isLight
+                    ? 'bg-white border-emerald-600 text-slate-900'
+                    : 'bg-[#090A0C] border-emerald-500/80 text-white'
+                }`}
+              >
+                <div className="flex items-center justify-between border-b pb-2 mb-2 border-slate-200 dark:border-slate-800">
+                  <span className="font-black text-emerald-600 dark:text-emerald-400">
+                    ABDM VERIFIED EHR CARD
+                  </span>
+                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
+                    NHA v2.4
+                  </span>
                 </div>
                 <div className="space-y-1.5 text-[11px]">
-                  <p>Patient: <strong className="text-white">Ramesh Kumar Sharma (44M)</strong></p>
-                  <p>Blood Group: <strong className="text-emerald-400">B+ Positive</strong></p>
-                  <p>Mobile: <strong className="text-gray-300">+91 98765 43210</strong></p>
-                  <p>Consent Hash: <strong className="text-cyan-400">0x8F4A...C291</strong></p>
+                  <p>
+                    Patient:{' '}
+                    <strong className={isLight ? 'text-slate-900' : 'text-white'}>
+                      Ramesh Kumar Sharma (44M)
+                    </strong>
+                  </p>
+                  <p>
+                    Blood Group:{' '}
+                    <strong className="text-emerald-600 dark:text-emerald-400 font-black">
+                      B+ Positive
+                    </strong>
+                  </p>
+                  <p>
+                    Mobile:{' '}
+                    <strong className="text-gray-600 dark:text-gray-300">
+                      +91 98765 43210
+                    </strong>
+                  </p>
+                  <p>
+                    Consent Hash:{' '}
+                    <strong className="text-cyan-600 dark:text-cyan-400">
+                      0x8F4A...C291
+                    </strong>
+                  </p>
                 </div>
-                <p className="text-[10px] text-emerald-400 font-bold mt-2 pt-1 border-t border-slate-800">
-                  Click button to switch or scan new ABHA card
-                </p>
               </div>
             </div>
 
             {/* + NEW CASE INTAKE */}
             <button
               onClick={() => setIsCaseDrawerOpen(true)}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all transform hover:scale-105 cursor-pointer"
+              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>+ Intake</span>
@@ -465,67 +503,84 @@ export default function MateriaGridMasterWorkspace() {
               <CloneSelectorTray
                 activeCloneName={activeCloneName}
                 onSelectClone={handleSelectDoctorClone}
-                theme="dark"
+                theme={theme}
               />
             </div>
 
             {/* FLOATING ABHA SCANNER GATE POPOVER */}
             {showAbhaPopover && (
-              <div className="absolute top-11 left-0 z-50 p-2 rounded-2xl bg-[#090A0C] border-2 border-emerald-500 shadow-2xl">
+              <div
+                className={`absolute top-11 left-0 z-50 p-2 rounded-2xl border-2 shadow-2xl ${
+                  isLight
+                    ? 'bg-white border-emerald-600'
+                    : 'bg-[#090A0C] border-emerald-500'
+                }`}
+              >
                 <AbhaScannerGate
                   onPatientVerified={(p) => {
                     setActivePatient(p);
                     setShowAbhaPopover(false);
                   }}
-                  theme="dark"
+                  theme={theme}
                 />
               </div>
             )}
           </div>
 
-          {/* ZONE 2: SIMILIMATRIX SIMILLIMUM & SPATIAL AI ACTIONS WITH HOVER DIFFERENTIAL CARD */}
+          {/* ZONE 2: SIMILIMATRIX SIMILLIMUM & SPATIAL AI ACTIONS */}
           <div className="flex flex-wrap items-center gap-2">
             <div className="relative group">
               <button
                 onClick={() => setIsPrescriptionModalOpen(true)}
-                className="flex items-center space-x-1.5 border border-emerald-500/60 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 font-black px-3.5 py-1.5 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.25)] transition-all transform hover:scale-105 cursor-pointer"
+                className={`flex items-center space-x-1.5 border px-3.5 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer ${
+                  isLight
+                    ? 'border-emerald-300 bg-emerald-50 text-emerald-950 font-black shadow-2xs'
+                    : 'border-emerald-500/60 bg-emerald-950/80 text-emerald-300 font-black shadow-[0_0_15px_rgba(16,185,129,0.25)]'
+                }`}
               >
-                <Award className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+                <Award className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>
                   Top Simillimum:{' '}
-                  <strong className="text-white font-mono">
+                  <strong className={isLight ? 'text-emerald-700' : 'text-white'}>
                     {remedies[0]?.code || 'Bell'} ({remedies[0]?.specificityScore || 65.2})
                   </strong>
                 </span>
               </button>
 
               {/* HOVER DIFFERENTIAL RANKING PREVIEW POPUP */}
-              <div className="hidden group-hover:block absolute right-0 top-10 w-80 p-4 rounded-2xl bg-[#090A0C] border-2 border-emerald-500/80 shadow-2xl z-50 text-white font-mono text-xs animate-in fade-in zoom-in duration-150">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                  <span className="font-black text-emerald-400">TF-IDF ASYMMETRICAL RANKING</span>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">LIVE GRID</span>
+              <div
+                className={`hidden group-hover:block absolute right-0 top-10 w-80 p-4 rounded-2xl border-2 shadow-2xl z-50 font-mono text-xs animate-in fade-in zoom-in duration-150 ${
+                  isLight
+                    ? 'bg-white border-emerald-600 text-slate-900'
+                    : 'bg-[#090A0C] border-emerald-500/80 text-white'
+                }`}
+              >
+                <div className="flex items-center justify-between border-b pb-2 mb-2 border-slate-200 dark:border-slate-800">
+                  <span className="font-black text-emerald-600 dark:text-emerald-400">
+                    TF-IDF ASYMMETRICAL RANKING
+                  </span>
+                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
+                    LIVE GRID
+                  </span>
                 </div>
                 <div className="space-y-2 text-[11px]">
                   <div className="flex justify-between items-center">
-                    <span className="font-black text-emerald-400">1. Belladonna (Bell)</span>
+                    <span className="font-black text-emerald-600 dark:text-emerald-400">
+                      1. Belladonna (Bell)
+                    </span>
                     <span className="font-bold">Score: 65.2</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div className="bg-emerald-500 h-full w-[95%]" />
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-cyan-300">2. Chelidonium (Chel)</span>
+                    <span className="font-bold text-cyan-600 dark:text-cyan-300">
+                      2. Chelidonium (Chel)
+                    </span>
                     <span className="font-bold">Score: 58.4</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                     <div className="bg-cyan-500 h-full w-[85%]" />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-purple-300">3. Sulphur (Sulph)</span>
-                    <span className="font-bold">Score: 52.1</span>
-                  </div>
-                  <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-purple-500 h-full w-[75%]" />
                   </div>
                 </div>
               </div>
@@ -533,7 +588,7 @@ export default function MateriaGridMasterWorkspace() {
 
             <button
               onClick={() => setIsHyper8dOpen(true)}
-              className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black px-3 py-1.5 rounded-xl shadow-sm transition-all transform hover:scale-105 cursor-pointer"
+              className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-black px-3 py-1.5 rounded-xl shadow-sm transition-all transform hover:scale-105 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
               <span>10D Quantum</span>
@@ -541,7 +596,7 @@ export default function MateriaGridMasterWorkspace() {
 
             <button
               onClick={() => setIsAnatomicalMapOpen(true)}
-              className="hidden md:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black px-3 py-1.5 rounded-xl shadow-sm transition-all transform hover:scale-105 cursor-pointer"
+              className="hidden md:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black px-3 py-1.5 rounded-xl shadow-sm transition-all transform hover:scale-105 cursor-pointer"
             >
               <Activity className="w-3.5 h-3.5 text-purple-300" />
               <span>360° Body Map</span>
@@ -561,25 +616,45 @@ export default function MateriaGridMasterWorkspace() {
             <button
               onClick={handleCycleThermal}
               title="Click to cycle Thermal profile"
-              className="px-2.5 py-1 rounded-lg border border-orange-500/60 bg-orange-950/40 hover:bg-orange-900/60 text-orange-300 font-black cursor-pointer transition-all transform hover:scale-105"
+              className={`px-2.5 py-1 rounded-lg border font-black cursor-pointer transition-all transform hover:scale-105 ${
+                isLight
+                  ? 'border-orange-300 bg-orange-50 text-orange-900'
+                  : 'border-orange-500/60 bg-orange-950/40 text-orange-300'
+              }`}
             >
-              🔥 <strong className="text-white">{thermalProfile}</strong>
+              🔥 <strong>{thermalProfile}</strong>
             </button>
 
             <button
               onClick={handleCycleThirst}
               title="Click to cycle Thirst profile"
-              className="px-2.5 py-1 rounded-lg border border-cyan-500/60 bg-cyan-950/40 hover:bg-cyan-900/60 text-cyan-300 font-black cursor-pointer transition-all transform hover:scale-105"
+              className={`px-2.5 py-1 rounded-lg border font-black cursor-pointer transition-all transform hover:scale-105 ${
+                isLight
+                  ? 'border-cyan-300 bg-cyan-50 text-cyan-900'
+                  : 'border-cyan-500/60 bg-cyan-950/40 text-cyan-300'
+              }`}
             >
-              💧 <strong className="text-white">{thirstProfile}</strong>
+              💧 <strong>{thirstProfile}</strong>
             </button>
 
-            <span className="px-2.5 py-1 rounded-lg border border-purple-500/60 bg-purple-950/40 text-purple-300 font-black">
-              🧭 <strong className="text-white">RIGHT-TO-LEFT</strong>
+            <span
+              className={`px-2.5 py-1 rounded-lg border font-black ${
+                isLight
+                  ? 'border-purple-300 bg-purple-50 text-purple-900'
+                  : 'border-purple-500/60 bg-purple-950/40 text-purple-300'
+              }`}
+            >
+              🧭 <strong>RIGHT-TO-LEFT</strong>
             </span>
 
-            <span className="px-2.5 py-1 rounded-lg border border-emerald-500/60 bg-emerald-950/50 text-emerald-300 font-black">
-              🛡️ Vital Force: <strong className="text-white">STRONG</strong>
+            <span
+              className={`px-2.5 py-1 rounded-lg border font-black ${
+                isLight
+                  ? 'border-emerald-300 bg-emerald-50 text-emerald-900'
+                  : 'border-emerald-500/60 bg-emerald-950/50 text-emerald-300'
+              }`}
+            >
+              🛡️ Vital Force: <strong>STRONG</strong>
             </span>
           </div>
         </div>
