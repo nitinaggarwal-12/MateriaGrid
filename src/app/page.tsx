@@ -33,6 +33,7 @@ import { DifferentialWorkbenchView } from '@/components/dashboard/DifferentialWo
 import { EnterpriseUnicornSuiteView } from '@/components/dashboard/EnterpriseUnicornSuiteView';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
+import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/PortalClinicalDecisionFlowchartModal';
 import { MateriaGridSyncQueue } from '@/lib/engine/sync_queue';
 import { mergeConcurrentDoctorOperations } from '@/lib/engine/crdt_session_handler';
 import {
@@ -51,6 +52,7 @@ import {
   ShieldCheck,
   Activity,
   UserCheck,
+  GitBranch,
 } from 'lucide-react';
 
 const INITIAL_REMEDIES: RemedyColumn[] = [
@@ -147,7 +149,7 @@ export default function MateriaGridMasterWorkspace() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
     'WORKSPACE'
   );
-  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const isLight = theme === 'light';
 
   const [activeTab, setActiveTab] =
@@ -171,6 +173,7 @@ export default function MateriaGridMasterWorkspace() {
   const [isCaseDrawerOpen, setIsCaseDrawerOpen] = useState(false);
   const [isAnatomicalMapOpen, setIsAnatomicalMapOpen] = useState(false);
   const [isHyper8dOpen, setIsHyper8dOpen] = useState(false);
+  const [isDecisionFlowchartOpen, setIsDecisionFlowchartOpen] = useState(false);
   const [selectedRemedyForReader, setSelectedRemedyForReader] = useState<
     string | null
   >(null);
@@ -498,6 +501,16 @@ export default function MateriaGridMasterWorkspace() {
               <span>+ Intake</span>
             </button>
 
+            {/* CASE DECISION-GATE FLOWCHART TRIGGER BUTTON */}
+            <button
+              onClick={() => setIsDecisionFlowchartOpen(true)}
+              className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
+              title="Inspect interactive Decision-Gate Flowchart & YES/NO gates for each illness"
+            >
+              <GitBranch className="w-3.5 h-3.5" />
+              <span>🔀 Decision Gates</span>
+            </button>
+
             {/* DOCTOR PERSONA CLONE SELECTOR TRAY */}
             <div className="hidden sm:block">
               <CloneSelectorTray
@@ -506,25 +519,6 @@ export default function MateriaGridMasterWorkspace() {
                 theme={theme}
               />
             </div>
-
-            {/* FLOATING ABHA SCANNER GATE POPOVER */}
-            {showAbhaPopover && (
-              <div
-                className={`absolute top-11 left-0 z-50 p-2 rounded-2xl border-2 shadow-2xl ${
-                  isLight
-                    ? 'bg-white border-emerald-600'
-                    : 'bg-[#090A0C] border-emerald-500'
-                }`}
-              >
-                <AbhaScannerGate
-                  onPatientVerified={(p) => {
-                    setActivePatient(p);
-                    setShowAbhaPopover(false);
-                  }}
-                  theme={theme}
-                />
-              </div>
-            )}
           </div>
 
           {/* ZONE 2: SIMILIMATRIX SIMILLIMUM & SPATIAL AI ACTIONS */}
@@ -546,44 +540,6 @@ export default function MateriaGridMasterWorkspace() {
                   </strong>
                 </span>
               </button>
-
-              {/* HOVER DIFFERENTIAL RANKING PREVIEW POPUP */}
-              <div
-                className={`hidden group-hover:block absolute right-0 top-10 w-80 p-4 rounded-2xl border-2 shadow-2xl z-50 font-mono text-xs animate-in fade-in zoom-in duration-150 ${
-                  isLight
-                    ? 'bg-white border-emerald-600 text-slate-900'
-                    : 'bg-[#090A0C] border-emerald-500/80 text-white'
-                }`}
-              >
-                <div className="flex items-center justify-between border-b pb-2 mb-2 border-slate-200 dark:border-slate-800">
-                  <span className="font-black text-emerald-600 dark:text-emerald-400">
-                    TF-IDF ASYMMETRICAL RANKING
-                  </span>
-                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded font-bold">
-                    LIVE GRID
-                  </span>
-                </div>
-                <div className="space-y-2 text-[11px]">
-                  <div className="flex justify-between items-center">
-                    <span className="font-black text-emerald-600 dark:text-emerald-400">
-                      1. Belladonna (Bell)
-                    </span>
-                    <span className="font-bold">Score: 65.2</span>
-                  </div>
-                  <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-emerald-500 h-full w-[95%]" />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-cyan-600 dark:text-cyan-300">
-                      2. Chelidonium (Chel)
-                    </span>
-                    <span className="font-bold">Score: 58.4</span>
-                  </div>
-                  <div className="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-cyan-500 h-full w-[85%]" />
-                  </div>
-                </div>
-              </div>
             </div>
 
             <button
@@ -769,6 +725,13 @@ export default function MateriaGridMasterWorkspace() {
         onCommitExtractedRubrics={(newRubrics) => {
           setRubrics((prev) => [...newRubrics, ...prev]);
         }}
+      />
+
+      {/* INTERACTIVE CLINICAL CASE DECISION-GATE FLOWCHART MODAL FOR PORTAL */}
+      <PortalClinicalDecisionFlowchartModal
+        isOpen={isDecisionFlowchartOpen}
+        onClose={() => setIsDecisionFlowchartOpen(false)}
+        theme={theme}
       />
 
       {/* CLASSICAL MATERIA MEDICA PROVING READER MODAL */}
