@@ -521,14 +521,6 @@ function MasterWorkspaceInner() {
 
       {/* RIGHT MAIN VIEWPORT */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* AMBIENT BIO-EMERALD VOLUMETRIC LIGHT FIELDS (DARK MODE ONLY) */}
-        {!isLight && (
-          <div className="fixed inset-0 pointer-events-none z-0">
-            <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px]" />
-            <div className="absolute bottom-10 left-1/3 w-[600px] h-[400px] bg-cyan-500/10 rounded-full blur-[160px]" />
-          </div>
-        )}
-
         {/* EXECUTIVE CLINICAL ENCOUNTER HEADER */}
         <div
           className={`border-b z-30 flex-shrink-0 transition-colors ${
