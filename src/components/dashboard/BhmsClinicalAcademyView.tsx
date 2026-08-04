@@ -1331,6 +1331,49 @@ export const BhmsClinicalAcademyView: React.FC<
           </button>
         </div>
 
+        {/* DEGREE & DIRECT COURSE JUMP DROPDOWNS */}
+        <div className="flex flex-wrap items-center gap-2 border-l pl-3 border-slate-200 dark:border-slate-800">
+          <div className="flex items-center space-x-1">
+            <span className="text-[10px] font-black uppercase text-slate-400">Degree:</span>
+            <select
+              value={selectedAcademicStage}
+              onChange={(e) => setSelectedAcademicStage(e.target.value as any)}
+              className={`px-2.5 py-1 rounded-xl border text-xs font-black outline-none cursor-pointer ${
+                isLight
+                  ? 'bg-slate-50 border-slate-300 text-slate-800'
+                  : 'bg-[#05070A] border-slate-800 text-white'
+              }`}
+            >
+              <option value="ALL">🌐 All 24 University Courses</option>
+              <option value="BHMS_INTERN">🎓 BHMS Undergraduate &amp; Intern (20 Courses)</option>
+              <option value="MD_RESIDENT">🔬 MD (Hom.) Post-Graduate (4 Courses)</option>
+            </select>
+          </div>
+
+          <div className="flex items-center space-x-1">
+            <span className="text-[10px] font-black uppercase text-slate-400">Course:</span>
+            <select
+              value={activeCourse.id}
+              onChange={(e) => {
+                setActiveTab('COURSES');
+                setSelectedCourseId(e.target.value);
+                setSelectedChapterIdx(0);
+              }}
+              className={`px-2.5 py-1 rounded-xl border text-xs font-black outline-none cursor-pointer max-w-[240px] truncate ${
+                isLight
+                  ? 'bg-emerald-50/80 border-emerald-300 text-emerald-900'
+                  : 'bg-[#05070A] border-emerald-500/40 text-emerald-400'
+              }`}
+            >
+              {ACADEMIC_COURSES.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.code} • {course.title}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         {/* INLINE ACADEMIC MASTERY BADGE */}
         <div className="flex items-center space-x-2 px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 font-sans text-xs">
           <Award className="w-3.5 h-3.5" />
