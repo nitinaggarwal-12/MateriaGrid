@@ -248,82 +248,7 @@ export const SupportContactCenterView: React.FC<
 
       {/* THREE-COLUMN SUPPORT GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* COLUMN 1: LIVE SUPPORT & CLINICAL CHAT */}
-        <div
-          className={`p-5 rounded-2xl border flex flex-col space-y-4 ${
-            isLight
-              ? 'bg-white border-slate-200'
-              : 'bg-[#0B0F19] border-[#1C1F26]'
-          }`}
-        >
-          <div className="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
-            <span className="font-black text-xs uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-              <Bot className="w-4 h-4" /> LIVE AI SUPPORT CHAT
-            </span>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600 text-white font-black">
-              24/7 ONLINE
-            </span>
-          </div>
-
-          <div
-            className={`flex-1 min-h-[240px] max-h-[300px] overflow-y-auto space-y-2.5 p-2.5 rounded-xl border ${
-              isLight
-                ? 'bg-slate-50 border-slate-200'
-                : 'bg-[#05070A] border-slate-800'
-            }`}
-          >
-            {chatMessages.map((m, i) => (
-              <div
-                key={i}
-                className={`p-3 rounded-xl text-xs max-w-[90%] leading-relaxed ${
-                  m.sender === 'USER'
-                    ? 'bg-emerald-600 text-white ml-auto font-bold'
-                    : isLight
-                    ? 'bg-white border border-slate-200 text-slate-800 shadow-xs'
-                    : 'bg-[#111317] border border-slate-800 text-gray-200'
-                }`}
-              >
-                <p>{m.text}</p>
-                <span className="text-[9px] opacity-70 block mt-1 text-right">
-                  {m.time}
-                </span>
-              </div>
-            ))}
-            {isAiTyping && (
-              <div
-                className={`p-2.5 rounded-xl text-xs max-w-[80%] italic font-semibold ${
-                  isLight
-                    ? 'bg-white border border-slate-200 text-emerald-700'
-                    : 'bg-[#111317] border border-slate-800 text-emerald-400'
-                }`}
-              >
-                ⚡ AYUSH Clinical Support AI is typing...
-              </div>
-            )}
-          </div>
-
-          <form onSubmit={handleSendChat} className="flex space-x-2">
-            <input
-              type="text"
-              placeholder="Ask support or help..."
-              value={inputQuery}
-              onChange={(e) => setInputQuery(e.target.value)}
-              className={`flex-1 px-3 py-2 rounded-xl border font-bold text-xs outline-none focus:border-emerald-500 ${
-                isLight
-                  ? 'bg-white border-slate-300 text-slate-900'
-                  : 'bg-[#111317] border-slate-800 text-white'
-              }`}
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs cursor-pointer"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-
-        {/* COLUMN 2: DIRECT WHATSAPP & EMERGENCY CONTACT CARD */}
+        {/* COLUMN 1: DIRECT WHATSAPP & EMERGENCY CONTACT CARD */}
         <div
           className={`p-5 rounded-2xl border space-y-4 ${
             isLight
@@ -402,6 +327,81 @@ export const SupportContactCenterView: React.FC<
               </p>
             </div>
           </div>
+        </div>
+
+        {/* COLUMN 2: LIVE SUPPORT & CLINICAL CHAT */}
+        <div
+          className={`p-5 rounded-2xl border flex flex-col space-y-4 ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#0B0F19] border-[#1C1F26]'
+          }`}
+        >
+          <div className="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
+            <span className="font-black text-xs uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+              <Bot className="w-4 h-4" /> LIVE AI SUPPORT CHAT
+            </span>
+            <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600 text-white font-black">
+              24/7 ONLINE
+            </span>
+          </div>
+
+          <div
+            className={`flex-1 min-h-[240px] max-h-[300px] overflow-y-auto space-y-2.5 p-2.5 rounded-xl border ${
+              isLight
+                ? 'bg-slate-50 border-slate-200'
+                : 'bg-[#05070A] border-slate-800'
+            }`}
+          >
+            {chatMessages.map((m, i) => (
+              <div
+                key={i}
+                className={`p-3 rounded-xl text-xs max-w-[90%] leading-relaxed ${
+                  m.sender === 'USER'
+                    ? 'bg-emerald-600 text-white ml-auto font-bold'
+                    : isLight
+                    ? 'bg-white border border-slate-200 text-slate-800 shadow-xs'
+                    : 'bg-[#111317] border border-slate-800 text-gray-200'
+                }`}
+              >
+                <p>{m.text}</p>
+                <span className="text-[9px] opacity-70 block mt-1 text-right">
+                  {m.time}
+                </span>
+              </div>
+            ))}
+            {isAiTyping && (
+              <div
+                className={`p-2.5 rounded-xl text-xs max-w-[80%] italic font-semibold ${
+                  isLight
+                    ? 'bg-white border border-slate-200 text-emerald-700'
+                    : 'bg-[#111317] border border-slate-800 text-emerald-400'
+                }`}
+              >
+                ⚡ AYUSH Clinical Support AI is typing...
+              </div>
+            )}
+          </div>
+
+          <form onSubmit={handleSendChat} className="flex space-x-2">
+            <input
+              type="text"
+              placeholder="Ask support or help..."
+              value={inputQuery}
+              onChange={(e) => setInputQuery(e.target.value)}
+              className={`flex-1 px-3 py-2 rounded-xl border font-bold text-xs outline-none focus:border-emerald-500 ${
+                isLight
+                  ? 'bg-white border-slate-300 text-slate-900'
+                  : 'bg-[#111317] border-slate-800 text-white'
+              }`}
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs cursor-pointer"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </form>
         </div>
 
         {/* COLUMN 3: CONTACT US / INSTITUTIONAL ONBOARDING INQUIRY FORM */}
