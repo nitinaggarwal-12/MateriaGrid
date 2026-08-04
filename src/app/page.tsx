@@ -695,6 +695,7 @@ function MasterWorkspaceInner() {
           {activeTab === 'AI_CHATBOT' && (
             <AiClinicalChatbotPanel
               onCommitRubricToMatrix={handleCommitAiRubricToMatrix}
+              theme={theme}
             />
           )}
 

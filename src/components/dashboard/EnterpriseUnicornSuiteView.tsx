@@ -26,7 +26,7 @@ interface EnterpriseUnicornSuiteViewProps {
 
 export const EnterpriseUnicornSuiteView: React.FC<
   EnterpriseUnicornSuiteViewProps
-> = ({ theme = 'light' }) => {
+> = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
   const [activeSubTab, setActiveSubTab] = useState<
     'FLEET_RBAC' | 'RWE_PHARMA' | 'UHI_CLAIMS' | 'EDI_SUPPLY'

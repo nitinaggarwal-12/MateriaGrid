@@ -241,7 +241,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                 ? 'border-emerald-500 bg-emerald-600/20 text-emerald-600 dark:text-emerald-400'
                 : isLight
                 ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
-                : 'border-slate-800 bg-[#111317] text-gray-300 hover:bg-slate-800'
+                : 'border-slate-700 bg-[#111317] text-white hover:bg-slate-800'
             }`}
             title="Open Quick Classical Repertory Chapters (MIND, HEAD, ABDOMEN, EXTREMITIES, SKIN, GENERALITIES)"
           >
@@ -263,7 +263,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                 ? 'border-cyan-500 bg-cyan-600/20 text-cyan-400'
                 : isLight
                 ? 'border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200'
-                : 'border-slate-800 bg-[#111317] text-gray-400 hover:bg-slate-800'
+                : 'border-slate-700 bg-[#111317] text-slate-100 hover:bg-slate-800'
             }`}
           >
             <HelpCircle className="w-3.5 h-3.5 text-emerald-500" />
@@ -278,7 +278,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                 ? 'border-purple-500 bg-purple-600/20 text-purple-700 dark:text-purple-300'
                 : isLight
                 ? 'border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200'
-                : 'border-slate-800 bg-[#111317] text-gray-400 hover:bg-slate-800'
+                : 'border-slate-700 bg-[#111317] text-slate-100 hover:bg-slate-800'
             }`}
             title="Toggle Follow-Up Visit Baseline Comparison (Visit 1 vs Today's Visit)"
           >
@@ -294,7 +294,11 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
         {/* POSOLOGY & POTENCY RECOMMENDATION STRIP */}
         {topRemedy && (
           <div className="flex items-center space-x-2">
-            <span className="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase hidden md:inline">
+            <span
+              className={`text-[10px] font-black uppercase hidden md:inline ${
+                isLight ? 'text-slate-600' : 'text-slate-200'
+              }`}
+            >
               RECOMMENDED POSOLOGY:
             </span>
             {(() => {
@@ -320,7 +324,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           className={`p-4 border-b space-y-4 text-[11px] font-bold z-10 ${
             isLight
               ? 'bg-slate-100 border-slate-200 text-slate-700'
-              : 'bg-[#0B0F19] border-[#1C1F26] text-gray-300'
+              : 'bg-[#0B0F19] border-[#1C1F26] text-slate-200'
           }`}
         >
           {/* ROW 1: CLASSICAL GRADING LEGEND */}
@@ -331,7 +335,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             </span>
             <div className="flex flex-wrap items-center gap-4">
               <span className="flex items-center space-x-1">
-                <span className="w-4 h-4 rounded bg-slate-800 text-gray-300 font-mono flex items-center justify-center text-[10px]">
+                <span className="w-4 h-4 rounded bg-slate-800 text-slate-200 font-mono flex items-center justify-center text-[10px]">
                   1
                 </span>
                 <span>Grade 1 (Reported / Plain)</span>
@@ -363,7 +367,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               <span className="text-emerald-400 font-black text-[11px] block">
                 1. Asymmetrical Specificity Score
               </span>
-              <p className="text-gray-400 text-[11px] leading-relaxed">
+              <p className="text-slate-300 text-[11px] leading-relaxed">
                 Prevents <strong>Polychrest Dominance</strong> (Sulphur/Arsenicum hitting every rubric). Rare, peculiar symptoms receive higher mathematical weight via Inverse Rubric Density.
               </p>
             </div>
@@ -372,7 +376,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               <span className="text-cyan-400 font-black text-[11px] block">
                 2. Vijayakar Predictive Thermal-Thirst Mask
               </span>
-              <p className="text-gray-400 text-[11px] leading-relaxed">
+              <p className="text-slate-300 text-[11px] leading-relaxed">
                 Hard physical baseline constants (<strong>HOT/CHILLY</strong> &amp; <strong>THIRSTY/THIRSTLESS</strong>) automatically filter out incompatible remedies to prevent deep disease suppression.
               </p>
             </div>
@@ -381,7 +385,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               <span className="text-amber-400 font-black text-[11px] block">
                 3. Burnett Tissue Drainage Override
               </span>
-              <p className="text-gray-400 text-[11px] leading-relaxed">
+              <p className="text-slate-300 text-[11px] leading-relaxed">
                 When organic structural pathology (cirrhosis, renal failure) is present, low-potency organ-affine remedies (<strong>1X–6X</strong>) are recommended first; potencies &gt;30C/200C are restricted.
               </p>
             </div>
@@ -390,7 +394,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
               <span className="text-purple-400 font-black text-[11px] block">
                 4. Sehgal ROH Behavioral Translation
               </span>
-              <p className="text-gray-400 text-[11px] leading-relaxed">
+              <p className="text-slate-300 text-[11px] leading-relaxed">
                 Translates messy patient speech into active <strong>Present, Predominating, and Persisting (PPP)</strong> behavioral mind rubrics inside the <code>+ Case Intake</code> drawer.
               </p>
             </div>
@@ -411,7 +415,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             </span>
             <button
               onClick={() => setShowChapterPalette(false)}
-              className="text-gray-400 hover:text-white cursor-pointer"
+              className="text-slate-400 hover:text-white cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -431,7 +435,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                     ? 'border-emerald-500 bg-emerald-600 text-white'
                     : isLight
                     ? 'border-slate-300 bg-white text-slate-800'
-                    : 'border-slate-800 bg-[#0B0F19] text-gray-300'
+                    : 'border-slate-700 bg-[#0B0F19] text-white'
                 }`}
               >
                 {chap}
@@ -486,14 +490,14 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           <thead
             className={`sticky top-0 z-10 ${
               isLight
-                ? 'bg-slate-100 border-b border-slate-300'
-                : 'bg-[#0B0F19] border-b border-[#1C1F26]'
+                ? 'bg-slate-100 border-b border-slate-300 text-slate-900'
+                : 'bg-[#0B0F19] border-b border-[#1C1F26] text-white'
             }`}
           >
             <tr>
               <th className="p-3 w-80 min-w-[320px] font-black text-xs tracking-wider border-r border-[#1C1F26]">
                 <div className="flex items-center justify-between">
-                  <span>{labels.selectedRubricsTitle}</span>
+                  <span className={isLight ? 'text-slate-900' : 'text-white'}>{labels.selectedRubricsTitle}</span>
                   <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
                     {initialRubrics.length} RUBRICS
                   </span>
@@ -515,7 +519,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                           : 'bg-emerald-950/40 text-emerald-300'
                         : isLight
                         ? 'text-slate-800'
-                        : 'text-gray-300'
+                        : 'text-white font-bold'
                     }`}
                   >
                     <div className="flex flex-col items-center justify-center space-y-1">
@@ -539,7 +543,11 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                         </span>
                       </div>
 
-                      <div className="text-[9px] text-gray-500 dark:text-gray-400 font-medium">
+                      <div
+                        className={`text-[9px] font-semibold ${
+                          isLight ? 'text-slate-600' : 'text-slate-300'
+                        }`}
+                      >
                         Cov: {remedy.coveredRubricsCount}
                       </div>
                     </div>
