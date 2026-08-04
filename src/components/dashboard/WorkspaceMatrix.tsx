@@ -26,6 +26,7 @@ import {
   INDIAN_LANGUAGE_PACKS,
   IndianLanguageCode,
 } from '@/lib/i18n/indian_language_packs';
+import { PotencyJustificationModal } from './PotencyJustificationModal';
 
 export interface RubricRow {
   id: string;
@@ -270,6 +271,17 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   const [showGradingLegend, setShowGradingLegend] = useState(false);
   const [hoveredRubricId, setHoveredRubricId] = useState<string | null>(null);
   const [hoveredRemedyId, setHoveredRemedyId] = useState<string | null>(null);
+  const [potencyModalState, setPotencyModalState] = useState<{
+    isOpen: boolean;
+    remedyCode: string;
+    remedyName: string;
+    recommendedPotency: string;
+  }>({
+    isOpen: false,
+    remedyCode: 'Bell',
+    remedyName: 'Atropa Belladonna',
+    recommendedPotency: '200C',
+  });
 
   // Calculate remedy totals dynamically
   const remedyTotals = calculatedRemedies.map((remedy) => {
@@ -560,14 +572,32 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             {(() => {
               const pos = getRecommendedPosology(topRemedy);
               return (
-                <span
-                  className={`px-2.5 py-1 rounded-lg border text-xs font-black flex items-center space-x-1.5 ${pos.color}`}
-                >
-                  <Zap className="w-3 h-3" />
-                  <span>
-                    {topRemedy.code} → <strong>{pos.potency}</strong>
+                <div className="flex items-center space-x-2">
+                  <span
+                    className={`px-2.5 py-1 rounded-lg border text-xs font-black flex items-center space-x-1.5 ${pos.color}`}
+                  >
+                    <Zap className="w-3 h-3" />
+                    <span>
+                      {topRemedy.code} → <strong>{pos.potency}</strong>
+                    </span>
                   </span>
-                </span>
+
+                  <button
+                    onClick={() =>
+                      setPotencyModalState({
+                        isOpen: true,
+                        remedyCode: topRemedy.code,
+                        remedyName: topRemedy.fullName,
+                        recommendedPotency: pos.potency,
+                      })
+                    }
+                    className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-black text-[11px] flex items-center space-x-1 cursor-pointer shadow-xs transition-transform hover:scale-105"
+                    title="Inspect why other potencies were excluded (confidence scores & side-effect / aggravation warnings)"
+                  >
+                    <Award className="w-3.5 h-3.5" />
+                    <span>💡 Potency Exclusions &amp; Confidence</span>
+                  </button>
+                </div>
               );
             })()}
           </div>
@@ -1053,6 +1083,16 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
           </tfoot>
         </table>
       </div>
+
+      {/* POTENCY SELECTION & EXCLUSION JUSTIFICATION MODAL */}
+      <PotencyJustificationModal
+        isOpen={potencyModalState.isOpen}
+        onClose={() => setPotencyModalState((prev) => ({ ...prev, isOpen: false }))}
+        remedyCode={potencyModalState.remedyCode}
+        remedyName={potencyModalState.remedyName}
+        recommendedPotency={potencyModalState.recommendedPotency}
+        theme={theme}
+      />
     </div>
   );
 };
