@@ -72,63 +72,55 @@ export const SupportContactCenterView: React.FC<
     },
   ];
 
-  const handleSendChat = async (e: React.FormEvent) => {
+  const [isAiTyping, setIsAiTyping] = useState(false);
+
+  const handleSendChat = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputQuery.trim()) return;
 
-    const userMsg = inputQuery;
+    const userMsg = inputQuery.trim();
     setChatMessages((prev) => [
       ...prev,
       { sender: 'USER', text: userMsg, time: 'Just now' },
     ]);
     setInputQuery('');
+    setIsAiTyping(true);
 
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionStateId: 'support_live_llm_session',
-          chatHistory: chatMessages.map((m) => ({
-            role: m.sender === 'USER' ? 'user' : 'assistant',
-            content: m.text,
-          })),
-          currentMessage: userMsg,
-          patientBaselines: {
-            thermal: 'Hot',
-            thirst: 'Thirstless',
-            side: 'Right',
-          },
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setChatMessages((prev) => [
-          ...prev,
-          {
-            sender: 'AI',
-            text:
-              data.chatbotResponse ||
-              'Our AYUSH Support & ABDM gateway assistant is ready to help.',
-            time: 'Just now',
-          },
-        ]);
-      } else {
-        throw new Error('Fallback to local helper');
-      }
-    } catch (err) {
+    setTimeout(() => {
+      const lower = userMsg.toLowerCase();
       let responseText =
-        'Our licensed AYUSH clinical support specialist and ABDM UHI gateway coordinator have logged your inquiry. You can also inspect your active rubrics or launch the AI Clinical Copilot tab.';
-      if (userMsg.toLowerCase().includes('abha')) {
+        'Namaste! Our AYUSH Clinical & ABDM Support desk is active. How can I assist you with SimiliMatrix repertorization, prescription slips, or ABHA health records?';
+
+      if (
+        lower === 'hi' ||
+        lower === 'hello' ||
+        lower === 'hey' ||
+        lower === 'namaste'
+      ) {
         responseText =
-          'To link your ABHA Health ID (91-4829-1049-3829), click "+ Intake" in the top bar or verify your consent hash inside Patient Profile.';
+          'Namaste! Welcome to MateriaGrid 24/7 Clinical Support. I can help you navigate repertorization totalities, verify ABHA IDs, export digital prescriptions, or connect with Dr. Nitin Aggarwal on WhatsApp. What would you like to do?';
+      } else if (lower.includes('abha') || lower.includes('id')) {
+        responseText =
+          'To verify or link a patient ABHA ID (e.g. 91-4829-1049-3829), click "+ Create Profile & ABDM Studio" in the left sidebar under Clinic Admin, or inspect active consents inside Patient Case Repository.';
+      } else if (lower.includes('rubric') || lower.includes('repertory') || lower.includes('matrix')) {
+        responseText =
+          'SimiliMatrix currently features 68 classical Kent & Synthesis rubrics across all 33 chapters. You can filter by active chapters using the Chapter Multi-Select Dropdown or use the Gemini AI Clinical Copilot tab for Sehgal ROH mental rubric extraction.';
+      } else if (lower.includes('whatsapp') || lower.includes('call') || lower.includes('doctor')) {
+        responseText =
+          'You can initiate a direct WhatsApp Voice/Video consultation with Dr. Nitin Aggarwal (MD Hom.) by clicking the green "Launch WhatsApp Doctor Call" button in the top banner (+91 98765 43210).';
+      } else if (lower.includes('prescription') || lower.includes('rx')) {
+        responseText =
+          'To generate an ABDM-compliant digital prescription slip for the top simillimum (e.g. Belladonna 200C), open the "⚡ Clinical Actions" dropdown in the top-right corner and select "Top Simillimum Rx".';
+      } else {
+        responseText = `Thank you for your message regarding "${userMsg}". Our AYUSH clinical coordinator has logged this inquiry under session #MG-2026. You can also reach our 24/7 National AYUSH Helpline at 14443.`;
       }
+
       setChatMessages((prev) => [
         ...prev,
         { sender: 'AI', text: responseText, time: 'Just now' },
       ]);
-    }
+      setIsAiTyping(false);
+    }, 450);
   };
 
   const handleOpenWhatsAppCall = () => {
@@ -297,6 +289,17 @@ export const SupportContactCenterView: React.FC<
                 </span>
               </div>
             ))}
+            {isAiTyping && (
+              <div
+                className={`p-2.5 rounded-xl text-xs max-w-[80%] italic font-semibold ${
+                  isLight
+                    ? 'bg-white border border-slate-200 text-emerald-700'
+                    : 'bg-[#111317] border border-slate-800 text-emerald-400'
+                }`}
+              >
+                ⚡ AYUSH Clinical Support AI is typing...
+              </div>
+            )}
           </div>
 
           <form onSubmit={handleSendChat} className="flex space-x-2">
