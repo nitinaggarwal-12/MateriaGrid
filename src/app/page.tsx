@@ -37,6 +37,7 @@ import { HospitalProfileView } from '@/components/dashboard/HospitalProfileView'
 import { SupportContactCenterView } from '@/components/dashboard/SupportContactCenterView';
 import { ProfileCreationStudioView } from '@/components/dashboard/ProfileCreationStudioView';
 import { ClinicalDiscussionBlogsView } from '@/components/dashboard/ClinicalDiscussionBlogsView';
+import { BhmsClinicalAcademyView } from '@/components/dashboard/BhmsClinicalAcademyView';
 import { UserPersonaHeaderWidget } from '@/components/auth/UserPersonaHeaderWidget';
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
@@ -770,6 +771,11 @@ function MasterWorkspaceInner() {
           {/* VIEW 17: CLINICAL DISCUSSION BLOGS & CASE STUDY EXCHANGE */}
           {activeTab === 'DISCUSSION_BLOGS' && (
             <ClinicalDiscussionBlogsView theme={theme} />
+          )}
+
+          {/* VIEW 18: BHMS / MD (HOM.) INTERACTIVE CLINICAL ACADEMY & OPD SIMULATION */}
+          {activeTab === 'CLINICAL_ACADEMY' && (
+            <BhmsClinicalAcademyView theme={theme} />
           )}
         </div>
       </main>

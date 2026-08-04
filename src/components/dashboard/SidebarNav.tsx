@@ -31,6 +31,7 @@ import {
   ChevronRight,
   UserPlus,
   MessageSquare,
+  GraduationCap,
 } from 'lucide-react';
 import {
   INDIAN_LANGUAGE_PACKS,
@@ -54,7 +55,8 @@ export type ActiveWorkspaceTab =
   | 'HOSPITAL_PROFILE'
   | 'SUPPORT_HELP'
   | 'PROFILE_CREATION'
-  | 'DISCUSSION_BLOGS';
+  | 'DISCUSSION_BLOGS'
+  | 'CLINICAL_ACADEMY';
 
 interface SidebarNavProps {
   activeTab: ActiveWorkspaceTab;
@@ -230,6 +232,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           label: 'AYUSH Academic Research Hub',
           subLabel: 'CCRH Clinical Trials & Mathematical Specificity Index',
           icon: Award,
+        },
+        {
+          id: 'CLINICAL_ACADEMY' as ActiveWorkspaceTab,
+          label: 'BHMS / MD Clinical Academy',
+          subLabel: 'Interactive Courses, Quizzes & Virtual OPD Simulation',
+          icon: GraduationCap,
+          isNew: true,
         },
         {
           id: 'ENTERPRISE_SUITE' as ActiveWorkspaceTab,
