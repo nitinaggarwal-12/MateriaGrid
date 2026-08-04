@@ -55,66 +55,242 @@ export const UserPersonaHeaderWidget: React.FC<
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const INDIAN_LANGUAGES = [
-    { code: 'EN', label: 'English (EN)', flag: '🇮🇳' },
+    { code: 'EN', label: 'English (EN)', flag: '🇬🇧' },
     { code: 'HI', label: 'हिन्दी (Hindi)', flag: '🇮🇳' },
-    { code: 'BN', label: 'বাংলা (Bengali)', flag: '🇮🇳' },
     { code: 'TA', label: 'தமிழ் (Tamil)', flag: '🇮🇳' },
-    { code: 'TE', label: 'తెలుగు (Telugu)', flag: '🇮🇳' },
+    { code: 'BN', label: 'বাংলা (Bengali)', flag: '🇮🇳' },
     { code: 'MR', label: 'मराठी (Marathi)', flag: '🇮🇳' },
     { code: 'GU', label: 'ગુજરાતી (Gujarati)', flag: '🇮🇳' },
-    { code: 'KA', label: 'ಕನ್ನಡ (Kannada)', flag: '🇮🇳' },
-    { code: 'OR', label: 'ଓଡ଼ିଆ (Odia)', flag: '🇮🇳' },
-    { code: 'PA', label: 'ਪੰਜਾਬੀ (Punjabi)', flag: '🇮🇳' },
-    { code: 'UR', label: 'اردو (Urdu)', flag: '🇮🇳' },
+    { code: 'TE', label: 'తెలుగు (Telugu)', flag: '🇮🇳' },
+    { code: 'DE', label: 'Deutsch (German)', flag: '🇩🇪' },
+    { code: 'FR', label: 'Français (French)', flag: '🇫🇷' },
+    { code: 'ES', label: 'Español (Spanish)', flag: '🇪🇸' },
+    { code: 'PT', label: 'Português (Portuguese)', flag: '🇧🇷' },
   ];
 
-  const personas: {
-    role: RbacRole;
-    name: string;
-    sub: string;
-    icon: any;
-    badgeBg: string;
-    badgeText: string;
-    avatarGradient: string;
-  }[] = [
-    {
-      role: 'PHYSICIAN',
-      name: 'Dr. Nitin Aggarwal',
-      sub: 'MD (Hom.) • CCH-WB-2014-4921',
-      icon: Stethoscope,
-      badgeBg: 'bg-emerald-500/15 border-emerald-500/30',
-      badgeText: 'text-emerald-600 dark:text-emerald-400',
-      avatarGradient: 'from-emerald-600 to-teal-600',
-    },
-    {
-      role: 'PATIENT',
-      name: 'Ramesh Kumar Sharma',
-      sub: 'ABHA: 91-4829-1049-3829',
-      icon: User,
-      badgeBg: 'bg-cyan-500/15 border-cyan-500/30',
-      badgeText: 'text-cyan-600 dark:text-cyan-400',
-      avatarGradient: 'from-cyan-600 to-blue-600',
-    },
-    {
-      role: 'HOSPITAL_ADMIN',
-      name: 'Dr. S. K. Banerjee',
-      sub: 'OPD Director • NIH Kolkata',
-      icon: Building2,
-      badgeBg: 'bg-purple-500/15 border-purple-500/30',
-      badgeText: 'text-purple-600 dark:text-purple-400',
-      avatarGradient: 'from-purple-600 to-indigo-600',
-    },
-    {
-      role: 'SYSTEM_ADMIN',
-      name: 'AYUSH Regulatory Auditor',
-      sub: 'Ministry of AYUSH Gateway',
-      icon: ShieldAlert,
-      badgeBg: 'bg-amber-500/15 border-amber-500/30',
-      badgeText: 'text-amber-600 dark:text-amber-400',
-      avatarGradient: 'from-amber-600 to-orange-600',
-    },
-  ];
+  // LOCALIZED PERSONAS & ROLES ACROSS LANGUAGES
+  const getLocalizedPersonas = (code: string) => {
+    if (code === 'TA') {
+      return [
+        {
+          role: 'PHYSICIAN' as RbacRole,
+          roleDisplay: 'மருத்துவர்',
+          name: 'டாக்டர் நிதின் அகர்வால்',
+          sub: 'MD Hom. • ஆயுஷ் சான்றளிக்கப்பட்டது',
+          icon: Stethoscope,
+          badgeBg: 'bg-emerald-500/15 border-emerald-500/30',
+          badgeText: 'text-emerald-600 dark:text-emerald-400',
+          avatarGradient: 'from-emerald-600 to-teal-600',
+        },
+        {
+          role: 'PATIENT' as RbacRole,
+          roleDisplay: 'நோயாளி',
+          name: 'ரமேஷ் குமார் சர்மா',
+          sub: 'ஆபா கணக்கு: 91-4829-1049-3829',
+          icon: User,
+          badgeBg: 'bg-cyan-500/15 border-cyan-500/30',
+          badgeText: 'text-cyan-600 dark:text-cyan-400',
+          avatarGradient: 'from-cyan-600 to-blue-600',
+        },
+        {
+          role: 'HOSPITAL_ADMIN' as RbacRole,
+          roleDisplay: 'நிர்வாகி',
+          name: 'டாக்டர் எஸ். கே. பானர்ஜி',
+          sub: 'OPD இயக்குநர் • NIH கொல்கத்தா',
+          icon: Building2,
+          badgeBg: 'bg-purple-500/15 border-purple-500/30',
+          badgeText: 'text-purple-600 dark:text-purple-400',
+          avatarGradient: 'from-purple-600 to-indigo-600',
+        },
+        {
+          role: 'SYSTEM_ADMIN' as RbacRole,
+          roleDisplay: 'தணிக்கையாளர்',
+          name: 'ஆயுஷ் ஒழுங்குமுறை தணிக்கையாளர்',
+          sub: 'ஆயுஷ் அமைச்சக நுழைவாயில்',
+          icon: ShieldAlert,
+          badgeBg: 'bg-amber-500/15 border-amber-500/30',
+          badgeText: 'text-amber-600 dark:text-amber-400',
+          avatarGradient: 'from-amber-600 to-orange-600',
+        },
+      ];
+    }
+    if (code === 'HI') {
+      return [
+        {
+          role: 'PHYSICIAN' as RbacRole,
+          roleDisplay: 'चिकित्सक',
+          name: 'डॉ. नितिन अग्रवाल',
+          sub: 'MD Hom. • सीसीएच प्रमाणित',
+          icon: Stethoscope,
+          badgeBg: 'bg-emerald-500/15 border-emerald-500/30',
+          badgeText: 'text-emerald-600 dark:text-emerald-400',
+          avatarGradient: 'from-emerald-600 to-teal-600',
+        },
+        {
+          role: 'PATIENT' as RbacRole,
+          roleDisplay: 'रोगी',
+          name: 'रमेश कुमार शर्मा',
+          sub: 'आभा संख्या: 91-4829-1049-3829',
+          icon: User,
+          badgeBg: 'bg-cyan-500/15 border-cyan-500/30',
+          badgeText: 'text-cyan-600 dark:text-cyan-400',
+          avatarGradient: 'from-cyan-600 to-blue-600',
+        },
+        {
+          role: 'HOSPITAL_ADMIN' as RbacRole,
+          roleDisplay: 'अस्पताल निदेशक',
+          name: 'डॉ. एस. के. बनर्जी',
+          sub: 'ओपीडी निदेशक • एनआईएच कोलकाता',
+          icon: Building2,
+          badgeBg: 'bg-purple-500/15 border-purple-500/30',
+          badgeText: 'text-purple-600 dark:text-purple-400',
+          avatarGradient: 'from-purple-600 to-indigo-600',
+        },
+        {
+          role: 'SYSTEM_ADMIN' as RbacRole,
+          roleDisplay: 'सिस्टम ऑडिटर',
+          name: 'आयुष नियामक लेखा परीक्षक',
+          sub: 'आयुष मंत्रालय गेटवे',
+          icon: ShieldAlert,
+          badgeBg: 'bg-amber-500/15 border-amber-500/30',
+          badgeText: 'text-amber-600 dark:text-amber-400',
+          avatarGradient: 'from-amber-600 to-orange-600',
+        },
+      ];
+    }
+    if (code === 'BN') {
+      return [
+        {
+          role: 'PHYSICIAN' as RbacRole,
+          roleDisplay: 'চিকিৎসক',
+          name: 'ডঃ নিতিন আগরওয়াল',
+          sub: 'MD Hom. • সিসিএইচ সিএইচও',
+          icon: Stethoscope,
+          badgeBg: 'bg-emerald-500/15 border-emerald-500/30',
+          badgeText: 'text-emerald-600 dark:text-emerald-400',
+          avatarGradient: 'from-emerald-600 to-teal-600',
+        },
+        {
+          role: 'PATIENT' as RbacRole,
+          roleDisplay: 'রোগী',
+          name: 'রমেশ কুমার শর্মা',
+          sub: 'আভা সংখ্যা: 91-4829-1049-3829',
+          icon: User,
+          badgeBg: 'bg-cyan-500/15 border-cyan-500/30',
+          badgeText: 'text-cyan-600 dark:text-cyan-400',
+          avatarGradient: 'from-cyan-600 to-blue-600',
+        },
+        {
+          role: 'HOSPITAL_ADMIN' as RbacRole,
+          roleDisplay: 'হাসপাতাল অধিকর্তা',
+          name: 'ডঃ এস. কে. ব্যানার্জী',
+          sub: 'ওপিডি অধিকর্তা • এনআইএইচ কলকাতা',
+          icon: Building2,
+          badgeBg: 'bg-purple-500/15 border-purple-500/30',
+          badgeText: 'text-purple-600 dark:text-purple-400',
+          avatarGradient: 'from-purple-600 to-indigo-600',
+        },
+        {
+          role: 'SYSTEM_ADMIN' as RbacRole,
+          roleDisplay: 'অডিট কর্মকর্তা',
+          name: 'আয়ুশ নিয়ন্ত্রণ কর্মকর্তা',
+          sub: 'আয়ুশ মন্ত্রক গেটওয়ে',
+          icon: ShieldAlert,
+          badgeBg: 'bg-amber-500/15 border-amber-500/30',
+          badgeText: 'text-amber-600 dark:text-amber-400',
+          avatarGradient: 'from-amber-600 to-orange-600',
+        },
+      ];
+    }
+    if (code === 'DE') {
+      return [
+        {
+          role: 'PHYSICIAN' as RbacRole,
+          roleDisplay: 'ARZT',
+          name: 'Dr. Nitin Aggarwal',
+          sub: 'MD (Hom.) • Hahnemann-Approbiert',
+          icon: Stethoscope,
+          badgeBg: 'bg-emerald-500/15 border-emerald-500/30',
+          badgeText: 'text-emerald-600 dark:text-emerald-400',
+          avatarGradient: 'from-emerald-600 to-teal-600',
+        },
+        {
+          role: 'PATIENT' as RbacRole,
+          roleDisplay: 'PATIENT',
+          name: 'Ramesh Kumar Sharma',
+          sub: 'Gesundheits-ID: 91-4829-1049-3829',
+          icon: User,
+          badgeBg: 'bg-cyan-500/15 border-cyan-500/30',
+          badgeText: 'text-cyan-600 dark:text-cyan-400',
+          avatarGradient: 'from-cyan-600 to-blue-600',
+        },
+        {
+          role: 'HOSPITAL_ADMIN' as RbacRole,
+          roleDisplay: 'KLINIK-ADMIN',
+          name: 'Dr. S. K. Banerjee',
+          sub: 'Ambulanz-Direktor • NIH Kolkata',
+          icon: Building2,
+          badgeBg: 'bg-purple-500/15 border-purple-500/30',
+          badgeText: 'text-purple-600 dark:text-purple-400',
+          avatarGradient: 'from-purple-600 to-indigo-600',
+        },
+        {
+          role: 'SYSTEM_ADMIN' as RbacRole,
+          roleDisplay: 'SYSTEM-AUDITOR',
+          name: 'AYUSH Regulierungs-Auditor',
+          sub: 'Gesundheitsministerium Gateway',
+          icon: ShieldAlert,
+          badgeBg: 'bg-amber-500/15 border-amber-500/30',
+          badgeText: 'text-amber-600 dark:text-amber-400',
+          avatarGradient: 'from-amber-600 to-orange-600',
+        },
+      ];
+    }
+    return [
+      {
+        role: 'PHYSICIAN' as RbacRole,
+        roleDisplay: 'PHYSICIAN',
+        name: 'Dr. Nitin Aggarwal',
+        sub: 'MD (Hom.) • CCH-WB-2014-4921',
+        icon: Stethoscope,
+        badgeBg: 'bg-emerald-500/15 border-emerald-500/30',
+        badgeText: 'text-emerald-600 dark:text-emerald-400',
+        avatarGradient: 'from-emerald-600 to-teal-600',
+      },
+      {
+        role: 'PATIENT' as RbacRole,
+        roleDisplay: 'PATIENT',
+        name: 'Ramesh Kumar Sharma',
+        sub: 'ABHA: 91-4829-1049-3829',
+        icon: User,
+        badgeBg: 'bg-cyan-500/15 border-cyan-500/30',
+        badgeText: 'text-cyan-600 dark:text-cyan-400',
+        avatarGradient: 'from-cyan-600 to-blue-600',
+      },
+      {
+        role: 'HOSPITAL_ADMIN' as RbacRole,
+        roleDisplay: 'HOSPITAL ADMIN',
+        name: 'Dr. S. K. Banerjee',
+        sub: 'OPD Director • NIH Kolkata',
+        icon: Building2,
+        badgeBg: 'bg-purple-500/15 border-purple-500/30',
+        badgeText: 'text-purple-600 dark:text-purple-400',
+        avatarGradient: 'from-purple-600 to-indigo-600',
+      },
+      {
+        role: 'SYSTEM_ADMIN' as RbacRole,
+        roleDisplay: 'SYSTEM ADMIN',
+        name: 'AYUSH Regulatory Auditor',
+        sub: 'Ministry of AYUSH Gateway',
+        icon: ShieldAlert,
+        badgeBg: 'bg-amber-500/15 border-amber-500/30',
+        badgeText: 'text-amber-600 dark:text-amber-400',
+        avatarGradient: 'from-amber-600 to-orange-600',
+      },
+    ];
+  };
 
+  const personas = getLocalizedPersonas(langCode);
   const currentPersona =
     personas.find((p) => p.role === currentUser.role) || personas[0];
 
@@ -147,7 +323,7 @@ export const UserPersonaHeaderWidget: React.FC<
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* TOP-RIGHT USER PERSONA BADGE (HOVER TO EXPAND & STAY COLLAPSIBLE BY DEFAULT) */}
+      {/* TOP-RIGHT USER PERSONA BADGE */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className={`flex items-center space-x-3 px-3.5 py-2 rounded-xl border transition-all duration-150 transform hover:scale-[1.02] cursor-pointer shadow-sm ${
@@ -173,7 +349,7 @@ export const UserPersonaHeaderWidget: React.FC<
             <span
               className={`text-[9px] px-2 py-0.5 rounded-md font-black border uppercase tracking-wider ${currentPersona.badgeBg} ${currentPersona.badgeText}`}
             >
-              {currentUser.role}
+              {currentPersona.roleDisplay}
             </span>
           </div>
           <p className="text-[11px] text-slate-500 dark:text-gray-400 truncate max-w-[170px] mt-0.5 font-medium">
@@ -188,7 +364,7 @@ export const UserPersonaHeaderWidget: React.FC<
         />
       </button>
 
-      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (POSITIONED AT TOP-[76PX] WITH Z-[999999] FOR FULL CLEARANCE BELOW EXECUTIVE HEADER) */}
+      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER */}
       {isOpen && (
         <div
           className={`fixed right-4 sm:right-6 top-[76px] w-88 max-h-[82vh] overflow-y-auto rounded-2xl border p-4 shadow-2xl z-[999999] space-y-4 transition-all ${
@@ -248,7 +424,7 @@ export const UserPersonaHeaderWidget: React.FC<
                 </p>
                 <div className="flex items-center space-x-2 mt-1">
                   <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                    <Lock className="w-3 h-3" /> {currentUser.role}
+                    <Lock className="w-3 h-3" /> {currentPersona.roleDisplay}
                   </span>
                 </div>
               </div>
@@ -301,7 +477,7 @@ export const UserPersonaHeaderWidget: React.FC<
                           <span
                             className={`text-[9px] px-1.5 py-0.5 rounded font-black border ${p.badgeBg} ${p.badgeText}`}
                           >
-                            {p.role}
+                            {p.roleDisplay}
                           </span>
                         </div>
                         <p className="text-[10px] text-slate-500 dark:text-gray-400 truncate">
