@@ -229,14 +229,14 @@ export const ClinicalDiscussionBlogsView: React.FC<
           <div>
             <div className="flex items-center space-x-2">
               <h1 className={`text-lg font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
-                MATERIAGRID CLASSICAL CLINICAL DISCUSSION BLOGS & CASE EXCHANGE
+                MATERIAGRID CLASSICAL CLINICAL DISCUSSION BLOGS &amp; CASE EXCHANGE
               </h1>
               <span className="px-2.5 py-0.5 rounded-full bg-purple-600 text-white text-[10px] font-black">
                 PEER REVIEWED
               </span>
             </div>
             <p className={`text-xs mt-0.5 ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
-              Sehgal ROH Case Studies • Burnett Tissue Drainage Papers • Vijayakar Predictive Miasm Exchange • Peer Q&A
+              Sehgal ROH Case Studies • Burnett Tissue Drainage Papers • Vijayakar Predictive Miasm Exchange • Peer Q&amp;A
             </p>
           </div>
         </div>
@@ -252,59 +252,89 @@ export const ClinicalDiscussionBlogsView: React.FC<
 
       {/* NEW BLOG PUBLISH FORM (COLLAPSIBLE) */}
       {showNewBlogForm && (
-        <div className="p-6 rounded-2xl border border-purple-500/40 bg-[#0B0F19] space-y-4">
-          <span className="font-black text-xs text-purple-400 uppercase flex items-center gap-2">
+        <div
+          className={`p-6 rounded-2xl border space-y-4 ${
+            isLight
+              ? 'bg-white border-purple-300 shadow-lg'
+              : 'bg-[#0B0F19] border-purple-500/40'
+          }`}
+        >
+          <span className="font-black text-xs text-purple-600 dark:text-purple-400 uppercase flex items-center gap-2">
             <BookOpen className="w-4 h-4" /> PUBLISH NEW HOMEOPATHIC DISCUSSION ARTICLE OR OPD CASE REPORT
           </span>
           <form onSubmit={handleCreateBlog} className="space-y-3 text-xs">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="text-gray-400 font-bold block mb-1">Article / Case Title</label>
+                <label className={`font-bold block mb-1 ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Article / Case Title
+                </label>
                 <input
                   type="text"
                   required
                   placeholder="e.g., Sehgal ROH Translation in Pediatric Nocturnal Enuresis"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none focus:border-purple-500"
+                  className={`w-full px-3 py-2 rounded-xl border font-bold outline-none focus:border-purple-500 ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-gray-400 font-bold block mb-1">Methodological Category</label>
+                <label className={`font-bold block mb-1 ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                  Methodological Category
+                </label>
                 <select
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value as any)}
-                  className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none"
+                  className={`w-full px-3 py-2 rounded-xl border font-bold outline-none ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 >
                   <option value="SEHGAL_ROH">Dr. Sehgal ROH Behavioral Translation</option>
-                  <option value="BURNETT_DRAINAGE">Dr. Burnett Organopathy & Tissue Drainage</option>
+                  <option value="BURNETT_DRAINAGE">Dr. Burnett Organopathy &amp; Tissue Drainage</option>
                   <option value="VIJAYAKAR_MIASM">Dr. Vijayakar Predictive Miasm Mask</option>
                   <option value="CLASSICAL_PROVING">Classical Hahnemannian Proving Study</option>
-                  <option value="OPD_CASE_STUDY">Outpatient OPD Case Study & Simillimum</option>
+                  <option value="OPD_CASE_STUDY">Outpatient OPD Case Study &amp; Simillimum</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="text-gray-400 font-bold block mb-1">Executive Clinical Summary</label>
+              <label className={`font-bold block mb-1 ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                Executive Clinical Summary
+              </label>
               <input
                 type="text"
                 placeholder="Brief 2-line summary of the key clinical lesson or rubric discovery..."
                 value={newSummary}
                 onChange={(e) => setNewSummary(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none"
+                className={`w-full px-3 py-2 rounded-xl border font-bold outline-none ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-300 text-slate-900'
+                    : 'bg-[#111317] border-slate-800 text-white'
+                }`}
               />
             </div>
 
             <div>
-              <label className="text-gray-400 font-bold block mb-1">Full Clinical Discussion Content</label>
+              <label className={`font-bold block mb-1 ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                Full Clinical Discussion Content
+              </label>
               <textarea
                 rows={5}
                 required
                 placeholder="Share your complete case observations, TF-IDF specificity notes, thermal-thirst baseline interactions, or literature discussion..."
                 value={newContent}
                 onChange={(e) => setNewContent(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-[#111317] border border-slate-800 text-white font-bold outline-none focus:border-purple-500"
+                className={`w-full px-3 py-2 rounded-xl border font-bold outline-none focus:border-purple-500 ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-300 text-slate-900'
+                    : 'bg-[#111317] border-slate-800 text-white'
+                }`}
               />
             </div>
 
@@ -356,7 +386,7 @@ export const ClinicalDiscussionBlogsView: React.FC<
           <Search className={`w-4 h-4 absolute left-3 top-2.5 ${isLight ? 'text-slate-400' : 'text-gray-400'}`} />
           <input
             type="text"
-            placeholder="Search discussion blogs & rubrics..."
+            placeholder="Search discussion blogs &amp; rubrics..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className={`w-full pl-9 pr-3 py-2 rounded-xl border text-xs font-bold outline-none focus:border-purple-500 ${
@@ -457,10 +487,10 @@ export const ClinicalDiscussionBlogsView: React.FC<
                     DR
                   </div>
                   <div>
-                    <p className="font-black text-xs text-emerald-400">
+                    <p className={`font-black text-xs ${isLight ? 'text-emerald-700' : 'text-emerald-400'}`}>
                       {activeBlog.author}
                     </p>
-                    <p className="text-[10px] text-gray-400">
+                    <p className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
                       {activeBlog.authorRole}
                     </p>
                   </div>
@@ -468,7 +498,11 @@ export const ClinicalDiscussionBlogsView: React.FC<
 
                 <button
                   onClick={() => handleUpvote(activeBlog.id)}
-                  className="px-3.5 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/40 text-xs font-black flex items-center space-x-1.5 cursor-pointer"
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 cursor-pointer border ${
+                    isLight
+                      ? 'bg-purple-50 hover:bg-purple-600 text-purple-700 hover:text-white border-purple-200'
+                      : 'bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border-purple-500/40'
+                  }`}
                 >
                   <ThumbsUp className="w-3.5 h-3.5" />
                   <span>Upvote ({activeBlog.upvotes})</span>
@@ -476,22 +510,32 @@ export const ClinicalDiscussionBlogsView: React.FC<
               </div>
             </div>
 
-            {/* FULL ARTICLE BODY */}
-            <div className="text-xs text-gray-200 leading-relaxed space-y-3">
+            {/* FULL ARTICLE BODY - HIGH CONTRAST IN BOTH LIGHT & DARK THEMES */}
+            <div className={`text-xs leading-relaxed space-y-3 font-medium ${isLight ? 'text-slate-800' : 'text-gray-200'}`}>
               <p>{activeBlog.content}</p>
             </div>
 
             {/* HIGHLIGHTED RUBRICS & REMEDIES DISCUSSED */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded-xl bg-[#05070A] border border-slate-800">
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded-xl border ${
+                isLight
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#05070A] border-slate-800'
+              }`}
+            >
               <div>
-                <span className="text-[10px] font-black text-emerald-400 uppercase block mb-1.5">
+                <span className={`text-[10px] font-black uppercase block mb-1.5 ${isLight ? 'text-emerald-700' : 'text-emerald-400'}`}>
                   📌 Core Repertory Rubrics Highlighted
                 </span>
                 <div className="flex flex-wrap gap-1">
                   {activeBlog.rubricsDiscussed.map((r, i) => (
                     <span
                       key={i}
-                      className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30 font-bold"
+                      className={`text-[10px] px-2 py-0.5 rounded font-bold border ${
+                        isLight
+                          ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                          : 'bg-emerald-950 text-emerald-300 border-emerald-500/30'
+                      }`}
                     >
                       {r}
                     </span>
@@ -500,14 +544,18 @@ export const ClinicalDiscussionBlogsView: React.FC<
               </div>
 
               <div>
-                <span className="text-[10px] font-black text-purple-400 uppercase block mb-1.5">
-                  🧪 Remedies & Cross-Indications
+                <span className={`text-[10px] font-black uppercase block mb-1.5 ${isLight ? 'text-purple-700' : 'text-purple-400'}`}>
+                  🧪 Remedies &amp; Cross-Indications
                 </span>
                 <div className="flex flex-wrap gap-1">
                   {activeBlog.remediesDiscussed.map((rem, i) => (
                     <span
                       key={i}
-                      className="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-500/30 font-black"
+                      className={`text-[10px] px-2 py-0.5 rounded font-black border ${
+                        isLight
+                          ? 'bg-purple-100 text-purple-900 border-purple-300'
+                          : 'bg-purple-950 text-purple-300 border-purple-500/30'
+                      }`}
                     >
                       {rem}
                     </span>
@@ -517,29 +565,33 @@ export const ClinicalDiscussionBlogsView: React.FC<
             </div>
 
             {/* PEER DISCUSSION & COMMENTS SECTION */}
-            <div className="space-y-4 border-t border-slate-800 pt-4">
-              <span className="font-black text-xs uppercase text-white flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-emerald-400" /> CLINICAL PEER COMMENTS & METHODOLOGICAL Q&A ({activeBlog.comments.length})
+            <div className={`space-y-4 border-t pt-4 ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
+              <span className={`font-black text-xs uppercase flex items-center gap-2 ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                <MessageSquare className="w-4 h-4 text-emerald-500" /> CLINICAL PEER COMMENTS &amp; METHODOLOGICAL Q&amp;A ({activeBlog.comments.length})
               </span>
 
               <div className="space-y-2.5">
                 {activeBlog.comments.map((comment, i) => (
                   <div
                     key={i}
-                    className="p-3.5 rounded-xl bg-[#05070A] border border-slate-800 space-y-1 text-xs"
+                    className={`p-3.5 rounded-xl border space-y-1 text-xs ${
+                      isLight
+                        ? 'bg-slate-50 border-slate-200 text-slate-800'
+                        : 'bg-[#05070A] border-slate-800 text-gray-300'
+                    }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-black text-emerald-400">
+                      <span className={`font-black ${isLight ? 'text-emerald-700' : 'text-emerald-400'}`}>
                         {comment.author}{' '}
-                        <span className="text-[10px] text-gray-400 font-normal">
+                        <span className={`text-[10px] font-normal ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
                           ({comment.role})
                         </span>
                       </span>
-                      <span className="text-[10px] text-gray-500">
+                      <span className={`text-[10px] ${isLight ? 'text-slate-400' : 'text-gray-500'}`}>
                         {comment.time}
                       </span>
                     </div>
-                    <p className="text-gray-300">{comment.text}</p>
+                    <p className={isLight ? 'text-slate-700 font-medium' : 'text-gray-300'}>{comment.text}</p>
                   </div>
                 ))}
               </div>
@@ -551,7 +603,11 @@ export const ClinicalDiscussionBlogsView: React.FC<
                   placeholder="Add your clinical insight, rubric refinement, or question..."
                   value={newCommentText}
                   onChange={(e) => setNewCommentText(e.target.value)}
-                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-[#05070A] border border-slate-800 text-white text-xs font-bold outline-none focus:border-emerald-500"
+                  className={`flex-1 px-3.5 py-2.5 rounded-xl border text-xs font-bold outline-none focus:border-emerald-500 ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'
+                      : 'bg-[#05070A] border-slate-800 text-white placeholder-gray-500'
+                  }`}
                 />
                 <button
                   type="submit"
