@@ -34,6 +34,8 @@ import { EnterpriseUnicornSuiteView } from '@/components/dashboard/EnterpriseUni
 import { AnatomicalAffinityMapModal } from '@/components/dashboard/AnatomicalAffinityMapModal';
 import { HyperDimensionalTelemetryModal } from '@/components/dashboard/HyperDimensionalTelemetryModal';
 import { PortalClinicalDecisionFlowchartModal } from '@/components/dashboard/PortalClinicalDecisionFlowchartModal';
+import { RbacProvider, useRbac } from '@/lib/auth/rbac_context';
+import { RbacLoginModal } from '@/components/auth/RbacLoginModal';
 import { MateriaGridSyncQueue } from '@/lib/engine/sync_queue';
 import { mergeConcurrentDoctorOperations } from '@/lib/engine/crdt_session_handler';
 import {
@@ -57,6 +59,7 @@ import {
   Activity,
   UserCheck,
   GitBranch,
+  Lock,
 } from 'lucide-react';
 
 const INITIAL_REMEDIES: RemedyColumn[] = [
@@ -149,7 +152,8 @@ const INITIAL_MATRIX_CELLS: MatrixCell[] = [
   { rubricId: 'rub-20', remedyId: 'rem-bell', grade: 4 },
 ];
 
-export default function MateriaGridMasterWorkspace() {
+function MasterWorkspaceInner() {
+  const { currentUser, setIsLoginModalOpen } = useRbac();
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
     'WORKSPACE'
   );
@@ -473,6 +477,24 @@ export default function MateriaGridMasterWorkspace() {
         >
           {/* ZONE 1: PATIENT ABHA IDENTITY & CLINICAL PERSONA CLONE */}
           <div className="flex items-center space-x-2.5 relative">
+            {/* RBAC ROLE & AUTH SWITCHER BUTTON */}
+            <button
+              onClick={() => setIsLoginModalOpen(true)}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-mono font-black cursor-pointer transition-all transform hover:scale-105 ${
+                currentUser.role === 'PHYSICIAN'
+                  ? 'border-emerald-500 bg-emerald-600/15 text-emerald-400'
+                  : currentUser.role === 'PATIENT'
+                  ? 'border-cyan-500 bg-cyan-600/15 text-cyan-400'
+                  : currentUser.role === 'HOSPITAL_ADMIN'
+                  ? 'border-purple-500 bg-purple-600/15 text-purple-400'
+                  : 'border-amber-500 bg-amber-600/15 text-amber-400'
+              }`}
+              title="Click to manage RBAC Auth & Switch Role (Physician / Patient / Hospital Admin / System Admin)"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>ROLE: {currentUser.role}</span>
+            </button>
+
             <div className="relative group">
               <button
                 onClick={() => setShowAbhaPopover((prev) => !prev)}
@@ -773,6 +795,17 @@ export default function MateriaGridMasterWorkspace() {
         specificityScore={remedies[0]?.specificityScore || 65.2}
         langCode={langCode}
       />
+
+      {/* HIPAA, ABDM FHIR & DPDP ACT AUTHENTICATION & ROLE-BASED ACCESS CONTROL MODAL */}
+      <RbacLoginModal />
     </div>
+  );
+}
+
+export default function MateriaGridMasterWorkspace() {
+  return (
+    <RbacProvider>
+      <MasterWorkspaceInner />
+    </RbacProvider>
   );
 }
