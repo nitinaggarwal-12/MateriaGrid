@@ -122,7 +122,7 @@ export const UserPersonaHeaderWidget: React.FC<
   const handleMouseLeave = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 280);
+    }, 300);
   };
 
   const handleSwitchPersona = (role: RbacRole) => {
@@ -149,7 +149,6 @@ export const UserPersonaHeaderWidget: React.FC<
             ? 'bg-white border-slate-200 text-slate-900 hover:border-emerald-500 hover:bg-slate-50'
             : 'bg-[#0B0F19] border-[#1C1F26] text-white hover:border-emerald-500 hover:bg-slate-900'
         }`}
-        title="Hover to Expand Executive Profile & Preferences (Collapsible by default)"
       >
         <div className="relative">
           <div
@@ -183,13 +182,13 @@ export const UserPersonaHeaderWidget: React.FC<
         />
       </button>
 
-      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (EXPANDS ON HOVER & COLLAPSIBLE BY DEFAULT) */}
+      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (POSITIONED AT TOP-[76PX] WITH Z-[999999] FOR FULL CLEARANCE BELOW EXECUTIVE HEADER) */}
       {isOpen && (
         <div
-          className={`fixed right-4 sm:right-6 top-16 w-88 max-h-[86vh] overflow-y-auto rounded-2xl border p-4 shadow-2xl z-[9999] space-y-4 transition-all ${
+          className={`fixed right-4 sm:right-6 top-[76px] w-88 max-h-[82vh] overflow-y-auto rounded-2xl border p-4 shadow-2xl z-[999999] space-y-4 transition-all ${
             isLight
-              ? 'bg-white border-slate-200 text-slate-900 shadow-slate-400/30'
-              : 'bg-[#0B0F19] border-[#1C1F26] text-white shadow-black/90'
+              ? 'bg-white border-slate-200 text-slate-900 shadow-slate-400/40'
+              : 'bg-[#0B0F19] border-[#1C1F26] text-white shadow-black/95'
           }`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
