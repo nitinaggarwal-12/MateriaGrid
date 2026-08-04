@@ -18,6 +18,8 @@ import {
   Layers,
   CheckCircle2,
 } from 'lucide-react';
+import { EndToEndDecisionFlowchart } from '../dashboard/EndToEndDecisionFlowchart';
+import { PromptCanvasDrawIoDiagram } from '../dashboard/PromptCanvasDrawIoDiagram';
 
 interface LandingPageProps {
   onLaunchWorkspace: () => void;
@@ -705,12 +707,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </section>
 
-      {/* SECTION 4: FREQUENTLY ASKED QUESTIONS (FAQ) */}
+      {/* SECTION 4: VISUAL END-TO-END REMEDY DECISION FLOWCHART & REASONING ENGINE */}
+      <section
+        id="decision-flowchart"
+        className="relative z-10 py-20 border-b border-[#1C1F26] bg-[#05070A]"
+      >
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 space-y-10">
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 font-mono">
+              /04_END_TO_END_DECISION_FLOWCHART
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black text-white">
+              End-to-End Remedy Decision Architecture & Reasoning Engine
+            </h2>
+            <p className="text-sm text-gray-400 font-sans max-w-3xl">
+              PromptCanvas Draw.io interactive architecture graph featuring dot-matrix canvas grid, zoom controls, diamond decision gates, and live node reasoning inspector.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-emerald-500/40 overflow-hidden shadow-2xl">
+            <PromptCanvasDrawIoDiagram theme="dark" />
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: FREQUENTLY ASKED QUESTIONS (FAQ) */}
       <section id="faq" className="relative z-10 py-20">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 space-y-12">
           <div className="max-w-3xl space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 font-mono">
-              /04_CLINICAL_FAQ
+              /05_CLINICAL_FAQ
             </span>
             <h2 className="text-3xl md:text-4xl font-black text-white">
               Clinical & Architectural FAQ
