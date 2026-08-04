@@ -210,25 +210,25 @@ export const ClinicalDiscussionBlogsView: React.FC<
 
   return (
     <div
-      className={`w-full h-full overflow-y-auto p-6 font-mono space-y-6 transition-colors ${
+      className={`w-full h-full overflow-y-auto p-6 font-mono space-y-5 transition-colors ${
         isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
       {/* HEADER BANNER */}
       <div
-        className={`p-6 rounded-2xl border flex flex-wrap items-center justify-between gap-6 shadow-md ${
+        className={`p-5 rounded-2xl border flex flex-wrap items-center justify-between gap-4 shadow-sm ${
           isLight
             ? 'bg-white border-slate-200'
             : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 via-emerald-600 to-teal-600 flex items-center justify-center text-white font-black shadow-lg">
-            <MessageSquare className="w-7 h-7" />
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-600 via-emerald-600 to-teal-600 flex items-center justify-center text-white font-black shadow-lg">
+            <MessageSquare className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h1 className={`text-lg font-black ${isLight ? 'text-slate-900' : 'text-white'}`}>
+              <h1 className={`text-base font-black tracking-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
                 MATERIAGRID CLASSICAL CLINICAL DISCUSSION BLOGS &amp; CASE EXCHANGE
               </h1>
               <span className="px-2.5 py-0.5 rounded-full bg-purple-600 text-white text-[10px] font-black">
@@ -352,7 +352,7 @@ export const ClinicalDiscussionBlogsView: React.FC<
 
       {/* FILTER & CATEGORY TOOLBAR */}
       <div
-        className={`flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl border ${
+        className={`flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl border ${
           isLight
             ? 'bg-white border-slate-200 shadow-2xs'
             : 'bg-[#0B0F19] border-[#1C1F26]'
@@ -398,71 +398,86 @@ export const ClinicalDiscussionBlogsView: React.FC<
         </div>
       </div>
 
-      {/* TWO-COLUMN BLOGS & DETAILED DISCUSSION READER CANVAS */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT COLUMN: LIST OF CLINICAL DISCUSSION BLOGS (5 COLS) */}
-        <div className="lg:col-span-5 space-y-3 max-h-[750px] overflow-y-auto pr-1">
-          {filteredBlogs.map((blog) => {
-            const isSelected = blog.id === activeBlog.id;
-            return (
-              <div
-                key={blog.id}
-                onClick={() => setSelectedBlogId(blog.id)}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer space-y-2.5 ${
-                  isSelected
-                    ? isLight
-                      ? 'bg-purple-50 border-purple-500 shadow-xs'
-                      : 'bg-gradient-to-r from-purple-950/60 to-emerald-950/40 border-purple-500 shadow-lg'
-                    : isLight
-                    ? 'bg-white border-slate-200 hover:border-purple-300 text-slate-900 shadow-2xs'
-                    : 'bg-[#0B0F19] border-[#1C1F26] hover:border-slate-700 text-white'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
-                      isLight
-                        ? 'bg-purple-100 text-purple-800'
-                        : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                    }`}
-                  >
-                    {blog.category.replace('_', ' ')}
-                  </span>
-                  <span className={`text-[10px] flex items-center gap-1 ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
-                    <Clock className="w-3 h-3" /> {blog.date}
-                  </span>
-                </div>
+      {/* BALANCED SYMMETRICAL 4-COL / 8-COL WORKBENCH GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        {/* LEFT COLUMN: LIST OF CLINICAL DISCUSSION BLOGS (4 COLS - UNIFORM EVEN HEIGHT) */}
+        <div
+          className={`lg:col-span-4 rounded-2xl border p-3 space-y-3 flex flex-col ${
+            isLight
+              ? 'bg-white/60 border-slate-200'
+              : 'bg-[#0B0F19]/60 border-slate-800'
+          }`}
+        >
+          <div className="px-2 pt-1 pb-1.5 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
+            <span className={`text-[11px] font-black uppercase ${isLight ? 'text-slate-600' : 'text-gray-300'}`}>
+              Clinical Discussion Feed ({filteredBlogs.length})
+            </span>
+            <span className="text-[10px] font-bold text-emerald-500">● Peer Reviewed</span>
+          </div>
 
-                <h3 className={`font-black text-xs leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
-                  {blog.title}
-                </h3>
-
-                <p className={`text-[11px] line-clamp-2 ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
-                  {blog.summary}
-                </p>
-
-                <div className={`flex items-center justify-between pt-1 border-t text-[10px] ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                    <User className="w-3 h-3" /> {blog.author}
-                  </span>
-                  <div className={`flex items-center space-x-3 font-bold ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
-                    <span className="flex items-center gap-1 text-purple-600 dark:text-purple-400">
-                      <ThumbsUp className="w-3 h-3" /> {blog.upvotes}
+          <div className="space-y-3 overflow-y-auto max-h-[680px] pr-1 flex-1">
+            {filteredBlogs.map((blog) => {
+              const isSelected = blog.id === activeBlog.id;
+              return (
+                <div
+                  key={blog.id}
+                  onClick={() => setSelectedBlogId(blog.id)}
+                  className={`p-4 rounded-xl border transition-all cursor-pointer space-y-2.5 ${
+                    isSelected
+                      ? isLight
+                        ? 'bg-purple-50/90 border-purple-500 shadow-sm ring-1 ring-purple-500/20'
+                        : 'bg-gradient-to-r from-purple-950/60 to-emerald-950/40 border-purple-500 shadow-lg'
+                      : isLight
+                      ? 'bg-white border-slate-200 hover:border-purple-300 text-slate-900 shadow-2xs'
+                      : 'bg-[#0B0F19] border-[#1C1F26] hover:border-slate-700 text-white'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
+                        isLight
+                          ? 'bg-purple-100 text-purple-800'
+                          : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                      }`}
+                    >
+                      {blog.category.replace('_', ' ')}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <MessageSquare className="w-3 h-3" /> {blog.commentsCount} comments
+                    <span className={`text-[10px] flex items-center gap-1 font-bold ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
+                      <Clock className="w-3 h-3" /> {blog.date}
                     </span>
                   </div>
+
+                  <h3 className={`font-black text-xs leading-snug ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                    {blog.title}
+                  </h3>
+
+                  <p className={`text-[11px] line-clamp-2 leading-relaxed ${isLight ? 'text-slate-600' : 'text-gray-400'}`}>
+                    {blog.summary}
+                  </p>
+
+                  <div className={`flex items-center justify-between pt-2 border-t text-[10px] ${isLight ? 'border-slate-200' : 'border-slate-800'}`}>
+                    <span className="font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                      <User className="w-3 h-3" /> {blog.author.split(',')[0]}
+                    </span>
+                    <div className={`flex items-center space-x-3 font-bold ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>
+                      <span className="flex items-center gap-1 text-purple-600 dark:text-purple-400 font-black">
+                        <ThumbsUp className="w-3 h-3" /> {blog.upvotes}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MessageSquare className="w-3 h-3" /> {blog.commentsCount}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        {/* RIGHT COLUMN: ACTIVE BLOG POST & INTERACTIVE PEER DISCUSSIONS (7 COLS) */}
+        {/* RIGHT COLUMN: ACTIVE BLOG POST & INTERACTIVE PEER DISCUSSIONS (8 COLS - SYMMETRICAL RIGHT PANE) */}
         {activeBlog && (
           <div
-            className={`lg:col-span-7 p-6 rounded-2xl border space-y-6 ${
+            className={`lg:col-span-8 p-6 rounded-2xl border space-y-6 ${
               isLight
                 ? 'bg-white border-slate-200 text-slate-900 shadow-xs'
                 : 'bg-[#0B0F19] border-[#1C1F26] text-white'
@@ -474,7 +489,7 @@ export const ClinicalDiscussionBlogsView: React.FC<
                 <span className="text-xs px-3 py-1 rounded-full font-black bg-purple-600 text-white">
                   {activeBlog.category.replace('_', ' ')}
                 </span>
-                <span className={`text-xs ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>{activeBlog.date}</span>
+                <span className={`text-xs font-bold ${isLight ? 'text-slate-500' : 'text-gray-400'}`}>{activeBlog.date}</span>
               </div>
 
               <h2 className={`text-lg font-black leading-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
@@ -482,8 +497,8 @@ export const ClinicalDiscussionBlogsView: React.FC<
               </h2>
 
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center font-black text-white text-xs">
+                <div className="flex items-center space-x-3">
+                  <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center font-black text-white text-xs shadow-sm">
                     DR
                   </div>
                   <div>
@@ -498,9 +513,9 @@ export const ClinicalDiscussionBlogsView: React.FC<
 
                 <button
                   onClick={() => handleUpvote(activeBlog.id)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 cursor-pointer border ${
+                  className={`px-4 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 cursor-pointer border transition-all ${
                     isLight
-                      ? 'bg-purple-50 hover:bg-purple-600 text-purple-700 hover:text-white border-purple-200'
+                      ? 'bg-purple-50 hover:bg-purple-600 text-purple-700 hover:text-white border-purple-200 shadow-2xs'
                       : 'bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border-purple-500/40'
                   }`}
                 >
@@ -510,28 +525,28 @@ export const ClinicalDiscussionBlogsView: React.FC<
               </div>
             </div>
 
-            {/* FULL ARTICLE BODY - HIGH CONTRAST IN BOTH LIGHT & DARK THEMES */}
+            {/* FULL ARTICLE BODY - HIGH CONTRAST & LEADING IN BOTH LIGHT & DARK THEMES */}
             <div className={`text-xs leading-relaxed space-y-3 font-medium ${isLight ? 'text-slate-800' : 'text-gray-200'}`}>
               <p>{activeBlog.content}</p>
             </div>
 
             {/* HIGHLIGHTED RUBRICS & REMEDIES DISCUSSED */}
             <div
-              className={`grid grid-cols-1 md:grid-cols-2 gap-3 p-3.5 rounded-xl border ${
+              className={`grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-xl border ${
                 isLight
                   ? 'bg-slate-50 border-slate-200'
                   : 'bg-[#05070A] border-slate-800'
               }`}
             >
               <div>
-                <span className={`text-[10px] font-black uppercase block mb-1.5 ${isLight ? 'text-emerald-700' : 'text-emerald-400'}`}>
+                <span className={`text-[10px] font-black uppercase block mb-2 ${isLight ? 'text-emerald-700' : 'text-emerald-400'}`}>
                   📌 Core Repertory Rubrics Highlighted
                 </span>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {activeBlog.rubricsDiscussed.map((r, i) => (
                     <span
                       key={i}
-                      className={`text-[10px] px-2 py-0.5 rounded font-bold border ${
+                      className={`text-[10px] px-2.5 py-1 rounded-md font-bold border ${
                         isLight
                           ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
                           : 'bg-emerald-950 text-emerald-300 border-emerald-500/30'
@@ -544,14 +559,14 @@ export const ClinicalDiscussionBlogsView: React.FC<
               </div>
 
               <div>
-                <span className={`text-[10px] font-black uppercase block mb-1.5 ${isLight ? 'text-purple-700' : 'text-purple-400'}`}>
+                <span className={`text-[10px] font-black uppercase block mb-2 ${isLight ? 'text-purple-700' : 'text-purple-400'}`}>
                   🧪 Remedies &amp; Cross-Indications
                 </span>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {activeBlog.remediesDiscussed.map((rem, i) => (
                     <span
                       key={i}
-                      className={`text-[10px] px-2 py-0.5 rounded font-black border ${
+                      className={`text-[10px] px-2.5 py-1 rounded-md font-black border ${
                         isLight
                           ? 'bg-purple-100 text-purple-900 border-purple-300'
                           : 'bg-purple-950 text-purple-300 border-purple-500/30'
