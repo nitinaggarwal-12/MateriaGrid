@@ -202,6 +202,8 @@ export default function MateriaGridMasterWorkspace() {
       <LandingPage
         onLaunchWorkspace={() => setCurrentView('WORKSPACE')}
         theme={theme}
+        langCode={langCode}
+        onSelectLangCode={setLangCode}
       />
     );
   }
