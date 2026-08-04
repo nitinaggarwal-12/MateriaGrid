@@ -354,6 +354,8 @@ function MasterWorkspaceInner() {
     const randomNext =
       nextPatients[Math.floor(Math.random() * nextPatients.length)];
     setCurrentOpdToken(randomNext);
+    setLangSwitchNotice(`📋 Called ${randomNext.token} (${randomNext.patientName}) into OPD Consultation Room 1`);
+    setTimeout(() => setLangSwitchNotice(null), 3500);
   };
 
   // RESTORE WORKSPACE STATE FROM URL QUERY PARAMS AFTER CLIENT HYDRATION
