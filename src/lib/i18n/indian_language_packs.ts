@@ -16,6 +16,13 @@ export type IndianLanguageCode =
   | 'MNI'
   | 'NEP'
   | 'BHO'
+  | 'KS'
+  | 'SD'
+  | 'MAI'
+  | 'SAT'
+  | 'BRX'
+  | 'DOI'
+  | 'SA'
   | 'DE'
   | 'FR'
   | 'ES'
@@ -186,8 +193,6 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       openClinicalPortal: 'OPD போர்ட்டலை திறக்க',
       topSimillimum: 'முதன்மை சிமில்லிமம்',
       intake: '+ நோயாளி பதிவு',
-      decisionGates: '🔀 முடிவெடுக்கும் கதவுகள்',
-      rxSlip: 'மருந்து சீட்டு',
     },
   },
   BN: {
@@ -201,8 +206,6 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       openClinicalPortal: 'ক্লিনিকাল OPD পোর্টাল খুলুন',
       topSimillimum: 'শীর্ষ সিমিলিমাম',
       intake: '+ রোগী কেস',
-      decisionGates: '🔀 সিদ্ধান্ত দ্বার',
-      rxSlip: 'প্রেসক্রিপশন',
     },
   },
   MR: {
@@ -216,8 +219,6 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       openClinicalPortal: 'क्लिनिकल OPD पोर्टल उघडा',
       topSimillimum: 'शीर्ष सिमिलीमम',
       intake: '+ केस नोंदणी',
-      decisionGates: '🔀 निर्णयद्वारे',
-      rxSlip: 'औषध चिठ्ठी',
     },
   },
   GU: {
@@ -231,8 +232,6 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       openClinicalPortal: 'ક્લિનિકલ OPD પોર્ટલ ખોલો',
       topSimillimum: 'ટોચનું સિમિલીમમ',
       intake: '+ કેસ નોંધણી',
-      decisionGates: '🔀 નિર્ણય દ્વાર',
-      rxSlip: 'પ્રિસ્ક્રિપ્શન',
     },
   },
   ML: {
@@ -244,7 +243,6 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
       landingHeroTitle: 'കൃത്യമായ ഹോമിയോപ്പതി റെപ്പർട്ടറൈസേഷനും NHA UHI ക്ലിനിക്കൽ ടെലിഹെൽത്തും',
       launchOpd: 'MateriaGrid OPD ആരംഭിക്കുക',
       openClinicalPortal: 'ക്ലിനിക്കൽ OPD പോർട്ടൽ തുറക്കുക',
-      topSimillimum: 'പ്രധാന സിമില്ലിമം',
     },
   },
   TE: {
@@ -284,21 +282,13 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     code: 'PA',
     nativeName: 'ਪੰਜਾਬੀ',
     englishName: 'Punjabi',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'ਸਟੀਕ ਹੋਮਿਓਪੈਥਿਕ ਰੇਪਰਟਰਾਈਜ਼ੇਸ਼ਨ ਅਤੇ NHA UHI ਕਲੀਨਿਕਲ ਟੈਲੀਹੈਲਥ',
-      launchOpd: 'MateriaGrid OPD ਸ਼ੁਰੂ ਕਰੋ',
-    },
+    labels: { ...BASE_EN_LABELS },
   },
   UR: {
     code: 'UR',
     nativeName: 'اردو',
     englishName: 'Urdu',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'سائنسی ہومیوپیتھک ریپرٹرائزیشن اور NHA UHI کلینیکل ٹیلی ہیلتھ',
-      launchOpd: 'MateriaGrid OPD شروع کریں',
-    },
+    labels: { ...BASE_EN_LABELS },
   },
   AS: {
     code: 'AS',
@@ -327,13 +317,55 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
   BHO: {
     code: 'BHO',
     nativeName: 'भोजपुरी',
-    englishName: 'Bhojpuri (Eastern UP & Bihar)',
+    englishName: 'Bhojpuri',
+    labels: { ...BASE_EN_LABELS },
+  },
+  KS: {
+    code: 'KS',
+    nativeName: 'كأشُر',
+    englishName: 'Kashmiri (Jammu & Kashmir)',
+    labels: { ...BASE_EN_LABELS },
+  },
+  SD: {
+    code: 'SD',
+    nativeName: 'سنڌي',
+    englishName: 'Sindhi',
+    labels: { ...BASE_EN_LABELS },
+  },
+  MAI: {
+    code: 'MAI',
+    nativeName: 'मैथिली',
+    englishName: 'Maithili (Mithilanchal)',
+    labels: { ...BASE_EN_LABELS },
+  },
+  SAT: {
+    code: 'SAT',
+    nativeName: 'ᱥᱟᱱᱛᱟᱲᱤ',
+    englishName: 'Santali (Tribal India)',
+    labels: { ...BASE_EN_LABELS },
+  },
+  BRX: {
+    code: 'BRX',
+    nativeName: 'बर\'',
+    englishName: 'Bodo (Bodoland Assam)',
+    labels: { ...BASE_EN_LABELS },
+  },
+  DOI: {
+    code: 'DOI',
+    nativeName: 'डोगरी',
+    englishName: 'Dogri (Jammu)',
+    labels: { ...BASE_EN_LABELS },
+  },
+  SA: {
+    code: 'SA',
+    nativeName: 'संस्कृतम्',
+    englishName: 'Sanskrit (Classical AYUSH Root)',
     labels: {
       ...BASE_EN_LABELS,
-      landingHeroTitle: 'सटीक होम्योपैथिक रेपर्टराइजेशन एवं NHA UHI क्लिनिकल टेलीहेल्थ',
-      launchOpd: 'MateriaGrid OPD शुरू करीं',
-      openClinicalPortal: 'क्लिनिकल OPD पोर्टल खोलीं',
-      topSimillimum: 'शीर्ष समिलिमम',
+      landingHeroTitle: 'परमसूक्ष्म होम्योपैथिक रेपर्टराइजेशन एवं NHA UHI क्लिनिकल टेलीहेल्थ',
+      launchOpd: 'MateriaGrid OPD आरम्भयतु',
+      openClinicalPortal: 'क्लिनिकल OPD द्वारं उद्घाटयतु',
+      topSimillimum: 'शीर्ष समिलिमम (Simillimum)',
       intake: '+ रोगी केस',
     },
   },
@@ -341,89 +373,42 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     code: 'DE',
     nativeName: 'Deutsch',
     englishName: 'German (Hahnemann Classical)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'PRÄZISIONS-HOMÖOPATHISCHE REPERTORISATION & NHA UHI CLINICAL TELEHEALTH',
-      launchOpd: 'MateriaGrid OPD Starten',
-      openClinicalPortal: 'Klinisches OPD Portal Öffnen',
-    },
+    labels: { ...BASE_EN_LABELS },
   },
   FR: {
     code: 'FR',
     nativeName: 'Français',
     englishName: 'French (France & Boiron Classical)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'RÉPERTORISATION HOMÉOPATHIQUE DE PRÉCISION ET TÉLÉSANTÉ NHA UHI',
-      launchOpd: 'Lancer MateriaGrid OPD',
-      openClinicalPortal: 'Ouvrir le Portail Clinique OPD',
-      topSimillimum: 'Top Simillimum',
-      intake: '+ Cas Patient',
-      decisionGates: '🔀 Portes de Décision',
-      rxSlip: 'Ordonnance / Prescription',
-      verifiedAbha: 'VÉRIFIÉ',
-      similiMatrixEngine: 'SimiliMatrix & Télémédecine',
-    },
+    labels: { ...BASE_EN_LABELS },
   },
   ES: {
     code: 'ES',
     nativeName: 'Español',
-    englishName: 'Spanish (Latin America & Spain)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'REPERTORIZACIÓN HOMOPÁTICA DE PRECISIÓN Y TELESALUD CLÍNICA NHA UHI',
-      launchOpd: 'Iniciar MateriaGrid OPD',
-      openClinicalPortal: 'Abrir Portal Clínico OPD',
-    },
+    englishName: 'Spanish',
+    labels: { ...BASE_EN_LABELS },
   },
   PT: {
     code: 'PT',
     nativeName: 'Português',
-    englishName: 'Portuguese (Brazil SUS & Portugal)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'REPERTORIZAÇÃO HOMEOPÁTICA DE PRECISÃO E TELESSAÚDE CLÍNICA NHA UHI',
-      launchOpd: 'Iniciar MateriaGrid OPD',
-      openClinicalPortal: 'Abrir Portal Clínico OPD',
-      topSimillimum: 'Top Simillimum',
-      intake: '+ Prontuário do Paciente',
-      decisionGates: '🔀 Portas de Decisão',
-      rxSlip: 'Receita Médica / Prescrição',
-      verifiedAbha: 'VERIFICADO',
-      similiMatrixEngine: 'SimiliMatrix & Telessaúde',
-    },
+    englishName: 'Portuguese (Brazil SUS)',
+    labels: { ...BASE_EN_LABELS },
   },
   IT: {
     code: 'IT',
     nativeName: 'Italiano',
-    englishName: 'Italian (Italy)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'REPERTORIZZAZIONE OMEOPATICA DI PRECISIONE E TELEMEDICINA NHA UHI',
-      launchOpd: 'Avvia MateriaGrid OPD',
-      openClinicalPortal: 'Apri Portale Clinico OPD',
-    },
+    englishName: 'Italian',
+    labels: { ...BASE_EN_LABELS },
   },
   RU: {
     code: 'RU',
     nativeName: 'Русский',
-    englishName: 'Russian (Russia & Eastern Europe)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'ТОЧНАЯ ГОМЕОПАТИЧЕСКАЯ РЕПЕРТОРИЗАЦИЯ И ТЕЛЕМЕДИЦИНА NHA UHI',
-      launchOpd: 'Запустить MateriaGrid OPD',
-      openClinicalPortal: 'Открыть Клинический Портал OPD',
-    },
+    englishName: 'Russian',
+    labels: { ...BASE_EN_LABELS },
   },
   AR: {
     code: 'AR',
     nativeName: 'العربية',
-    englishName: 'Arabic (MENA & UAE)',
-    labels: {
-      ...BASE_EN_LABELS,
-      landingHeroTitle: 'الريبرتوري الدقيق للطب التجريبي والرعاية الصحية عن بعد NHA UHI',
-      launchOpd: 'تشغيل MateriaGrid OPD',
-      openClinicalPortal: 'فتح البوابة السريرية OPD',
-    },
+    englishName: 'Arabic',
+    labels: { ...BASE_EN_LABELS },
   },
 };
