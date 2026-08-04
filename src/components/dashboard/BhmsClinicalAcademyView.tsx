@@ -769,36 +769,43 @@ export const BhmsClinicalAcademyView: React.FC<
               return (
                 <div
                   key={course.id}
-                  onClick={() => setSelectedCourseId(course.id)}
+                  onClick={() => {
+                    setSelectedCourseId(course.id);
+                    setSelectedChapterIdx(0);
+                  }}
                   className={`p-4 rounded-2xl border transition-all cursor-pointer space-y-2.5 ${
                     isSelected
-                      ? 'bg-gradient-to-r from-amber-950/60 to-emerald-950/40 border-amber-500 shadow-lg'
+                      ? isLight
+                        ? 'bg-emerald-50/90 border-emerald-500 shadow-xs'
+                        : 'bg-gradient-to-r from-amber-950/60 to-emerald-950/40 border-amber-500 shadow-lg'
+                      : isLight
+                      ? 'bg-white border-slate-200 hover:border-slate-300 text-slate-800'
                       : 'bg-[#0B0F19] border-[#1C1F26] hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] px-2 py-0.5 rounded font-black bg-amber-500/20 text-amber-300">
+                    <span className="text-[10px] px-2 py-0.5 rounded font-black bg-amber-500/20 text-amber-700 dark:text-amber-300">
                       {course.code} • {course.level}
                     </span>
-                    <span className="text-[10px] text-gray-400 font-bold">
+                    <span className="text-[10px] text-slate-500 dark:text-gray-400 font-bold">
                       {course.duration}
                     </span>
                   </div>
 
-                  <h3 className="font-black text-xs text-white leading-snug">
+                  <h3 className="font-black text-xs text-slate-900 dark:text-white leading-snug">
                     {course.title}
                   </h3>
 
-                  <p className="text-[11px] text-gray-400 line-clamp-2">
+                  <p className="text-[11px] text-slate-500 dark:text-gray-400 line-clamp-2">
                     {course.summary}
                   </p>
 
                   <div className="space-y-1 pt-1">
-                    <div className="flex justify-between text-[10px] text-gray-400 font-bold">
+                    <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-bold">
                       <span>Course Progress</span>
-                      <span className="text-emerald-400">{course.progressPercent}%</span>
+                      <span className="text-emerald-600 dark:text-emerald-400">{course.progressPercent}%</span>
                     </div>
-                    <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                    <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                       <div
                         className="h-full bg-emerald-500"
                         style={{ width: `${course.progressPercent}%` }}
@@ -812,14 +819,20 @@ export const BhmsClinicalAcademyView: React.FC<
 
           {/* ACTIVE COURSE CHAPTERS & CONTENT READER (8 COLS) */}
           <div className="lg:col-span-8 space-y-6">
-            <div className="p-6 rounded-2xl border border-[#1C1F26] bg-[#0B0F19] space-y-4">
-              <div className="space-y-2 border-b border-slate-800 pb-4">
-                <span className="text-xs px-2.5 py-1 rounded bg-amber-500 text-black font-black">
-                  {activeCourse.code} • OFFICIAL BHMS/MD CURRICULUM
+            <div
+              className={`p-6 rounded-2xl border space-y-4 ${
+                isLight
+                  ? 'bg-white border-slate-200 shadow-xs'
+                  : 'bg-[#0B0F19] border-[#1C1F26]'
+              }`}
+            >
+              <div className="space-y-2 border-b pb-4 border-slate-200 dark:border-slate-800">
+                <span className="text-xs px-2.5 py-1 rounded bg-amber-500/20 text-amber-800 dark:text-amber-300 font-black">
+                  {activeCourse.code} • OFFICIAL NCH &amp; AYUSH DEGREE CURRICULUM
                 </span>
-                <h2 className="text-lg font-black text-white">{activeCourse.title}</h2>
-                <p className="text-xs text-gray-400">
-                  Instructor: <strong className="text-emerald-400">{activeCourse.instructor}</strong>
+                <h2 className="text-xl font-black text-slate-900 dark:text-white">{activeCourse.title}</h2>
+                <p className="text-xs text-slate-500 dark:text-gray-400">
+                  Instructor: <strong className="text-emerald-700 dark:text-emerald-400">{activeCourse.instructor}</strong>
                 </p>
               </div>
 
@@ -828,26 +841,38 @@ export const BhmsClinicalAcademyView: React.FC<
                 const chapter =
                   activeCourse.chapters[selectedChapterIdx] || activeCourse.chapters[0];
                 return (
-                  <div className="space-y-4 p-5 rounded-2xl bg-[#05070A] border border-emerald-500/40">
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                  <div
+                    className={`space-y-4 p-5 rounded-2xl border ${
+                      isLight
+                        ? 'bg-slate-50/70 border-slate-200 text-slate-800'
+                        : 'bg-[#05070A] border-emerald-500/40 text-white'
+                    }`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-slate-200 dark:border-slate-800">
                       <div className="flex items-center space-x-2">
-                        <BookOpen className="w-5 h-5 text-emerald-400" />
-                        <h3 className="font-black text-sm text-white">
+                        <BookOpen className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                        <h3 className="font-black text-sm text-slate-900 dark:text-white">
                           STUDY MATERIAL: {chapter.title}
                         </h3>
                       </div>
-                      <span className="px-2.5 py-1 rounded bg-slate-800 text-gray-300 font-mono text-xs font-black">
+                      <span className="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-gray-300 font-mono text-xs font-black">
                         Duration: {chapter.duration}
                       </span>
                     </div>
 
                     {/* SECTION 0: PLAIN-ENGLISH LOGICAL BREAKDOWN FOR INTERNS */}
-                    <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-cyan-950/30 to-purple-950/40 border border-emerald-500/50 space-y-1.5">
-                      <span className="text-[11px] font-black text-emerald-300 uppercase tracking-wider flex items-center space-x-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                    <div
+                      className={`p-4 rounded-xl border space-y-1.5 ${
+                        isLight
+                          ? 'bg-emerald-50/90 border-emerald-300 text-emerald-950'
+                          : 'bg-gradient-to-r from-emerald-950/40 via-cyan-950/30 to-purple-950/40 border-emerald-500/50 text-white'
+                      }`}
+                    >
+                      <span className="text-[11px] font-black uppercase tracking-wider flex items-center space-x-1.5 text-emerald-700 dark:text-emerald-300">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                         <span>💡 PLAIN-ENGLISH LOGICAL BREAKDOWN &amp; SIMPLE ANALOGY:</span>
                       </span>
-                      <p className="text-xs text-white leading-relaxed font-bold">
+                      <p className="text-xs leading-relaxed font-bold">
                         {chapter.title.includes('Thermodynamics') &&
                           'Think of cellular miasms like a house electrical circuit: Psora is a flickering light (functional disturbance), Sycosis is a blown fuse causing wall bulging (hyper-growth), and Syphilis is a short circuit that burns the house down (ulcerative destruction). Match the remedy energy level to the cellular destruction level!'}
                         {chapter.title.includes('Hot vs Chilly') &&
@@ -878,49 +903,79 @@ export const BhmsClinicalAcademyView: React.FC<
 
                     {/* SECTION 1: LECTURE SUMMARY */}
                     <div className="space-y-1.5">
-                      <span className="text-[11px] font-black text-emerald-400 uppercase tracking-wider block">
+                      <span className="text-[11px] font-black uppercase tracking-wider block text-emerald-700 dark:text-emerald-400">
                         📚 1. Core Hahnemannian &amp; Clinical Lecture Notes:
                       </span>
-                      <p className="text-xs text-gray-300 leading-relaxed bg-[#0B0F19] p-3.5 rounded-xl border border-slate-800">
+                      <p
+                        className={`text-xs leading-relaxed p-3.5 rounded-xl border ${
+                          isLight
+                            ? 'bg-white border-slate-200 text-slate-800'
+                            : 'bg-[#0B0F19] border-slate-800 text-gray-300'
+                        }`}
+                      >
                         {chapter.studyMaterial.lectureSummary}
                       </p>
                     </div>
 
                     {/* SECTION 2: APHORISM & LITERATURE REFERENCE */}
                     <div className="space-y-1.5">
-                      <span className="text-[11px] font-black text-amber-400 uppercase tracking-wider block">
+                      <span className="text-[11px] font-black uppercase tracking-wider block text-amber-700 dark:text-amber-400">
                         ⚖️ 2. Organon Aphorism / Classical Literature Citation:
                       </span>
-                      <p className="text-xs text-amber-200/90 italic bg-amber-950/20 p-3.5 rounded-xl border border-amber-500/30">
+                      <p
+                        className={`text-xs italic p-3.5 rounded-xl border ${
+                          isLight
+                            ? 'bg-amber-50/70 border-amber-300 text-amber-950'
+                            : 'bg-amber-950/20 border-amber-500/30 text-amber-200/90'
+                        }`}
+                      >
                         {chapter.studyMaterial.aphorismReference}
                       </p>
                     </div>
 
                     {/* GRID OF DIAGRAM, TAKEAWAY & WORKED CASE */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-                      <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
-                        <span className="text-[10px] font-black text-cyan-400 uppercase block">
+                      <div
+                        className={`p-3.5 rounded-xl border space-y-1 ${
+                          isLight
+                            ? 'bg-cyan-50/60 border-cyan-200 text-cyan-950'
+                            : 'bg-[#0B0F19] border-slate-800 text-gray-300'
+                        }`}
+                      >
+                        <span className="text-[10px] font-black uppercase block text-cyan-600 dark:text-cyan-400">
                           💡 Clinical OPD Takeaway
                         </span>
-                        <p className="text-[11px] text-gray-300 leading-snug">
+                        <p className="text-[11px] leading-snug">
                           {chapter.studyMaterial.clinicalTakeaway}
                         </p>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
-                        <span className="text-[10px] font-black text-purple-400 uppercase block">
+                      <div
+                        className={`p-3.5 rounded-xl border space-y-1 ${
+                          isLight
+                            ? 'bg-purple-50/60 border-purple-200 text-purple-950'
+                            : 'bg-[#0B0F19] border-slate-800 text-gray-300'
+                        }`}
+                      >
+                        <span className="text-[10px] font-black uppercase block text-purple-600 dark:text-purple-400">
                           📊 Clinical Pathway Diagram
                         </span>
-                        <p className="text-[11px] text-gray-300 leading-snug">
+                        <p className="text-[11px] leading-snug">
                           {chapter.studyMaterial.diagramDescription}
                         </p>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
-                        <span className="text-[10px] font-black text-emerald-400 uppercase block">
+                      <div
+                        className={`p-3.5 rounded-xl border space-y-1 ${
+                          isLight
+                            ? 'bg-emerald-50/60 border-emerald-200 text-emerald-950'
+                            : 'bg-[#0B0F19] border-slate-800 text-gray-300'
+                        }`}
+                      >
+                        <span className="text-[10px] font-black uppercase block text-emerald-600 dark:text-emerald-400">
                           🩺 Worked OPD Case Example
                         </span>
-                        <p className="text-[11px] text-gray-300 leading-snug">
+                        <p className="text-[11px] leading-snug">
                           {chapter.studyMaterial.workedCaseExample}
                         </p>
                       </div>
