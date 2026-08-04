@@ -723,6 +723,8 @@ export const BhmsClinicalAcademyView: React.FC<
   const [simChosenPotency, setSimChosenPotency] = useState<string>('DRAINAGE_LOW');
   const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(0);
   const [selectedCaseRemedyIdx, setSelectedCaseRemedyIdx] = useState<number>(0);
+  const [selectedAcademicStage, setSelectedAcademicStage] = useState<'ALL' | 'BHMS_INTERN' | 'MD_RESIDENT'>('ALL');
+  const [chapterLessonTab, setChapterLessonTab] = useState<'LECTURE' | 'ANALOGY' | 'CASE_STUDY'>('LECTURE');
 
   // PRACTICE TEST GENERATOR STATE
   const [testDegree, setTestDegree] = useState<string>('BHMS');
@@ -732,8 +734,15 @@ export const BhmsClinicalAcademyView: React.FC<
   const [testSubmitted, setTestSubmitted] = useState<boolean>(false);
   const [testScore, setTestScore] = useState<number>(0);
 
+  const filteredCourses = ACADEMIC_COURSES.filter((c) => {
+    if (selectedAcademicStage === 'BHMS_INTERN') return c.level === 'BHMS INTERN';
+    if (selectedAcademicStage === 'MD_RESIDENT') return c.level === 'MD (HOM.) RESIDENT';
+    return true;
+  });
+
   const activeCourse =
-    ACADEMIC_COURSES.find((c) => c.id === selectedCourseId) ||
+    filteredCourses.find((c) => c.id === selectedCourseId) ||
+    filteredCourses[0] ||
     ACADEMIC_COURSES[0];
 
   const handleSelectQuizOption = (questionId: string, index: number) => {
@@ -1036,61 +1045,107 @@ export const BhmsClinicalAcademyView: React.FC<
 
       {/* TAB 1: COURSERA-STYLE COURSES & CHAPTERS */}
       {activeTab === 'COURSES' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* COURSE LIST (4 COLS) */}
-          <div className="lg:col-span-4 space-y-3">
-            {ACADEMIC_COURSES.map((course) => {
-              const isSelected = course.id === activeCourse.id;
-              return (
-                <div
-                  key={course.id}
-                  onClick={() => {
-                    setSelectedCourseId(course.id);
-                    setSelectedChapterIdx(0);
-                  }}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer space-y-2.5 ${
-                    isSelected
-                      ? isLight
-                        ? 'bg-emerald-50/90 border-emerald-500 shadow-xs'
-                        : 'bg-gradient-to-r from-amber-950/60 to-emerald-950/40 border-amber-500 shadow-lg'
-                      : isLight
-                      ? 'bg-white border-slate-200 hover:border-slate-300 text-slate-800'
-                      : 'bg-[#0B0F19] border-[#1C1F26] hover:border-slate-700'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] px-2 py-0.5 rounded font-black bg-amber-500/20 text-amber-700 dark:text-amber-300">
-                      {course.code} • {course.level}
-                    </span>
-                    <span className="text-[10px] text-slate-500 dark:text-gray-400 font-bold">
-                      {course.duration}
-                    </span>
-                  </div>
+        <div className="space-y-4 font-sans">
+          {/* DEGREE LEVEL SUB-TABS (BHMS vs MD) */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-white dark:bg-[#0B0F19] border border-slate-200 dark:border-slate-800">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-black uppercase text-slate-400 mr-1">
+                Filter Degree Level:
+              </span>
+              <button
+                onClick={() => setSelectedAcademicStage('ALL')}
+                className={`px-3.5 py-1.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
+                  selectedAcademicStage === 'ALL'
+                    ? 'bg-slate-900 text-white dark:bg-emerald-600'
+                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-gray-300'
+                }`}
+              >
+                🌐 All Courses ({ACADEMIC_COURSES.length})
+              </button>
 
-                  <h3 className="font-black text-xs text-slate-900 dark:text-white leading-snug">
-                    {course.title}
-                  </h3>
+              <button
+                onClick={() => setSelectedAcademicStage('BHMS_INTERN')}
+                className={`px-3.5 py-1.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
+                  selectedAcademicStage === 'BHMS_INTERN'
+                    ? 'bg-amber-600 text-white'
+                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-gray-300'
+                }`}
+              >
+                🎓 BHMS Degree &amp; Intern ({ACADEMIC_COURSES.filter((c) => c.level === 'BHMS INTERN').length})
+              </button>
 
-                  <p className="text-[11px] text-slate-500 dark:text-gray-400 line-clamp-2">
-                    {course.summary}
-                  </p>
+              <button
+                onClick={() => setSelectedAcademicStage('MD_RESIDENT')}
+                className={`px-3.5 py-1.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
+                  selectedAcademicStage === 'MD_RESIDENT'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-gray-300'
+                }`}
+              >
+                🔬 MD (Hom.) Post-Graduate ({ACADEMIC_COURSES.filter((c) => c.level === 'MD (HOM.) RESIDENT').length})
+              </button>
+            </div>
 
-                  <div className="space-y-1 pt-1">
-                    <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-bold">
-                      <span>Course Progress</span>
-                      <span className="text-emerald-600 dark:text-emerald-400">{course.progressPercent}%</span>
-                    </div>
-                    <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                      <div
-                        className="h-full bg-emerald-500"
-                        style={{ width: `${course.progressPercent}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            <span className="text-xs font-bold text-slate-500">
+              Showing {filteredCourses.length} Degree Courses
+            </span>
           </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* COURSE LIST (4 COLS) */}
+            <div className="lg:col-span-4 space-y-3">
+              {filteredCourses.map((course) => {
+                const isSelected = course.id === activeCourse.id;
+                return (
+                  <div
+                    key={course.id}
+                    onClick={() => {
+                      setSelectedCourseId(course.id);
+                      setSelectedChapterIdx(0);
+                    }}
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer space-y-2.5 ${
+                      isSelected
+                        ? isLight
+                          ? 'bg-emerald-50/90 border-emerald-500 shadow-xs'
+                          : 'bg-gradient-to-r from-amber-950/60 to-emerald-950/40 border-amber-500 shadow-lg'
+                        : isLight
+                        ? 'bg-white border-slate-200 hover:border-slate-300 text-slate-800'
+                        : 'bg-[#0B0F19] border-[#1C1F26] hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] px-2 py-0.5 rounded font-black bg-amber-500/20 text-amber-700 dark:text-amber-300">
+                        {course.code} • {course.level}
+                      </span>
+                      <span className="text-[10px] text-slate-500 dark:text-gray-400 font-bold">
+                        {course.duration}
+                      </span>
+                    </div>
+
+                    <h3 className="font-black text-xs text-slate-900 dark:text-white leading-snug">
+                      {course.title}
+                    </h3>
+
+                    <p className="text-[11px] text-slate-500 dark:text-gray-400 line-clamp-2">
+                      {course.summary}
+                    </p>
+
+                    <div className="space-y-1 pt-1">
+                      <div className="flex justify-between text-[10px] text-slate-500 dark:text-gray-400 font-bold">
+                        <span>Course Progress</span>
+                        <span className="text-emerald-600 dark:text-emerald-400">{course.progressPercent}%</span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                        <div
+                          className="h-full bg-emerald-500"
+                          style={{ width: `${course.progressPercent}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
           {/* ACTIVE COURSE CHAPTERS & CONTENT READER (8 COLS) */}
           <div className="lg:col-span-8 space-y-6">
@@ -1314,6 +1369,7 @@ export const BhmsClinicalAcademyView: React.FC<
             </div>
           </div>
         </div>
+      </div>
       )}
 
       {/* TAB 2: INTERACTIVE CLINICAL CASE QUIZZES & INSTANT SCORING */}
