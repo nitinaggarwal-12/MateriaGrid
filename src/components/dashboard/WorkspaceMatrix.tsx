@@ -559,26 +559,23 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                   }`}
                 >
                   {/* RUBRIC DESCRIPTION CELL */}
-                  <td className="p-3 border-r border-[#1C1F26]">
-                    <div className="flex items-start justify-between space-x-2">
+                  <td className="p-3 border-r border-slate-200 dark:border-[#1C1F26] group-hover:bg-emerald-500/5 transition-colors">
+                    <div className="flex items-center justify-between space-x-2">
                       <div className="space-y-1">
-                        <div className="flex items-center space-x-1.5">
-                          <span className="font-bold text-xs leading-snug">
-                            {translatedPath}
+                        <div className="flex items-center space-x-2">
+                          <span className="font-mono text-[10px] uppercase font-black tracking-wider text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                            {rubric.chapter}
+                          </span>
+                          <span className="font-bold text-xs text-slate-900 dark:text-gray-100 leading-snug">
+                            {translatedPath.includes(' - ')
+                              ? translatedPath.split(' - ').slice(1).join(' • ')
+                              : translatedPath}
                           </span>
                         </div>
 
                         <div className="flex items-center space-x-2 text-[10px]">
-                          <span
-                            className={`px-1.5 py-0.2 rounded font-black uppercase text-[9px] ${
-                              rubric.embryologicalLayer === 'Ectoderm'
-                                ? 'bg-cyan-500/20 text-cyan-700 dark:text-cyan-400 border border-cyan-500/30'
-                                : rubric.embryologicalLayer === 'Mesoderm'
-                                ? 'bg-purple-500/20 text-purple-700 dark:text-purple-400 border border-purple-500/30'
-                                : 'bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-500/30'
-                            }`}
-                          >
-                            {rubric.embryologicalLayer}
+                          <span className="text-[10px] text-slate-400 dark:text-gray-400 font-medium">
+                            Layer: <strong className="text-slate-600 dark:text-gray-300">{rubric.embryologicalLayer}</strong>
                           </span>
 
                           {showFollowUpBaseline && (
