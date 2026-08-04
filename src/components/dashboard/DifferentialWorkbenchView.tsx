@@ -100,18 +100,18 @@ export const DifferentialWorkbenchView: React.FC<
         }`}
       >
         <div className="flex items-center space-x-2.5">
-          <GitCompare className="w-5 h-5 text-emerald-600" />
+          <GitCompare className="w-5 h-5 text-emerald-500" />
           <div>
-            <h2 className="font-bold text-xs uppercase tracking-wider">
+            <h2 className="font-bold text-xs uppercase tracking-wider font-mono">
               Classical Tri-Remedy Comparative Differential Workbench
             </h2>
-            <p className="text-[10px] text-gray-500 font-mono">
+            <p className="text-[10px] text-gray-400 font-mono">
               Side-by-Side Diagnostic Parameter Matrix Synchronized with Active SimiliMatrix Top 3
             </p>
           </div>
         </div>
 
-        <span className="text-[10px] bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl font-mono font-bold">
+        <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-xl font-mono font-bold">
           SYNCHRONIZED WITH ACTIVE SIMILIMATRIX TOP 3
         </span>
       </div>
@@ -128,18 +128,18 @@ export const DifferentialWorkbenchView: React.FC<
               className={`border-b text-[11px] ${
                 isLight
                   ? 'bg-slate-100 border-slate-200 text-slate-700'
-                  : 'bg-[#090A0C] border-[#1C1F26] text-gray-400'
+                  : 'bg-[#090A0C] border-[#1C1F26] text-gray-300'
               }`}
             >
               <tr>
-                <th className="px-4 py-3 w-[260px]">CLINICAL PARAMETER</th>
-                <th className="px-4 py-3 text-emerald-600 font-black">
+                <th className="px-4 py-3 w-[260px] font-bold">CLINICAL PARAMETER</th>
+                <th className="px-4 py-3 text-emerald-400 font-black">
                   1. Belladonna (Bell 65.2) — TOP SIMILLIMUM
                 </th>
-                <th className="px-4 py-3 text-purple-600 font-black">
+                <th className="px-4 py-3 text-purple-300 font-black">
                   2. Bryonia alba (Bry 46.8)
                 </th>
-                <th className="px-4 py-3 text-blue-600 font-black">
+                <th className="px-4 py-3 text-cyan-300 font-black">
                   3. Arsenicum album (Ars 40.5)
                 </th>
               </tr>
@@ -153,17 +153,39 @@ export const DifferentialWorkbenchView: React.FC<
                 <tr
                   key={idx}
                   className={`transition-colors ${
-                    isLight ? 'hover:bg-slate-50' : 'hover:bg-[#1C1F26]/50'
+                    isLight ? 'hover:bg-slate-50' : 'hover:bg-[#1C1F26]/60'
                   }`}
                 >
-                  <td className="px-4 py-3 font-bold text-slate-700">
+                  <td
+                    className={`px-4 py-3 font-bold ${
+                      isLight ? 'text-slate-800' : 'text-white'
+                    }`}
+                  >
                     {r.parameter}
                   </td>
-                  <td className="px-4 py-3 font-bold text-emerald-800 bg-emerald-50/40">
+                  <td
+                    className={`px-4 py-3 font-bold ${
+                      isLight
+                        ? 'text-emerald-900 bg-emerald-50'
+                        : 'text-emerald-300 bg-emerald-950/50 border-l border-emerald-500/30'
+                    }`}
+                  >
                     {r.bell}
                   </td>
-                  <td className="px-4 py-3 text-slate-800">{r.bry}</td>
-                  <td className="px-4 py-3 text-slate-800">{r.ars}</td>
+                  <td
+                    className={`px-4 py-3 font-medium ${
+                      isLight ? 'text-purple-900' : 'text-purple-200'
+                    }`}
+                  >
+                    {r.bry}
+                  </td>
+                  <td
+                    className={`px-4 py-3 font-medium ${
+                      isLight ? 'text-blue-900' : 'text-cyan-200'
+                    }`}
+                  >
+                    {r.ars}
+                  </td>
                 </tr>
               ))}
             </tbody>
