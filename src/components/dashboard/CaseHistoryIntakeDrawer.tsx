@@ -24,11 +24,13 @@ interface CaseHistoryIntakeDrawerProps {
   onClose: () => void;
   onCommitExtractedRubrics: (rubrics: RubricRow[]) => void;
   langCode?: IndianLanguageCode;
+  theme?: 'dark' | 'light';
 }
 
 export const CaseHistoryIntakeDrawer: React.FC<
   CaseHistoryIntakeDrawerProps
-> = ({ isOpen, onClose, onCommitExtractedRubrics, langCode = 'EN' }) => {
+> = ({ isOpen, onClose, onCommitExtractedRubrics, langCode = 'EN', theme = 'dark' }) => {
+  const isLight = theme === 'light';
   const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
 
   const [patientName, setPatientName] = useState('Ananya Verma');
@@ -132,18 +134,38 @@ export const CaseHistoryIntakeDrawer: React.FC<
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs font-mono">
-      <div className="w-full max-w-2xl bg-[#0B0F19] text-white border-l border-[#1C1F26] h-full flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-right duration-200">
+      <div
+        className={`w-full max-w-2xl h-full flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-right duration-200 border-l ${
+          isLight
+            ? 'bg-white text-slate-900 border-slate-200'
+            : 'bg-[#0B0F19] text-white border-[#1C1F26]'
+        }`}
+      >
         {/* HEADER */}
-        <div className="p-4 border-b border-[#1C1F26] flex items-center justify-between bg-[#05070A]">
+        <div
+          className={`p-4 border-b flex items-center justify-between ${
+            isLight
+              ? 'bg-slate-100 border-slate-200'
+              : 'bg-[#05070A] border-[#1C1F26]'
+          }`}
+        >
           <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+            <div className="w-8 h-8 rounded-lg bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Activity className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-black text-sm uppercase text-white tracking-wider">
+              <h3
+                className={`font-black text-sm uppercase tracking-wider ${
+                  isLight ? 'text-slate-900' : 'text-white'
+                }`}
+              >
                 {langPack.labels.intakeTitle}
               </h3>
-              <p className="text-[11px] text-gray-400">
+              <p
+                className={`text-[11px] ${
+                  isLight ? 'text-slate-600' : 'text-gray-400'
+                }`}
+              >
                 {langPack.labels.intakeSubtitle}
               </p>
             </div>
@@ -151,16 +173,30 @@ export const CaseHistoryIntakeDrawer: React.FC<
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg border border-slate-800 text-gray-400 hover:text-white cursor-pointer"
+            className={`p-1.5 rounded-lg border cursor-pointer ${
+              isLight
+                ? 'border-slate-300 text-slate-600 hover:text-slate-900'
+                : 'border-slate-800 text-gray-400 hover:text-white'
+            }`}
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* PRESET PATIENT QUICK LOAD TRAY */}
-        <div className="px-4 py-2 bg-[#111317] border-b border-[#1C1F26] flex items-center justify-between text-xs">
-          <span className="text-gray-400 font-bold flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> Quick OPD Presets:
+        <div
+          className={`px-4 py-2 border-b flex items-center justify-between text-xs ${
+            isLight
+              ? 'bg-slate-50 border-slate-200'
+              : 'bg-[#111317] border-[#1C1F26]'
+          }`}
+        >
+          <span
+            className={`font-bold flex items-center gap-1 ${
+              isLight ? 'text-slate-700' : 'text-gray-400'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" /> Quick OPD Presets:
           </span>
           <div className="flex items-center space-x-2">
             <button
@@ -168,6 +204,8 @@ export const CaseHistoryIntakeDrawer: React.FC<
               className={`px-2.5 py-1 rounded-md text-[11px] font-black border cursor-pointer transition-all ${
                 presetActive === 'SUNSTROKE_MIGRAINE'
                   ? 'bg-emerald-600 border-emerald-500 text-white'
+                  : isLight
+                  ? 'bg-white border-slate-300 text-slate-700'
                   : 'bg-slate-900 border-slate-800 text-gray-400'
               }`}
             >
@@ -178,6 +216,8 @@ export const CaseHistoryIntakeDrawer: React.FC<
               className={`px-2.5 py-1 rounded-md text-[11px] font-black border cursor-pointer transition-all ${
                 presetActive === 'CIRRHOSIS_JAUNDICE'
                   ? 'bg-emerald-600 border-emerald-500 text-white'
+                  : isLight
+                  ? 'bg-white border-slate-300 text-slate-700'
                   : 'bg-slate-900 border-slate-800 text-gray-400'
               }`}
             >
@@ -190,32 +230,56 @@ export const CaseHistoryIntakeDrawer: React.FC<
         <div className="flex-1 overflow-y-auto p-5 space-y-6 text-xs">
           {/* 1. PATIENT DEMOGRAPHICS */}
           <div className="space-y-3">
-            <span className="font-black text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span className="font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
               <User className="w-3.5 h-3.5" /> {langPack.labels.patientIdentitySection}
             </span>
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">
+                <label
+                  className={`block mb-1 font-bold ${
+                    isLight ? 'text-slate-700' : 'text-gray-400'
+                  }`}
+                >
                   {langPack.labels.fullNameLabel}
                 </label>
                 <input
                   type="text"
                   value={patientName}
                   onChange={(e) => setPatientName(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#111317] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">{langPack.labels.ageLabel}</label>
+                <label
+                  className={`block mb-1 font-bold ${
+                    isLight ? 'text-slate-700' : 'text-gray-400'
+                  }`}
+                >
+                  {langPack.labels.ageLabel}
+                </label>
                 <input
                   type="text"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  className="w-full px-3 py-1.5 rounded-lg bg-[#111317] border border-slate-800 font-bold"
+                  className={`w-full px-3 py-1.5 rounded-lg border font-bold ${
+                    isLight
+                      ? 'bg-slate-50 border-slate-300 text-slate-900'
+                      : 'bg-[#111317] border-slate-800 text-white'
+                  }`}
                 />
               </div>
               <div>
-                <label className="text-gray-400 block mb-1 font-bold">{langPack.labels.sexLabel}</label>
+                <label
+                  className={`block mb-1 font-bold ${
+                    isLight ? 'text-slate-700' : 'text-gray-400'
+                  }`}
+                >
+                  {langPack.labels.sexLabel}
+                </label>
                 <select
                   value={sex}
                   onChange={(e) => setSex(e.target.value)}

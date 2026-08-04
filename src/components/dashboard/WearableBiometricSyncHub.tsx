@@ -46,119 +46,148 @@ interface WearableDeviceStream {
 interface WearableBiometricSyncHubProps {
   onCommitWearableRubricToMatrix?: (rubricPath: string) => void;
   theme?: 'dark' | 'light';
+  patientId?: string;
+  patientName?: string;
 }
+
+const RAMESH_DEVICES: WearableDeviceStream[] = [
+  {
+    id: 'dev-apple-watch-ramesh',
+    brand: 'APPLE_HEALTH',
+    deviceName: 'Apple Watch Ultra 2 (Ramesh Kumar Sharma — HealthKit Sync)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: 'Live (Every 60s)',
+    metrics: {
+      hrvMs: 28,
+      pulseBpm: 92,
+      skinTempDelta: '+1.8 °C Hyperpyrexia Spike at 03:25 PM',
+      sleepPositionDetected: 'Knee-Chest position (02:15 AM - 04:30 AM)',
+    },
+    repertoryRubricsExtracted: [
+      'HEAD - PAIN - pulsating - sudden',
+      'HEAD - PAIN - sun - exposure to',
+      'GENERALITIES - AGGRAVATION - 3 pm to 4 pm',
+    ],
+  },
+  {
+    id: 'dev-oura-ring-ramesh',
+    brand: 'OURA_RING',
+    deviceName: 'Oura Ring Gen 3 (Ramesh Kumar Sharma — Biometric SDK)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: 'Live (Every 5 mins)',
+    metrics: {
+      hrvMs: 24,
+      pulseBpm: 54,
+      skinTempDelta: '-1.4 °C Nocturnal Chill Drop at 04:00 AM',
+      sleepPositionDetected: 'REMSleep & Deep Restlessness',
+    },
+    repertoryRubricsExtracted: [
+      'GENERALITIES - CHILLINESS - morning - bed, in',
+      'SLEEP - RESTLESSNESS - night',
+    ],
+  },
+  {
+    id: 'dev-fitbit-ramesh',
+    brand: 'FITBIT_GOOGLE',
+    deviceName: 'Fitbit Sense 2 (Ramesh Kumar Sharma — Google Health Connect)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: '2 mins ago',
+    metrics: {
+      hrvMs: 31,
+      pulseBpm: 88,
+      skinTempDelta: 'Nocturnal Flushes of Heat (+1.4 °C)',
+      sleepPositionDetected: 'Restless Nocturnal Awakening',
+    },
+    repertoryRubricsExtracted: [
+      'MIND - ANXIETY - night - sun set after',
+      'GENERALITIES - HEAT - flushes of - sudden',
+    ],
+  },
+  {
+    id: 'dev-garmin-ramesh',
+    brand: 'GARMIN_CONNECT',
+    deviceName: 'Garmin Venu 3 (Ramesh Kumar Sharma — Garmin Health API)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: '1 min ago',
+    metrics: {
+      hrvMs: 29,
+      pulseBpm: 94,
+      stressScore: 'Continuous Stress Level: 88/100 (HIGH)',
+      sleepPositionDetected: 'Body Battery Depleted',
+    },
+    repertoryRubricsExtracted: [
+      'MIND - BUSINESS - talks of',
+      'MIND - IMPATIENCE - business in',
+    ],
+  },
+];
+
+const PRIYA_DEVICES: WearableDeviceStream[] = [
+  {
+    id: 'dev-cgm-priya',
+    brand: 'ABBOTT_CGM',
+    deviceName: 'Abbott FreeStyle Libre 3 (Priya Patel — Continuous Glucose Monitor)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: 'Live Real-Time',
+    metrics: {
+      cgmGlucoseMgDl: 142,
+      pulseBpm: 76,
+      skinTempDelta: 'Hepatic Congestion & Jaundice Warmth (+1.2 °C)',
+    },
+    repertoryRubricsExtracted: [
+      'ABDOMEN - CIRRHOSIS - liver - chronic parenchyma',
+      'ABDOMEN - JAUNDICE - yellow sclera - stool clay colored',
+    ],
+  },
+  {
+    id: 'dev-apple-watch-priya',
+    brand: 'APPLE_HEALTH',
+    deviceName: 'Apple Watch Series 9 (Priya Patel — HealthKit Liver Track)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: 'Live (Every 60s)',
+    metrics: {
+      hrvMs: 38,
+      pulseBpm: 76,
+      skinTempDelta: 'Right Scapular Thermal Neuralgia',
+      sleepPositionDetected: 'Right-sided sleeping preference',
+    },
+    repertoryRubricsExtracted: [
+      'ABDOMEN - PAIN - right scapula - under lower angle',
+      'STOMACH - THIRST - large quantities - infrequent',
+    ],
+  },
+  {
+    id: 'dev-oura-ring-priya',
+    brand: 'OURA_RING',
+    deviceName: 'Oura Ring Gen 3 (Priya Patel — Hepatic Sleep Stage SDK)',
+    status: 'CONNECTED_LIVE',
+    lastSyncTime: '3 mins ago',
+    metrics: {
+      hrvMs: 42,
+      pulseBpm: 72,
+      skinTempDelta: 'Normal nocturnal liver drainage temperature',
+      sleepPositionDetected: 'Deep Recovery Sleep 2h 14m',
+    },
+    repertoryRubricsExtracted: [
+      'GENERALITIES - HEAT - flushes of - sudden',
+    ],
+  },
+];
 
 export const WearableBiometricSyncHub: React.FC<
   WearableBiometricSyncHubProps
-> = ({ onCommitWearableRubricToMatrix, theme = 'dark' }) => {
+> = ({
+  onCommitWearableRubricToMatrix,
+  theme = 'dark',
+  patientId = 'PAT-001',
+  patientName = 'Ramesh Kumar Sharma',
+}) => {
   const isLight = theme === 'light';
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncedAlert, setSyncedAlert] = useState(false);
   const [activeFilter, setActiveFilter] = useState<'ALL' | WearableBrand>('ALL');
 
-  const [devices] = useState<WearableDeviceStream[]>([
-    {
-      id: 'dev-apple-watch',
-      brand: 'APPLE_HEALTH',
-      deviceName: 'Apple Watch Ultra 2 (Apple HealthKit FHIR Sync)',
-      status: 'CONNECTED_LIVE',
-      lastSyncTime: 'Live (Every 60s)',
-      metrics: {
-        hrvMs: 28,
-        pulseBpm: 92,
-        skinTempDelta: '+1.8 °C Spike at 03:25 PM',
-        sleepPositionDetected: 'Knee-Chest position (02:15 AM - 04:30 AM)',
-      },
-      repertoryRubricsExtracted: [
-        'HEAD - PAIN - pulsating - sudden',
-        'GENERALITIES - AGGRAVATION - 3 pm to 4 pm',
-        'GENERALITIES - SLEEP - position - knee-chest position',
-      ],
-    },
-    {
-      id: 'dev-oura-ring',
-      brand: 'OURA_RING',
-      deviceName: 'Oura Ring Gen 3 (Oura Cloud Biometric SDK)',
-      status: 'CONNECTED_LIVE',
-      lastSyncTime: 'Live (Every 5 mins)',
-      metrics: {
-        hrvMs: 24,
-        pulseBpm: 54,
-        skinTempDelta: '-1.4 °C Nocturnal Chill Drop at 04:00 AM',
-        sleepPositionDetected: 'REMSleep & Deep Restlessness',
-      },
-      repertoryRubricsExtracted: [
-        'GENERALITIES - CHILLINESS - morning - bed, in',
-        'SLEEP - RESTLESSNESS - night',
-      ],
-    },
-    {
-      id: 'dev-fitbit',
-      brand: 'FITBIT_GOOGLE',
-      deviceName: 'Fitbit Sense 2 (Google Health Connect API)',
-      status: 'CONNECTED_LIVE',
-      lastSyncTime: '2 mins ago',
-      metrics: {
-        hrvMs: 31,
-        pulseBpm: 88,
-        skinTempDelta: 'Nocturnal Flushes of Heat (+1.4 °C)',
-        sleepPositionDetected: 'Restless Nocturnal Awakening',
-      },
-      repertoryRubricsExtracted: [
-        'MIND - ANXIETY - night - sun set after',
-        'GENERALITIES - HEAT - flushes of - sudden',
-      ],
-    },
-    {
-      id: 'dev-garmin',
-      brand: 'GARMIN_CONNECT',
-      deviceName: 'Garmin Venu 3 (Garmin Health Biometric Engine)',
-      status: 'CONNECTED_LIVE',
-      lastSyncTime: '1 min ago',
-      metrics: {
-        hrvMs: 29,
-        pulseBpm: 94,
-        stressScore: 'Continuous Stress Level: 88/100 (HIGH)',
-        sleepPositionDetected: 'Body Battery Depleted',
-      },
-      repertoryRubricsExtracted: [
-        'MIND - BUSINESS - talks of',
-        'MIND - IMPATIENCE - business in',
-      ],
-    },
-    {
-      id: 'dev-cgm-abbott',
-      brand: 'ABBOTT_CGM',
-      deviceName: 'Abbott FreeStyle Libre 3 (Continuous Glucose Monitor CGM)',
-      status: 'CONNECTED_LIVE',
-      lastSyncTime: 'Live Real-Time',
-      metrics: {
-        cgmGlucoseMgDl: 64,
-        pulseBpm: 86,
-        skinTempDelta: 'Hypoglycemic Sudden Hunger Tremor',
-      },
-      repertoryRubricsExtracted: [
-        'STOMACH - THIRST - large quantities - infrequent',
-        'GENERALITIES - HEAT - flushes of - sudden',
-      ],
-    },
-    {
-      id: 'dev-samsung',
-      brand: 'SAMSUNG_HEALTH',
-      deviceName: 'Samsung Galaxy Watch 6 (Samsung Health SDK)',
-      status: 'CONNECTED_LIVE',
-      lastSyncTime: '5 mins ago',
-      metrics: {
-        hrvMs: 30,
-        pulseBpm: 90,
-        skinTempDelta: 'Normal baseline',
-        sleepPositionDetected: 'Right-sided sleeping preference',
-      },
-      repertoryRubricsExtracted: [
-        'ABDOMEN - PAIN - right scapula - under lower angle',
-      ],
-    },
-  ]);
+  const devices = patientId === 'PAT-002' || patientName.includes('Priya') ? PRIYA_DEVICES : RAMESH_DEVICES;
 
   const filteredDevices =
     activeFilter === 'ALL'
@@ -269,7 +298,11 @@ export const WearableBiometricSyncHub: React.FC<
               </span>
             </div>
 
-            <p className="font-black text-xs text-white line-clamp-1">
+            <p
+              className={`font-black text-xs line-clamp-1 ${
+                isLight ? 'text-slate-900' : 'text-white'
+              }`}
+            >
               {dev.deviceName}
             </p>
 
@@ -277,45 +310,61 @@ export const WearableBiometricSyncHub: React.FC<
             <div className="space-y-1.5 text-[11px] font-mono">
               {typeof dev.metrics.hrvMs === 'number' && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Heart Rate Variability (HRV):</span>
-                  <strong className="text-amber-400">{dev.metrics.hrvMs} ms</strong>
+                  <span className={isLight ? 'text-slate-600 font-bold' : 'text-gray-400'}>
+                    Heart Rate Variability (HRV):
+                  </span>
+                  <strong className="text-amber-500 dark:text-amber-400">{dev.metrics.hrvMs} ms</strong>
                 </div>
               )}
               {typeof dev.metrics.pulseBpm === 'number' && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Pulse / Heart Rate:</span>
-                  <strong className="text-emerald-400">{dev.metrics.pulseBpm} bpm</strong>
+                  <span className={isLight ? 'text-slate-600 font-bold' : 'text-gray-400'}>
+                    Pulse / Heart Rate:
+                  </span>
+                  <strong className="text-emerald-600 dark:text-emerald-400">{dev.metrics.pulseBpm} bpm</strong>
                 </div>
               )}
               {dev.metrics.skinTempDelta && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Skin Temp Delta:</span>
-                  <strong className="text-orange-400">{dev.metrics.skinTempDelta}</strong>
+                  <span className={isLight ? 'text-slate-600 font-bold' : 'text-gray-400'}>
+                    Skin Temp Delta:
+                  </span>
+                  <strong className="text-orange-600 dark:text-orange-400">{dev.metrics.skinTempDelta}</strong>
                 </div>
               )}
               {dev.metrics.stressScore && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Garmin Stress API:</span>
-                  <strong className="text-purple-400 text-[10px]">{dev.metrics.stressScore}</strong>
+                  <span className={isLight ? 'text-slate-600 font-bold' : 'text-gray-400'}>
+                    Garmin Stress API:
+                  </span>
+                  <strong className="text-purple-600 dark:text-purple-400 text-[10px]">{dev.metrics.stressScore}</strong>
                 </div>
               )}
               {typeof dev.metrics.cgmGlucoseMgDl === 'number' && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">CGM Glucose Level:</span>
-                  <strong className="text-cyan-400">{dev.metrics.cgmGlucoseMgDl} mg/dL</strong>
+                  <span className={isLight ? 'text-slate-600 font-bold' : 'text-gray-400'}>
+                    CGM Glucose Level:
+                  </span>
+                  <strong className="text-cyan-600 dark:text-cyan-400">{dev.metrics.cgmGlucoseMgDl} mg/dL</strong>
                 </div>
               )}
               {dev.metrics.sleepPositionDetected && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Sleep Position / Phase:</span>
-                  <strong className="text-cyan-400 text-[10px]">{dev.metrics.sleepPositionDetected}</strong>
+                  <span className={isLight ? 'text-slate-600 font-bold' : 'text-gray-400'}>
+                    Sleep Position / Phase:
+                  </span>
+                  <strong className="text-cyan-600 dark:text-cyan-400 text-[10px]">{dev.metrics.sleepPositionDetected}</strong>
                 </div>
               )}
             </div>
 
             {/* REPERTORY RUBRICS DERIVED */}
             <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1.5">
-              <span className="text-[9px] font-black text-gray-400 uppercase">
+              <span
+                className={`text-[9px] font-black uppercase ${
+                  isLight ? 'text-slate-600' : 'text-gray-400'
+                }`}
+              >
                 AUTOMATIC REPERTORY RUBRICS DERIVED:
               </span>
               <div className="space-y-1">

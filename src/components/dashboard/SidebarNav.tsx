@@ -83,17 +83,10 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   const pack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
   const labels = pack.labels;
 
-  // ALL CATEGORIES ARE EXPANDED BY DEFAULT (false = not collapsed)
-  const [collapsedGroups, setCollapsedGroups] = useState<
-    Record<string, boolean>
-  >({});
-
-  const toggleGroup = (groupTitle: string) => {
-    setCollapsedGroups((prev) => ({
-      ...prev,
-      [groupTitle]: !prev[groupTitle],
-    }));
-  };
+  // ONLY ONE CATEGORY EXPANDED AT A TIME + HOVER TO EXPAND
+  const [expandedGroupTitle, setExpandedGroupTitle] = useState<string>(
+    'CLINICAL PRACTICE SUITE'
+  );
 
   const navGroups = [
     {
@@ -305,16 +298,20 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       </div>
 
       {/* NAVIGATION SCROLL AREA */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {navGroups.map((group, groupIdx) => {
           const GroupIcon = group.groupIcon;
-          const isCollapsed = !!collapsedGroups[group.groupTitle];
+          const isExpanded = expandedGroupTitle === group.groupTitle;
 
           return (
-            <div key={groupIdx} className="space-y-1.5">
-              {/* COLLAPSIBLE / EXPANDABLE HIGH-CONTRAST HEADER BUTTON */}
+            <div
+              key={groupIdx}
+              onMouseEnter={() => setExpandedGroupTitle(group.groupTitle)}
+              className="space-y-1.5"
+            >
+              {/* COLLAPSIBLE / EXPANDABLE HIGH-CONTRAST HEADER BUTTON (EXPANDS ON HOVER & CLICK) */}
               <button
-                onClick={() => toggleGroup(group.groupTitle)}
+                onClick={() => setExpandedGroupTitle(group.groupTitle)}
                 className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg border font-black text-[11px] tracking-wider uppercase transition-all cursor-pointer ${group.accentColor}`}
               >
                 <div className="flex items-center space-x-2">
@@ -325,7 +322,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                   <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-white/40 dark:bg-black/30 font-bold">
                     {group.items.length}
                   </span>
-                  {isCollapsed ? (
+                  {!isExpanded ? (
                     <ChevronRight className="w-3.5 h-3.5" />
                   ) : (
                     <ChevronDown className="w-3.5 h-3.5" />
@@ -333,8 +330,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 </div>
               </button>
 
-              {/* COLLAPSIBLE ITEMS LIST */}
-              {!isCollapsed && (
+              {/* COLLAPSIBLE ITEMS LIST — ONLY ONE CATEGORY EXPANDED AT A TIME */}
+              {isExpanded && (
                 <div className="space-y-1 pl-1">
                   {group.items.map((item: any) => {
                     const isActive = activeTab === item.id;
