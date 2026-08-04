@@ -33,7 +33,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onSelectLangCode,
 }) => {
   const isLight = theme === 'light';
-  const langPack = INDIAN_LANGUAGE_PACKS[langCode];
+  const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
 
   return (
     <div
@@ -92,7 +92,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               onClick={onLaunchWorkspace}
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center space-x-2 shadow-lg transition-all transform hover:scale-105 cursor-pointer"
             >
-              <span>Launch MateriaGrid OPD</span>
+              <span>{langPack.labels.launchOpd}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -106,12 +106,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <span>FIRST MULTI-AGENT QUANTUM REPERTORIZATION & ABDM GATEWAY ENGINE</span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight max-w-5xl mx-auto">
-          PRECISION HOMEOPATHIC REPERTORIZATION & NHA UHI CLINICAL TELEHEALTH
+        <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight max-w-5xl mx-auto">
+          {langPack.labels.landingHeroTitle}
         </h1>
 
-        <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-          Powered by Gemini 2.5 Pro Multimodal Vision AI, Sehgal ROH Present Predominating Persisting Mind Translation, Vijayakar Predictive Thermal-Thirst Filters, and Asymmetrical TF-IDF Specificity Math.
+        <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed font-bold">
+          {langPack.labels.landingHeroSub}
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
@@ -119,7 +119,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             onClick={onLaunchWorkspace}
             className="px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black text-sm flex items-center space-x-2 shadow-2xl transition-all transform hover:scale-105 cursor-pointer"
           >
-            <span>Open Clinical OPD Portal</span>
+            <span>{langPack.labels.openClinicalPortal}</span>
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>

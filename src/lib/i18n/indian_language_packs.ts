@@ -5,6 +5,10 @@ export interface LanguagePack {
   nativeName: string;
   englishName: string;
   labels: {
+    landingHeroTitle: string;
+    landingHeroSub: string;
+    launchOpd: string;
+    openClinicalPortal: string;
     topSimillimum: string;
     intake: string;
     decisionGates: string;
@@ -33,6 +37,10 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     nativeName: 'English',
     englishName: 'English',
     labels: {
+      landingHeroTitle: 'PRECISION HOMEOPATHIC REPERTORIZATION & NHA UHI CLINICAL TELEHEALTH',
+      landingHeroSub: 'Powered by Gemini 2.5 Pro Multimodal Vision AI, Sehgal ROH Present Predominating Persisting Mind Translation, Vijayakar Predictive Thermal-Thirst Filters, and Asymmetrical TF-IDF Specificity Math.',
+      launchOpd: 'Launch MateriaGrid OPD',
+      openClinicalPortal: 'Open Clinical OPD Portal',
       topSimillimum: 'Top Simillimum',
       intake: '+ Intake',
       decisionGates: '🔀 Decision Gates',
@@ -59,6 +67,10 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     nativeName: 'हिन्दी',
     englishName: 'Hindi',
     labels: {
+      landingHeroTitle: 'सटीक होम्योपैथिक रेपर्टराइजेशन एवं NHA UHI क्लिनिकल टेलीहेल्थ',
+      landingHeroSub: 'Gemini 2.5 Pro मल्टीमॉडल विज़न AI, सेहगल ROH मन की स्थिति अनुवाद, विजयकर प्रेडिक्टिव थर्मल-थर्स्ट फिल्टर और असममित TF-IDF मैथ द्वारा संचालित।',
+      launchOpd: 'MateriaGrid OPD शुरू करें',
+      openClinicalPortal: 'क्लिनिकल OPD पोर्टल खोलें',
       topSimillimum: 'शीर्ष समिलिमम (Simillimum)',
       intake: '+ रोगी केस',
       decisionGates: '🔀 निर्णय द्वार (Gates)',
@@ -85,6 +97,10 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     nativeName: 'தமிழ்',
     englishName: 'Tamil',
     labels: {
+      landingHeroTitle: 'துல்லியமான ஹோமியோபதி ரெபர்ட்டரைசேஷன் & NHA UHI கிளினிக்கல் டெலிஹெல்த்',
+      landingHeroSub: 'Gemini 2.5 Pro விஷன் AI, Sehgal ROH மனநிலை மொழிபெயர்ப்பு மற்றும் Vijayakar முன்கணிப்பு வடிகட்டிகளால் இயக்கப்படுகிறது.',
+      launchOpd: 'MateriaGrid OPD தொடங்கு',
+      openClinicalPortal: 'OPD போர்ட்டலை திறக்க',
       topSimillimum: 'முதன்மை சிமில்லிமம்',
       intake: '+ நோயாளி பதிவு',
       decisionGates: '🔀 முடிவெடுக்கும் கதவுகள்',
@@ -111,6 +127,10 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     nativeName: 'বাংলা',
     englishName: 'Bengali',
     labels: {
+      landingHeroTitle: 'সুনির্দিষ্ট হোমিওপ্যাথি রেপার্টরাইজেশন ও NHA UHI ক্লিনিকাল টেলিহেলথ',
+      landingHeroSub: 'Gemini 2.5 Pro ভিশন AI, Sehgal ROH মনস্তাত্ত্বিক অনুবাদ এবং Vijayakar প্রেডিক্টিভ ফিল্টার দ্বারা পরিচালিত।',
+      launchOpd: 'MateriaGrid OPD শুরু করুন',
+      openClinicalPortal: 'ক্লিনিকাল OPD পোর্টাল খুলুন',
       topSimillimum: 'শীর্ষ সিমিলিমাম',
       intake: '+ রোগী কেস',
       decisionGates: '🔀 সিদ্ধান্ত দ্বার',
@@ -137,6 +157,10 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     nativeName: 'मराठी',
     englishName: 'Marathi',
     labels: {
+      landingHeroTitle: 'अचूक होमिओपॅथिक रेपरटरायझेशन व NHA UHI क्लिनिकल टेलिहेल्थ',
+      landingHeroSub: 'Gemini 2.5 Pro व्हिजन AI, Sehgal ROH मानसिक स्थिती भाषांतर आणि विजयकर प्रेडिक्टिव्ह फिल्टर्सद्वारे संचलित.',
+      launchOpd: 'MateriaGrid OPD सुरू करा',
+      openClinicalPortal: 'क्लिनिकल OPD पोर्टल उघडा',
       topSimillimum: 'शीर्ष सिमिलीमम',
       intake: '+ केस नोंदणी',
       decisionGates: '🔀 निर्णयद्वारे',
@@ -163,6 +187,10 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
     nativeName: 'ગુજરાતી',
     englishName: 'Gujarati',
     labels: {
+      landingHeroTitle: 'ચોક્કસ હોમિયોપેથિક રેપર્ટરાઇઝેશન અને NHA UHI ક્લિનિકલ ટેલિહેલ્થ',
+      landingHeroSub: 'Gemini 2.5 Pro મલ્ટીમોડલ વિઝન AI, Sehgal ROH માનસિક સ્થિતિ અનુવાદ અને Vijayakar પ્રેડિક્ટિવ ફિલ્ટર્સ દ્વારા સંચાલિત.',
+      launchOpd: 'MateriaGrid OPD શરૂ કરો',
+      openClinicalPortal: 'ક્લિનિકલ OPD પોર્ટલ ખોલો',
       topSimillimum: 'ટોચનું સિમિલીમમ',
       intake: '+ કેસ નોંધણી',
       decisionGates: '🔀 નિર્ણય દ્વાર',
