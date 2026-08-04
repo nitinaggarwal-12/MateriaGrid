@@ -831,6 +831,7 @@ function MasterWorkspaceInner() {
         topRemedyName={remedies[0]?.fullName || 'Belladonna'}
         specificityScore={remedies[0]?.specificityScore || 65.2}
         langCode={langCode}
+        theme={theme}
       />
 
       {/* HIPAA, ABDM FHIR & DPDP ACT AUTHENTICATION & ROLE-BASED ACCESS CONTROL MODAL */}
