@@ -495,7 +495,13 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             }`}
           >
             <tr>
-              <th className="p-3 w-80 min-w-[320px] font-black text-xs tracking-wider border-r border-[#1C1F26]">
+              <th
+                className={`sticky left-0 z-30 p-3 w-80 min-w-[340px] font-black text-xs tracking-wider border-r-2 ${
+                  isLight
+                    ? 'bg-slate-100 border-slate-300 text-slate-900'
+                    : 'bg-[#0B0F19] border-slate-700 text-white'
+                }`}
+              >
                 <div className="flex items-center justify-between">
                   <span className={isLight ? 'text-slate-900' : 'text-white'}>{labels.selectedRubricsTitle}</span>
                   <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
@@ -588,8 +594,18 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                       : ''
                   } ${!rubric.isCommitted ? 'opacity-40' : ''}`}
                 >
-                  {/* RUBRIC DESCRIPTION CELL */}
-                  <td className="p-3.5 border-r border-slate-200 dark:border-[#1C1F26] font-sans">
+                  {/* RUBRIC DESCRIPTION CELL (STICKY LEFT-0 PINNED) */}
+                  <td
+                    className={`sticky left-0 z-20 p-3.5 border-r-2 font-sans transition-colors ${
+                      isLight
+                        ? isRowHovered
+                          ? 'bg-emerald-50 border-slate-300'
+                          : 'bg-white border-slate-300'
+                        : isRowHovered
+                        ? 'bg-[#111827] border-slate-700'
+                        : 'bg-[#0B0F19] border-slate-700'
+                    }`}
+                  >
                     <div className="flex items-center justify-between space-x-3">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
@@ -748,7 +764,13 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
             }`}
           >
             <tr>
-              <td className="p-3 font-black text-xs uppercase tracking-wider border-r border-[#1C1F26]">
+              <td
+                className={`sticky left-0 z-30 p-3 font-black text-xs uppercase tracking-wider border-r-2 ${
+                  isLight
+                    ? 'bg-slate-100 border-slate-300 text-slate-900'
+                    : 'bg-[#0B0F19] border-slate-700 text-white'
+                }`}
+              >
                 {labels.symptomTotality}
               </td>
               {remedyTotals.map((remedy) => (
