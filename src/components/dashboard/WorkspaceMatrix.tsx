@@ -581,13 +581,6 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                             {rubric.embryologicalLayer}
                           </span>
 
-                          {rubric.isAiExtracted && (
-                            <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center space-x-0.5">
-                              <Sparkles className="w-2.5 h-2.5" />
-                              <span>NLP EXTRACTED</span>
-                            </span>
-                          )}
-
                           {showFollowUpBaseline && (
                             <span className="px-1.5 py-0.2 rounded bg-purple-950/80 text-purple-300 font-mono text-[9px] border border-purple-500/40">
                               Visit #1: Grade {visit1GradeBaseline}
@@ -664,16 +657,26 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                               ? 'Grade 1: PLAIN (Reported Symptom)'
                               : 'Click to assign Homeopathic Grade (1-4)'
                           }
-                          className={`w-8 h-8 rounded-lg font-black text-xs transition-all cursor-pointer inline-flex items-center justify-center ${
+                          className={`w-7 h-7 rounded-md font-mono transition-all cursor-pointer inline-flex items-center justify-center ${
                             currentGrade === 4
-                              ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30 scale-105'
+                              ? isLight
+                                ? 'bg-emerald-100 text-emerald-900 border border-emerald-400 font-black text-xs shadow-2xs'
+                                : 'bg-emerald-950/70 text-emerald-300 border border-emerald-500/50 font-black text-xs'
                               : currentGrade === 3
-                              ? 'bg-amber-500 text-black font-black'
+                              ? isLight
+                                ? 'text-slate-900 font-black text-xs'
+                                : 'text-white font-black text-xs'
                               : currentGrade === 2
-                              ? 'bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40'
+                              ? isLight
+                                ? 'text-slate-600 italic font-bold text-xs'
+                                : 'text-cyan-400 italic font-bold text-xs'
                               : currentGrade === 1
-                              ? 'bg-slate-800 text-gray-300'
-                              : 'text-gray-400 hover:text-gray-200'
+                              ? isLight
+                                ? 'text-slate-400 font-medium text-xs'
+                                : 'text-gray-400 font-medium text-xs'
+                              : isLight
+                              ? 'text-slate-300 hover:text-emerald-600 text-xs'
+                              : 'text-gray-700 hover:text-emerald-400 text-xs'
                           }`}
                         >
                           {currentGrade > 0 ? currentGrade : '—'}
