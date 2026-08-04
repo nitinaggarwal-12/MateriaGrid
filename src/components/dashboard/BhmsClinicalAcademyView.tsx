@@ -34,6 +34,19 @@ interface QuizQuestion {
   explanation: string;
 }
 
+interface ChapterItem {
+  title: string;
+  duration: string;
+  completed: boolean;
+  studyMaterial: {
+    lectureSummary: string;
+    aphorismReference: string;
+    clinicalTakeaway: string;
+    diagramDescription: string;
+    workedCaseExample: string;
+  };
+}
+
 interface CourseModule {
   id: string;
   code: string;
@@ -44,7 +57,7 @@ interface CourseModule {
   chaptersCount: number;
   progressPercent: number;
   summary: string;
-  chapters: { title: string; duration: string; completed: boolean }[];
+  chapters: ChapterItem[];
   quiz: QuizQuestion[];
 }
 
@@ -61,12 +74,108 @@ const ACADEMIC_COURSES: CourseModule[] = [
     summary:
       'Master the physics of immutable physical baseline constants—Thermal (Hot/Chilly) and Thirst (Thirsty/Thirstless)—to eliminate genetic suppression and prescribe safely.',
     chapters: [
-      { title: 'Chapter 1: The Thermodynamics of Living Cells & Miasmatic Bias', duration: '40 mins', completed: true },
-      { title: 'Chapter 2: Defining Hot vs Chilly and Thirsty vs Thirstless Baselines', duration: '45 mins', completed: true },
-      { title: 'Chapter 3: Embryological Layer Progression (Endoderm → Mesoderm → Ectoderm)', duration: '50 mins', completed: true },
-      { title: 'Chapter 4: Preventing Suppression: Why Chilly Remedies Fail in Hot Patients', duration: '45 mins', completed: true },
-      { title: 'Chapter 5: SimiliMatrix Asymmetrical TF-IDF Scoring Integration', duration: '45 mins', completed: false },
-      { title: 'Chapter 6: Case Verification & Follow-Up Hering’s Law Audit', duration: '45 mins', completed: false },
+      {
+        title: 'Chapter 1: The Thermodynamics of Living Cells & Miasmatic Bias',
+        duration: '40 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Organon §80-84 establishes that chronic disease is a dynamic expression of inherited cellular miasmatic bias (Psora, Sycosis, Syphilis). Dr. Vijayakar correlated these three miasms with cellular thermodynamics: Psora represents functional irritation / hypo-function, Sycosis represents proliferative / hypertrophic accumulation (mesodermal), and Syphilis represents destructive cellular ulcerative necrosis.',
+          aphorismReference:
+            'Organon of Medicine §80: "Psora is the only real fundamental cause and producer of all the other numerous, I may say innumerable forms of disease..."',
+          clinicalTakeaway:
+            'Before selecting a remedy, assess whether the chief complaint is functional (Psoric), proliferative (Sycotic), or destructive (Syphilitic). Never prescribe a deeply destructive Syphilitic remedy for a mild functional Psoric disturbance.',
+          diagramDescription:
+            'Thermodynamic Energy Curve: Psora (Normal Energy Threshold) → Sycosis (Hyper-Proliferation / Excess) → Syphilis (Energy Exhaustion / Necrosis).',
+          workedCaseExample:
+            'Patient with recurring dry scaly eczematous patches without skin hypertrophy -> Psoric stage. Prescribed Sulphur 30C, resulting in complete gentle restoration without suppression.',
+        },
+      },
+      {
+        title: 'Chapter 2: Defining Hot vs Chilly and Thirsty vs Thirstless Baselines',
+        duration: '45 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'A patient’s thermal baseline (HOT vs CHILLY) and thirst baseline (THIRSTY vs THIRSTLESS) are immutable physical constants governed by hypothermal hypothalamic regulation. A HOT patient prefers light blankets even in cold weather, loves fans, and desires cold baths. A CHILLY patient wraps up heavily, hates drafts of air, and desires warm baths.',
+          aphorismReference:
+            'Organon of Medicine §153: "The more striking, singular, uncommon and peculiar (characteristic) signs and symptoms... are chiefly and almost solely to be kept in view."',
+          clinicalTakeaway:
+            'If a patient is verified as HOT and THIRSTLESS, remedies that are strictly CHILLY and THIRSTY (such as Arsenicum Album or Nux Vomica) must be masked out to prevent disease suppression.',
+          diagramDescription:
+            '2x2 Thermal-Thirst Matrix: [HOT + THIRSTLESS: Belladonna, Apis, Pulsatilla] vs [CHILLY + THIRSTY: Arsenicum, Bryonia, Nux Vomica].',
+          workedCaseExample:
+            'Patient with high fever, red face, dilated pupils who throws off all bedcovers and refuses water -> Classic Belladonna HOT+THIRSTLESS profile.',
+        },
+      },
+      {
+        title: 'Chapter 3: Embryological Layer Progression (Endoderm → Mesoderm → Ectoderm)',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'During human embryogenesis, tissues divide into Endoderm (gastrointestinal tract, liver, lungs), Mesoderm (cardiovascular system, joints, connective tissue), and Ectoderm (nervous system, skin, senses). Biological healing under Hering’s Law moves from vital deep layers (Endoderm) outwards to surface layers (Ectoderm/Skin).',
+          aphorismReference:
+            'Hering’s Law of Cure: "All cure proceeds from within outwards, from above downwards, from more vital to less vital organs, and in reverse order of appearance."',
+          clinicalTakeaway:
+            'If a patient treated for asthma (Endoderm) develops mild eczematous skin eruptions (Ectoderm), this is Hering’s Law in action! Never suppress the skin eruption.',
+          diagramDescription:
+            'Embryological Direction of Cure: Deep Vital Endoderm (Liver/Lungs) → Mesoderm (Joints/Muscles) → Ectoderm (Skin/Epidermis).',
+          workedCaseExample:
+            'Chronic bronchitis patient given Lycopodium 200C. Breathing cleared within 14 days, accompanied by temporary mild itching eruption on forearms.',
+        },
+      },
+      {
+        title: 'Chapter 4: Preventing Suppression: Why Chilly Remedies Fail in Hot Patients',
+        duration: '45 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Suppression occurs when a remedy or external intervention forces disease symptoms inwards from an outer embryological layer to a deeper vital organ. Prescribing a remedy whose thermal profile contradicts the patient’s constitutional physics creates an iatrogenic state.',
+          aphorismReference:
+            'Organon of Medicine §202: "It is not improper to consider that the local affection is the secondary outcome of the internal disease..."',
+          clinicalTakeaway:
+            'Always double-check thermal compatibility before dispensing potencies above 30C.',
+          diagramDescription:
+            'Iatrogenic Suppression Pathway: Skin Corticosteroid / Mismatched Remedy → Internal Bronchial Hyper-Reactivity.',
+          workedCaseExample:
+            'Child with suppressed eczema developed severe nocturnal wheezing. Re-evaluated as HOT+THIRSTLESS; given Sulphur 200C, bringing back mild eczema and permanently curing asthma.',
+        },
+      },
+      {
+        title: 'Chapter 5: SimiliMatrix Asymmetrical TF-IDF Scoring Integration',
+        duration: '45 mins',
+        completed: false,
+        studyMaterial: {
+          lectureSummary:
+            'Standard homeopathic software simply counts how many rubrics a remedy covers. This causes broad polychrests (Sulphur, Lycopodium) to dominate every case. MateriaGrid implements Inverse Rubric Density (TF-IDF), giving higher specificity scores to remedies matching rare keynote rubrics.',
+          aphorismReference:
+            'Mathematical Formula: Specificity Score S = Sum(Grade_i * log2(Total_Remedies / Remedies_in_Rubric_i)).',
+          clinicalTakeaway:
+            'Pay close attention to remedies with high Specificity Scores even if they cover fewer total rubrics than Sulphur.',
+          diagramDescription:
+            'Asymmetrical Specificity Graph: High Specificity Rare Keynote vs High Coverage Broad Polychrest.',
+          workedCaseExample:
+            'Patient with rare symptom "Pain under right scapula lower angle". Specificity score elevates Chelidonium to #1 over Sulphur.',
+        },
+      },
+      {
+        title: 'Chapter 6: Case Verification & Follow-Up Hering’s Law Audit',
+        duration: '45 mins',
+        completed: false,
+        studyMaterial: {
+          lectureSummary:
+            'During Follow-Up Visit #2, doctors must evaluate four criteria: (1) Energy & sleep improvement, (2) Direction of symptom shift under Hering’s Law, (3) Mental state relaxation, and (4) Posology adjustment (wait & watch vs repeat).',
+          aphorismReference:
+            'Organon of Medicine §245-252: "In chronic diseases, the slightest improvement in the general health of the patient is the surest sign of cure..."',
+          clinicalTakeaway:
+            'If the patient reports 50% mental calm and better sleep despite temporary physical aggravation, do NOT change the remedy.',
+          diagramDescription:
+            'Follow-Up Decision Tree: General Improvement + Hering Direction = WAIT & WATCH.',
+          workedCaseExample:
+            'Follow-up visit at 30 days showing calm sleep and steady liver enzymes. Placebo continued with zero aggravation.',
+        },
+      },
     ],
     quiz: [
       {
@@ -111,11 +220,91 @@ const ACADEMIC_COURSES: CourseModule[] = [
     summary:
       'Learn when to apply low-potency organ-affine remedies (1X–6X) to drain pathological tissues in severe cirrhosis or renal degeneration before constitutional prescribing.',
     chapters: [
-      { title: 'Chapter 1: The Limits of High-Potency Constitutional Prescribing in Organ Failure', duration: '60 mins', completed: true },
-      { title: 'Chapter 2: Burnett’s Organopathy: Chelidonium, Carduus marianus & Solidago', duration: '60 mins', completed: true },
-      { title: 'Chapter 3: Potency Ceilings: Why Potencies >30C are Restricted in Structural ICD-11 Cases', duration: '60 mins', completed: false },
-      { title: 'Chapter 4: Synchronizing Drainage Track & Constitutional Track in MateriaGrid', duration: '60 mins', completed: false },
-      { title: 'Chapter 5: Clinical OPD Follow-Up & Posology Adjustments', duration: '60 mins', completed: false },
+      {
+        title: 'Chapter 1: The Limits of High-Potency Constitutional Prescribing in Organ Failure',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'In severe organ failure (advanced cirrhosis, end-stage renal disease), high-potency constitutional remedies (1M, 10M) can trigger violent physiological reactions without pathological drainage pathways open.',
+          aphorismReference:
+            'Burnett Organopathy Principle: "Pathological tissue must be cleared by organ-affine drainage remedies before constitutional high potencies can act without hazard."',
+          clinicalTakeaway:
+            'Never give high potencies >30C when serum bilirubin >8 mg/dL or creatinine >4.5 mg/dL without organ drainage.',
+          diagramDescription:
+            'Dual-Track Protocol: Track 1 (Low-Potency Organ Drainage) + Track 2 (Protected Constitutional Totality).',
+          workedCaseExample:
+            'Decompensated liver cirrhosis case started on Chelidonium 2X liquid drops twice daily for 21 days.',
+        },
+      },
+      {
+        title: 'Chapter 2: Burnett’s Organopathy: Chelidonium, Carduus marianus & Solidago',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Chelidonium majus has specific affinity for liver parenchymal cells and gall ducts. Carduus marianus acts on portal vein venous stasis. Solidago virgaurea acts on kidney tubular filtration.',
+          aphorismReference:
+            'Materia Medica Keynotes: Chelidonium (Right scapula pain, jaundice), Carduus marianus (Portal stasis, varicose ulcers), Solidago (Renal tenderness, scanty dark urine).',
+          clinicalTakeaway:
+            'Select low-potency (1X, 3X, 6X) mother tincture or liquid potency for organ-specific drainage.',
+          diagramDescription:
+            'Organ Affinity Map: Liver (Chelidonium/Carduus) | Kidneys (Solidago/Berberis) | Heart (Crataegus).',
+          workedCaseExample:
+            'Patient with dull right hypochondriac heaviness and elevated SGPT/SGOT given Carduus marianus Q 10 drops twice daily.',
+        },
+      },
+      {
+        title: 'Chapter 3: Potency Ceilings: Why Potencies >30C are Restricted in Structural ICD-11 Cases',
+        duration: '60 mins',
+        completed: false,
+        studyMaterial: {
+          lectureSummary:
+            'MateriaGrid automatically enforces a clinical safety gate when ICD-11 structural diagnostic tags are detected.',
+          aphorismReference:
+            'Clinical Posology Guardrail: Potencies above 30C require explicit practitioner audit confirmation.',
+          clinicalTakeaway:
+            'Use liquid LM potencies or low centesimal (6C, 12C, 30C) when tissue destruction is present.',
+          diagramDescription:
+            'Safety Gate Dialog: High Potency Restriction Warning System.',
+          workedCaseExample:
+            'Rheumatoid arthritis joint destruction case managed safely on Lachesis 12C liquid doses.',
+        },
+      },
+      {
+        title: 'Chapter 4: Synchronizing Drainage Track & Constitutional Track in MateriaGrid',
+        duration: '60 mins',
+        completed: false,
+        studyMaterial: {
+          lectureSummary:
+            'How to configure both organopathic drainage remedies and constitutional remedies on a single digital prescription slip.',
+          aphorismReference:
+            'Dual-Track Prescription Slip Generation System.',
+          clinicalTakeaway:
+            'Drainage remedy given in morning/evening liquid doses; constitutional given in intermittent single dose.',
+          diagramDescription:
+            'Prescription Slip Builder Dual-Track Layout.',
+          workedCaseExample:
+            'Chelidonium 3X liquid 10 drops BD + Lycopodium 200C single dose on Sunday morning.',
+        },
+      },
+      {
+        title: 'Chapter 5: Clinical OPD Follow-Up & Posology Adjustments',
+        duration: '60 mins',
+        completed: false,
+        studyMaterial: {
+          lectureSummary:
+            'Monitoring biochemical lab trends alongside Hering’s Law clinical recovery.',
+          aphorismReference:
+            'Longitudinal Patient Case Chain Audit Ledger.',
+          clinicalTakeaway:
+            'Taper organ drainage as blood parameters normalize.',
+          diagramDescription:
+            'Biochemical vs Symptomatic Recovery Curve.',
+          workedCaseExample:
+            'SGPT reduced from 240 to 42 IU/L over 6 weeks of coordinated homeopathic OPD care.',
+        },
+      },
     ],
     quiz: [
       {
@@ -159,6 +348,7 @@ export const BhmsClinicalAcademyView: React.FC<
     'ABDOMEN - CIRRHOSIS - liver',
   ]);
   const [simChosenPotency, setSimChosenPotency] = useState<string>('DRAINAGE_LOW');
+  const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(0);
 
   const activeCourse =
     ACADEMIC_COURSES.find((c) => c.id === selectedCourseId) ||
@@ -478,52 +668,140 @@ export const BhmsClinicalAcademyView: React.FC<
           </div>
 
           {/* ACTIVE COURSE CHAPTERS & CONTENT READER (8 COLS) */}
-          <div className="lg:col-span-8 p-6 rounded-2xl border border-[#1C1F26] bg-[#0B0F19] space-y-6">
-            <div className="space-y-2 border-b border-slate-800 pb-4">
-              <span className="text-xs px-2.5 py-1 rounded bg-amber-500 text-black font-black">
-                {activeCourse.code} • OFFICIAL BHMS/MD CURRICULUM
-              </span>
-              <h2 className="text-lg font-black text-white">{activeCourse.title}</h2>
-              <p className="text-xs text-gray-400">
-                Instructor: <strong className="text-emerald-400">{activeCourse.instructor}</strong>
-              </p>
-            </div>
+          <div className="lg:col-span-8 space-y-6">
+            <div className="p-6 rounded-2xl border border-[#1C1F26] bg-[#0B0F19] space-y-4">
+              <div className="space-y-2 border-b border-slate-800 pb-4">
+                <span className="text-xs px-2.5 py-1 rounded bg-amber-500 text-black font-black">
+                  {activeCourse.code} • OFFICIAL BHMS/MD CURRICULUM
+                </span>
+                <h2 className="text-lg font-black text-white">{activeCourse.title}</h2>
+                <p className="text-xs text-gray-400">
+                  Instructor: <strong className="text-emerald-400">{activeCourse.instructor}</strong>
+                </p>
+              </div>
 
-            <div className="space-y-3">
-              <span className="font-black text-xs text-white uppercase block">
-                CHAPTER SYLLABUS &amp; VIDEO LESSONS ({activeCourse.chapters.length} CHAPTERS)
-              </span>
-
-              <div className="space-y-2">
-                {activeCourse.chapters.map((ch, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-xl bg-[#05070A] border border-slate-800 flex items-center justify-between"
-                  >
-                    <div className="flex items-center space-x-3">
-                      {ch.completed ? (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                      ) : (
-                        <Play className="w-5 h-5 text-amber-400" />
-                      )}
-                      <div>
-                        <p className="font-black text-xs text-white">
-                          {ch.title}
-                        </p>
-                        <span className="text-[10px] text-gray-500">
-                          Lesson Duration: {ch.duration}
-                        </span>
+              {/* ACTIVE CHAPTER FULL-TEXT STUDY MATERIAL READER */}
+              {(() => {
+                const chapter =
+                  activeCourse.chapters[selectedChapterIdx] || activeCourse.chapters[0];
+                return (
+                  <div className="space-y-4 p-5 rounded-2xl bg-[#05070A] border border-emerald-500/40">
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                      <div className="flex items-center space-x-2">
+                        <BookOpen className="w-5 h-5 text-emerald-400" />
+                        <h3 className="font-black text-sm text-white">
+                          STUDY MATERIAL: {chapter.title}
+                        </h3>
                       </div>
+                      <span className="px-2.5 py-1 rounded bg-slate-800 text-gray-300 font-mono text-xs font-black">
+                        Duration: {chapter.duration}
+                      </span>
                     </div>
 
-                    <button
-                      onClick={() => setActiveTab('QUIZ')}
-                      className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs cursor-pointer"
-                    >
-                      {ch.completed ? 'Review Chapter' : 'Start Lesson ▶'}
-                    </button>
+                    {/* SECTION 1: LECTURE SUMMARY */}
+                    <div className="space-y-1.5">
+                      <span className="text-[11px] font-black text-emerald-400 uppercase tracking-wider block">
+                        📚 1. Core Hahnemannian &amp; Clinical Lecture Notes:
+                      </span>
+                      <p className="text-xs text-gray-300 leading-relaxed bg-[#0B0F19] p-3.5 rounded-xl border border-slate-800">
+                        {chapter.studyMaterial.lectureSummary}
+                      </p>
+                    </div>
+
+                    {/* SECTION 2: APHORISM & LITERATURE REFERENCE */}
+                    <div className="space-y-1.5">
+                      <span className="text-[11px] font-black text-amber-400 uppercase tracking-wider block">
+                        ⚖️ 2. Organon Aphorism / Classical Literature Citation:
+                      </span>
+                      <p className="text-xs text-amber-200/90 italic bg-amber-950/20 p-3.5 rounded-xl border border-amber-500/30">
+                        {chapter.studyMaterial.aphorismReference}
+                      </p>
+                    </div>
+
+                    {/* GRID OF DIAGRAM, TAKEAWAY & WORKED CASE */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                      <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                        <span className="text-[10px] font-black text-cyan-400 uppercase block">
+                          💡 Clinical OPD Takeaway
+                        </span>
+                        <p className="text-[11px] text-gray-300 leading-snug">
+                          {chapter.studyMaterial.clinicalTakeaway}
+                        </p>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                        <span className="text-[10px] font-black text-purple-400 uppercase block">
+                          📊 Clinical Pathway Diagram
+                        </span>
+                        <p className="text-[11px] text-gray-300 leading-snug">
+                          {chapter.studyMaterial.diagramDescription}
+                        </p>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-slate-800 space-y-1">
+                        <span className="text-[10px] font-black text-emerald-400 uppercase block">
+                          🩺 Worked OPD Case Example
+                        </span>
+                        <p className="text-[11px] text-gray-300 leading-snug">
+                          {chapter.studyMaterial.workedCaseExample}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                ))}
+                );
+              })()}
+
+              <div className="space-y-3 pt-2">
+                <span className="font-black text-xs text-white uppercase block">
+                  CLICK ANY CHAPTER BELOW TO LOAD ITS STUDY MATERIAL ({activeCourse.chapters.length} CHAPTERS):
+                </span>
+
+                <div className="space-y-2">
+                  {activeCourse.chapters.map((ch, idx) => {
+                    const isSelected = idx === selectedChapterIdx;
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => setSelectedChapterIdx(idx)}
+                        className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                          isSelected
+                            ? 'bg-emerald-950/40 border-emerald-500 shadow-md'
+                            : 'bg-[#05070A] border-slate-800 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          {ch.completed ? (
+                            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                          ) : (
+                            <Play className="w-5 h-5 text-amber-400" />
+                          )}
+                          <div>
+                            <p className="font-black text-xs text-white">
+                              {ch.title}
+                            </p>
+                            <span className="text-[10px] text-gray-500">
+                              Lesson Duration: {ch.duration} • Full Study Notes Available
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedChapterIdx(idx);
+                          }}
+                          className={`px-3.5 py-1.5 rounded-lg font-black text-xs cursor-pointer ${
+                            isSelected
+                              ? 'bg-emerald-500 text-black'
+                              : 'bg-slate-800 text-gray-300 hover:text-white'
+                          }`}
+                        >
+                          {isSelected ? 'Reading Lesson Notes ✓' : 'Read Study Material ▶'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
