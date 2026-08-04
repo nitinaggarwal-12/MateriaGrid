@@ -139,6 +139,8 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   const [showFollowUpBaseline, setShowFollowUpBaseline] = useState(false);
   const [showChapterPalette, setShowChapterPalette] = useState(false);
   const [showGradingLegend, setShowGradingLegend] = useState(false);
+  const [hoveredRubricId, setHoveredRubricId] = useState<string | null>(null);
+  const [hoveredRemedyId, setHoveredRemedyId] = useState<string | null>(null);
 
   // Calculate remedy totals dynamically
   const remedyTotals = calculatedRemedies.map((remedy) => {
@@ -227,7 +229,13 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
 
           {/* CLASSICAL REPERTORY CHAPTER PALETTE BUTTON */}
           <button
-            onClick={() => setShowChapterPalette((prev) => !prev)}
+            onClick={() => {
+              setShowChapterPalette((prev) => {
+                const next = !prev;
+                if (next) setShowGradingLegend(false);
+                return next;
+              });
+            }}
             className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
               showChapterPalette
                 ? 'border-emerald-500 bg-emerald-600/20 text-emerald-600 dark:text-emerald-400'
@@ -243,7 +251,13 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
 
           {/* TOGGLE GRADING LEGEND */}
           <button
-            onClick={() => setShowGradingLegend((prev) => !prev)}
+            onClick={() => {
+              setShowGradingLegend((prev) => {
+                const next = !prev;
+                if (next) setShowChapterPalette(false);
+                return next;
+              });
+            }}
             className={`px-3 py-1.5 rounded-lg border font-black text-xs flex items-center space-x-1.5 transition-all cursor-pointer ${
               showGradingLegend
                 ? 'border-cyan-500 bg-cyan-600/20 text-cyan-400'
@@ -551,12 +565,20 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                 rubric.previousVisitGrade ||
                 (rubric.id === 'rub-1' ? 4 : rubric.id === 'rub-4' ? 4 : 3);
 
+              const isRowHovered = hoveredRubricId === rubric.id;
+
               return (
                 <tr
                   key={rubric.id}
-                  className={`transition-colors hover:bg-emerald-950/20 ${
-                    !rubric.isCommitted ? 'opacity-40' : ''
-                  }`}
+                  onMouseEnter={() => setHoveredRubricId(rubric.id)}
+                  onMouseLeave={() => setHoveredRubricId(null)}
+                  className={`transition-colors ${
+                    isRowHovered
+                      ? isLight
+                        ? 'bg-emerald-50/70'
+                        : 'bg-emerald-950/40'
+                      : ''
+                  } ${!rubric.isCommitted ? 'opacity-40' : ''}`}
                 >
                   {/* RUBRIC DESCRIPTION CELL */}
                   <td className="p-3.5 border-r border-slate-200 dark:border-[#1C1F26] font-sans">
@@ -621,12 +643,19 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                         c.rubricId === rubric.id && c.remedyId === remedy.id
                     );
                     const currentGrade = cell?.grade || 0;
+                    const isColHovered = hoveredRemedyId === remedy.id;
 
                     return (
                       <td
                         key={remedy.id}
+                        onMouseEnter={() => setHoveredRemedyId(remedy.id)}
+                        onMouseLeave={() => setHoveredRemedyId(null)}
                         className={`p-2 text-center border-r border-slate-200 dark:border-[#1C1F26] font-sans transition-colors ${
-                          currentGrade === 4
+                          isColHovered
+                            ? isLight
+                              ? 'bg-emerald-100/50'
+                              : 'bg-emerald-900/30'
+                            : currentGrade === 4
                             ? 'bg-emerald-500/8'
                             : ''
                         }`}
