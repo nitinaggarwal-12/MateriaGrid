@@ -247,13 +247,13 @@ export const SupportContactCenterView: React.FC<
 
           {/* CARD 3 (3RD CARD ON TOP ROW): LIVE AI SUPPORT CHATBOX */}
           <div
-            className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 lg:row-span-2 ${
+            className={`p-4 rounded-xl border flex flex-col justify-between space-y-3 h-full lg:row-span-2 ${
               isLight
                 ? 'bg-white border-slate-200 shadow-xs'
                 : 'bg-[#0B0F19] border-slate-800'
             }`}
           >
-            <div className="flex items-center justify-between border-b pb-2 border-slate-200 dark:border-slate-800">
+            <div className="flex items-center justify-between border-b pb-2.5 border-slate-200 dark:border-slate-800">
               <span className="font-black text-xs uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
                 <Bot className="w-4 h-4" /> LIVE AI SUPPORT CHAT
               </span>
@@ -263,7 +263,7 @@ export const SupportContactCenterView: React.FC<
             </div>
 
             <div
-              className={`flex-1 min-h-[220px] max-h-[320px] overflow-y-auto space-y-2 p-2 rounded-lg border ${
+              className={`flex-1 h-full min-h-[320px] overflow-y-auto space-y-2.5 p-3 rounded-xl border ${
                 isLight
                   ? 'bg-slate-50 border-slate-200'
                   : 'bg-[#05070A] border-slate-800'
