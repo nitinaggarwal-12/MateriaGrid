@@ -1171,7 +1171,14 @@ export const BhmsClinicalAcademyView: React.FC<
   const [simChosenPotency, setSimChosenPotency] = useState<string>('DRAINAGE_LOW');
   const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(0);
   const [selectedCaseRemedyIdx, setSelectedCaseRemedyIdx] = useState<number>(0);
-  const [selectedAcademicStage, setSelectedAcademicStage] = useState<'ALL' | 'BHMS_INTERN' | 'MD_RESIDENT'>('ALL');
+  const [selectedLevels, setSelectedLevels] = useState<string[]>([
+    'BHMS_1',
+    'BHMS_2',
+    'BHMS_3',
+    'BHMS_4',
+    'BHMS_INT',
+    'MD_RESIDENT',
+  ]);
   const [chapterLessonTab, setChapterLessonTab] = useState<'LECTURE' | 'ANALOGY' | 'CASE_STUDY'>('LECTURE');
 
   // PRACTICE TEST GENERATOR STATE
@@ -1182,10 +1189,29 @@ export const BhmsClinicalAcademyView: React.FC<
   const [testSubmitted, setTestSubmitted] = useState<boolean>(false);
   const [testScore, setTestScore] = useState<number>(0);
 
+  const toggleLevel = (lvl: string) => {
+    if (lvl === 'ALL') {
+      if (selectedLevels.length === 6) {
+        setSelectedLevels([]);
+      } else {
+        setSelectedLevels(['BHMS_1', 'BHMS_2', 'BHMS_3', 'BHMS_4', 'BHMS_INT', 'MD_RESIDENT']);
+      }
+      return;
+    }
+    setSelectedLevels((prev) =>
+      prev.includes(lvl) ? prev.filter((item) => item !== lvl) : [...prev, lvl]
+    );
+  };
+
   const filteredCourses = ACADEMIC_COURSES.filter((c) => {
-    if (selectedAcademicStage === 'BHMS_INTERN') return c.level === 'BHMS INTERN';
-    if (selectedAcademicStage === 'MD_RESIDENT') return c.level === 'MD (HOM.) RESIDENT';
-    return true;
+    if (selectedLevels.length === 0) return false;
+    if (selectedLevels.includes('BHMS_1') && (c.code.startsWith('BHMS-1') || c.id === 'course-00')) return true;
+    if (selectedLevels.includes('BHMS_2') && (c.code.startsWith('BHMS-2') || c.id === 'course-04')) return true;
+    if (selectedLevels.includes('BHMS_3') && (c.code.startsWith('BHMS-3') || c.id === 'course-08')) return true;
+    if (selectedLevels.includes('BHMS_4') && (c.code.startsWith('BHMS-4') || c.id === 'course-01')) return true;
+    if (selectedLevels.includes('BHMS_INT') && c.code.startsWith('BHMS-INT')) return true;
+    if (selectedLevels.includes('MD_RESIDENT') && c.level === 'MD (HOM.) RESIDENT') return true;
+    return false;
   });
 
   const activeCourse =
@@ -1331,27 +1357,53 @@ export const BhmsClinicalAcademyView: React.FC<
           </button>
         </div>
 
-        {/* DEGREE & DIRECT COURSE JUMP DROPDOWNS */}
+        {/* DEGREE MULTI-SELECT FILTER + DIRECT COURSE JUMP */}
         <div className="flex flex-wrap items-center gap-2 border-l pl-3 border-slate-200 dark:border-slate-800">
-          <div className="flex items-center space-x-1">
-            <span className="text-[10px] font-black uppercase text-slate-400">Degree:</span>
-            <select
-              value={selectedAcademicStage}
-              onChange={(e) => setSelectedAcademicStage(e.target.value as any)}
-              className={`px-2.5 py-1 rounded-xl border text-xs font-black outline-none cursor-pointer ${
-                isLight
-                  ? 'bg-slate-50 border-slate-300 text-slate-800'
-                  : 'bg-[#05070A] border-slate-800 text-white'
+          <div className="flex flex-wrap items-center gap-1">
+            <span className="text-[10px] font-black uppercase text-slate-400 mr-1">Filter Degrees:</span>
+            <button
+              onClick={() => toggleLevel('ALL')}
+              className={`px-2 py-1 rounded-lg text-[11px] font-black cursor-pointer transition-all flex items-center space-x-1 ${
+                selectedLevels.length === 6
+                  ? 'bg-emerald-600 text-white'
+                  : isLight
+                  ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
               }`}
             >
-              <option value="ALL">🌐 All 24 University Courses</option>
-              <option value="BHMS_INTERN">🎓 BHMS Undergraduate &amp; Intern (20 Courses)</option>
-              <option value="MD_RESIDENT">🔬 MD (Hom.) Post-Graduate (4 Courses)</option>
-            </select>
+              <span>{selectedLevels.length === 6 ? '☑ ALL (24)' : '☐ ALL (24)'}</span>
+            </button>
+
+            {[
+              { id: 'BHMS_1', label: '1st Yr (4)' },
+              { id: 'BHMS_2', label: '2nd Yr (4)' },
+              { id: 'BHMS_3', label: '3rd Yr (4)' },
+              { id: 'BHMS_4', label: '4th Yr (4)' },
+              { id: 'BHMS_INT', label: 'Intern (4)' },
+              { id: 'MD_RESIDENT', label: 'MD (4)' },
+            ].map((stage) => {
+              const isChecked = selectedLevels.includes(stage.id);
+              return (
+                <button
+                  key={stage.id}
+                  onClick={() => toggleLevel(stage.id)}
+                  className={`px-2 py-1 rounded-lg text-[11px] font-black cursor-pointer transition-all ${
+                    isChecked
+                      ? 'bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40'
+                      : isLight
+                      ? 'bg-slate-100 text-slate-500 hover:text-slate-800'
+                      : 'bg-slate-900 text-gray-500 hover:text-white'
+                  }`}
+                >
+                  {isChecked ? '☑ ' : '☐ '}
+                  {stage.label}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex items-center space-x-1">
-            <span className="text-[10px] font-black uppercase text-slate-400">Course:</span>
+          <div className="flex items-center space-x-1 border-l pl-2 border-slate-200 dark:border-slate-800">
+            <span className="text-[10px] font-black uppercase text-slate-400">Jump Course:</span>
             <select
               value={activeCourse.id}
               onChange={(e) => {
@@ -1359,7 +1411,7 @@ export const BhmsClinicalAcademyView: React.FC<
                 setSelectedCourseId(e.target.value);
                 setSelectedChapterIdx(0);
               }}
-              className={`px-2.5 py-1 rounded-xl border text-xs font-black outline-none cursor-pointer max-w-[240px] truncate ${
+              className={`px-2.5 py-1 rounded-xl border text-xs font-black outline-none cursor-pointer max-w-[220px] truncate ${
                 isLight
                   ? 'bg-emerald-50/80 border-emerald-300 text-emerald-900'
                   : 'bg-[#05070A] border-emerald-500/40 text-emerald-400'
