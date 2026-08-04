@@ -20,6 +20,15 @@ export type IndianLanguageCode =
   | 'CHH'
   | 'HAR'
   | 'TCY'
+  | 'GBR'
+  | 'KUM'
+  | 'MAG'
+  | 'MIZ'
+  | 'KHA'
+  | 'GRT'
+  | 'NAG'
+  | 'LBJ'
+  | 'KFV'
   | 'KS'
   | 'SD'
   | 'MAI'
@@ -168,10 +177,19 @@ export const INDIAN_LANGUAGE_PACKS: Record<IndianLanguageCode, LanguagePack> = {
   MNI: { code: 'MNI', nativeName: 'মৈতৈলোন্', englishName: 'Manipuri', labels: BASE_EN_LABELS },
   NEP: { code: 'NEP', nativeName: 'नेपाली', englishName: 'Nepali', labels: BASE_EN_LABELS },
   BHO: { code: 'BHO', nativeName: 'भोजपुरी', englishName: 'Bhojpuri', labels: BASE_EN_LABELS },
-  RAJ: { code: 'RAJ', nativeName: 'मारवाड़ी', englishName: 'Marwari / Rajasthani', labels: { ...BASE_EN_LABELS, launchOpd: 'MateriaGrid OPD शुरू करो' } },
+  RAJ: { code: 'RAJ', nativeName: 'मारवाड़ी', englishName: 'Marwari / Rajasthani', labels: BASE_EN_LABELS },
   CHH: { code: 'CHH', nativeName: 'छत्तीसगढ़ी', englishName: 'Chhattisgarhi', labels: BASE_EN_LABELS },
   HAR: { code: 'HAR', nativeName: 'हरियाणवी', englishName: 'Haryanvi', labels: BASE_EN_LABELS },
   TCY: { code: 'TCY', nativeName: 'ತುಳು', englishName: 'Tulu (Coastal Karnataka)', labels: BASE_EN_LABELS },
+  GBR: { code: 'GBR', nativeName: 'गढ़वाली', englishName: 'Garhwali (Uttarakhand)', labels: BASE_EN_LABELS },
+  KUM: { code: 'KUM', nativeName: 'कुमाऊँनी', englishName: 'Kumaoni (Uttarakhand)', labels: BASE_EN_LABELS },
+  MAG: { code: 'MAG', nativeName: 'मगही', englishName: 'Magahi (Bihar)', labels: BASE_EN_LABELS },
+  MIZ: { code: 'MIZ', nativeName: 'Mizo', englishName: 'Mizo (Mizoram)', labels: BASE_EN_LABELS },
+  KHA: { code: 'KHA', nativeName: 'Khasi', englishName: 'Khasi (Meghalaya)', labels: BASE_EN_LABELS },
+  GRT: { code: 'GRT', nativeName: 'Garo', englishName: 'Garo (Meghalaya)', labels: BASE_EN_LABELS },
+  NAG: { code: 'NAG', nativeName: 'Nagamese', englishName: 'Nagamese (Nagaland)', labels: BASE_EN_LABELS },
+  LBJ: { code: 'LBJ', nativeName: 'ལ་དྭགས་སྐད།', englishName: 'Ladakhi (Ladakh UT)', labels: BASE_EN_LABELS },
+  KFV: { code: 'KFV', nativeName: 'కొడవ තක්ක්', englishName: 'Kodava (Coorg Karnataka)', labels: BASE_EN_LABELS },
   KS: { code: 'KS', nativeName: 'كأشُر', englishName: 'Kashmiri', labels: BASE_EN_LABELS },
   SD: { code: 'SD', nativeName: 'سنڌي', englishName: 'Sindhi', labels: BASE_EN_LABELS },
   MAI: { code: 'MAI', nativeName: 'मैथिली', englishName: 'Maithili', labels: BASE_EN_LABELS },
