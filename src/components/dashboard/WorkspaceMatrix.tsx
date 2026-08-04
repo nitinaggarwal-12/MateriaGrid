@@ -713,24 +713,20 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                               ? 'Grade 1: PLAIN (Reported Symptom)'
                               : 'Click to assign Homeopathic Grade (1-4)'
                           }
-                          className={`w-7 h-7 rounded-md font-sans transition-all cursor-pointer inline-flex items-center justify-center ${
+                          className={`transition-all duration-150 cursor-pointer inline-flex items-center justify-center font-sans ${
                             currentGrade === 4
-                              ? 'text-emerald-700 dark:text-emerald-400 font-black text-sm tracking-tight'
+                              ? 'w-8 h-7 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black text-xs shadow-md shadow-emerald-500/30 transform hover:scale-110'
                               : currentGrade === 3
-                              ? isLight
-                                ? 'text-slate-900 font-extrabold text-xs'
-                                : 'text-white font-extrabold text-xs'
+                              ? 'w-8 h-7 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold text-xs shadow-xs transform hover:scale-105'
                               : currentGrade === 2
-                              ? isLight
-                                ? 'text-slate-600 italic font-bold text-xs'
-                                : 'text-cyan-400 italic font-bold text-xs'
+                              ? 'w-7 h-6 rounded-md bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 font-bold italic text-xs border border-cyan-500/30 hover:bg-cyan-500/25'
                               : currentGrade === 1
                               ? isLight
-                                ? 'text-slate-400 font-medium text-xs'
-                                : 'text-gray-400 font-medium text-xs'
+                                ? 'w-6 h-6 rounded-md bg-slate-100 text-slate-700 font-bold text-xs hover:bg-slate-200'
+                                : 'w-6 h-6 rounded-md bg-slate-800 text-slate-200 font-bold text-xs hover:bg-slate-700'
                               : isLight
-                              ? 'text-slate-200 hover:text-slate-400 text-xs'
-                              : 'text-gray-800 hover:text-gray-500 text-xs'
+                              ? 'w-6 h-6 text-slate-300 hover:text-slate-500 text-xs'
+                              : 'text-slate-600 hover:text-slate-300 text-xs'
                           }`}
                         >
                           {currentGrade > 0 ? currentGrade : '—'}
