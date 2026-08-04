@@ -406,130 +406,133 @@ export default function MateriaGridMasterWorkspace() {
           </div>
         )}
 
-        {/* VIEW 1: SIMILIMATRIX & TELEHEALTH WORKSPACE */}
-        {activeTab === 'MATRIX_TELEHEALTH' && (
-          <div className="flex flex-col w-full h-full overflow-hidden">
-            {/* TIER 1: FUTURISTIC EXECUTIVE CYBER-MEDICAL COMMAND HEADER BAR */}
-            <div className="px-4 py-2.5 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-[#1C1F26] bg-gradient-to-r from-[#05070A] via-[#0B0F19] to-[#05070A] backdrop-blur-2xl shadow-xl">
-              <div className="flex flex-wrap items-center gap-3">
-                {/* ABDM ABHA SCANNER GATE COMPONENT WITH CYBER-GLASS BORDER */}
-                <div className="p-0.5 rounded-xl border border-emerald-500/40 bg-[#0B0F19] shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                  <AbhaScannerGate
-                    onPatientVerified={(patient) => setActivePatient(patient)}
-                    theme="dark"
-                  />
-                </div>
-
-                {/* NEW CASE INTAKE DRAWER TRIGGER CTA WITH NEON GLOW */}
-                <button
-                  onClick={() => setIsCaseDrawerOpen(true)}
-                  className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center space-x-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
-                >
-                  <FileText className="w-4 h-4 text-emerald-300" />
-                  <span>+ New Case Intake</span>
-                </button>
-
-                {/* CLINICAL PERSONA CLONE SELECTOR TRAY */}
-                <div className="p-0.5 rounded-xl border border-purple-500/30 bg-[#0B0F19]">
-                  <CloneSelectorTray
-                    activeCloneName={activeCloneName}
-                    onSelectClone={handleSelectDoctorClone}
-                    theme="dark"
-                  />
-                </div>
+        {/* PERMANENT UNIFIED EXECUTIVE FUTURISTIC SCI-FI CYBER-MEDICAL COMMAND HEADER BAR ACROSS ALL MODULES */}
+        <div className="flex flex-col flex-shrink-0 z-20">
+          {/* TIER 1: PATIENT IDENTIFICATION, CLONE SELECTOR & INTAKE CTAS */}
+          <div className="px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-[#1C1F26] bg-gradient-to-r from-[#05070A] via-[#0B0F19] to-[#05070A] backdrop-blur-2xl shadow-xl">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* ABDM ABHA SCANNER GATE COMPONENT WITH CYBER-GLASS BORDER */}
+              <div className="p-0.5 rounded-xl border border-emerald-500/40 bg-[#0B0F19] shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                <AbhaScannerGate
+                  onPatientVerified={(patient) => setActivePatient(patient)}
+                  theme="dark"
+                />
               </div>
 
-              {/* SIMILLIMUM & PRESCRIPTION SLIP ACTION BUTTONS */}
-              <div className="flex flex-wrap items-center gap-2.5">
-                <button
-                  onClick={() => setIsHyper8dOpen(true)}
-                  className="hidden xl:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
-                >
-                  <Sparkles className="w-4 h-4 text-cyan-300" />
-                  <span>🔮 10D Quantum Engine</span>
-                </button>
+              {/* NEW CASE INTAKE DRAWER TRIGGER CTA WITH NEON GLOW */}
+              <button
+                onClick={() => setIsCaseDrawerOpen(true)}
+                className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center space-x-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-emerald-300" />
+                <span>+ New Case Intake</span>
+              </button>
 
-                <button
-                  onClick={() => setIsAnatomicalMapOpen(true)}
-                  className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
-                >
-                  <Activity className="w-4 h-4 text-purple-300" />
-                  <span>🧍 3D Body Map</span>
-                </button>
-
-                <button
-                  onClick={() => setCurrentView('LANDING')}
-                  className="hidden md:flex items-center space-x-1.5 border border-cyan-500/40 bg-[#111317] hover:bg-[#1C1F26] text-cyan-300 font-bold px-3.5 py-2 rounded-xl text-xs transition-all cursor-pointer"
-                >
-                  <Globe className="w-4 h-4 text-cyan-400" />
-                  <span>3D Portal</span>
-                </button>
-
-                <button
-                  onClick={() => setIsPrescriptionModalOpen(true)}
-                  className="flex items-center space-x-1.5 border border-emerald-500/60 bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all cursor-pointer"
-                >
-                  <Award className="w-4 h-4 text-emerald-400" />
-                  <span>
-                    Top:{' '}
-                    <strong className="text-white font-mono">
-                      Belladonna (65.2)
-                    </strong>
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => setIsPrescriptionModalOpen(true)}
-                  className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-md transition-all cursor-pointer"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Prescription</span>
-                </button>
+              {/* CLINICAL PERSONA CLONE SELECTOR TRAY */}
+              <div className="p-0.5 rounded-xl border border-purple-500/30 bg-[#0B0F19]">
+                <CloneSelectorTray
+                  activeCloneName={activeCloneName}
+                  onSelectClone={handleSelectDoctorClone}
+                  theme="dark"
+                />
               </div>
             </div>
 
-            {/* TIER 2: FUTURISTIC CONSTITUTIONAL TELEMETRY CYBER-STRIP */}
-            <div className="px-4 py-2 border-b border-[#1C1F26] bg-[#090A0C] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono">
-              <div className="flex flex-wrap items-center gap-3">
-                <button
-                  onClick={handleCycleThermal}
-                  title="Click to toggle Thermal profile (HOT -> CHILLY -> AMBITHERMAL)"
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-orange-500/60 bg-orange-950/50 text-orange-300 font-black cursor-pointer hover:bg-orange-900/60 transition-all shadow-[0_0_12px_rgba(249,115,22,0.2)]"
-                >
-                  <Flame className="w-3.5 h-3.5 text-orange-400" />
-                  <span>Thermal:</span>
-                  <strong className="text-white">{thermalProfile}</strong>
-                </button>
+            {/* SIMILLIMUM & PRESCRIPTION SLIP ACTION BUTTONS */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <button
+                onClick={() => setIsHyper8dOpen(true)}
+                className="hidden xl:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-cyan-300" />
+                <span>🔮 10D Quantum Engine</span>
+              </button>
 
-                <button
-                  onClick={handleCycleThirst}
-                  title="Click to toggle Thirst profile (THIRSTLESS -> THIRSTY -> VARIABLE)"
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-cyan-500/60 bg-cyan-950/50 text-cyan-300 font-black cursor-pointer hover:bg-cyan-900/60 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)]"
-                >
-                  <Droplets className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Thirst:</span>
-                  <strong className="text-white">{thirstProfile}</strong>
-                </button>
+              <button
+                onClick={() => setIsAnatomicalMapOpen(true)}
+                className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
+              >
+                <Activity className="w-4 h-4 text-purple-300" />
+                <span>🧍 3D Body Map</span>
+              </button>
 
-                <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-purple-500/60 bg-purple-950/50 text-purple-300 font-black">
-                  <Compass className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Laterality:</span>
-                  <strong className="text-white">RIGHT-TO-LEFT</strong>
+              <button
+                onClick={() => setCurrentView('LANDING')}
+                className="hidden md:flex items-center space-x-1.5 border border-cyan-500/40 bg-[#111317] hover:bg-[#1C1F26] text-cyan-300 font-bold px-3.5 py-2 rounded-xl text-xs transition-all cursor-pointer"
+              >
+                <Globe className="w-4 h-4 text-cyan-400" />
+                <span>3D Portal</span>
+              </button>
+
+              <button
+                onClick={() => setIsPrescriptionModalOpen(true)}
+                className="flex items-center space-x-1.5 border border-emerald-500/60 bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all cursor-pointer"
+              >
+                <Award className="w-4 h-4 text-emerald-400" />
+                <span>
+                  Top:{' '}
+                  <strong className="text-white font-mono">
+                    Belladonna (65.2)
+                  </strong>
                 </span>
+              </button>
 
-                <span className="hidden md:flex items-center gap-1.5 bg-emerald-950/70 text-emerald-300 border border-emerald-500/50 px-3 py-1 rounded-xl font-black">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Vital Force: STRONG (Safe for 200C/LM)
-                </span>
-              </div>
+              <button
+                onClick={() => setIsPrescriptionModalOpen(true)}
+                className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-md transition-all cursor-pointer"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Prescription</span>
+              </button>
+            </div>
+          </div>
 
-              <div className="flex items-center space-x-2">
-                <span className="flex items-center gap-1.5 text-emerald-300 font-black bg-emerald-950/80 border border-emerald-500/60 px-3 py-1 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                  <Pill className="w-3.5 h-3.5 text-emerald-400" /> Safe Potency Scale: LM 0/1 Liquid
-                </span>
-              </div>
+          {/* TIER 2: FUTURISTIC CONSTITUTIONAL TELEMETRY CYBER-STRIP */}
+          <div className="px-4 py-2 border-b border-[#1C1F26] bg-[#090A0C] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={handleCycleThermal}
+                title="Click to toggle Thermal profile (HOT -> CHILLY -> AMBITHERMAL)"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-orange-500/60 bg-orange-950/50 text-orange-300 font-black cursor-pointer hover:bg-orange-900/60 transition-all shadow-[0_0_12px_rgba(249,115,22,0.2)]"
+              >
+                <Flame className="w-3.5 h-3.5 text-orange-400" />
+                <span>Thermal:</span>
+                <strong className="text-white">{thermalProfile}</strong>
+              </button>
+
+              <button
+                onClick={handleCycleThirst}
+                title="Click to toggle Thirst profile (THIRSTLESS -> THIRSTY -> VARIABLE)"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-cyan-500/60 bg-cyan-950/50 text-cyan-300 font-black cursor-pointer hover:bg-cyan-900/60 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)]"
+              >
+                <Droplets className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Thirst:</span>
+                <strong className="text-white">{thirstProfile}</strong>
+              </button>
+
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-purple-500/60 bg-purple-950/50 text-purple-300 font-black">
+                <Compass className="w-3.5 h-3.5 text-purple-400" />
+                <span>Laterality:</span>
+                <strong className="text-white">RIGHT-TO-LEFT</strong>
+              </span>
+
+              <span className="hidden md:flex items-center gap-1.5 bg-emerald-950/70 text-emerald-300 border border-emerald-500/50 px-3 py-1 rounded-xl font-black">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Vital Force: STRONG (Safe for 200C/LM)
+              </span>
             </div>
 
-            {/* 3. DUAL-CANVAS CORE WORKSPACE (FLUID RESPONSIVE ON MOBILE/TABLET/DESKTOP) */}
+            <div className="flex items-center space-x-2">
+              <span className="flex items-center gap-1.5 text-emerald-300 font-black bg-emerald-950/80 border border-emerald-500/60 px-3 py-1 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <Pill className="w-3.5 h-3.5 text-emerald-400" /> Safe Potency Scale: LM 0/1 Liquid
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* DYNAMIC WORKSPACE MODULE CONTENTS BELOW PERSISTENT EXECUTIVE COMMAND HEADER */}
+        <div className="flex-1 flex flex-col w-full h-full overflow-hidden">
+          {/* VIEW 1: SIMILIMATRIX & TELEHEALTH WORKSPACE */}
+          {activeTab === 'MATRIX_TELEHEALTH' && (
             <div className="flex flex-col lg:flex-row flex-1 w-full h-full overflow-hidden">
               {/* LEFT CANVAS: DENSE HIGH-VIRTUALIZATION TABLE ENGINE */}
               <div className="flex-1 h-full overflow-hidden flex flex-col relative">
@@ -570,63 +573,63 @@ export default function MateriaGridMasterWorkspace() {
                 theme={theme}
               />
             </div>
-          </div>
-        )}
+          )}
 
-        {/* VIEW 2: CLINICAL ANALYTICS, GRAPHS & MIASMATIC RADAR VISUALIZER */}
-        {activeTab === 'ANALYTICS_GRAPHS' && (
-          <ClinicalAnalyticsGraphs theme={theme} />
-        )}
+          {/* VIEW 2: CLINICAL ANALYTICS, GRAPHS & MIASMATIC RADAR VISUALIZER */}
+          {activeTab === 'ANALYTICS_GRAPHS' && (
+            <ClinicalAnalyticsGraphs theme={theme} />
+          )}
 
-        {/* VIEW 3: AI CLINICAL DECISION COPILOT & CHATBOT SUITE */}
-        {activeTab === 'AI_CHATBOT' && (
-          <AiClinicalChatbotPanel
-            onCommitRubricToMatrix={handleCommitAiRubricToMatrix}
-          />
-        )}
+          {/* VIEW 3: AI CLINICAL DECISION COPILOT & CHATBOT SUITE */}
+          {activeTab === 'AI_CHATBOT' && (
+            <AiClinicalChatbotPanel
+              onCommitRubricToMatrix={handleCommitAiRubricToMatrix}
+            />
+          )}
 
-        {/* VIEW 4: PATIENT CASE MANAGEMENT & ABHA EHR REPOSITORY */}
-        {activeTab === 'PATIENT_REPOSITORY' && (
-          <PatientCaseRepositoryView theme={theme} />
-        )}
+          {/* VIEW 4: PATIENT CASE MANAGEMENT & ABHA EHR REPOSITORY */}
+          {activeTab === 'PATIENT_REPOSITORY' && (
+            <PatientCaseRepositoryView theme={theme} />
+          )}
 
-        {/* VIEW 5: CLASSICAL MATERIA MEDICA LIBRARY & PROVING REFERENCE */}
-        {activeTab === 'MATERIA_MEDICA_LIBRARY' && (
-          <MateriaMedicaLibraryView theme={theme} />
-        )}
+          {/* VIEW 5: CLASSICAL MATERIA MEDICA LIBRARY & PROVING REFERENCE */}
+          {activeTab === 'MATERIA_MEDICA_LIBRARY' && (
+            <MateriaMedicaLibraryView theme={theme} />
+          )}
 
-        {/* VIEW 6: DIAGNOSTIC LAB & VISION AI */}
-        {activeTab === 'DIAGNOSTIC_LAB_AI' && (
-          <DiagnosticLabAiView
-            theme={theme}
-            onCommitRubricToMatrix={handleCommitAiRubricToMatrix}
-          />
-        )}
+          {/* VIEW 6: DIAGNOSTIC LAB & VISION AI */}
+          {activeTab === 'DIAGNOSTIC_LAB_AI' && (
+            <DiagnosticLabAiView
+              theme={theme}
+              onCommitRubricToMatrix={handleCommitAiRubricToMatrix}
+            />
+          )}
 
-        {/* VIEW 7: AYUSH ACADEMIC RESEARCH HUB */}
-        {activeTab === 'AYUSH_RESEARCH_HUB' && (
-          <AyushResearchHubView theme={theme} />
-        )}
+          {/* VIEW 7: AYUSH ACADEMIC RESEARCH HUB */}
+          {activeTab === 'AYUSH_RESEARCH_HUB' && (
+            <AyushResearchHubView theme={theme} />
+          )}
 
-        {/* VIEW 8: OPD WAITING QUEUE & UHI SLOT MANAGER */}
-        {activeTab === 'OPD_QUEUE_MANAGER' && (
-          <OpdQueueManagerView theme={theme} />
-        )}
+          {/* VIEW 8: OPD WAITING QUEUE & UHI SLOT MANAGER */}
+          {activeTab === 'OPD_QUEUE_MANAGER' && (
+            <OpdQueueManagerView theme={theme} />
+          )}
 
-        {/* VIEW 9: PHARMACY & LM DISPENSARY */}
-        {activeTab === 'PHARMACY_DISPENSARY' && (
-          <PharmacyDispensaryView theme={theme} />
-        )}
+          {/* VIEW 9: PHARMACY & LM DISPENSARY */}
+          {activeTab === 'PHARMACY_DISPENSARY' && (
+            <PharmacyDispensaryView theme={theme} />
+          )}
 
-        {/* VIEW 10: TRI-REMEDY COMPARATIVE DIFFERENTIAL WORKBENCH */}
-        {activeTab === 'DIFFERENTIAL_WORKBENCH' && (
-          <DifferentialWorkbenchView theme={theme} />
-        )}
+          {/* VIEW 10: TRI-REMEDY COMPARATIVE DIFFERENTIAL WORKBENCH */}
+          {activeTab === 'DIFFERENTIAL_WORKBENCH' && (
+            <DifferentialWorkbenchView theme={theme} />
+          )}
 
-        {/* VIEW 11: ENTERPRISE $1B PLATFORM SUITE (FLEET RBAC, RWE & UHI CLAIMS) */}
-        {activeTab === 'ENTERPRISE_SUITE' && (
-          <EnterpriseUnicornSuiteView theme={theme} />
-        )}
+          {/* VIEW 11: ENTERPRISE $1B PLATFORM SUITE (FLEET RBAC, RWE & UHI CLAIMS) */}
+          {activeTab === 'ENTERPRISE_SUITE' && (
+            <EnterpriseUnicornSuiteView theme={theme} />
+          )}
+        </div>
       </main>
 
       {/* CASE HISTORY INTAKE & SEHGAL ROH / BÖNNINGHAUSEN DRAWER */}
