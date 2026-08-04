@@ -146,7 +146,7 @@ export default function MateriaGridMasterWorkspace() {
   const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(
     'WORKSPACE'
   );
-  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const isLight = theme === 'light';
 
   const [activeTab, setActiveTab] =
@@ -385,7 +385,7 @@ export default function MateriaGridMasterWorkspace() {
         </div>
       </div>
 
-      {/* EXECUTIVE LEFT SIDEBAR NAVIGATION WITH RESPONSIVE MOBILE DRAWER */}
+      {/* EXECUTIVE FUTURISTIC SCI-FI CYBER-MEDICAL LEFT SIDEBAR NAVIGATION */}
       <SidebarNav
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -409,84 +409,70 @@ export default function MateriaGridMasterWorkspace() {
         {/* VIEW 1: SIMILIMATRIX & TELEHEALTH WORKSPACE */}
         {activeTab === 'MATRIX_TELEHEALTH' && (
           <div className="flex flex-col w-full h-full overflow-hidden">
-            {/* TIER 1: PATIENT IDENTIFICATION, CLONE SELECTOR & INTAKE CTAS (CLEAN NON-COLLIDING GRID) */}
-            <div
-              className={`px-3.5 py-2.5 z-20 flex flex-wrap items-center justify-between gap-3 border-b transition-colors ${
-                isLight
-                  ? 'bg-white/95 border-slate-200/90 backdrop-blur-md shadow-2xs'
-                  : 'bg-[#0B0F19]/95 border-[#1C1F26] backdrop-blur-md'
-              }`}
-            >
+            {/* TIER 1: FUTURISTIC EXECUTIVE CYBER-MEDICAL COMMAND HEADER BAR */}
+            <div className="px-4 py-2.5 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-[#1C1F26] bg-gradient-to-r from-[#05070A] via-[#0B0F19] to-[#05070A] backdrop-blur-2xl shadow-xl">
               <div className="flex flex-wrap items-center gap-3">
-                {/* ABDM ABHA SCANNER GATE COMPONENT */}
-                <div>
+                {/* ABDM ABHA SCANNER GATE COMPONENT WITH CYBER-GLASS BORDER */}
+                <div className="p-0.5 rounded-xl border border-emerald-500/40 bg-[#0B0F19] shadow-[0_0_15px_rgba(16,185,129,0.15)]">
                   <AbhaScannerGate
                     onPatientVerified={(patient) => setActivePatient(patient)}
-                    theme={theme}
+                    theme="dark"
                   />
                 </div>
 
-                {/* NEW CASE INTAKE DRAWER TRIGGER CTA */}
+                {/* NEW CASE INTAKE DRAWER TRIGGER CTA WITH NEON GLOW */}
                 <button
                   onClick={() => setIsCaseDrawerOpen(true)}
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                  className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center space-x-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
                 >
-                  <FileText className="w-3.5 h-3.5" />
+                  <FileText className="w-4 h-4 text-emerald-300" />
                   <span>+ New Case Intake</span>
                 </button>
 
                 {/* CLINICAL PERSONA CLONE SELECTOR TRAY */}
-                <div>
+                <div className="p-0.5 rounded-xl border border-purple-500/30 bg-[#0B0F19]">
                   <CloneSelectorTray
                     activeCloneName={activeCloneName}
                     onSelectClone={handleSelectDoctorClone}
-                    theme={theme}
+                    theme="dark"
                   />
                 </div>
               </div>
 
               {/* SIMILLIMUM & PRESCRIPTION SLIP ACTION BUTTONS */}
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <button
                   onClick={() => setIsHyper8dOpen(true)}
-                  className="hidden xl:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
+                  className="hidden xl:flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-4 h-4 text-cyan-300" />
                   <span>🔮 10D Quantum Engine</span>
                 </button>
 
                 <button
                   onClick={() => setIsAnatomicalMapOpen(true)}
-                  className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm transition-all cursor-pointer"
+                  className="hidden lg:flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
                 >
-                  <Activity className="w-3.5 h-3.5" />
+                  <Activity className="w-4 h-4 text-purple-300" />
                   <span>🧍 3D Body Map</span>
                 </button>
 
                 <button
                   onClick={() => setCurrentView('LANDING')}
-                  className={`hidden md:flex items-center space-x-1.5 border px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                    isLight
-                      ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-800'
-                      : 'bg-[#111317] hover:bg-[#1C1F26] border-[#1C1F26] text-gray-200'
-                  }`}
+                  className="hidden md:flex items-center space-x-1.5 border border-cyan-500/40 bg-[#111317] hover:bg-[#1C1F26] text-cyan-300 font-bold px-3.5 py-2 rounded-xl text-xs transition-all cursor-pointer"
                 >
-                  <Globe className="w-3.5 h-3.5 text-emerald-400" />
+                  <Globe className="w-4 h-4 text-cyan-400" />
                   <span>3D Portal</span>
                 </button>
 
                 <button
                   onClick={() => setIsPrescriptionModalOpen(true)}
-                  className={`flex items-center space-x-1.5 border px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
-                    isLight
-                      ? 'bg-emerald-50/90 hover:bg-emerald-100/90 border-emerald-300 text-emerald-950 font-bold shadow-2xs'
-                      : 'bg-emerald-950/60 hover:bg-emerald-900/70 border-emerald-500/50 text-emerald-300 font-bold'
-                  }`}
+                  className="flex items-center space-x-1.5 border border-emerald-500/60 bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 font-black px-3.5 py-2 rounded-xl text-xs shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all cursor-pointer"
                 >
-                  <Award className="w-3.5 h-3.5 text-emerald-400" />
+                  <Award className="w-4 h-4 text-emerald-400" />
                   <span>
                     Top:{' '}
-                    <strong className="text-emerald-400 font-mono">
+                    <strong className="text-white font-mono">
                       Belladonna (65.2)
                     </strong>
                   </span>
@@ -494,57 +480,51 @@ export default function MateriaGridMasterWorkspace() {
 
                 <button
                   onClick={() => setIsPrescriptionModalOpen(true)}
-                  className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm hover:shadow-md transition-all cursor-pointer"
+                  className="bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-black px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-md transition-all cursor-pointer"
                 >
-                  <Printer className="w-3.5 h-3.5" />
+                  <Printer className="w-4 h-4" />
                   <span>Prescription</span>
                 </button>
               </div>
             </div>
 
-            {/* TIER 2: CONSTITUTIONAL TELEMETRY STRIP WITH CLICK-TO-TOGGLE BASELINES */}
-            <div
-              className={`px-4 py-1.5 border-b flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono ${
-                isLight
-                  ? 'bg-slate-100/80 border-slate-200/80 text-slate-700'
-                  : 'bg-[#111317]/90 border-[#1C1F26] text-gray-300'
-              }`}
-            >
+            {/* TIER 2: FUTURISTIC CONSTITUTIONAL TELEMETRY CYBER-STRIP */}
+            <div className="px-4 py-2 border-b border-[#1C1F26] bg-[#090A0C] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono">
               <div className="flex flex-wrap items-center gap-3">
                 <button
                   onClick={handleCycleThermal}
                   title="Click to toggle Thermal profile (HOT -> CHILLY -> AMBITHERMAL)"
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg border border-orange-200 bg-orange-50/80 text-orange-900 font-bold cursor-pointer hover:bg-orange-100/80 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-orange-500/60 bg-orange-950/50 text-orange-300 font-black cursor-pointer hover:bg-orange-900/60 transition-all shadow-[0_0_12px_rgba(249,115,22,0.2)]"
                 >
-                  <Flame className="w-3 h-3 text-orange-600" />
+                  <Flame className="w-3.5 h-3.5 text-orange-400" />
                   <span>Thermal:</span>
-                  <strong className="text-orange-600">{thermalProfile}</strong>
+                  <strong className="text-white">{thermalProfile}</strong>
                 </button>
 
                 <button
                   onClick={handleCycleThirst}
                   title="Click to toggle Thirst profile (THIRSTLESS -> THIRSTY -> VARIABLE)"
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg border border-cyan-200 bg-cyan-50/80 text-cyan-900 font-bold cursor-pointer hover:bg-cyan-100/80 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-cyan-500/60 bg-cyan-950/50 text-cyan-300 font-black cursor-pointer hover:bg-cyan-900/60 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)]"
                 >
-                  <Droplets className="w-3 h-3 text-cyan-600" />
+                  <Droplets className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Thirst:</span>
-                  <strong className="text-cyan-600">{thirstProfile}</strong>
+                  <strong className="text-white">{thirstProfile}</strong>
                 </button>
 
-                <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg border border-purple-200 bg-purple-50/80 text-purple-900 font-bold">
-                  <Compass className="w-3 h-3 text-purple-600" />
+                <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl border border-purple-500/60 bg-purple-950/50 text-purple-300 font-black">
+                  <Compass className="w-3.5 h-3.5 text-purple-400" />
                   <span>Laterality:</span>
-                  <strong className="text-purple-600">RIGHT-TO-LEFT</strong>
+                  <strong className="text-white">RIGHT-TO-LEFT</strong>
                 </span>
 
-                <span className="hidden md:flex items-center gap-1 bg-emerald-100/90 text-emerald-900 border border-emerald-300 px-2.5 py-0.5 rounded-lg font-bold">
-                  <ShieldCheck className="w-3 h-3 text-emerald-600" /> Vital Force: STRONG (Safe for 200C/LM)
+                <span className="hidden md:flex items-center gap-1.5 bg-emerald-950/70 text-emerald-300 border border-emerald-500/50 px-3 py-1 rounded-xl font-black">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Vital Force: STRONG (Safe for 200C/LM)
                 </span>
               </div>
 
               <div className="flex items-center space-x-2">
-                <span className="flex items-center gap-1 text-emerald-400 font-bold bg-emerald-950/60 border border-emerald-500/40 px-2.5 py-0.5 rounded-lg">
-                  <Pill className="w-3 h-3 text-emerald-400" /> Safe Potency Scale: LM 0/1 Liquid
+                <span className="flex items-center gap-1.5 text-emerald-300 font-black bg-emerald-950/80 border border-emerald-500/60 px-3 py-1 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                  <Pill className="w-3.5 h-3.5 text-emerald-400" /> Safe Potency Scale: LM 0/1 Liquid
                 </span>
               </div>
             </div>
