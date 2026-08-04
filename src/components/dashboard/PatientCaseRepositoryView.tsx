@@ -21,15 +21,21 @@ import {
   TrendingUp,
   Lock,
 } from 'lucide-react';
+import { WearableBiometricSyncHub } from '@/components/dashboard/WearableBiometricSyncHub';
 
 interface PatientCaseRepositoryViewProps {
   theme?: 'dark' | 'light';
   onLoadCaseIntoMatrix?: (patient: any) => void;
+  onCommitWearableRubricToMatrix?: (rubricPath: string) => void;
 }
 
 export const PatientCaseRepositoryView: React.FC<
   PatientCaseRepositoryViewProps
-> = ({ theme = 'dark', onLoadCaseIntoMatrix }) => {
+> = ({
+  theme = 'dark',
+  onLoadCaseIntoMatrix,
+  onCommitWearableRubricToMatrix,
+}) => {
   const isLight = theme === 'light';
 
   const patientsList = [
@@ -165,14 +171,14 @@ export const PatientCaseRepositoryView: React.FC<
                 isLight ? 'text-emerald-800' : 'text-emerald-400'
               }`}
             >
-              CRYPTOGRAPHIC PHYSICIAN-PATIENT ENCOUNTER CHAIN & HERING LONGITUDINAL AUDIT
+              CRYPTOGRAPHIC PHYSICIAN-PATIENT ENCOUNTER CHAIN & WEARABLE IOT SYNC
             </h2>
             <p
               className={`text-xs ${
                 isLight ? 'text-slate-600' : 'text-gray-400'
               }`}
             >
-              Unalterable SHA-256 Prescription Encounter Blockchain Linking Improvements, Potency Changes & Habit Shifts
+              Unalterable SHA-256 Encounter Blockchain + Live Apple HealthKit, Fitbit & Samsung Health Telemetry
             </p>
           </div>
         </div>
@@ -259,6 +265,12 @@ export const PatientCaseRepositoryView: React.FC<
 
         {/* RIGHT COLUMN: LONGITUDINAL ENCOUNTER CHAIN & HERING DIRECTION OF CURE GRAPH */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* LIVE WEARABLE BIOMETRIC IOT SYNC HUB (APPLE HEALTH • FITBIT • SAMSUNG HEALTH) */}
+          <WearableBiometricSyncHub
+            theme={theme}
+            onCommitWearableRubricToMatrix={onCommitWearableRubricToMatrix}
+          />
+
           <div
             className={`p-6 rounded-2xl border space-y-6 shadow-sm ${
               isLight
