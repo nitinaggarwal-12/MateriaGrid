@@ -340,26 +340,45 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                   <div className="max-h-64 overflow-y-auto space-y-1 mt-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
                     {ALL_CHAPTERS.map((ch) => {
                       const isChecked = selectedChapters.includes(ch);
+                      const rubricCount = initialRubrics.filter(
+                        (r) => r.chapter === ch
+                      ).length;
+
                       return (
                         <label
                           key={ch}
-                          className="flex items-center space-x-2.5 px-2 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer text-xs font-semibold whitespace-nowrap"
+                          className={`flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#111317] cursor-pointer text-xs font-semibold whitespace-nowrap ${
+                            rubricCount > 0
+                              ? 'text-slate-900 dark:text-white font-bold'
+                              : 'text-gray-400 dark:text-gray-500'
+                          }`}
                         >
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => {
-                              if (isChecked) {
-                                setSelectedChapters((prev) =>
-                                  prev.filter((item) => item !== ch)
-                                );
-                              } else {
-                                setSelectedChapters((prev) => [...prev, ch]);
-                              }
-                            }}
-                            className="w-4 h-4 accent-emerald-500 rounded cursor-pointer flex-shrink-0"
-                          />
-                          <span>{ch}</span>
+                          <div className="flex items-center space-x-2.5">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => {
+                                if (isChecked) {
+                                  setSelectedChapters((prev) =>
+                                    prev.filter((item) => item !== ch)
+                                  );
+                                } else {
+                                  setSelectedChapters((prev) => [...prev, ch]);
+                                }
+                              }}
+                              className="w-4 h-4 accent-emerald-500 rounded cursor-pointer flex-shrink-0"
+                            />
+                            <span>{ch}</span>
+                          </div>
+                          <span
+                            className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ml-2 ${
+                              rubricCount > 0
+                                ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                                : 'bg-slate-200 dark:bg-slate-800 text-gray-500'
+                            }`}
+                          >
+                            {rubricCount}
+                          </span>
                         </label>
                       );
                     })}
