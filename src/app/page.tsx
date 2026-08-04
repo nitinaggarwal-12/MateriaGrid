@@ -646,23 +646,23 @@ function MasterWorkspaceInner() {
               : 'bg-[#05070A]/95 border-[#1C1F26] text-white backdrop-blur-2xl'
           }`}
         >
-          <div className="px-5 py-2.5 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div className="px-4 py-2 flex items-center justify-between gap-3 text-xs w-full overflow-x-auto">
             {/* LEFT: ACTIVE OPD PATIENT TOKEN & PHYSICAL BASELINES */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2.5 flex-shrink-0">
               <div className="flex items-center space-x-2 border rounded-xl px-3 py-1.5 bg-emerald-500/10 border-emerald-500/40">
-                <span className="font-black text-emerald-700 dark:text-emerald-400 font-mono text-xs">
+                <span className="font-black text-emerald-700 dark:text-emerald-400 font-mono text-xs whitespace-nowrap">
                   {currentOpdToken.token}: {currentOpdToken.patientName}
                 </span>
                 <button
                   onClick={handleCallNextPatientInOpd}
-                  className="ml-2 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer"
+                  className="ml-2 px-2.5 py-0.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] cursor-pointer whitespace-nowrap"
                   title="Call Next Patient in OPD Queue"
                 >
                   Next Patient →
                 </button>
               </div>
 
-              <div className="hidden md:flex items-center space-x-2 text-[11px] font-black px-3 py-1 rounded-xl bg-slate-100 dark:bg-[#111317] border border-slate-300 dark:border-slate-800">
+              <div className="hidden xl:flex items-center space-x-2 text-[11px] font-black px-3 py-1 rounded-xl bg-slate-100 dark:bg-[#111317] border border-slate-300 dark:border-slate-800 whitespace-nowrap">
                 <span className="text-orange-500">🔥 HOT</span>
                 <span className="text-gray-400">•</span>
                 <span className="text-cyan-400">💧 THIRSTLESS</span>
@@ -672,10 +672,10 @@ function MasterWorkspaceInner() {
             </div>
 
             {/* CENTER: TOP SIMILLIMUM & CASE INTAKE */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => setIsPrescriptionModalOpen(true)}
-                className={`flex items-center space-x-2 border px-4 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer ${
+                className={`flex items-center space-x-2 border px-3.5 py-1.5 rounded-xl transition-all transform hover:scale-105 cursor-pointer whitespace-nowrap ${
                   isLight
                     ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-black shadow-xs'
                     : 'border-emerald-500/60 bg-emerald-950/80 text-emerald-300 font-black shadow-[0_0_15px_rgba(16,185,129,0.25)]'
@@ -692,7 +692,7 @@ function MasterWorkspaceInner() {
 
               <button
                 onClick={() => setIsCaseDrawerOpen(true)}
-                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer"
+                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-3 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all transform hover:scale-105 cursor-pointer whitespace-nowrap"
               >
                 <FileText className="w-3.5 h-3.5" />
                 <span>+ Case Intake</span>
@@ -700,7 +700,7 @@ function MasterWorkspaceInner() {
 
               <button
                 onClick={() => setIsDecisionFlowchartOpen(true)}
-                className="px-3 py-1.5 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black flex items-center space-x-1 cursor-pointer"
+                className="px-2.5 py-1.5 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black flex items-center space-x-1 cursor-pointer whitespace-nowrap"
                 title="Inspect interactive Decision-Gate Flowchart"
               >
                 <GitBranch className="w-3.5 h-3.5" />
@@ -708,12 +708,12 @@ function MasterWorkspaceInner() {
               </button>
             </div>
 
-            {/* RIGHT: WORKSPACE MODE, LANGUAGE & USER PERSONA */}
-            <div className="flex flex-wrap items-center gap-2 font-mono">
+            {/* FAR TOP-RIGHT CORNER: WORKSPACE MODE, USER PERSONA & LANGUAGE SELECTOR */}
+            <div className="ml-auto flex items-center gap-2 font-mono flex-shrink-0">
               {activeTab === 'MATRIX_TELEHEALTH' && (
                 <button
                   onClick={() => setIsFullWidthOpdMode((prev) => !prev)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-black text-xs cursor-pointer transition-all transform hover:scale-105 ${
+                  className={`hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border font-black text-xs cursor-pointer transition-all transform hover:scale-105 whitespace-nowrap ${
                     isFullWidthOpdMode
                       ? 'border-cyan-500 bg-cyan-600/20 text-cyan-700 dark:text-cyan-300'
                       : isLight
@@ -736,19 +736,19 @@ function MasterWorkspaceInner() {
                 </button>
               )}
 
-              {/* TOP-RIGHT EXECUTIVE SUITE: LANGUAGE SELECTOR & USER PROFILE/SETTINGS */}
+              {/* TOP-RIGHT EXECUTIVE SUITE: USER PROFILE/SETTINGS & VERY TOP-CORNER LANGUAGE SELECTOR */}
               <div className="flex items-center space-x-2 relative z-50">
-                <SearchableLanguagePicker
-                  selectedCode={langCode}
-                  onSelectLanguage={handleSelectLanguage}
-                  theme={theme}
-                />
                 <UserPersonaHeaderWidget
                   theme={theme}
                   onToggleTheme={toggleTheme}
                   onSelectTab={setActiveTab}
                   langCode={langCode}
                   onSelectLanguage={handleSelectLanguage}
+                />
+                <SearchableLanguagePicker
+                  selectedCode={langCode}
+                  onSelectLanguage={handleSelectLanguage}
+                  theme={theme}
                 />
               </div>
             </div>
