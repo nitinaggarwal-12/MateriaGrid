@@ -168,48 +168,16 @@ const INITIAL_MATRIX_CELLS: MatrixCell[] = [
 function MasterWorkspaceInner() {
   const { currentUser, setIsLoginModalOpen } = useRbac();
 
-  // SYNCHRONOUS REFRESH-SAFE STATE INITIALIZERS FROM URL PARAMS & LOCALSTORAGE
-  const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const urlView = params.get('view');
-      const urlModule = params.get('module');
-      if (urlView === 'WORKSPACE' || urlModule) {
-        return 'WORKSPACE';
-      }
-    }
-    return 'LANDING';
-  });
-
-  // SET LIGHT THEME & ENGLISH AS DEFAULT
+  // HYDRATION-SAFE STATE INITIALIZERS (MATCHES SSR HTML DETERMINISTICALLY)
+  const [currentView, setCurrentView] = useState<'WORKSPACE' | 'LANDING'>('LANDING');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const isLight = theme === 'light';
 
-  const [langCode, setLangCode] = useState<IndianLanguageCode>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const urlLang = params.get('lang') as IndianLanguageCode;
-      if (urlLang && INDIAN_LANGUAGE_PACKS[urlLang]) {
-        return urlLang;
-      }
-    }
-    return 'EN';
-  });
-
+  const [langCode, setLangCode] = useState<IndianLanguageCode>('EN');
   const langPack =
     INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
 
-  const [activeTab, setActiveTab] = useState<ActiveWorkspaceTab>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const urlModule = params.get('module') as ActiveWorkspaceTab;
-      if (urlModule) {
-        return urlModule;
-      }
-    }
-    return 'MATRIX_TELEHEALTH';
-  });
-
+  const [activeTab, setActiveTab] = useState<ActiveWorkspaceTab>('MATRIX_TELEHEALTH');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [sessionId] = useState<string>('sess_2026_production_alpha_01');
   const [rubrics, setRubrics] = useState<RubricRow[]>(INITIAL_RUBRICS);
@@ -226,32 +194,18 @@ function MasterWorkspaceInner() {
   );
   const [thermalProfile, setThermalProfile] = useState<'HOT' | 'CHILLY' | 'AMBITHERMAL'>('HOT');
   const [thirstProfile, setThirstProfile] = useState<'THIRSTLESS' | 'THIRSTY' | 'VARIABLE'>('THIRSTLESS');
-  const [isCaseDrawerOpen, setIsCaseDrawerOpen] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search).get('modal') === 'INTAKE_DRAWER';
-    }
-    return false;
-  });
+  const [isCaseDrawerOpen, setIsCaseDrawerOpen] = useState(false);
   const [isAnatomicalMapOpen, setIsAnatomicalMapOpen] = useState(false);
   const [isHyper8dOpen, setIsHyper8dOpen] = useState(false);
-  const [isDecisionFlowchartOpen, setIsDecisionFlowchartOpen] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search).get('modal') === 'DECISION_GATES';
-    }
-    return false;
-  });
+  const [isDecisionFlowchartOpen, setIsDecisionFlowchartOpen] = useState(false);
   const [selectedRemedyForReader, setSelectedRemedyForReader] = useState<
     string | null
   >(null);
-  const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search).get('modal') === 'PRESCRIPTION_SLIP';
-    }
-    return false;
-  });
+  const [isPrescriptionModalOpen, setIsPrescriptionModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAbhaPopover, setShowAbhaPopover] = useState(false);
   const [langSwitchNotice, setLangSwitchNotice] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   // DOCTOR WORKFLOW UPGRADE: IN-PERSON OPD WORKSPACE MODE (100% MATRIX WIDTH BY DEFAULT)
   const [isFullWidthOpdMode, setIsFullWidthOpdMode] = useState(true);
@@ -281,8 +235,33 @@ function MasterWorkspaceInner() {
     setCurrentOpdToken(randomNext);
   };
 
+  // RESTORE WORKSPACE STATE FROM URL QUERY PARAMS AFTER CLIENT HYDRATION
+  useEffect(() => {
+    setIsMounted(true);
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlView = params.get('view');
+      const urlModule = params.get('module') as ActiveWorkspaceTab;
+      if (urlView === 'WORKSPACE' || urlModule) {
+        setCurrentView('WORKSPACE');
+      }
+      if (urlModule) {
+        setActiveTab(urlModule);
+      }
+      const urlLang = params.get('lang') as IndianLanguageCode;
+      if (urlLang && INDIAN_LANGUAGE_PACKS[urlLang]) {
+        setLangCode(urlLang);
+      }
+      const urlModal = params.get('modal');
+      if (urlModal === 'INTAKE_DRAWER') setIsCaseDrawerOpen(true);
+      if (urlModal === 'DECISION_GATES') setIsDecisionFlowchartOpen(true);
+      if (urlModal === 'PRESCRIPTION_SLIP') setIsPrescriptionModalOpen(true);
+    }
+  }, []);
+
   // SYNCHRONIZE ACTIVE STATE TO URL QUERY PARAMS FOR UNIQUE REFRESH-SAFE DEEP LINK
   useEffect(() => {
+    if (!isMounted) return;
     if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
       if (currentView === 'WORKSPACE') {
@@ -308,6 +287,7 @@ function MasterWorkspaceInner() {
       window.history.replaceState({}, '', url.toString());
     }
   }, [
+    isMounted,
     activeTab,
     currentView,
     langCode,
