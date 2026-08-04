@@ -300,43 +300,86 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
         )}
       </div>
 
-      {/* COLLAPSIBLE CLASSICAL HOMEOPATHIC GRADING LEGEND STRIP */}
+      {/* COLLAPSIBLE CLASSICAL HOMEOPATHIC GRADING LEGEND & NEW GRADUATE CLINICAL GUIDE */}
       {showGradingLegend && (
         <div
-          className={`px-4 py-2 border-b flex flex-wrap items-center justify-between text-[11px] font-bold z-10 ${
+          className={`p-4 border-b space-y-4 text-[11px] font-bold z-10 ${
             isLight
               ? 'bg-slate-100 border-slate-200 text-slate-700'
-              : 'bg-[#0B0F19] border-[#1C1F26] text-gray-400'
+              : 'bg-[#0B0F19] border-[#1C1F26] text-gray-300'
           }`}
         >
-          <span className="flex items-center space-x-1 font-black uppercase">
-            <span>CLASSICAL TYPOGRAPHY GRADING LEGEND:</span>
-          </span>
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="flex items-center space-x-1">
-              <span className="w-4 h-4 rounded bg-slate-800 text-gray-300 font-mono flex items-center justify-center text-[10px]">
-                1
-              </span>
-              <span>Grade 1 (Reported / Plain)</span>
+          {/* ROW 1: CLASSICAL GRADING LEGEND */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <span className="flex items-center space-x-1 font-black uppercase text-emerald-400">
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>CLASSICAL TYPOGRAPHY GRADING LEGEND (HAHNEMANN / KENT):</span>
             </span>
-            <span className="flex items-center space-x-1">
-              <span className="w-4 h-4 rounded bg-cyan-500/20 text-cyan-500 border border-cyan-500/40 font-mono flex items-center justify-center text-[10px]">
-                2
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="flex items-center space-x-1">
+                <span className="w-4 h-4 rounded bg-slate-800 text-gray-300 font-mono flex items-center justify-center text-[10px]">
+                  1
+                </span>
+                <span>Grade 1 (Reported / Plain)</span>
               </span>
-              <span>Grade 2 (Italics / Clinical Verified)</span>
-            </span>
-            <span className="flex items-center space-x-1">
-              <span className="w-4 h-4 rounded bg-amber-500 text-black font-black font-mono flex items-center justify-center text-[10px]">
-                3
+              <span className="flex items-center space-x-1">
+                <span className="w-4 h-4 rounded bg-cyan-500/20 text-cyan-500 border border-cyan-500/40 font-mono flex items-center justify-center text-[10px]">
+                  2
+                </span>
+                <span>Grade 2 (Italics / Clinical Verified)</span>
               </span>
-              <span>Grade 3 (Bold / Strongly Verified)</span>
-            </span>
-            <span className="flex items-center space-x-1">
-              <span className="w-4 h-4 rounded bg-orange-500 text-white font-black font-mono flex items-center justify-center text-[10px]">
-                4
+              <span className="flex items-center space-x-1">
+                <span className="w-4 h-4 rounded bg-amber-500 text-black font-black font-mono flex items-center justify-center text-[10px]">
+                  3
+                </span>
+                <span>Grade 3 (Bold / Strongly Verified)</span>
               </span>
-              <span>Grade 4 (BOLD CAPS / Utmost Prominence)</span>
-            </span>
+              <span className="flex items-center space-x-1">
+                <span className="w-4 h-4 rounded bg-orange-500 text-white font-black font-mono flex items-center justify-center text-[10px]">
+                  4
+                </span>
+                <span>Grade 4 (BOLD CAPS / Utmost Prominence)</span>
+              </span>
+            </div>
+          </div>
+
+          {/* ROW 2: NEW GRADUATE & OPD INTERN CLINICAL REFERENCE GUIDE */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <div className="p-3 rounded-xl bg-[#05070A] border border-slate-800 space-y-1">
+              <span className="text-emerald-400 font-black text-[11px] block">
+                1. Asymmetrical Specificity Score
+              </span>
+              <p className="text-gray-400 text-[11px] leading-relaxed">
+                Prevents <strong>Polychrest Dominance</strong> (Sulphur/Arsenicum hitting every rubric). Rare, peculiar symptoms receive higher mathematical weight via Inverse Rubric Density.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-xl bg-[#05070A] border border-slate-800 space-y-1">
+              <span className="text-cyan-400 font-black text-[11px] block">
+                2. Vijayakar Predictive Thermal-Thirst Mask
+              </span>
+              <p className="text-gray-400 text-[11px] leading-relaxed">
+                Hard physical baseline constants (<strong>HOT/CHILLY</strong> &amp; <strong>THIRSTY/THIRSTLESS</strong>) automatically filter out incompatible remedies to prevent deep disease suppression.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-xl bg-[#05070A] border border-slate-800 space-y-1">
+              <span className="text-amber-400 font-black text-[11px] block">
+                3. Burnett Tissue Drainage Override
+              </span>
+              <p className="text-gray-400 text-[11px] leading-relaxed">
+                When organic structural pathology (cirrhosis, renal failure) is present, low-potency organ-affine remedies (<strong>1X–6X</strong>) are recommended first; potencies &gt;30C/200C are restricted.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-xl bg-[#05070A] border border-slate-800 space-y-1">
+              <span className="text-purple-400 font-black text-[11px] block">
+                4. Sehgal ROH Behavioral Translation
+              </span>
+              <p className="text-gray-400 text-[11px] leading-relaxed">
+                Translates messy patient speech into active <strong>Present, Predominating, and Persisting (PPP)</strong> behavioral mind rubrics inside the <code>+ Case Intake</code> drawer.
+              </p>
+            </div>
           </div>
         </div>
       )}
