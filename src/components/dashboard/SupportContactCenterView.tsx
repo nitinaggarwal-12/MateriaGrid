@@ -176,7 +176,7 @@ export const SupportContactCenterView: React.FC<
         </button>
       </div>
 
-      {/* GOVERNMENT EMERGENCY HELPLINES ONE-CLICK CALL PANEL */}
+      {/* GOVERNMENT EMERGENCY HELPLINES & LIVE AI CHATBOX TOP ROW */}
       <div
         className={`p-5 rounded-2xl border space-y-4 ${
           isLight
@@ -186,7 +186,7 @@ export const SupportContactCenterView: React.FC<
       >
         <div className="flex items-center justify-between">
           <span className="font-black text-xs uppercase text-red-600 dark:text-red-400 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-red-500" /> OFFICIAL GOVERNMENT EMERGENCY & AYUSH DIALER DIRECTORIES (ONE-CLICK CALL)
+            <ShieldAlert className="w-4 h-4 text-red-500" /> OFFICIAL GOVERNMENT EMERGENCY & AYUSH DIALER DIRECTORIES + LIVE AI SUPPORT CHAT
           </span>
           <span className="text-[10px] px-2.5 py-0.5 rounded bg-red-600 text-white font-black">
             24/7 FREE TOLL-FREE
@@ -194,7 +194,134 @@ export const SupportContactCenterView: React.FC<
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {emergencyNumbers.map((item) => (
+          {/* CARD 1: DIAL 108 */}
+          {emergencyNumbers.slice(0, 2).map((item) => (
+            <div
+              key={item.number}
+              className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 ${
+                isLight
+                  ? 'bg-white border-slate-200 shadow-xs'
+                  : 'bg-[#0B0F19] border-slate-800'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
+                    DIAL: {item.number}
+                  </span>
+                  <span
+                    className={`text-[9px] px-2 py-0.5 rounded font-bold ${
+                      isLight
+                        ? 'bg-slate-100 text-slate-700'
+                        : 'bg-slate-800 text-gray-300'
+                    }`}
+                  >
+                    GOVT HELPLINE
+                  </span>
+                </div>
+                <p
+                  className={`font-black text-xs mt-1 ${
+                    isLight ? 'text-slate-900' : 'text-white'
+                  }`}
+                >
+                  {item.title}
+                </p>
+                <p
+                  className={`text-[11px] mt-0.5 ${
+                    isLight ? 'text-slate-600' : 'text-gray-400'
+                  }`}
+                >
+                  {item.desc}
+                </p>
+              </div>
+
+              <a
+                href={`tel:${item.number}`}
+                className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center space-x-1.5 shadow-sm transition-all transform hover:scale-[1.02]"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>📞 Call {item.number} Immediately</span>
+              </a>
+            </div>
+          ))}
+
+          {/* CARD 3 (3RD CARD ON TOP ROW): LIVE AI SUPPORT CHATBOX */}
+          <div
+            className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 lg:row-span-2 ${
+              isLight
+                ? 'bg-white border-slate-200 shadow-xs'
+                : 'bg-[#0B0F19] border-slate-800'
+            }`}
+          >
+            <div className="flex items-center justify-between border-b pb-2 border-slate-200 dark:border-slate-800">
+              <span className="font-black text-xs uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                <Bot className="w-4 h-4" /> LIVE AI SUPPORT CHAT
+              </span>
+              <span className="text-[9px] px-2 py-0.5 rounded bg-emerald-600 text-white font-black">
+                24/7 ONLINE
+              </span>
+            </div>
+
+            <div
+              className={`flex-1 min-h-[220px] max-h-[320px] overflow-y-auto space-y-2 p-2 rounded-lg border ${
+                isLight
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#05070A] border-slate-800'
+              }`}
+            >
+              {chatMessages.map((m, i) => (
+                <div
+                  key={i}
+                  className={`p-2.5 rounded-lg text-xs leading-relaxed ${
+                    m.sender === 'USER'
+                      ? 'bg-emerald-600 text-white ml-auto max-w-[85%] font-bold'
+                      : isLight
+                      ? 'bg-white border border-slate-200 text-slate-800 shadow-xs'
+                      : 'bg-[#111317] border border-slate-800 text-gray-200'
+                  }`}
+                >
+                  <p>{m.text}</p>
+                  <span className="text-[8px] opacity-70 block mt-1 text-right">
+                    {m.time}
+                  </span>
+                </div>
+              ))}
+              {isAiTyping && (
+                <div
+                  className={`p-2 rounded-lg text-xs italic font-semibold ${
+                    isLight
+                      ? 'bg-white border border-slate-200 text-emerald-700'
+                      : 'bg-[#111317] border border-slate-800 text-emerald-400'
+                  }`}
+                >
+                  ⚡ AYUSH AI Support is typing...
+                </div>
+              )}
+            </div>
+
+            <form onSubmit={handleSendChat} className="flex space-x-1.5 pt-1">
+              <input
+                type="text"
+                placeholder="Ask support or help..."
+                value={inputQuery}
+                onChange={(e) => setInputQuery(e.target.value)}
+                className={`flex-1 px-3 py-1.5 rounded-lg border font-bold text-xs outline-none focus:border-emerald-500 ${
+                  isLight
+                    ? 'bg-white border-slate-300 text-slate-900'
+                    : 'bg-[#111317] border-slate-800 text-white'
+                }`}
+              />
+              <button
+                type="submit"
+                className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs cursor-pointer"
+              >
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </form>
+          </div>
+
+          {/* CARDS 4 to 7: REMAINING GOVT EMERGENCY NUMBERS */}
+          {emergencyNumbers.slice(2).map((item) => (
             <div
               key={item.number}
               className={`p-3.5 rounded-xl border flex flex-col justify-between space-y-2 ${
@@ -246,8 +373,8 @@ export const SupportContactCenterView: React.FC<
         </div>
       </div>
 
-      {/* THREE-COLUMN SUPPORT GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* TWO-COLUMN SUPPORT GRID: WHATSAPP DIRECT CONTACT & INQUIRY FORM */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* COLUMN 1: DIRECT WHATSAPP & EMERGENCY CONTACT CARD */}
         <div
           className={`p-5 rounded-2xl border space-y-4 ${
@@ -329,82 +456,8 @@ export const SupportContactCenterView: React.FC<
           </div>
         </div>
 
-        {/* COLUMN 2: LIVE SUPPORT & CLINICAL CHAT */}
-        <div
-          className={`p-5 rounded-2xl border flex flex-col space-y-4 ${
-            isLight
-              ? 'bg-white border-slate-200'
-              : 'bg-[#0B0F19] border-[#1C1F26]'
-          }`}
-        >
-          <div className="flex items-center justify-between border-b pb-3 border-slate-200 dark:border-slate-800">
-            <span className="font-black text-xs uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-              <Bot className="w-4 h-4" /> LIVE AI SUPPORT CHAT
-            </span>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-600 text-white font-black">
-              24/7 ONLINE
-            </span>
-          </div>
-
-          <div
-            className={`flex-1 min-h-[240px] max-h-[300px] overflow-y-auto space-y-2.5 p-2.5 rounded-xl border ${
-              isLight
-                ? 'bg-slate-50 border-slate-200'
-                : 'bg-[#05070A] border-slate-800'
-            }`}
-          >
-            {chatMessages.map((m, i) => (
-              <div
-                key={i}
-                className={`p-3 rounded-xl text-xs max-w-[90%] leading-relaxed ${
-                  m.sender === 'USER'
-                    ? 'bg-emerald-600 text-white ml-auto font-bold'
-                    : isLight
-                    ? 'bg-white border border-slate-200 text-slate-800 shadow-xs'
-                    : 'bg-[#111317] border border-slate-800 text-gray-200'
-                }`}
-              >
-                <p>{m.text}</p>
-                <span className="text-[9px] opacity-70 block mt-1 text-right">
-                  {m.time}
-                </span>
-              </div>
-            ))}
-            {isAiTyping && (
-              <div
-                className={`p-2.5 rounded-xl text-xs max-w-[80%] italic font-semibold ${
-                  isLight
-                    ? 'bg-white border border-slate-200 text-emerald-700'
-                    : 'bg-[#111317] border border-slate-800 text-emerald-400'
-                }`}
-              >
-                ⚡ AYUSH Clinical Support AI is typing...
-              </div>
-            )}
-          </div>
-
-          <form onSubmit={handleSendChat} className="flex space-x-2">
-            <input
-              type="text"
-              placeholder="Ask support or help..."
-              value={inputQuery}
-              onChange={(e) => setInputQuery(e.target.value)}
-              className={`flex-1 px-3 py-2 rounded-xl border font-bold text-xs outline-none focus:border-emerald-500 ${
-                isLight
-                  ? 'bg-white border-slate-300 text-slate-900'
-                  : 'bg-[#111317] border-slate-800 text-white'
-              }`}
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs cursor-pointer"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-        </div>
-
-        {/* COLUMN 3: CONTACT US / INSTITUTIONAL ONBOARDING INQUIRY FORM */}
+        {/* COLUMN 2: LIVE SUPPORT & CLINICAL CHAT (REMOVED FROM BOTTOM) */}
+        {/* COLUMN 2: CONTACT US / INSTITUTIONAL ONBOARDING INQUIRY FORM */}
         <div
           className={`p-5 rounded-2xl border space-y-4 ${
             isLight
