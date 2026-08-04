@@ -40,7 +40,7 @@ export const Interactive360AnatomyAtlas: React.FC<
 > = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
 
-  const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-heart');
+  const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-lungs');
   const [workbenchTab, setWorkbenchTab] = useState<StudyWorkbenchTab>('ATLAS_360');
   const [showLandmarkLabels, setShowLandmarkLabels] = useState<boolean>(true);
   const [yaw, setYaw] = useState<number>(0);
@@ -49,7 +49,7 @@ export const Interactive360AnatomyAtlas: React.FC<
   const lastTouchRef = useRef<{ x: number; y: number } | null>(null);
 
   const [zoomLevel, setZoomLevel] = useState<number>(95);
-  const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>('hs-coronary-artery');
+  const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>('hs-bronchi');
 
   // Viva Spotter Exam State
   const [spotterQuestionIdx, setSpotterQuestionIdx] = useState<number>(0);
@@ -352,48 +352,14 @@ export const Interactive360AnatomyAtlas: React.FC<
           note: 'Burnett Heart Tonic: Cardiac hypertrophy, dyspnea on exertion, and feeble pulse.',
           coords: 'top-[74%] left-[34%]',
         },
-        {
-          id: 'hs-aorta-arch',
-          label: 'Ascending Aorta & Pulmonary Trunk Bifurcation',
-          rubric: 'CIRCULATION - PULSATION - violent',
-          remedy: 'Spongia Tosta 30C / Digitalis 30C',
-          note: 'Violent cardiac palpitation radiating to aorta arch, irregular slow pulse.',
-          coords: 'top-[22%] left-[28%]',
-        },
       ],
-      spotterQuestions: [
-        {
-          question:
-            'Q1 (BHMS Cardiovascular Pathology): Which characteristic sensation indicates Cactus Grandiflorus in cardiac constriction?',
-          options: [
-            'Sensation as if heart were floating in water',
-            'Sensation as if an iron hand or wire tightly constricted the heart',
-            'Sensation as if heart stopped beating whenever patient moved',
-            'Sensation as if heart were enlarged to twice its size',
-          ],
-          correctIdx: 1,
-          explanation:
-            'Cactus Grandiflorus (§210) is characterized by violent iron-wire constriction around the heart and coronary arteries.',
-        },
-      ],
+      spotterQuestions: [],
       organopathyRemedies: [
         {
           name: 'Crataegus Oxyacantha',
           potency: 'Q (Tincture)',
           keynote:
             'Heart Tonic: Cardiac hypertrophy, dyspnea on slight exertion, irregular feeble pulse.',
-        },
-        {
-          name: 'Cactus Grandiflorus',
-          potency: 'Q / 30C',
-          keynote:
-            'Constriction sensation as if an iron band or wire was tightly clutched around the heart.',
-        },
-        {
-          name: 'Digitalis Purpurea',
-          potency: '30C',
-          keynote:
-            'Slow intermittent pulse, sensation as if heart would stop if patient moved.',
         },
       ],
     },
@@ -406,33 +372,79 @@ export const Interactive360AnatomyAtlas: React.FC<
       description:
         'Endodermal mucous membrane and alveolar parenchymal parenchyma governing gas exchange and bronchial contractility.',
       anatomicalLandmarks: [
-        'Trachea & Primary Bronchial Bifurcation (Carina)',
-        'Right Lungs (3 Lobes: Superior, Middle, Inferior)',
-        'Left Lung (2 Lobes with Cardiac Notch)',
+        'Trachea & 12 C-Shaped Cartilage Rings extending to Carina Bifurcation',
+        'Right Lung: 3 Distinct Lobes (Superior, Middle, Inferior) & Interlobar Fissures',
+        'Left Lung: 2 Distinct Lobes & Cardiac Notch (Bryonia Alba target)',
+        'Deep Bronchial Tree & Alveolar Exudate Sacs (Antimonium Tartaricum target)',
+        'Pulmonary Arteries (Blue) & Pulmonary Veins (Red) Lung Hilum Triad',
       ],
       atlasIllustration: {
-        bgGradient: 'from-[#0B1E2D] via-[#143248] to-[#07131D]',
+        bgGradient: 'from-[#0A1F30] via-[#123652] to-[#061421]',
         landmarkLabels: [
-          { label: 'Bronchial Tree Bifurcation', pos: 'top-[12%] left-[10%]' },
+          { label: 'Trachea & Carina Bronchial Bifurcation', pos: 'top-[10%] left-[10%]' },
+          { label: 'Right 3-Lobe Lung vs Left Cardiac Notch', pos: 'top-[42%] right-[10%]' },
+          { label: 'Alveolar Exudate Exudation Zone (Antimonium Tart.)', pos: 'bottom-[12%] left-[12%]' },
         ],
       },
       hotspots: [
         {
           id: 'hs-bronchi',
-          label: 'Bronchial Exudate Exudation Zone',
+          label: 'Bronchial Exudate & Alveolar Exudation Zone',
           rubric: 'CHEST - RATTLING - mucus',
           remedy: 'Antimonium Tartaricum 6C / 30C',
-          note: 'Coarse rattling mucus in chest with complete inability to expectorate, cyanosis.',
-          coords: 'top-[42%] left-[35%]',
+          note: 'Coarse rattling mucus in chest with complete inability to expectorate, cyanosis, drowsiness.',
+          coords: 'top-[42%] left-[30%]',
+        },
+        {
+          id: 'hs-pleura',
+          label: 'Visceral Pleural Membrane Stitching Locus',
+          rubric: 'CHEST - PAIN - stitching - motion, on',
+          remedy: 'Bryonia Alba 30C / 200C',
+          note: 'Dry stitching pleuritic chest pain, worse slightest breath or motion, holding chest still.',
+          coords: 'top-[68%] right-[22%]',
+        },
+        {
+          id: 'hs-trachea-carina',
+          label: 'Tracheal Cartilage & Carina Bifurcation',
+          rubric: 'COUGH - SPASMODIC - larynx, from',
+          remedy: 'Drosera Rotundifolia 30C / Spongia Tosta',
+          note: 'Violent barky spasmodic cough originating at the bronchial carina bifurcation.',
+          coords: 'top-[22%] left-[48%]',
         },
       ],
-      spotterQuestions: [],
+      spotterQuestions: [
+        {
+          question:
+            'Q1 (BHMS Respiratory Pathology): Which anatomical pulmonary feature distinguishes the right lung from the left lung?',
+          options: [
+            'Right lung has 2 lobes; Left lung has 3 lobes',
+            'Right lung has 3 lobes (Horizontal & Oblique fissures); Left lung has 2 lobes & Cardiac Notch',
+            'Left lung is larger in volume than right lung',
+            'Right lung lacks a pulmonary hilum vascular triad',
+          ],
+          correctIdx: 1,
+          explanation:
+            'The right lung has 3 distinct lobes (Superior, Middle, Inferior) divided by horizontal and oblique fissures, whereas the left lung has 2 lobes and a cardiac notch accommodating the heart.',
+        },
+      ],
       organopathyRemedies: [
         {
           name: 'Antimonium Tartaricum',
           potency: '6C / 30C',
           keynote:
             'Coarse rattling mucus in chest with complete inability to expectorate, cyanosis, drowsiness.',
+        },
+        {
+          name: 'Bryonia Alba',
+          potency: '30C / 200C',
+          keynote:
+            'Dry stitching pleuritic chest pain, worse slightest breath or motion, holding chest still.',
+        },
+        {
+          name: 'Drosera Rotundifolia',
+          potency: '30C',
+          keynote:
+            'Violent deep paroxysmal cough, tickling in larynx as if from a feather.',
         },
       ],
     },
@@ -445,8 +457,9 @@ export const Interactive360AnatomyAtlas: React.FC<
       description:
         'Mesodermal structural connective tissue comprising bone periosteum, articular cartilage, and synovial capsules.',
       anatomicalLandmarks: [
+        'Femur & Tibia Trabecular Spongy Bone Cortex',
         'Synovial Joint Capsule & Articular Cartilage',
-        'Periosteal Membrane & Callus Formation Axis',
+        'Patellar Tendon & Periosteal Membrane',
       ],
       atlasIllustration: {
         bgGradient: 'from-[#2D1B0F] via-[#472C19] to-[#1C1008]',
@@ -764,7 +777,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-head' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdBrainTissue7" cx="45%" cy="38%" r="65%">
+                        <radialGradient id="hdBrainTissue8" cx="45%" cy="38%" r="65%">
                           <stop offset="0%" stopColor="#F5D0C5" />
                           <stop offset="45%" stopColor="#E2A698" />
                           <stop offset="85%" stopColor="#B36959" />
@@ -774,7 +787,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                       <g>
                         <path
                           d="M 260 25 C 135 25, 65 110, 75 200 C 82 265, 135 315, 225 315 L 225 385 L 295 385 L 295 315 C 385 315, 438 265, 445 200 C 455 110, 385 25, 260 25 Z"
-                          fill="url(#hdBrainTissue7)"
+                          fill="url(#hdBrainTissue8)"
                           stroke="#FFF1EE"
                           strokeWidth="4"
                         />
@@ -803,7 +816,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-liver' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdLiverTissue7" cx="42%" cy="38%" r="65%">
+                        <radialGradient id="hdLiverTissue8" cx="42%" cy="38%" r="65%">
                           <stop offset="0%" stopColor="#A34839" />
                           <stop offset="65%" stopColor="#75281C" />
                           <stop offset="100%" stopColor="#4A150D" />
@@ -812,7 +825,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                       <g>
                         <path
                           d="M 95 175 C 145 75, 375 75, 435 180 C 465 235, 410 335, 305 345 C 205 355, 105 295, 95 175 Z"
-                          fill="url(#hdLiverTissue7)"
+                          fill="url(#hdLiverTissue8)"
                           stroke="#FECACA"
                           strokeWidth="4"
                         />
@@ -830,17 +843,17 @@ export const Interactive360AnatomyAtlas: React.FC<
                   )}
 
                   {/* ======================================================= */}
-                  {/* 3. KIDNEYS, RENAL CORTEX, PYRAMIDS, CALYCES & VESSELS (HIGH DEFINITION DISSECTION) */}
+                  {/* 3. KIDNEYS, RENAL CORTEX, PYRAMIDS, CALYCES & VESSELS */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-kidneys' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdRenalCortexGrad7" cx="50%" cy="45%" r="65%">
+                        <radialGradient id="hdRenalCortexGrad8" cx="50%" cy="45%" r="65%">
                           <stop offset="0%" stopColor="#22D3EE" />
                           <stop offset="70%" stopColor="#0891B2" />
                           <stop offset="100%" stopColor="#164E63" />
                         </radialGradient>
-                        <radialGradient id="hdRenalPyramidGrad7" cx="50%" cy="50%" r="50%">
+                        <radialGradient id="hdRenalPyramidGrad8" cx="50%" cy="50%" r="50%">
                           <stop offset="0%" stopColor="#FB7185" />
                           <stop offset="100%" stopColor="#9F1239" />
                         </radialGradient>
@@ -850,23 +863,23 @@ export const Interactive360AnatomyAtlas: React.FC<
                         <path d="M 330 90 Q 355 65 380 85 Z" fill="#F59E0B" stroke="#FEF3C7" strokeWidth="2.5" />
                         <path
                           d="M 165 95 C 105 130, 95 270, 165 305 C 220 330, 260 265, 235 200 C 260 155, 220 70, 165 95 Z"
-                          fill="url(#hdRenalCortexGrad7)"
+                          fill="url(#hdRenalCortexGrad8)"
                           stroke="#CFFAFE"
                           strokeWidth="4"
                         />
                         <path
                           d="M 355 95 C 295 70, 255 155, 280 200 C 255 265, 295 330, 355 305 C 425 270, 415 130, 355 95 Z"
-                          fill="url(#hdRenalCortexGrad7)"
+                          fill="url(#hdRenalCortexGrad8)"
                           stroke="#CFFAFE"
                           strokeWidth="4"
                         />
                         <g>
-                          <path d="M 140 140 L 165 165 L 135 185 Z" fill="url(#hdRenalPyramidGrad7)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 130 200 L 165 200 L 135 230 Z" fill="url(#hdRenalPyramidGrad7)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 145 250 L 175 235 L 165 270 Z" fill="url(#hdRenalPyramidGrad7)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 380 140 L 355 165 L 385 185 Z" fill="url(#hdRenalPyramidGrad7)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 390 200 L 355 200 L 385 230 Z" fill="url(#hdRenalPyramidGrad7)" stroke="#FFE4E6" strokeWidth="1.5" />
-                          <path d="M 375 250 L 345 235 L 355 270 Z" fill="url(#hdRenalPyramidGrad7)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 140 140 L 165 165 L 135 185 Z" fill="url(#hdRenalPyramidGrad8)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 130 200 L 165 200 L 135 230 Z" fill="url(#hdRenalPyramidGrad8)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 145 250 L 175 235 L 165 270 Z" fill="url(#hdRenalPyramidGrad8)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 380 140 L 355 165 L 385 185 Z" fill="url(#hdRenalPyramidGrad8)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 390 200 L 355 200 L 385 230 Z" fill="url(#hdRenalPyramidGrad8)" stroke="#FFE4E6" strokeWidth="1.5" />
+                          <path d="M 375 250 L 345 235 L 355 270 Z" fill="url(#hdRenalPyramidGrad8)" stroke="#FFE4E6" strokeWidth="1.5" />
                         </g>
                         <g>
                           <path d="M 260 170 L 210 185 M 260 170 L 310 185" stroke="#EF4444" strokeWidth="8" strokeLinecap="round" />
@@ -879,169 +892,252 @@ export const Interactive360AnatomyAtlas: React.FC<
                   )}
 
                   {/* ======================================================= */}
-                  {/* 4. CARDIOVASCULAR & CORONARY NETWORK (AUTHENTIC CLINICAL NETTER'S DISSECTION) */}
+                  {/* 4. CARDIOVASCULAR & CORONARY NETWORK (NETTER CLINICAL DISSECTION) */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-heart' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdMyocardiumGrad" cx="45%" cy="45%" r="65%">
+                        <radialGradient id="hdMyocardiumGrad8" cx="45%" cy="45%" r="65%">
                           <stop offset="0%" stopColor="#EF4444" />
                           <stop offset="65%" stopColor="#B91C1C" />
                           <stop offset="100%" stopColor="#7F1D1D" />
                         </radialGradient>
-                        <linearGradient id="aortaArchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#F87171" />
-                          <stop offset="100%" stopColor="#DC2626" />
-                        </linearGradient>
-                        <linearGradient id="pulmonaryTrunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#60A5FA" />
-                          <stop offset="100%" stopColor="#2563EB" />
-                        </linearGradient>
                       </defs>
                       <g>
-                        {/* SUPERIOR & INFERIOR VENA CAVA (DEEP VENOUS RETURN) */}
                         <rect x="185" y="45" width="28" height="95" rx="10" fill="#3B82F6" stroke="#93C5FD" strokeWidth="2.5" />
                         <rect x="195" y="325" width="26" height="65" rx="8" fill="#3B82F6" stroke="#93C5FD" strokeWidth="2.5" />
-
-                        {/* ASCENDING AORTA ARCH & 3 BRACHIOCEPHALIC ARTERIAL BRANCHES */}
-                        <g>
-                          <path
-                            d="M 235 155 Q 235 45, 305 45 Q 355 45, 355 145"
-                            fill="none"
-                            stroke="url(#aortaArchGrad)"
-                            strokeWidth="24"
-                            strokeLinecap="round"
-                          />
-                          {/* 3 Brachiocephalic, Common Carotid, Subclavian Arteries */}
-                          <line x1="260" y1="50" x2="260" y2="22" stroke="#EF4444" strokeWidth="7" strokeLinecap="round" />
-                          <line x1="285" y1="46" x2="285" y2="18" stroke="#EF4444" strokeWidth="6" strokeLinecap="round" />
-                          <line x1="310" y1="48" x2="315" y2="20" stroke="#EF4444" strokeWidth="6" strokeLinecap="round" />
-                        </g>
-
-                        {/* PULMONARY TRUNK BIFURCATION (BLUE VASCULAR TRIAD) */}
+                        <path
+                          d="M 235 155 Q 235 45, 305 45 Q 355 45, 355 145"
+                          fill="none"
+                          stroke="#DC2626"
+                          strokeWidth="24"
+                          strokeLinecap="round"
+                        />
+                        <line x1="260" y1="50" x2="260" y2="22" stroke="#EF4444" strokeWidth="7" strokeLinecap="round" />
+                        <line x1="285" y1="46" x2="285" y2="18" stroke="#EF4444" strokeWidth="6" strokeLinecap="round" />
+                        <line x1="310" y1="48" x2="315" y2="20" stroke="#EF4444" strokeWidth="6" strokeLinecap="round" />
                         <path
                           d="M 260 185 L 260 115 Q 220 115, 160 125 M 260 115 Q 310 115, 380 125"
                           fill="none"
-                          stroke="url(#pulmonaryTrunkGrad)"
+                          stroke="#2563EB"
                           strokeWidth="18"
                           strokeLinecap="round"
                         />
-
-                        {/* CARDIAC MUSCULAR MYOCARDIUM (RIGHT & LEFT VENTRICLES + ATRIA) */}
-                        <g filter="url(#hdShadow3)">
-                          {/* RIGHT ATRIUM & AURICLE */}
-                          <path
-                            d="M 185 140 C 150 160, 150 230, 205 250 L 235 220 Z"
-                            fill="#DC2626"
-                            stroke="#FCA5A5"
-                            strokeWidth="3"
-                          />
-                          {/* VENTRICULAR MYOCARDIUM MAIN BODY */}
-                          <path
-                            d="M 230 175 C 160 215, 165 330, 260 380 C 355 330, 360 215, 290 175 Z"
-                            fill="url(#hdMyocardiumGrad)"
-                            stroke="#FECACA"
-                            strokeWidth="4.5"
-                          />
-                        </g>
-
-                        {/* CORONARY INTERVENTRICULAR ARTERY TREE (CACTUS GRANDIFLORUS TARGET) */}
-                        <g>
-                          {/* Left Anterior Interventricular Coronary Artery */}
-                          <path
-                            d="M 265 175 Q 255 260, 260 375 M 260 235 Q 220 270 205 315 M 260 275 Q 305 310 320 340 M 260 205 Q 310 230 335 260"
-                            fill="none"
-                            stroke="#FEE2E2"
-                            strokeWidth="4.5"
-                            strokeLinecap="round"
-                          />
-                          {/* Pulsing Coronary Arterial Surge Nodes */}
-                          <circle cx="260" cy="235" r="7" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
-                          <circle cx="260" cy="275" r="7" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
-                        </g>
+                        <path
+                          d="M 230 175 C 160 215, 165 330, 260 380 C 355 330, 360 215, 290 175 Z"
+                          fill="url(#hdMyocardiumGrad8)"
+                          stroke="#FECACA"
+                          strokeWidth="4.5"
+                        />
+                        <path
+                          d="M 265 175 Q 255 260, 260 375 M 260 235 Q 220 270 205 315 M 260 275 Q 305 310 320 340 M 260 205 Q 310 230 335 260"
+                          fill="none"
+                          stroke="#FEE2E2"
+                          strokeWidth="4.5"
+                          strokeLinecap="round"
+                        />
+                        <circle cx="260" cy="235" r="7" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
+                        <circle cx="260" cy="275" r="7" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
                       </g>
                     </svg>
                   )}
 
                   {/* ======================================================= */}
-                  {/* 5. BRONCHO-PULMONARY LUNGS (DETAILED CLINICAL DISSECTION) */}
+                  {/* 5. BRONCHO-PULMONARY LUNGS (AUTHENTIC NETTER CLINICAL DISSECTION) */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-lungs' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdLungsTissue7" cx="50%" cy="50%" r="60%">
-                          <stop offset="0%" stopColor="#60A5FA" />
-                          <stop offset="100%" stopColor="#1E40AF" />
+                        <radialGradient id="hdRightLungGrad" cx="45%" cy="45%" r="65%">
+                          <stop offset="0%" stopColor="#93C5FD" />
+                          <stop offset="55%" stopColor="#3B82F6" />
+                          <stop offset="100%" stopColor="#1D4ED8" />
+                        </radialGradient>
+                        <radialGradient id="hdLeftLungGrad" cx="55%" cy="45%" r="65%">
+                          <stop offset="0%" stopColor="#93C5FD" />
+                          <stop offset="55%" stopColor="#3B82F6" />
+                          <stop offset="100%" stopColor="#1D4ED8" />
                         </radialGradient>
                       </defs>
                       <g>
-                        <rect x="245" y="30" width="30" height="110" rx="6" fill="#93C5FD" stroke="#1E3A8A" strokeWidth="3" />
-                        <path d="M 245 140 L 175 220 M 275 140 L 345 220" fill="none" stroke="#60A5FA" strokeWidth="14" strokeLinecap="round" />
-                        <path
-                          d="M 175 110 C 115 130, 95 240, 145 340 L 225 330 C 235 260, 225 150, 175 110 Z"
-                          fill="url(#hdLungsTissue7)"
-                          stroke="#DBEAFE"
-                          strokeWidth="3.5"
-                        />
-                        <path
-                          d="M 345 110 C 395 150, 385 260, 375 340 L 295 330 Q 325 240 295 190 C 295 150, 315 120, 345 110 Z"
-                          fill="url(#hdLungsTissue7)"
-                          stroke="#DBEAFE"
-                          strokeWidth="3.5"
-                        />
+                        {/* LARYNX & THYROID CARTILAGE ARCH */}
+                        <path d="M 240 20 L 280 20 L 290 60 L 230 60 Z" fill="#CBD5E1" stroke="#F8FAFC" strokeWidth="2.5" />
+
+                        {/* TRACHEA WITH 12 CARTILAGE RINGS */}
+                        {[65, 80, 95, 110, 125, 140, 155].map((y, i) => (
+                          <rect key={i} x="245" y={y} width="30" height="10" rx="3" fill="#E2E8F0" stroke="#475569" strokeWidth="1.5" />
+                        ))}
+
+                        {/* PRIMARY BRONCHIAL TREE BIFURCATION (CARINA) & BRANCHES */}
+                        <g>
+                          {/* Right Bronchial Tree */}
+                          <path
+                            d="M 260 165 L 195 215 M 195 215 L 155 245 M 195 215 L 165 295 M 195 215 L 210 280"
+                            fill="none"
+                            stroke="#60A5FA"
+                            strokeWidth="6"
+                            strokeLinecap="round"
+                          />
+                          {/* Left Bronchial Tree */}
+                          <path
+                            d="M 260 165 L 325 215 M 325 215 L 365 245 M 325 215 L 355 295 M 325 215 L 310 280"
+                            fill="none"
+                            stroke="#60A5FA"
+                            strokeWidth="6"
+                            strokeLinecap="round"
+                          />
+                        </g>
+
+                        {/* PULMONARY ARTERY (BLUE) & VEIN (RED) HILUM TRIAD */}
+                        <g>
+                          <circle cx="195" cy="205" r="14" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2" />
+                          <circle cx="180" cy="225" r="11" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
+                          <circle cx="325" cy="205" r="14" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2" />
+                          <circle cx="340" cy="225" r="11" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
+                        </g>
+
+                        {/* RIGHT LUNG (3 DISTINCT LOBES: SUPERIOR, MIDDLE, INFERIOR) */}
+                        <g>
+                          <path
+                            d="M 185 105 C 125 125, 95 235, 145 350 L 225 340 C 235 265, 230 150, 185 105 Z"
+                            fill="url(#hdRightLungGrad)"
+                            fillOpacity="0.88"
+                            stroke="#DBEAFE"
+                            strokeWidth="3.5"
+                          />
+                          {/* Horizontal & Oblique Fissures separating the 3 right lobes */}
+                          <line x1="105" y1="195" x2="230" y2="210" stroke="#DBEAFE" strokeWidth="2.5" strokeDasharray="5 3" />
+                          <line x1="118" y1="260" x2="225" y2="310" stroke="#DBEAFE" strokeWidth="2.5" strokeDasharray="5 3" />
+                        </g>
+
+                        {/* LEFT LUNG (2 DISTINCT LOBES WITH CARDIAC NOTCH) */}
+                        <g>
+                          <path
+                            d="M 335 105 C 395 145, 385 260, 375 350 L 295 340 Q 325 240 295 190 C 295 150, 315 115, 335 105 Z"
+                            fill="url(#hdLeftLungGrad)"
+                            fillOpacity="0.88"
+                            stroke="#DBEAFE"
+                            strokeWidth="3.5"
+                          />
+                          {/* Oblique Fissure separating left superior & inferior lobes */}
+                          <line x1="390" y1="185" x2="305" y2="295" stroke="#DBEAFE" strokeWidth="2.5" strokeDasharray="5 3" />
+                        </g>
                       </g>
                     </svg>
                   )}
 
                   {/* ======================================================= */}
-                  {/* 6. MUSCULOSKELETAL SYNCOVIAL JOINT (DETAILED DISSECTION) */}
+                  {/* 6. MUSCULOSKELETAL SYNCOVIAL JOINT (AUTHENTIC NETTER CLINICAL DISSECTION) */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-skeletal' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <linearGradient id="boneGradient7" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <linearGradient id="femurShaftGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="#FEF3C7" />
                           <stop offset="50%" stopColor="#F59E0B" />
-                          <stop offset="100%" stopColor="#B45309" />
+                          <stop offset="100%" stopColor="#92400E" />
                         </linearGradient>
                       </defs>
                       <g>
-                        <path d="M 225 30 L 295 30 L 315 175 C 315 195, 205 195, 205 175 Z" fill="url(#boneGradient7)" stroke="#FFFBEB" strokeWidth="4" />
-                        <path d="M 205 225 C 205 205, 315 205, 315 225 L 295 390 L 225 390 Z" fill="url(#boneGradient7)" stroke="#FFFBEB" strokeWidth="4" />
-                        <ellipse cx="260" cy="200" rx="65" ry="32" fill="rgba(6, 182, 212, 0.4)" stroke="#22D3EE" strokeWidth="4" />
-                        <text x="215" y="204" fill="#CFFAFE" fontSize="11" fontWeight="900">
-                          SYNOVIAL FLUID CAPSULE
-                        </text>
+                        {/* FEMUR BONE SHAFT & CONDYLES */}
+                        <path
+                          d="M 220 20 L 300 20 L 295 150 C 315 165, 325 185, 305 195 C 285 205, 275 190, 260 190 C 245 190, 235 205, 215 195 C 195 185, 205 165, 225 150 Z"
+                          fill="url(#femurShaftGrad)"
+                          stroke="#FFFBEB"
+                          strokeWidth="3.5"
+                        />
+
+                        {/* TIBIA & FIBULA BONE SHAFT */}
+                        <path
+                          d="M 215 210 C 235 200, 245 215, 260 215 C 275 215, 285 200, 305 210 C 325 220, 315 240, 295 255 L 300 395 L 220 395 L 225 255 C 205 240, 195 220, 215 210 Z"
+                          fill="url(#femurShaftGrad)"
+                          stroke="#FFFBEB"
+                          strokeWidth="3.5"
+                        />
+
+                        {/* ARTICULAR CARTILAGE LAYER (SYMPHYTUM TARGET) */}
+                        <path d="M 210 188 Q 260 178 310 188" fill="none" stroke="#67E8F9" strokeWidth="6" />
+                        <path d="M 210 212 Q 260 222 310 212" fill="none" stroke="#67E8F9" strokeWidth="6" />
+
+                        {/* MEDIAL & LATERAL MENISCUS CARTILAGE PADS */}
+                        <ellipse cx="225" cy="200" rx="22" ry="7" fill="#22D3EE" stroke="#FFFFFF" strokeWidth="1.5" />
+                        <ellipse cx="295" cy="200" rx="22" ry="7" fill="#22D3EE" stroke="#FFFFFF" strokeWidth="1.5" />
+
+                        {/* SYNOVIAL JOINT CAPSULE MEMBRANE & FLUID SPACE (RHUS TOX TARGET) */}
+                        <path
+                          d="M 185 160 Q 170 200 185 240 L 335 240 Q 350 200 335 160 Z"
+                          fill="rgba(6, 182, 212, 0.25)"
+                          stroke="#06B6D4"
+                          strokeWidth="3.5"
+                          strokeDasharray="6 4"
+                        />
+
+                        {/* PATELLA (KNEECAP) & PATELLAR LIGAMENT (RUTA GRAVEOLENS TARGET) */}
+                        <ellipse cx="260" cy="175" rx="24" ry="18" fill="#FEF08A" stroke="#CA8A04" strokeWidth="3" />
+                        <path d="M 260 193 L 260 255" stroke="#FACC15" strokeWidth="8" strokeLinecap="round" />
                       </g>
                     </svg>
                   )}
 
                   {/* ======================================================= */}
-                  {/* 7. GASTRO-INTESTINAL TRACT (DETAILED CLINICAL DISSECTION) */}
+                  {/* 7. GASTRO-INTESTINAL TRACT (AUTHENTIC NETTER CLINICAL DISSECTION) */}
                   {/* ======================================================= */}
                   {selectedSystemId === 'organ-gastro' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdStomachGrad7" cx="50%" cy="50%" r="60%">
+                        <radialGradient id="hdStomachGrad8" cx="50%" cy="50%" r="60%">
                           <stop offset="0%" stopColor="#FACC15" />
                           <stop offset="100%" stopColor="#A16207" />
                         </radialGradient>
                       </defs>
                       <g>
-                        <rect x="210" y="20" width="24" height="90" rx="8" fill="#FDE047" stroke="#854D0E" strokeWidth="3" />
+                        {/* ESOPHAGUS */}
+                        <rect x="225" y="15" width="22" height="90" rx="8" fill="#FDE047" stroke="#854D0E" strokeWidth="3" />
+
+                        {/* STOMACH WITH GREATER/LESSER CURVATURES & RUGAE FOLDS (NUX VOMICA TARGET) */}
+                        <g>
+                          <path
+                            d="M 225 105 C 160 130, 145 255, 260 270 Q 330 275, 340 220 Q 350 155, 247 105 Z"
+                            fill="url(#hdStomachGrad8)"
+                            stroke="#FEF9C3"
+                            strokeWidth="4"
+                          />
+                          {/* Gastric Rugae Mucous Folds */}
+                          <path
+                            d="M 220 140 Q 185 185 235 240 M 250 135 Q 215 190 270 245 M 285 150 Q 255 195 305 235"
+                            fill="none"
+                            stroke="#713F12"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            opacity="0.75"
+                          />
+                        </g>
+
+                        {/* C-SHAPED DUODENUM LOOP */}
                         <path
-                          d="M 210 110 C 150 135, 140 255, 255 270 Q 325 275, 335 220 Q 345 155, 234 110 Z"
-                          fill="url(#hdStomachGrad7)"
-                          stroke="#FEF9C3"
-                          strokeWidth="4"
+                          d="M 335 235 Q 365 260 345 295 Q 315 315 275 295"
+                          fill="none"
+                          stroke="#F59E0B"
+                          strokeWidth="14"
+                          strokeLinecap="round"
                         />
+
+                        {/* LARGE INTESTINE (COLON) HAUSTRA SEGMENTATIONS (HYDRASTIS TARGET) */}
                         <path
-                          d="M 125 340 L 125 180 Q 260 140, 395 180 L 395 340"
+                          d="M 125 350 L 125 180 Q 260 140, 395 180 L 395 350"
                           fill="none"
                           stroke="#EAB308"
-                          strokeWidth="16"
+                          strokeWidth="18"
                           strokeLinecap="round"
-                          strokeDasharray="14 6"
+                          strokeDasharray="16 6"
+                        />
+                        {/* Teniar Coli Longitudinal Muscle Band */}
+                        <path
+                          d="M 125 350 L 125 180 Q 260 140, 395 180 L 395 350"
+                          fill="none"
+                          stroke="#713F12"
+                          strokeWidth="3"
+                          strokeLinecap="round"
                         />
                       </g>
                     </svg>
@@ -1053,12 +1149,12 @@ export const Interactive360AnatomyAtlas: React.FC<
                   {selectedSystemId === 'organ-endocrine' && (
                     <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                       <defs>
-                        <radialGradient id="hdThyroidTissue7" cx="50%" cy="45%" r="55%">
+                        <radialGradient id="hdThyroidTissue8" cx="50%" cy="45%" r="55%">
                           <stop offset="0%" stopColor="#A5B4FC" />
                           <stop offset="60%" stopColor="#6366F1" />
                           <stop offset="100%" stopColor="#312E81" />
                         </radialGradient>
-                        <linearGradient id="tracheaCartilage7" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <linearGradient id="tracheaCartilage8" x1="0%" y1="0%" x2="0%" y2="100%">
                           <stop offset="0%" stopColor="#E2E8F0" />
                           <stop offset="100%" stopColor="#94A3B8" />
                         </linearGradient>
@@ -1066,7 +1162,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                       <g>
                         <path
                           d="M 225 35 L 295 35 L 305 110 L 260 130 L 215 110 Z"
-                          fill="url(#tracheaCartilage7)"
+                          fill="url(#tracheaCartilage8)"
                           stroke="#F8FAFC"
                           strokeWidth="3.5"
                         />
@@ -1077,16 +1173,16 @@ export const Interactive360AnatomyAtlas: React.FC<
                           <rect key={i} x="235" y={y} width="50" height="18" rx="6" fill="#CBD5E1" stroke="#475569" strokeWidth="2" />
                         ))}
                         <g>
-                          <rect x="215" y="180" width="90" height="36" rx="12" fill="url(#hdThyroidTissue7)" stroke="#EEF2FF" strokeWidth="3" />
+                          <rect x="215" y="180" width="90" height="36" rx="12" fill="url(#hdThyroidTissue8)" stroke="#EEF2FF" strokeWidth="3" />
                           <path
                             d="M 180 120 C 150 145, 150 245, 195 270 Q 225 270 230 220 C 235 170, 205 110, 180 120 Z"
-                            fill="url(#hdThyroidTissue7)"
+                            fill="url(#hdThyroidTissue8)"
                             stroke="#EEF2FF"
                             strokeWidth="3.5"
                           />
                           <path
                             d="M 340 120 C 370 145, 370 245, 325 270 Q 295 270 290 220 C 285 170, 315 110, 340 120 Z"
-                            fill="url(#hdThyroidTissue7)"
+                            fill="url(#hdThyroidTissue8)"
                             stroke="#EEF2FF"
                             strokeWidth="3.5"
                           />
@@ -1318,7 +1414,7 @@ export const Interactive360AnatomyAtlas: React.FC<
             })()
           ) : (
             <div className="text-center py-8 text-xs text-slate-500">
-              Select Head/Brain, Liver, Kidneys, or Cardiovascular Heart to launch university viva spotter questions.
+              Select Head/Brain, Liver, Kidneys, Cardiovascular Heart, or Lungs to launch university viva spotter questions.
             </div>
           )}
         </div>
