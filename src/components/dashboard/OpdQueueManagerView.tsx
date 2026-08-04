@@ -32,67 +32,191 @@ export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
   const pack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
   const labels = pack.labels;
 
-  const [opdQueue, setOpdQueue] = useState([
-    {
-      token: 'OPD-101',
-      patientName: 'Ramesh Kumar Sharma',
-      ageGender: '44M',
-      chiefComplaint: 'Acute Pulsating Hyperpyrexia & Carotid Throbbing',
-      status: 'IN_CONSULTATION',
-      waitTime: '0 mins',
-      abhaStatus: 'VERIFIED',
-    },
-    {
-      token: 'OPD-102',
-      patientName: 'Priya Patel',
-      ageGender: '38F',
-      chiefComplaint: 'Chronic Hepatic Parenchyma Cirrhosis & Scapular Neuralgia',
-      status: 'NEXT_IN_QUEUE',
-      waitTime: '8 mins',
-      abhaStatus: 'VERIFIED',
-    },
-    {
-      token: 'OPD-103',
-      patientName: 'Vikram Singh',
-      ageGender: '52M',
-      chiefComplaint: 'Synovial Knee Joint Effusion & Fibrous Stiffness',
-      status: 'WAITING',
-      waitTime: '15 mins',
-      abhaStatus: 'VERIFIED',
-    },
-    {
-      token: 'OPD-104',
-      patientName: 'Ananya Verma',
-      ageGender: '29F',
-      chiefComplaint: 'Throbbing Temporal Migraine & Photophobia',
-      status: 'WAITING',
-      waitTime: '22 mins',
-      abhaStatus: 'VERIFIED',
-    },
-  ]);
+  const getLocalizedQueue = (code: string) => {
+    if (code === 'TA') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'ரமேஷ் குமார் சர்மா',
+          ageGender: '44 ஆண்',
+          chiefComplaint: 'கடுமையான துடிக்கும் காய்ச்சல் & கரோடிட் தமனி அதிர்வு',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'பிரியா படேல்',
+          ageGender: '38 பெண்',
+          chiefComplaint: 'நாள்பட்ட கல்லீரல் தழும்புநோய் & தோள்பட்டை நரம்பு வலி',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'விக்ரம் சிங்',
+          ageGender: '52 ஆண்',
+          chiefComplaint: 'முழங்கால் மூட்டு நீர்வீக்கம் & விறைப்பு',
+          status: 'WAITING',
+          waitTime: '15 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'அனன்யா வர்மா',
+          ageGender: '29 பெண்',
+          chiefComplaint: 'துடிக்கும் நெற்றி ஒற்றைத்தலைவலி & வெளிச்சக்கூச்சம்',
+          status: 'WAITING',
+          waitTime: '22 mins',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'HI') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'रमेश कुमार शर्मा',
+          ageGender: '44 पुरुष',
+          chiefComplaint: 'तीव्र स्पंदनशील तेज बुखार और कैरोटिड नाड़ी की धड़कन',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'प्रिया पटेल',
+          ageGender: '38 महिला',
+          chiefComplaint: 'पुरानी यकृत सिरोसिस और कंधे के निचले हिस्से में दर्द',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'विक्रम सिंह',
+          ageGender: '52 पुरुष',
+          chiefComplaint: 'घुटने के जोड़ में सूजन और जकड़न',
+          status: 'WAITING',
+          waitTime: '15 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'अनन्या वर्मा',
+          ageGender: '29 महिला',
+          chiefComplaint: 'तीव्र कनपटी का माइग्रेन और धूप से संवेदनशीलता',
+          status: 'WAITING',
+          waitTime: '22 mins',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    if (code === 'BN') {
+      return [
+        {
+          token: 'OPD-101',
+          patientName: 'রমেশ কুমার শর্মা',
+          ageGender: '44 পুরুষ',
+          chiefComplaint: 'তীব্র স্পন্দনশীল ধড়ফড় জ্বর ও ক্যারোটিড ধমনি ধুকপুক',
+          status: 'IN_CONSULTATION',
+          waitTime: '0 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-102',
+          patientName: 'প্রিয়া প্যাটেল',
+          ageGender: '38 মহিলা',
+          chiefComplaint: 'দীর্ঘস্থায়ী লিভার সিরোসিস ও কাঁধের হাড়ের তলায় ব্যথা',
+          status: 'NEXT_IN_QUEUE',
+          waitTime: '8 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-103',
+          patientName: 'বিক্রম সিং',
+          ageGender: '52 পুরুষ',
+          chiefComplaint: 'হাঁটুর জয়েন্টে তরল সঞ্চয় ও শক্ত ভাব',
+          status: 'WAITING',
+          waitTime: '15 mins',
+          abhaStatus: 'VERIFIED',
+        },
+        {
+          token: 'OPD-104',
+          patientName: 'অনন্যা বর্মা',
+          ageGender: '29 মহিলা',
+          chiefComplaint: 'কপালের তীব্র মাইগ্রেন ও আলো সহ্য করতে না পারা',
+          status: 'WAITING',
+          waitTime: '22 mins',
+          abhaStatus: 'VERIFIED',
+        },
+      ];
+    }
+    return [
+      {
+        token: 'OPD-101',
+        patientName: 'Ramesh Kumar Sharma',
+        ageGender: '44M',
+        chiefComplaint: 'Acute Pulsating Hyperpyrexia & Carotid Throbbing',
+        status: 'IN_CONSULTATION',
+        waitTime: '0 mins',
+        abhaStatus: 'VERIFIED',
+      },
+      {
+        token: 'OPD-102',
+        patientName: 'Priya Patel',
+        ageGender: '38F',
+        chiefComplaint: 'Chronic Hepatic Parenchyma Cirrhosis & Scapular Neuralgia',
+        status: 'NEXT_IN_QUEUE',
+        waitTime: '8 mins',
+        abhaStatus: 'VERIFIED',
+      },
+      {
+        token: 'OPD-103',
+        patientName: 'Vikram Singh',
+        ageGender: '52M',
+        chiefComplaint: 'Synovial Knee Joint Effusion & Fibrous Stiffness',
+        status: 'WAITING',
+        waitTime: '15 mins',
+        abhaStatus: 'VERIFIED',
+      },
+      {
+        token: 'OPD-104',
+        patientName: 'Ananya Verma',
+        ageGender: '29F',
+        chiefComplaint: 'Throbbing Temporal Migraine & Photophobia',
+        status: 'WAITING',
+        waitTime: '22 mins',
+        abhaStatus: 'VERIFIED',
+      },
+    ];
+  };
+
+  const opdQueue = getLocalizedQueue(langCode);
 
   const uhiVideoSlots = [
     {
       time: '10:00 AM – 10:15 AM',
-      patientName: 'Ananya Verma',
+      patientName: langCode === 'TA' ? 'அனன்யா வர்மா' : langCode === 'HI' ? 'अनन्या वर्मा' : 'Ananya Verma',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:15 AM – 10:30 AM',
-      patientName: 'Vikramaditya Rao',
+      patientName: langCode === 'TA' ? 'விக்ரமாதித்யா ராவ்' : langCode === 'HI' ? 'विक्रमादित्य राव' : 'Vikramaditya Rao',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:30 AM – 10:45 AM',
-      patientName: 'Siddharth Deshmukh',
+      patientName: langCode === 'TA' ? 'சித்தார்த் தேஷ்முக்' : langCode === 'HI' ? 'सिद्धार्थ देशमुख' : 'Siddharth Deshmukh',
       status: labels.confirmedUhi,
       isBooked: true,
     },
     {
       time: '10:45 AM – 11:00 AM',
-      patientName: 'Kavita Patel',
+      patientName: langCode === 'TA' ? 'கவிதா படேல்' : langCode === 'HI' ? 'कविता पटेल' : 'Kavita Patel',
       status: labels.confirmedUhi,
       isBooked: true,
     },
