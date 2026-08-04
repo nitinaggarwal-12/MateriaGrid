@@ -1341,22 +1341,31 @@ export const BhmsClinicalAcademyView: React.FC<
 
       {/* TAB 0: NCH DEGREE CURRICULUM BREAKDOWN TABLE (BHMS 1-4 YRS + INTERNSHIP + MD PART I-II) */}
       {(activeTab as any) === 'CURRICULUM_MATRIX' && (
-        <div className="p-6 rounded-2xl border border-[#1C1F26] bg-[#0B0F19] space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div
+          className={`p-6 rounded-2xl border space-y-6 font-sans ${
+            isLight
+              ? 'bg-white border-slate-200 text-slate-900 shadow-2xs'
+              : 'bg-[#0B0F19] border-[#1C1F26] text-white'
+          }`}
+        >
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-4 border-slate-200 dark:border-slate-800">
             <div>
               <span className="text-xs px-2.5 py-0.5 rounded font-black bg-emerald-600 text-white">
                 NATIONAL COMMISSION FOR HOMEOPATHY (NCH) ACADEMIC FRAMEWORK
               </span>
-              <h2 className="text-base font-black text-white mt-1">
+              <h2 className="text-base font-black mt-1">
                 BHMS &amp; MD (HOM.) DEGREE STRUCTURE • CHAPTERS, QUIZZES, CLINICAL ASSIGNMENTS &amp; SIMULATION SCORING
               </h2>
+              <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
+                💡 Click any cell below to launch the corresponding interactive study material, clinical OPD assignment, quiz, or patient simulation.
+              </p>
             </div>
 
             <div className="text-right text-xs">
-              <span className="text-emerald-400 font-black block">
+              <span className="text-emerald-600 dark:text-emerald-400 font-black block">
                 TOTAL STRUCTURED MODULES: 24 COURSES • 140 CHAPTERS • 68 QUIZZES • 36 OPD ASSIGNMENTS
               </span>
-              <span className="text-gray-400 text-[11px]">
+              <span className="text-slate-500 dark:text-gray-400 text-[11px]">
                 All simulations evaluate Clinical Precision Grade (0-100) &amp; Hering’s Law adherence
               </span>
             </div>
@@ -1365,7 +1374,7 @@ export const BhmsClinicalAcademyView: React.FC<
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-slate-800 text-emerald-400 font-black uppercase text-[10px]">
+                <tr className="border-b border-slate-200 dark:border-slate-800 text-emerald-700 dark:text-emerald-400 font-black uppercase text-[10px]">
                   <th className="py-3 px-4">Degree &amp; Academic Year</th>
                   <th className="py-3 px-4">Core Clinical Subjects</th>
                   <th className="py-3 px-4">Chapters</th>
@@ -1375,103 +1384,432 @@ export const BhmsClinicalAcademyView: React.FC<
                   <th className="py-3 px-4">Scoring &amp; Certification</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
-                <tr className="hover:bg-slate-900/40">
-                  <td className="py-3.5 px-4 font-black text-amber-300">
-                    BHMS 1st Professional Year
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/80">
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-00');
+                    }}
+                    className="py-3.5 px-4 font-black text-amber-700 dark:text-amber-300 cursor-pointer hover:underline"
+                  >
+                    BHMS 1st Professional Year ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-00');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-emerald-600 transition-colors"
+                  >
                     Organon of Medicine (§1-70), Materia Medica Foundations, Anatomy &amp; Physiology
                   </td>
-                  <td className="py-3.5 px-4 font-mono">18 Chapters</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">8 Quizzes</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">4 Proving Logbooks</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-300">Acute Case History Taking</td>
-                  <td className="py-3.5 px-4 text-emerald-400 font-black">75% Passing Threshold</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-00');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 18 Chapters ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 8 Quizzes ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-00');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 4 Proving Logbooks ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 font-black hover:bg-amber-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      🧪 Acute Case Intake ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-emerald-600 dark:text-emerald-400 font-black">75% Passing Threshold</td>
                 </tr>
 
-                <tr className="hover:bg-slate-900/40">
-                  <td className="py-3.5 px-4 font-black text-amber-300">
-                    BHMS 2nd Professional Year
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-04');
+                    }}
+                    className="py-3.5 px-4 font-black text-amber-700 dark:text-amber-300 cursor-pointer hover:underline"
+                  >
+                    BHMS 2nd Professional Year ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-04');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-emerald-600 transition-colors"
+                  >
                     Organon (§71-145 Chronic Diseases), Polycrest Materia Medica, Pathology &amp; Forensic
                   </td>
-                  <td className="py-3.5 px-4 font-mono">22 Chapters</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">10 Quizzes</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">5 Miasm Analysis Reports</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-300">Chronic Physical Baseline Setup</td>
-                  <td className="py-3.5 px-4 text-emerald-400 font-black">80% Passing Threshold</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-04');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 22 Chapters ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 10 Quizzes ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-04');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 5 Miasm Reports ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 font-black hover:bg-amber-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      🧪 Chronic Physical Setup ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-emerald-600 dark:text-emerald-400 font-black">80% Passing Threshold</td>
                 </tr>
 
-                <tr className="hover:bg-slate-900/40">
-                  <td className="py-3.5 px-4 font-black text-amber-300">
-                    BHMS 3rd Professional Year
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-08');
+                    }}
+                    className="py-3.5 px-4 font-black text-amber-700 dark:text-amber-300 cursor-pointer hover:underline"
+                  >
+                    BHMS 3rd Professional Year ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-08');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-emerald-600 transition-colors"
+                  >
                     Classical Repertories (Kent, Bönninghausen, BBCR), Surgery &amp; Gynae Homoeotherapeutics
                   </td>
-                  <td className="py-3.5 px-4 font-mono">24 Chapters</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">12 Quizzes</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">6 Manual Repertorization Sheets</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-300">Kentian §153 Evaluation Challenge</td>
-                  <td className="py-3.5 px-4 text-emerald-400 font-black">80% Passing Threshold</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-08');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 24 Chapters ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 12 Quizzes ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-08');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 6 Repertory Sheets ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 font-black hover:bg-amber-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      🧪 Kentian §153 Challenge ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-emerald-600 dark:text-emerald-400 font-black">80% Passing Threshold</td>
                 </tr>
 
-                <tr className="hover:bg-slate-900/40">
-                  <td className="py-3.5 px-4 font-black text-amber-300">
-                    BHMS 4th Professional Year
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-01');
+                    }}
+                    className="py-3.5 px-4 font-black text-amber-700 dark:text-amber-300 cursor-pointer hover:underline"
+                  >
+                    BHMS 4th Professional Year ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-01');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-emerald-600 transition-colors"
+                  >
                     Practice of Medicine, Digital Repertorization, Sehgal ROH &amp; Vijayakar Therapeutics
                   </td>
-                  <td className="py-3.5 px-4 font-mono">28 Chapters</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">14 Quizzes</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">8 Live OPD Case Summaries</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-300">Asymmetrical Specificity Matrix</td>
-                  <td className="py-3.5 px-4 text-emerald-400 font-black">85% Passing Threshold</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-01');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 28 Chapters ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 14 Quizzes ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-01');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 8 Live OPD Cases ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 font-black hover:bg-amber-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      🧪 Specificity Matrix ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-emerald-600 dark:text-emerald-400 font-black">85% Passing Threshold</td>
                 </tr>
 
-                <tr className="bg-emerald-950/20 hover:bg-emerald-950/30">
-                  <td className="py-3.5 px-4 font-black text-emerald-400">
-                    BHMS Compulsory Internship (1 Year)
+                <tr className="bg-emerald-500/5 hover:bg-emerald-500/10 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-19');
+                    }}
+                    className="py-3.5 px-4 font-black text-emerald-700 dark:text-emerald-400 cursor-pointer hover:underline"
+                  >
+                    BHMS Compulsory Internship (1 Year) ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
-                    Live Clinical OPD &amp; IPD Rotations, Telehealth OPD, Burnet Tissue Drainage Override
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-19');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-emerald-600 transition-colors"
+                  >
+                    Live Clinical OPD &amp; IPD Rotations, Telehealth OPD, Burnett Tissue Drainage Override
                   </td>
-                  <td className="py-3.5 px-4 font-mono">16 Clinical Tutorials</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">10 Case Defense Exams</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">50 Verified OPD Case Logbook</td>
-                  <td className="py-3.5 px-4 font-bold text-emerald-300">Virtual OPD Patient Simulator Sandbox</td>
-                  <td className="py-3.5 px-4 text-amber-400 font-black">Clinical OPD License Certificate</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-19');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 16 Tutorials ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 10 Defense Exams ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-19');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 50 Verified Logbook ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-black hover:bg-emerald-500 transition-all cursor-pointer shadow-2xs"
+                    >
+                      🧪 Virtual OPD Sandbox ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-amber-600 dark:text-amber-400 font-black">Clinical OPD License Certificate</td>
                 </tr>
 
-                <tr className="hover:bg-slate-900/40">
-                  <td className="py-3.5 px-4 font-black text-purple-300">
-                    MD (Hom.) Part-I Residency
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-02');
+                    }}
+                    className="py-3.5 px-4 font-black text-purple-700 dark:text-purple-300 cursor-pointer hover:underline"
+                  >
+                    MD (Hom.) Part-I Residency ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-02');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-purple-600 transition-colors"
+                  >
                     Advanced Homeopathic Philosophy, Biostatistics &amp; CCRH Clinical Research Methodology
                   </td>
-                  <td className="py-3.5 px-4 font-mono">16 Research Chapters</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">6 Advanced Exams</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">Dissertation Protocol Submission</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-300">Double-Blind Clinical Trial Simulation</td>
-                  <td className="py-3.5 px-4 text-emerald-400 font-black">MD Part-I Credential</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-02');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 16 Research Ch. ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 6 Advanced Exams ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-02');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 Thesis Protocol ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 font-black hover:bg-amber-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      🧪 RCT Trial Sim ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-emerald-600 dark:text-emerald-400 font-black">MD Part-I Credential</td>
                 </tr>
 
-                <tr className="hover:bg-slate-900/40">
-                  <td className="py-3.5 px-4 font-black text-purple-300">
-                    MD (Hom.) Part-II Specialization
+                <tr className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-23');
+                    }}
+                    className="py-3.5 px-4 font-black text-purple-700 dark:text-purple-300 cursor-pointer hover:underline"
+                  >
+                    MD (Hom.) Part-II Specialization ▶
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-white">
+                  <td
+                    onClick={() => {
+                      setActiveTab('COURSES');
+                      setSelectedCourseId('course-23');
+                    }}
+                    className="py-3.5 px-4 font-bold text-slate-800 dark:text-white cursor-pointer hover:text-purple-600 transition-colors"
+                  >
                     Specializations: Repertory / Materia Medica / Organon / Practice of Medicine
                   </td>
-                  <td className="py-3.5 px-4 font-mono">16 Specialist Chapters</td>
-                  <td className="py-3.5 px-4 font-mono text-purple-400">8 Grand Viva Quizzes</td>
-                  <td className="py-3.5 px-4 font-mono text-cyan-400">Clinical Thesis &amp; Specialty Logbook</td>
-                  <td className="py-3.5 px-4 font-bold text-gray-300">Severe Pathology Drainage Gate Defense</td>
-                  <td className="py-3.5 px-4 text-amber-400 font-black">MD (Hom.) Specialist Fellowship</td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-23');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                    >
+                      🔗 16 Specialist Ch. ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('QUIZ')}
+                      className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-700 dark:text-purple-400 font-black hover:bg-purple-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      ⚡ 8 Grand Viva ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => {
+                        setActiveTab('COURSES');
+                        setSelectedCourseId('course-23');
+                        setChapterLessonTab('CASE_STUDY');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 font-black hover:bg-cyan-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      📋 Clinical Thesis ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <button
+                      onClick={() => setActiveTab('SIMULATION')}
+                      className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 font-black hover:bg-amber-600 hover:text-white transition-all cursor-pointer"
+                    >
+                      🧪 Pathology Gate Defense ▶
+                    </button>
+                  </td>
+                  <td className="py-3.5 px-4 text-amber-600 dark:text-amber-400 font-black">MD (Hom.) Specialist Fellowship</td>
                 </tr>
               </tbody>
             </table>
