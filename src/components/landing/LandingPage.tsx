@@ -24,6 +24,7 @@ import { ActiveWorkspaceTab } from '@/components/dashboard/SidebarNav';
 interface LandingPageProps {
   onLaunchWorkspace: () => void;
   onNavigateToTab?: (tab: ActiveWorkspaceTab) => void;
+  onOpenLoginModal?: () => void;
   theme?: 'dark' | 'light';
   langCode?: IndianLanguageCode;
   onSelectLangCode?: (code: IndianLanguageCode) => void;
@@ -32,6 +33,7 @@ interface LandingPageProps {
 export const LandingPage: React.FC<LandingPageProps> = ({
   onLaunchWorkspace,
   onNavigateToTab,
+  onOpenLoginModal,
   theme = 'dark',
   langCode = 'EN',
   onSelectLangCode,
@@ -117,6 +119,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 ))}
               </select>
             </div>
+
+            <button
+              onClick={() => {
+                if (onOpenLoginModal) onOpenLoginModal();
+                else onLaunchWorkspace();
+              }}
+              className="px-4 py-2.5 rounded-xl border border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-black text-xs transition-all cursor-pointer"
+            >
+              🔑 Sign In / RBAC Suite
+            </button>
 
             <button
               onClick={onLaunchWorkspace}

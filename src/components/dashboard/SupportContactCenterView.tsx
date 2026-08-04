@@ -72,7 +72,7 @@ export const SupportContactCenterView: React.FC<
     },
   ];
 
-  const handleSendChat = (e: React.FormEvent) => {
+  const handleSendChat = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputQuery.trim()) return;
 
@@ -83,25 +83,52 @@ export const SupportContactCenterView: React.FC<
     ]);
     setInputQuery('');
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionStateId: 'support_live_llm_session',
+          chatHistory: chatMessages.map((m) => ({
+            role: m.sender === 'USER' ? 'user' : 'assistant',
+            content: m.text,
+          })),
+          currentMessage: userMsg,
+          patientBaselines: {
+            thermal: 'Hot',
+            thirst: 'Thirstless',
+            side: 'Right',
+          },
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            sender: 'AI',
+            text:
+              data.chatbotResponse ||
+              'Our AYUSH Support & ABDM gateway assistant is ready to help.',
+            time: 'Just now',
+          },
+        ]);
+      } else {
+        throw new Error('Fallback to local helper');
+      }
+    } catch (err) {
       let responseText =
-        'Our licensed AYUSH clinical support specialist and ABDM UHI gateway coordinator have logged your inquiry. You can also call our WhatsApp doctor team directly below.';
+        'Our licensed AYUSH clinical support specialist and ABDM UHI gateway coordinator have logged your inquiry. You can also inspect your active rubrics or launch the AI Clinical Copilot tab.';
       if (userMsg.toLowerCase().includes('abha')) {
         responseText =
           'To link your ABHA Health ID (91-4829-1049-3829), click "+ Intake" in the top bar or verify your consent hash inside Patient Profile.';
-      } else if (
-        userMsg.toLowerCase().includes('whatsapp') ||
-        userMsg.toLowerCase().includes('call')
-      ) {
-        responseText =
-          'You can initiate an immediate direct WhatsApp Doctor Call or Chat by clicking the "Launch WhatsApp Video / Voice Call" button below!';
       }
-
       setChatMessages((prev) => [
         ...prev,
         { sender: 'AI', text: responseText, time: 'Just now' },
       ]);
-    }, 800);
+    }
   };
 
   const handleOpenWhatsAppCall = () => {

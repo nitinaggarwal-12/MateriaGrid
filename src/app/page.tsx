@@ -299,16 +299,20 @@ function MasterWorkspaceInner() {
 
   if (currentView === 'LANDING') {
     return (
-      <LandingPage
-        onLaunchWorkspace={() => setCurrentView('WORKSPACE')}
-        onNavigateToTab={(tab) => {
-          setCurrentView('WORKSPACE');
-          setActiveTab(tab);
-        }}
-        theme={theme}
-        langCode={langCode}
-        onSelectLangCode={handleSelectLanguage}
-      />
+      <>
+        <LandingPage
+          onLaunchWorkspace={() => setCurrentView('WORKSPACE')}
+          onNavigateToTab={(tab) => {
+            setCurrentView('WORKSPACE');
+            setActiveTab(tab);
+          }}
+          onOpenLoginModal={() => setIsLoginModalOpen(true)}
+          theme={theme}
+          langCode={langCode}
+          onSelectLangCode={handleSelectLanguage}
+        />
+        <RbacLoginModal />
+      </>
     );
   }
 
