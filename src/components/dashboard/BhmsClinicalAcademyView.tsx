@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   GraduationCap,
   BookOpen,
@@ -1151,12 +1151,28 @@ export const BhmsClinicalAcademyView: React.FC<
 > = ({ theme = 'dark' }) => {
   const isLight = theme === 'light';
 
-  const [activeTab, setActiveTab] = useState<'COURSES' | 'QUIZ' | 'SIMULATION'>(
-    'COURSES'
-  );
-  const [selectedCourseId, setSelectedCourseId] = useState<string>(
-    ACADEMIC_COURSES[0].id
-  );
+  const [activeTab, setActiveTab] = useState<'COURSES' | 'QUIZ' | 'SIMULATION' | 'CURRICULUM_MATRIX'>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam === 'QUIZ' || tabParam === 'SIMULATION' || tabParam === 'CURRICULUM_MATRIX' || tabParam === 'COURSES') {
+        return tabParam;
+      }
+    }
+    return 'COURSES';
+  });
+
+  const [selectedCourseId, setSelectedCourseId] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const courseParam = params.get('course');
+      if (courseParam && ACADEMIC_COURSES.some((c) => c.id === courseParam)) {
+        return courseParam;
+      }
+    }
+    return ACADEMIC_COURSES[0].id;
+  });
+
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
 
@@ -1169,17 +1185,36 @@ export const BhmsClinicalAcademyView: React.FC<
     'ABDOMEN - CIRRHOSIS - liver',
   ]);
   const [simChosenPotency, setSimChosenPotency] = useState<string>('DRAINAGE_LOW');
-  const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(0);
+  const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const chParam = params.get('chapter');
+      if (chParam && !isNaN(Number(chParam))) return Number(chParam);
+    }
+    return 0;
+  });
   const [selectedCaseRemedyIdx, setSelectedCaseRemedyIdx] = useState<number>(0);
-  const [selectedLevels, setSelectedLevels] = useState<string[]>([
-    'BHMS_1',
-    'BHMS_2',
-    'BHMS_3',
-    'BHMS_4',
-    'BHMS_INT',
-    'MD_RESIDENT',
-  ]);
+  const [selectedLevels, setSelectedLevels] = useState<string[]>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const lvlParam = params.get('degrees');
+      if (lvlParam) return lvlParam.split(',');
+    }
+    return ['BHMS_1', 'BHMS_2', 'BHMS_3', 'BHMS_4', 'BHMS_INT', 'MD_RESIDENT'];
+  });
   const [chapterLessonTab, setChapterLessonTab] = useState<'LECTURE' | 'ANALOGY' | 'CASE_STUDY'>('LECTURE');
+
+  // SYNCHRONIZE ACTIVE TAB, COURSE ID, CHAPTER & DEGREES INTO BROWSER URL SEARCH PARAMS
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', activeTab);
+      url.searchParams.set('course', selectedCourseId);
+      url.searchParams.set('chapter', String(selectedChapterIdx));
+      url.searchParams.set('degrees', selectedLevels.join(','));
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, [activeTab, selectedCourseId, selectedChapterIdx, selectedLevels]);
 
   // PRACTICE TEST GENERATOR STATE
   const [testDegree, setTestDegree] = useState<string>('BHMS');
