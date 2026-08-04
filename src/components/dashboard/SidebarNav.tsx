@@ -107,25 +107,25 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       items: [
         {
           id: 'PATIENT_PROFILE' as ActiveWorkspaceTab,
-          label: 'Patient Profile & ABHA',
+          label: labels.patientProfile,
           subLabel: 'ABDM Health Locker & Profile',
           icon: User,
         },
         {
           id: 'DOCTOR_PROFILE' as ActiveWorkspaceTab,
-          label: 'Physician Credentials',
+          label: labels.doctorProfile,
           subLabel: 'Dr. Nitin Aggarwal, MD Hom.',
           icon: UserCheck,
         },
         {
           id: 'HOSPITAL_PROFILE' as ActiveWorkspaceTab,
-          label: 'Hospital & OPD Fleet',
+          label: labels.hospitalProfile,
           subLabel: 'NIH Central AYUSH Hub',
           icon: Building2,
         },
         {
           id: 'SUPPORT_HELP' as ActiveWorkspaceTab,
-          label: '24/7 Support & WhatsApp',
+          label: labels.supportHelp,
           subLabel: 'Live Chat, Contact & WhatsApp Call',
           icon: HelpCircle,
           isLive: true,
