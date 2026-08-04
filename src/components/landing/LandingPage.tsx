@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { EndToEndDecisionFlowchart } from '../dashboard/EndToEndDecisionFlowchart';
 import { PromptCanvasDrawIoDiagram } from '../dashboard/PromptCanvasDrawIoDiagram';
+import { QuantumParticleCanvas } from './QuantumParticleCanvas';
 
 interface LandingPageProps {
   onLaunchWorkspace: () => void;
@@ -424,9 +425,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
             </div>
 
-            {/* RIGHT FLOATING 3D SPATIAL WORKSTATION PREVIEW CARD */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-2xl border border-emerald-500/40 bg-[#111317]/90 backdrop-blur-2xl p-5 shadow-[0_0_60px_rgba(16,185,129,0.2)] transform hover:scale-[1.01] transition-transform duration-300">
+            {/* RIGHT FLOATING 3D SPATIAL WORKSTATION PREVIEW CARD WITH KINETIC CANVAS */}
+            <div className="lg:col-span-5 relative min-h-[420px] flex items-center justify-center">
+              <div className="absolute inset-0 rounded-2xl overflow-hidden border border-emerald-500/30 bg-[#090A0C]">
+                <QuantumParticleCanvas />
+              </div>
+
+              <div className="relative z-10 w-full rounded-2xl border border-emerald-500/40 bg-[#111317]/85 backdrop-blur-xl p-5 shadow-[0_0_60px_rgba(16,185,129,0.25)] transform hover:scale-[1.01] transition-transform duration-300">
                 <div className="flex items-center justify-between border-b border-[#1C1F26] pb-3 text-xs font-mono">
                   <div className="flex items-center space-x-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
