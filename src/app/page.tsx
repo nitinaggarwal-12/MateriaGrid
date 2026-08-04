@@ -715,7 +715,7 @@ function MasterWorkspaceInner() {
                           <Award className="w-4 h-4 text-emerald-500" />
                           <div>
                             <p className="text-xs font-black text-emerald-600 dark:text-emerald-400">
-                              Top Simillimum Rx
+                              {INDIAN_LANGUAGE_PACKS[langCode]?.labels.topSimillimum || 'Top Simillimum Rx'}
                             </p>
                             <p className="text-[10px] text-gray-500 dark:text-gray-400">
                               {remedies[0]?.code || 'Bell'} (Score:{' '}
@@ -742,10 +742,10 @@ function MasterWorkspaceInner() {
                           <FileText className="w-4 h-4 text-cyan-500" />
                           <div>
                             <p className="text-xs font-black">
-                              + Case Intake & Sehgal ROH
+                              {INDIAN_LANGUAGE_PACKS[langCode]?.labels.intake || '+ Case Intake & Sehgal ROH'}
                             </p>
                             <p className="text-[10px] text-gray-500 dark:text-gray-400">
-                              Extract Rubrics from Narrative
+                              {INDIAN_LANGUAGE_PACKS[langCode]?.labels.intakeSubtitle || 'Extract Rubrics from Narrative'}
                             </p>
                           </div>
                         </div>
@@ -767,7 +767,7 @@ function MasterWorkspaceInner() {
                           <GitBranch className="w-4 h-4 text-orange-500" />
                           <div>
                             <p className="text-xs font-black">
-                              Clinical Decision Gates
+                              {INDIAN_LANGUAGE_PACKS[langCode]?.labels.decisionGates || 'Clinical Decision Gates'}
                             </p>
                             <p className="text-[10px] text-gray-500 dark:text-gray-400">
                               Burnett & Vijayakar Flowchart
@@ -798,11 +798,11 @@ function MasterWorkspaceInner() {
                             <div>
                               <p className="text-xs font-black">
                                 {isFullWidthOpdMode
-                                  ? 'Switch to Telehealth Split Video'
-                                  : 'Switch to 100% Full OPD Grid'}
+                                  ? INDIAN_LANGUAGE_PACKS[langCode]?.labels.similiMatrixEngine || 'Switch to Telehealth Split Video'
+                                  : INDIAN_LANGUAGE_PACKS[langCode]?.labels.opdQueue || 'Switch to 100% Full OPD Grid'}
                               </p>
                               <p className="text-[10px] text-gray-500 dark:text-gray-400">
-                                Toggle Matrix Workspace Layout
+                                {INDIAN_LANGUAGE_PACKS[langCode]?.labels.similiMatrixSub || 'Toggle Matrix Workspace Layout'}
                               </p>
                             </div>
                           </div>
