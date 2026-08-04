@@ -63,6 +63,104 @@ interface CourseModule {
 
 const ACADEMIC_COURSES: CourseModule[] = [
   {
+    id: 'course-00',
+    code: 'BHMS-101',
+    title: 'Foundations of Organon (§1–70) & First-Year Keynote Materia Medica',
+    instructor: 'Prof. Dr. Rajeshwari Sharma, MD (Hom.)',
+    duration: '6 Hours • 6 Chapters',
+    level: 'BHMS INTERN',
+    chaptersCount: 6,
+    progressPercent: 100,
+    summary:
+      'Master Samuel Hahnemann’s §1-70 foundations: the Physician’s Mission (§1), Highest Ideal of Cure (§2), Dynamized Vital Force (§9-17), and Keynote Proving Profiles of Aconite, Belladonna, Bryonia & Nux Vomica.',
+    chapters: [
+      {
+        title: 'Chapter 1: The Physician’s Highest Mission & Highest Ideal of Cure (§1–2)',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Aphorism §1 establishes that the physician’s high and ONLY mission is to restore the sick to health, to cure. Aphorism §2 defines the Highest Ideal of Cure: rapid, gentle, and permanent restoration of health in the shortest, most reliable, and most harmless way.',
+          aphorismReference:
+            'Organon §2: "The highest ideal of cure is rapid, gentle and permanent restoration of the health, or removal and annihilation of the disease in its whole extent..."',
+          clinicalTakeaway:
+            'Never settle for temporary palliation or aggressive physiological disruption. Every prescription must aim for rapid, gentle, permanent cure.',
+          diagramDescription:
+            'Hahnemannian Cure Continuum: Symptom Suppression (Harmful) vs Gentle Dynamic Restoration (Ideal Cure).',
+          workedCaseExample:
+            'Acute febrile restlessness relieved gently within 2 hours of single dose Aconitum 30C.',
+        },
+      },
+      {
+        title: 'Chapter 2: The Dynamized Vital Force in Health & Disease (§9–17)',
+        duration: '55 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'In the healthy condition of man, the spiritual vital force (Autocracy) animates the material body (Organism) in harmonious play. Disease is nothing more than a dynamic derangement of this vital force.',
+          aphorismReference:
+            'Organon §9: "In the healthy condition of man, the spiritual vital force... holds the organism in harmonious operation..."',
+          clinicalTakeaway:
+            'Medicines do not act by chemical mass action, but by dynamic resonant vibration matching the altered state of the vital force.',
+          diagramDescription:
+            'Vital Force Dynamic Resonance Diagram.',
+          workedCaseExample:
+            'Dynamic susceptibility verified in acute anxiety crisis matching Aconite.',
+        },
+      },
+      {
+        title: 'Chapter 3: First-Year Keynote Proving Profiles: Aconite, Belladonna & Bryonia',
+        duration: '60 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Aconite: Sudden violent onset after dry cold wind, intense fear of death, bounding pulse. Belladonna: Sudden throbbing heat, red face, dilated pupils, thirstless. Bryonia: Stitching pains, absolute aggravation from slightest motion, intense thirst for large quantities.',
+          aphorismReference:
+            'Keynotes Materia Medica: Aconite (Sudden cold wind), Belladonna (Throbbing congestion), Bryonia (Motion aggravates).',
+          clinicalTakeaway:
+            'Differentiate Bryonia (worse motion) from Rhus tox (better continued motion).',
+          diagramDescription:
+            'Triad Differential Matrix: Aconite vs Belladonna vs Bryonia.',
+          workedCaseExample:
+            'Patient who sits completely still in bed clutching chest during cough -> Bryonia 200C.',
+        },
+      },
+      {
+        title: 'Chapter 4: Acute vs Chronic Case Structure (§72–82)',
+        duration: '50 mins',
+        completed: true,
+        studyMaterial: {
+          lectureSummary:
+            'Acute diseases are rapid processes of the abnormally deranged vital force with a tendency to finish their course more or less quickly. Chronic diseases arise from chronic miasmatic infection.',
+          aphorismReference:
+            'Organon §72: "The diseases of human beings are divided into acute and chronic..."',
+          clinicalTakeaway:
+            'Never treat an acute exacerbation of a chronic disease with a heavy constitutional high potency without evaluating acute modalities.',
+          diagramDescription:
+            'Acute Curve vs Chronic Underlying Miasmatic Baseline.',
+          workedCaseExample:
+            'Acute coryza in chronic psoric asthma patient managed first with acute Allium cepa 30C.',
+        },
+      },
+    ],
+    quiz: [
+      {
+        id: 'q-bhms1',
+        question:
+          'According to Organon of Medicine Aphorism §2, what is the Highest Ideal of Cure?',
+        options: [
+          'Suppression of local symptoms using maximum chemical dosage',
+          'Rapid, gentle, and permanent restoration of health in the shortest, most reliable way',
+          'Surgical removal of all affected tissues immediately',
+          'Alternating five remedies every 30 minutes',
+        ],
+        correctIndex: 1,
+        explanation:
+          'Aphorism §2 explicitly defines the highest ideal of cure as rapid, gentle, and permanent restoration of health based on clearly comprehensible principles.',
+      },
+    ],
+  },
+  {
     id: 'course-01',
     code: 'BHMS-401',
     title: 'Dr. Prafull Vijayakar’s Predictive Homeopathy & Thermal-Thirst Baseline Physics',
