@@ -164,7 +164,7 @@ export const UserPersonaHeaderWidget: React.FC<
         />
       </button>
 
-      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (HIGH-Z Z-[9999] OPAQUE SURFACE) */}
+      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (VIEWPORT-FIXED Z-[9999] TO PREVENT PARENT OVERFLOW CLIPPING) */}
       {isOpen && (
         <>
           <div
@@ -172,7 +172,7 @@ export const UserPersonaHeaderWidget: React.FC<
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute right-0 top-full mt-4 w-88 rounded-2xl border p-4 shadow-2xl z-[9999] space-y-4 transition-all ${
+            className={`fixed right-4 sm:right-6 top-16 w-88 max-h-[86vh] overflow-y-auto rounded-2xl border p-4 shadow-2xl z-[9999] space-y-4 transition-all ${
               isLight
                 ? 'bg-white border-slate-200 text-slate-900 shadow-slate-400/30'
                 : 'bg-[#0B0F19] border-[#1C1F26] text-white shadow-black/90'
