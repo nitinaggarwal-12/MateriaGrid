@@ -153,6 +153,96 @@ const CLASSICAL_CHAPTER_QUICK_RUBRICS: Record<
   ],
 };
 
+export function getChapterColorTheme(chapter: string, isLight: boolean) {
+  const ch = chapter.toUpperCase();
+  // 1. PSYCHE & MIND (Violet / Purple)
+  if (ch === 'MIND' || ch === 'VERTIGO') {
+    return {
+      badge: isLight
+        ? 'bg-purple-100 text-purple-800 border-purple-300'
+        : 'bg-purple-950/90 text-purple-300 border-purple-600/60',
+      dot: 'bg-purple-500',
+    };
+  }
+  // 2. HEAD & SENSORY ORGANS (Cobalt Blue)
+  if (
+    [
+      'HEAD',
+      'EYES',
+      'VISION',
+      'EARS',
+      'HEARING',
+      'NOSE',
+      'FACE',
+      'MOUTH',
+      'TEETH',
+      'THROAT',
+    ].includes(ch)
+  ) {
+    return {
+      badge: isLight
+        ? 'bg-blue-100 text-blue-800 border-blue-300'
+        : 'bg-blue-950/90 text-blue-300 border-blue-600/60',
+      dot: 'bg-blue-500',
+    };
+  }
+  // 3. RESPIRATORY & CHEST (Cyan)
+  if (['RESPIRATION', 'COUGH', 'CHEST'].includes(ch)) {
+    return {
+      badge: isLight
+        ? 'bg-cyan-100 text-cyan-800 border-cyan-300'
+        : 'bg-cyan-950/90 text-cyan-300 border-cyan-600/60',
+      dot: 'bg-cyan-500',
+    };
+  }
+  // 4. VISCERAL, DIGESTIVE & UROGENITAL (Emerald Green)
+  if (
+    [
+      'STOMACH',
+      'ABDOMEN',
+      'RECTUM',
+      'STOOL',
+      'BLADDER',
+      'KIDNEYS',
+      'URINE',
+      'GENITALIA MALE',
+      'GENITALIA FEMALE',
+    ].includes(ch)
+  ) {
+    return {
+      badge: isLight
+        ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+        : 'bg-emerald-950/90 text-emerald-300 border-emerald-600/60',
+      dot: 'bg-emerald-500',
+    };
+  }
+  // 5. LOCOMOTOR & STRUCTURAL (Warm Amber)
+  if (['BACK', 'EXTREMITIES'].includes(ch)) {
+    return {
+      badge: isLight
+        ? 'bg-amber-100 text-amber-800 border-amber-300'
+        : 'bg-amber-950/90 text-amber-300 border-amber-600/60',
+      dot: 'bg-amber-500',
+    };
+  }
+  // 6. THERMAL, FEVER & SLEEP (Crimson / Rose)
+  if (['CHILL', 'FEVER', 'PERSPIRATION', 'SLEEP'].includes(ch)) {
+    return {
+      badge: isLight
+        ? 'bg-rose-100 text-rose-800 border-rose-300'
+        : 'bg-rose-950/90 text-rose-300 border-rose-600/60',
+      dot: 'bg-rose-500',
+    };
+  }
+  // 7. CONSTITUTIONAL & SKIN (Indigo)
+  return {
+    badge: isLight
+      ? 'bg-indigo-100 text-indigo-800 border-indigo-300'
+      : 'bg-indigo-950/90 text-indigo-300 border-indigo-600/60',
+    dot: 'bg-indigo-500',
+  };
+}
+
 export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   initialRubrics,
   calculatedRemedies,
@@ -352,6 +442,7 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                               (r) => r.chapter === ch
                             ).length;
 
+                            const chapterTheme = getChapterColorTheme(ch, isLight);
                             return (
                               <label
                                 key={ch}
@@ -371,6 +462,9 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                                       }
                                     }}
                                     className="w-4 h-4 accent-emerald-500 rounded cursor-pointer flex-shrink-0"
+                                  />
+                                  <span
+                                    className={`w-2 h-2 rounded-full flex-shrink-0 ${chapterTheme.dot}`}
                                   />
                                   <span>{ch}</span>
                                 </div>
@@ -773,14 +867,19 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
                     <div className="flex items-center justify-between space-x-3">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
-                          <span
-                            className={`text-[11px] font-black uppercase tracking-wider ${
-                              isLight ? 'text-emerald-700' : 'text-emerald-400'
-                            }`}
-                          >
-                            {rubric.chapter}
-                          </span>
-                          <span className={isLight ? 'text-slate-400' : 'text-slate-500'}>•</span>
+                          {(() => {
+                            const chapterTheme = getChapterColorTheme(
+                              rubric.chapter,
+                              isLight
+                            );
+                            return (
+                              <span
+                                className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border flex-shrink-0 ${chapterTheme.badge}`}
+                              >
+                                {rubric.chapter}
+                              </span>
+                            );
+                          })()}
                           <span
                             className={`font-semibold text-xs leading-snug ${
                               isLight ? 'text-slate-900' : 'text-white'
