@@ -1,15 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Activity,
   BarChart3,
+  Activity,
   Layers,
-  ShieldCheck,
-  Compass,
-  TrendingDown,
-  ArrowDownRight,
   Sparkles,
+  ShieldCheck,
+  Award,
+  TrendingUp,
+  Flame,
+  Droplets,
+  Compass,
+  ArrowUpRight,
+  Info,
 } from 'lucide-react';
 
 interface ClinicalAnalyticsGraphsProps {
@@ -18,300 +22,218 @@ interface ClinicalAnalyticsGraphsProps {
 
 export const ClinicalAnalyticsGraphs: React.FC<
   ClinicalAnalyticsGraphsProps
-> = ({ theme = 'light' }) => {
-  const isLight = theme === 'light';
+> = () => {
+  const [selectedMiasm, setSelectedMiasm] = useState<string>('PSORA');
 
-  const remedyScores = [
-    { code: 'Bell', name: 'Belladonna', score: 65.2, rubrics: '7/8 Rubrics', progress: 95 },
-    { code: 'Chel', name: 'Chelidonium majus', score: 58.4, rubrics: '4/8 Rubrics', progress: 85 },
-    { code: 'Sulph', name: 'Sulphur', score: 52.1, rubrics: '8/8 Rubrics', progress: 76 },
-    { code: 'Acon', name: 'Aconitum napellus', score: 49.3, rubrics: '6/8 Rubrics', progress: 72 },
-    { code: 'Bry', name: 'Bryonia alba', score: 46.8, rubrics: '6/8 Rubrics', progress: 68 },
-    { code: 'Puls', name: 'Pulsatilla nigricans', score: 44.2, rubrics: '5/8 Rubrics', progress: 64 },
+  const miasmaticDistribution = [
+    {
+      miasm: 'PSORA (FUNCTIONAL / SKIN)',
+      percentage: 54,
+      remedies: ['Sulphur', 'Calcarea carb', 'Lycopodium'],
+      color: '#10B981',
+      description: 'Functional irritation, nervous anxiety, cutaneous itching without structural destruction.',
+    },
+    {
+      miasm: 'SYCOSIS (HYPERPLASIA / DISCHARGE)',
+      percentage: 28,
+      remedies: ['Thuja', 'Medorrhinum', 'Pulsatilla'],
+      color: '#06B6D4',
+      description: 'Proliferation, joint synovial effusion, slow onset, greenish discharges.',
+    },
+    {
+      miasm: 'SYPHILIS (DESTRUCTIVE / ULCERATIVE)',
+      percentage: 18,
+      remedies: ['Mercurius', 'Lachesis', 'Arsenicum'],
+      color: '#F43F5E',
+      description: 'Cellular necrosis, deep bone tissue destruction, nocturnal aggravation 1-2 AM.',
+    },
   ];
 
-  const chapters = [
-    { name: 'MIND', count: '2 Rubrics', match: '85% Match' },
-    { name: 'HEAD', count: '1 Rubric', match: '90% Match' },
-    { name: 'ABDOMEN', count: '1 Rubric', match: '75% Match' },
-    { name: 'EXTREMITIES', count: '1 Rubric', match: '80% Match' },
-    { name: 'THROAT', count: '1 Rubric', match: '70% Match' },
-    { name: 'STOMACH', count: '1 Rubric', match: '65% Match' },
-    { name: 'GENERALITIES', count: '1 Rubric', match: '88% Match' },
-  ];
-
-  const heringVectors = [
+  const embryologicalLayers = [
     {
-      vector: 'Vector I: From Above Downward',
-      status: 'ACTIVE_CURATIVE',
-      detail: 'Head throbbing pain resolving prior to stomach thirst symptoms.',
-      progress: 92,
+      layer: 'ECTODERM (NERVOUS SYSTEM & EPIDERMIS)',
+      rubricsMatched: 11,
+      topRemedies: 'Belladonna (4), Sulphur (3)',
+      color: '#3B82F6',
+      status: 'PRIMARY CLINICAL FOCUS',
     },
     {
-      vector: 'Vector II: From Within Outward',
-      status: 'ACTIVE_CURATIVE',
-      detail: 'Visceral liver parenchyma ameliarating towards surface cutaneous eruption.',
-      progress: 88,
+      layer: 'MESODERM (JOINTS & CONNECTIVE TISSUE)',
+      rubricsMatched: 5,
+      topRemedies: 'Rhus-t (4), Bryonia (4)',
+      color: '#A855F7',
+      status: 'SECONDARY MODALITY TRACK',
     },
     {
-      vector: 'Vector III: Important to Less Important Organ',
-      status: 'SAFEGUARDED',
-      detail: 'Protected by Burnett Organopathy low-potency tissue drainage.',
-      progress: 96,
-    },
-    {
-      vector: 'Vector IV: Reverse Order of Appearance',
-      status: 'ACTIVE_CURATIVE',
-      detail: 'Old childhood eczema skin spots reappearing safely as internal fever subsides.',
-      progress: 84,
+      layer: 'ENDODERM (VISCERAL ORGAN PARENCHYMA)',
+      rubricsMatched: 4,
+      topRemedies: 'Chelidonium (4), Pulsatilla (3)',
+      color: '#F97316',
+      status: 'DRAINAGE TISSUE PROTECTED',
     },
   ];
 
   return (
-    <div
-      className={`w-full h-full flex flex-col font-sans select-none overflow-y-auto transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#090A0C] text-[#E6E8EA]'
-      }`}
-    >
-      {/* EXECUTIVE HEADER */}
-      <div
-        className={`p-3 border-b flex flex-wrap items-center justify-between gap-3 ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
-        }`}
-      >
-        <div className="flex items-center space-x-2.5">
-          <BarChart3 className="w-5 h-5 text-emerald-600" />
+    <div className="w-full h-full overflow-y-auto p-6 bg-[#05070A] text-white space-y-6 font-mono">
+      {/* HEADER BAR */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-[#0B0F19] via-[#111317] to-[#0B0F19] border border-[#1C1F26] shadow-xl">
+        <div className="flex items-center space-x-3">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-black shadow-lg">
+            <BarChart3 className="w-6 h-6" />
+          </div>
           <div>
-            <h2 className="font-bold text-xs uppercase tracking-wider">
-              Clinical Telemetry Analytics & Miasmatic Radar Visualizer
+            <h2 className="font-black text-base uppercase tracking-wider bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+              CLINICAL ANALYTICS, RADAR & EMBRYOLOGICAL LAYER VECTORS
             </h2>
-            <p className="text-[10px] text-gray-500 font-mono">
-              Real-Time TF-IDF Specificity Curves, Embryological Shift Vectors & Hering Law Trajectory
+            <p className="text-xs text-gray-400">
+              Dr. Vijayakar Predictive Miasmatic Tracking & Hering’s Law Direction of Cure Visualizer
             </p>
           </div>
         </div>
 
-        <span className="text-[11px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl">
-          ACTIVE MATHEMATICAL MODEL: TF-IDF ASYMMETRICAL INDEX
-        </span>
+        <div className="flex items-center space-x-2">
+          <span className="px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" /> HERING'S LAW: DIRECTION OF CURE POSITIVE
+          </span>
+        </div>
       </div>
 
-      {/* BODY DASHBOARD */}
-      <div className="p-4 space-y-4 font-mono text-xs">
-        {/* ROW 1: MIASMATIC BREAKDOWN & EMBRYOLOGICAL TISSUE VECTOR */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          {/* ACTIVE MIASMATIC CONCENTRATION CARD */}
+      {/* KPI METRIC CARDS WITH HOVER SCALE */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            title: 'TOP SIMILIMUM CONFIDENCE',
+            value: '94.8%',
+            sub: 'Belladonna 200C / LM 0/1',
+            color: 'from-emerald-600 to-teal-700',
+            icon: <Award className="w-5 h-5 text-emerald-300" />,
+          },
+          {
+            title: 'ASYMMETRICAL TF-IDF SENSITIVITY',
+            value: '65.20',
+            sub: 'Rare Symptom Specificity Boost',
+            color: 'from-cyan-600 to-blue-700',
+            icon: <Sparkles className="w-5 h-5 text-cyan-300" />,
+          },
+          {
+            title: 'EMBRYOLOGICAL DISEASE VECTOR',
+            value: 'OUTWARD',
+            sub: 'Endoderm -> Mesoderm -> Ectoderm',
+            color: 'from-purple-600 to-indigo-700',
+            icon: <Layers className="w-5 h-5 text-purple-300" />,
+          },
+          {
+            title: 'ORGANOPATHY DRAINAGE TRACK',
+            value: 'ACTIVE',
+            sub: 'Chelidonium 1X Liver Protection',
+            color: 'from-orange-600 to-amber-700',
+            icon: <Activity className="w-5 h-5 text-orange-300" />,
+          },
+        ].map((card, i) => (
           <div
-            className={`lg:col-span-6 border rounded-xl p-4 space-y-3 ${
-              isLight
-                ? 'bg-white border-slate-200 shadow-2xs'
-                : 'bg-[#111317] border-[#1C1F26]'
-            }`}
+            key={i}
+            className="p-5 rounded-2xl bg-[#0B0F19] border border-[#1C1F26] hover:border-emerald-500/60 transition-all transform hover:scale-[1.02] shadow-lg group"
           >
-            <div className="flex items-center justify-between border-b pb-2 border-slate-200">
-              <span className="font-bold text-xs uppercase text-emerald-600">
-                ACTIVE PATIENT MIASMATIC CONCENTRATION
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 group-hover:text-emerald-400 transition-colors">
+                {card.title}
               </span>
-              <span className="text-[10px] text-gray-400">
-                Dr. Hahnemann / Vijayakar Axis
-              </span>
-            </div>
-
-            <div className="space-y-2.5">
-              <div>
-                <div className="flex justify-between text-xs font-bold mb-1">
-                  <span>Psora (Functional / Hypersensitivity)</span>
-                  <span className="text-emerald-600">45%</span>
-                </div>
-                <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div className="h-full bg-emerald-600 w-[45%]" />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs font-bold mb-1">
-                  <span>Sycosis (Hypertrophy / Proliferation)</span>
-                  <span className="text-purple-600">35%</span>
-                </div>
-                <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div className="h-full bg-purple-600 w-[35%]" />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between text-xs font-bold mb-1">
-                  <span>Syphilis (Destructive / Necrotic)</span>
-                  <span className="text-rose-600">20%</span>
-                </div>
-                <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                  <div className="h-full bg-rose-600 w-[20%]" />
-                </div>
+              <div className={`p-2 rounded-xl bg-gradient-to-br ${card.color}`}>
+                {card.icon}
               </div>
             </div>
-
-            <p className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-[11px] text-emerald-900 leading-relaxed font-sans">
-              <strong>Clinical Interpretation:</strong> Patient presents with a primary{' '}
-              <strong className="text-emerald-700">Psoric-Sycotic active axis</strong> with minor syphilitic destructive infiltration. Target simillimum must cover functional and proliferative symptom tiers.
-            </p>
+            <p className="text-2xl font-black text-white">{card.value}</p>
+            <p className="text-xs text-gray-400 mt-1">{card.sub}</p>
           </div>
+        ))}
+      </div>
 
-          {/* EMBRYOLOGICAL TISSUE LAYER RADAR (VIJAYAKAR RADAR) */}
-          <div
-            className={`lg:col-span-6 border rounded-xl p-4 space-y-3 ${
-              isLight
-                ? 'bg-white border-slate-200 shadow-2xs'
-                : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <div className="flex items-center justify-between border-b pb-2 border-slate-200">
-              <span className="font-bold text-xs uppercase text-purple-600 flex items-center gap-1.5">
-                <Layers className="w-4 h-4" /> Embryological Tissue Layer Vector (Vijayakar Radar)
-              </span>
-              <span className="text-[10px] font-bold text-emerald-600">
-                CURATIVE VECTOR: OUTWARD
-              </span>
-            </div>
-
-            <div className="grid grid-cols-3 gap-3 text-center">
-              <div className="p-3 rounded-lg border border-blue-200 bg-blue-50/50">
-                <p className="text-[11px] font-bold text-blue-700">ECTODERM</p>
-                <p className="text-2xl font-black text-slate-900 my-1">5 Rubrics</p>
-                <p className="text-[10px] text-gray-500">Nervous & Skin Layer</p>
-              </div>
-              <div className="p-3 rounded-lg border border-purple-200 bg-purple-50/50">
-                <p className="text-[11px] font-bold text-purple-700">MESODERM</p>
-                <p className="text-2xl font-black text-slate-900 my-1">1 Rubric</p>
-                <p className="text-[10px] text-gray-500">Musculoskeletal & Vascular</p>
-              </div>
-              <div className="p-3 rounded-lg border border-orange-200 bg-orange-50/50">
-                <p className="text-[11px] font-bold text-orange-700">ENDODERM</p>
-                <p className="text-2xl font-black text-slate-900 my-1">2 Rubrics</p>
-                <p className="text-[10px] text-gray-500">Visceral & Parenchyma</p>
-              </div>
-            </div>
-
-            <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-300 text-amber-900 text-xs flex items-center justify-between">
-              <span>
-                <strong>Endoderm Liver Cirrhosis</strong> rubric present. Requires Burnett Organopathy tissue protection.
-              </span>
-              <span className="bg-amber-600 text-white px-2 py-0.5 rounded font-bold text-[10px]">
-                SAFEGUARD ACTIVE
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* ROW 2: TF-IDF SPECIFICITY RANKING & CHAPTER TOTALITY */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div
-            className={`lg:col-span-8 border rounded-xl p-4 space-y-3 ${
-              isLight
-                ? 'bg-white border-slate-200 shadow-2xs'
-                : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <div className="flex items-center justify-between border-b pb-2 border-slate-200">
-              <span className="font-bold text-xs uppercase text-emerald-600">
-                HOMEOPATHIC SPECIFICITY INDEX (TF-IDF WEIGHTED RANKING)
-              </span>
-              <span className="text-[10px] text-gray-400">
-                Top 6 Candidate Simillima
-              </span>
-            </div>
-
-            <div className="space-y-2.5">
-              {remedyScores.map((r) => (
-                <div key={r.code} className="flex items-center space-x-3">
-                  <div className="w-12 font-black text-xs text-slate-800">
-                    {r.code}
-                  </div>
-                  <div className="w-32 text-[11px] text-gray-500 truncate">
-                    {r.name}
-                  </div>
-                  <div className="flex-1 h-2.5 rounded-full bg-slate-100 overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-full"
-                      style={{ width: `${r.progress}%` }}
-                    />
-                  </div>
-                  <div className="w-20 text-right text-[11px] text-gray-500">
-                    {r.rubrics}
-                  </div>
-                  <div className="w-12 text-right font-black text-xs text-emerald-600">
-                    {r.score}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div
-            className={`lg:col-span-4 border rounded-xl p-4 space-y-3 ${
-              isLight
-                ? 'bg-white border-slate-200 shadow-2xs'
-                : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <div className="flex items-center justify-between border-b pb-2 border-slate-200">
-              <span className="font-bold text-xs uppercase text-emerald-600">
-                CHAPTER TOTALITY WEIGHT
-              </span>
-              <span className="text-[10px] text-gray-400">7 Chapters</span>
-            </div>
-
-            <div className="space-y-1.5">
-              {chapters.map((c) => (
-                <div
-                  key={c.name}
-                  className="flex items-center justify-between py-1 border-b border-slate-100 text-xs"
-                >
-                  <span className="font-bold text-slate-800">{c.name}</span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-400 text-[10px]">{c.count}</span>
-                    <span className="font-bold text-emerald-600">{c.match}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ROW 3: HERING'S LAW OF CURE DIRECTIONAL TRAJECTORY VECTOR CARD */}
-        <div
-          className={`border rounded-xl p-4 space-y-3 ${
-            isLight
-              ? 'bg-white border-slate-200 shadow-2xs'
-              : 'bg-[#111317] border-[#1C1F26]'
-          }`}
-        >
-          <div className="flex items-center justify-between border-b pb-2 border-slate-200">
-            <span className="font-bold text-xs uppercase text-emerald-600 flex items-center gap-1.5">
-              <Compass className="w-4 h-4" /> Hering&apos;s Law of Cure Directional Trajectory Vectors
+      {/* MIASMATIC RADAR DISTRIBUTION & EMBRYOLOGICAL LAYER GAUGES */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* MIASMATIC SPECTRUM CARDS (7 COLUMNS) */}
+        <div className="lg:col-span-7 p-6 rounded-2xl bg-[#0B0F19] border border-[#1C1F26] space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span className="font-black text-sm uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+              <Flame className="w-4 h-4" /> PREDICTIVE MIASMATIC FOCUS SPECTRUM
             </span>
-            <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-0.5 rounded-full">
-              CURATIVE TRAJECTORY CONFIRMED
-            </span>
+            <span className="text-xs text-gray-400">CLICK CARD TO INSPECT</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            {heringVectors.map((v, idx) => (
+          <div className="space-y-4">
+            {miasmaticDistribution.map((m) => (
               <div
-                key={idx}
-                className="p-3 rounded-lg border border-slate-200 bg-slate-50/70 space-y-1.5"
+                key={m.miasm}
+                onClick={() => setSelectedMiasm(m.miasm)}
+                className="p-4 rounded-xl border border-slate-800 bg-[#111317] hover:border-emerald-500/80 transition-all cursor-pointer transform hover:scale-[1.01] space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs text-slate-900">
-                    {v.vector}
-                  </span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">
-                    {v.progress}%
+                  <span className="font-black text-sm text-white">{m.miasm}</span>
+                  <span
+                    className="px-3 py-1 rounded-full font-black text-xs text-white"
+                    style={{ backgroundColor: m.color }}
+                  >
+                    {m.percentage}% CASE LOAD
                   </span>
                 </div>
-                <p className="text-[11px] text-gray-600 leading-snug font-sans">
-                  {v.detail}
-                </p>
+                <div className="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ width: `${m.percentage}%`, backgroundColor: m.color }}
+                  />
+                </div>
+                <p className="text-xs text-gray-300 leading-relaxed">{m.description}</p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <span className="text-[10px] text-gray-400 font-bold">Key Remedies:</span>
+                  {m.remedies.map((r) => (
+                    <span
+                      key={r}
+                      className="px-2 py-0.5 rounded bg-slate-800 text-emerald-300 font-bold text-[10px]"
+                    >
+                      {r}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* EMBRYOLOGICAL LAYER VECTORS (5 COLUMNS) */}
+        <div className="lg:col-span-5 p-6 rounded-2xl bg-[#0B0F19] border border-[#1C1F26] space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <span className="font-black text-sm uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+              <Layers className="w-4 h-4" /> EMBRYOLOGICAL PATHOLOGY TRACKING
+            </span>
+            <span className="text-xs text-gray-400">VIJAYAKAR MATRIX</span>
+          </div>
+
+          <div className="space-y-4">
+            {embryologicalLayers.map((layer) => (
+              <div
+                key={layer.layer}
+                className="p-4 rounded-xl border border-slate-800 bg-[#111317] hover:border-cyan-500/80 transition-all transform hover:scale-[1.01] space-y-2"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-xs text-white">{layer.layer}</span>
+                  <span className="px-2.5 py-0.5 rounded text-[10px] font-black bg-cyan-950 text-cyan-300 border border-cyan-500/40">
+                    {layer.status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs text-gray-300">
+                  <span>Rubrics Matched: <strong className="text-white">{layer.rubricsMatched}</strong></span>
+                  <span className="text-emerald-400 font-bold">{layer.topRemedies}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/60 to-teal-950/60 border border-emerald-500/40 text-xs space-y-2">
+            <p className="font-black text-emerald-300">
+              🛡️ Suppression Barrier & Direction of Cure
+            </p>
+            <p className="text-gray-300 leading-relaxed">
+              Disease progress moving from superficial Ectoderm to deep Endoderm signals suppression. MateriaGrid flags any prescription that causes internal pathology to advance inward.
+            </p>
           </div>
         </div>
       </div>
