@@ -23,13 +23,12 @@ import {
   Move,
   Box,
   FileImage,
+  Tag,
 } from 'lucide-react';
 
 interface Interactive360AnatomyAtlasProps {
   theme?: 'dark' | 'light';
 }
-
-type DisplayEngineMode = 'HD_MEDICAL_ATLAS' | 'WEBGL_3D_MODEL';
 
 export const Interactive360AnatomyAtlas: React.FC<
   Interactive360AnatomyAtlasProps
@@ -37,13 +36,13 @@ export const Interactive360AnatomyAtlas: React.FC<
   const isLight = theme === 'light';
 
   const [selectedSystemId, setSelectedSystemId] = useState<string>('organ-head');
-  const [engineMode, setEngineMode] = useState<DisplayEngineMode>('HD_MEDICAL_ATLAS');
+  const [showLandmarkLabels, setShowLandmarkLabels] = useState<boolean>(true);
   const [yaw, setYaw] = useState<number>(0);
   const [pitch, setPitch] = useState<number>(5);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const lastTouchRef = useRef<{ x: number; y: number } | null>(null);
 
-  const [zoomLevel, setZoomLevel] = useState<number>(100);
+  const [zoomLevel, setZoomLevel] = useState<number>(95);
   const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>('hs-carotid-plexus');
 
   // MOUSE & TOUCHPAD INTERACTIVE ORBIT CONTROLLER
@@ -110,33 +109,24 @@ export const Interactive360AnatomyAtlas: React.FC<
       layerBadge: 'bg-purple-500/10 text-purple-600 border-purple-500/30',
       description:
         'Derived from the Ectoderm layer. Afflicted prominently in Psoric emotional stress and Syphilitic destructive neural pathways.',
-      webglModelTitle: 'Human Cerebrum, Circle of Willis & Carotid Bifurcation 3D Model',
-      // Photorealistic Clinical Anatomy Illustrations
       atlasIllustration: {
         bgGradient: 'from-[#1E112A] via-[#2D1B36] to-[#120A1A]',
+        // Clean non-overlapping corner landmark markers
         landmarkLabels: [
-          { label: 'Cerebral Cortex Gyri & Sulci', pos: 'top-[16%] left-[28%]' },
-          { label: 'Circle of Willis Arterial Ring', pos: 'top-[44%] right-[22%]' },
-          { label: 'Carotid Arterial Bifurcation (Belladonna)', pos: 'bottom-[18%] left-[30%]' },
-          { label: 'Hypothalamic Thermal & Thirst Center', pos: 'top-[52%] left-[46%]' },
+          { label: 'Cerebral Cortex Gyri', pos: 'top-[12%] left-[10%]' },
+          { label: 'Circle of Willis Ring', pos: 'top-[44%] right-[10%]' },
+          { label: 'Carotid Bifurcation (Belladonna)', pos: 'bottom-[12%] left-[12%]' },
         ],
       },
+      // Collision-free vertical & horizontal node pins
       hotspots: [
         {
-          id: 'hs-carotid-plexus',
-          label: 'Carotid Arterial Surge Plexus',
-          rubric: 'HEAD - CONGESTION - blood - surge of',
-          remedy: 'Belladonna 30C / 200C',
-          note: 'Sudden throbbing carotid artery pulsation, dilated pupils, flushed red face, cerebral congestion.',
-          coords: 'top-[68%] left-[48%]',
-        },
-        {
           id: 'hs-frontal-cortex',
-          label: 'Frontal Cortex & Psoric Emotional Stress',
+          label: 'Frontal Cortex & Psoric Stress',
           rubric: 'MIND - ANXIETY - future, about',
           remedy: 'Aconite / Arsenicum Album',
           note: 'Ectodermal neural locus of acute mental restlessness and anticipation fear.',
-          coords: 'top-[22%] left-[40%]',
+          coords: 'top-[22%] left-[28%]',
         },
         {
           id: 'hs-occipital',
@@ -144,15 +134,23 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'HEAD - PAIN - occiput - extending to forehead',
           remedy: 'Gelsemium Sempervirens 30C',
           note: 'Dull heavy occipital headache spreading forward over eyes with muscle eyelids heaviness.',
-          coords: 'top-[45%] right-[26%]',
+          coords: 'top-[42%] right-[18%]',
         },
         {
           id: 'hs-hypothalamus',
-          label: 'Hypothalamic Thermal & Thirst Center',
+          label: 'Hypothalamic Thermal Center',
           rubric: 'GENERALITIES - HEAT - flushes of',
           remedy: 'Vijayakar Thermal-Thirst Constant Filter',
           note: 'Immutable baseline regulator governing thermal baseline (Hot/Chilly) and thirst dynamics.',
-          coords: 'top-[48%] left-[48%]',
+          coords: 'top-[58%] left-[24%]',
+        },
+        {
+          id: 'hs-carotid-plexus',
+          label: 'Carotid Arterial Surge Plexus',
+          rubric: 'HEAD - CONGESTION - blood - surge of',
+          remedy: 'Belladonna 30C / 200C',
+          note: 'Sudden throbbing carotid artery pulsation, dilated pupils, flushed red face, cerebral congestion.',
+          coords: 'top-[78%] left-[50%]',
         },
       ],
       organopathyRemedies: [
@@ -184,14 +182,11 @@ export const Interactive360AnatomyAtlas: React.FC<
       layerBadge: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30',
       description:
         'The hepatic parenchyma and biliary system represent the primary metabolic vascular filtration organ derived from Endoderm.',
-      webglModelTitle: 'Human Hepatic Lobes, Gallbladder & Portal Vein Triad 3D Model',
       atlasIllustration: {
         bgGradient: 'from-[#0B261D] via-[#133A2D] to-[#071812]',
         landmarkLabels: [
-          { label: 'Right Hepatic Parenchymal Lobe', pos: 'top-[24%] left-[26%]' },
-          { label: 'Gallbladder & Cystic Duct (Carduus Marianus)', pos: 'bottom-[16%] right-[32%]' },
-          { label: 'Portal Vein Vascular Axis', pos: 'top-[48%] left-[44%]' },
-          { label: 'Hepatic Hexagonal Lobule (Chelidonium)', pos: 'top-[36%] right-[22%]' },
+          { label: 'Right Hepatic Parenchymal Lobe', pos: 'top-[12%] left-[10%]' },
+          { label: 'Hepatic Hexagonal Lobule', pos: 'top-[44%] right-[10%]' },
         ],
       },
       hotspots: [
@@ -201,15 +196,7 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'ABDOMEN - CIRRHOSIS - liver',
           remedy: 'Chelidonium Majus 1X / Q',
           note: 'Primary target for Chelidonium right scapular nerve referral pain and hepatic enlargement.',
-          coords: 'top-[36%] left-[42%]',
-        },
-        {
-          id: 'hs-gallbladder',
-          label: 'Gallbladder & Common Bile Duct',
-          rubric: 'ABDOMEN - GALLBLADDER - complaints of',
-          remedy: 'Carduus Marianus Q',
-          note: 'Biliary stasis, portal vein congestion, clay stools, and jaundice relief.',
-          coords: 'top-[72%] right-[36%]',
+          coords: 'top-[28%] left-[28%]',
         },
         {
           id: 'hs-portal-vein',
@@ -217,7 +204,15 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'GENERALITIES - VARICOSE veins',
           remedy: 'Carduus Marianus / Lycopodium',
           note: 'Portal hypertension and venous back-pressure.',
-          coords: 'top-[52%] left-[50%]',
+          coords: 'top-[52%] left-[48%]',
+        },
+        {
+          id: 'hs-gallbladder',
+          label: 'Gallbladder & Common Bile Duct',
+          rubric: 'ABDOMEN - GALLBLADDER - complaints of',
+          remedy: 'Carduus Marianus Q',
+          note: 'Biliary stasis, portal vein congestion, clay stools, and jaundice relief.',
+          coords: 'top-[78%] right-[22%]',
         },
       ],
       organopathyRemedies: [
@@ -249,13 +244,11 @@ export const Interactive360AnatomyAtlas: React.FC<
       layerBadge: 'bg-cyan-500/10 text-cyan-600 border-cyan-500/30',
       description:
         'Mesodermal structural excretion tract responsible for glomerular filtration and acid-base homeostatic balance.',
-      webglModelTitle: 'Human Renal Longitudinal Dissection & Nephron Vascular 3D Model',
       atlasIllustration: {
         bgGradient: 'from-[#0A2633] via-[#11384A] to-[#061922]',
         landmarkLabels: [
-          { label: 'Glomerular Renal Cortex (Solidago)', pos: 'top-[22%] left-[28%]' },
-          { label: 'Renal Medullary Pyramids & Papillae', pos: 'top-[44%] left-[45%]' },
-          { label: 'Renal Pelvis & Ureteric Colic Axis (Berberis)', pos: 'bottom-[18%] left-[48%]' },
+          { label: 'Glomerular Renal Cortex', pos: 'top-[12%] left-[10%]' },
+          { label: 'Renal Medullary Pyramids', pos: 'bottom-[12%] right-[10%]' },
         ],
       },
       hotspots: [
@@ -265,7 +258,7 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'URINARY ORGANS - KIDNEYS - inflammation',
           remedy: 'Solidago Virgaurea Q / 3X',
           note: 'Burnett Kidney Drainage: Tender renal zone on pressure, albuminuria.',
-          coords: 'top-[30%] left-[34%]',
+          coords: 'top-[32%] left-[28%]',
         },
         {
           id: 'hs-ureter',
@@ -305,13 +298,10 @@ export const Interactive360AnatomyAtlas: React.FC<
       layerBadge: 'bg-amber-500/10 text-amber-600 border-amber-500/30',
       description:
         'Mesodermal cardiac tissue governing myocardial contractility, coronary arterial supply, and systemic hemodynamics.',
-      webglModelTitle: 'Human Cardiac Ventricles, Aorta & Coronary Interventricular Tree 3D Model',
       atlasIllustration: {
         bgGradient: 'from-[#311115] via-[#4A181F] to-[#1F0A0D]',
         landmarkLabels: [
-          { label: 'Ascending Aorta & Pulmonary Trunk', pos: 'top-[16%] left-[42%]' },
-          { label: 'Coronary Interventricular Artery (Cactus)', pos: 'top-[48%] left-[46%]' },
-          { label: 'Myocardial Ventricular Wall (Crataegus)', pos: 'bottom-[22%] left-[38%]' },
+          { label: 'Ascending Aorta & Pulmonary Arch', pos: 'top-[12%] left-[10%]' },
         ],
       },
       hotspots: [
@@ -321,7 +311,7 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'CHEST - CONSTRICTION - heart - wire around it, as if',
           remedy: 'Cactus Grandiflorus 30C / Q',
           note: 'Sensation as if an iron hand or band tightly constricted the cardiac myocardium.',
-          coords: 'top-[48%] left-[50%]',
+          coords: 'top-[42%] right-[22%]',
         },
         {
           id: 'hs-myocardium',
@@ -329,7 +319,7 @@ export const Interactive360AnatomyAtlas: React.FC<
           rubric: 'HEART - PALPITATION - exertion, on slightest',
           remedy: 'Crataegus Oxyacantha Q',
           note: 'Burnett Heart Tonic: Cardiac hypertrophy, dyspnea on exertion, and feeble pulse.',
-          coords: 'top-[68%] left-[42%]',
+          coords: 'top-[74%] left-[32%]',
         },
       ],
       organopathyRemedies: [
@@ -375,7 +365,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               <span>CLINICAL NETTER'S 3D ANATOMY ATLAS WORKSTATION</span>
             </span>
             <span className="text-xs font-black text-emerald-500">
-              ● Photorealistic Medical Histology &amp; Burnett Organopathy Engine
+              ● Collision-Free Spatial Landmark Positioning
             </span>
           </div>
           <h2 className="text-lg font-black mt-1 tracking-tight">
@@ -386,31 +376,18 @@ export const Interactive360AnatomyAtlas: React.FC<
           </p>
         </div>
 
-        {/* VIEW ENGINE SWITCH: CLINICAL ATLAS PLATE VS WEBGL 3D MODEL */}
-        <div className="flex items-center space-x-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-          <button
-            onClick={() => setEngineMode('HD_MEDICAL_ATLAS')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-black flex items-center space-x-1.5 transition-all cursor-pointer ${
-              engineMode === 'HD_MEDICAL_ATLAS'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <FileImage className="w-3.5 h-3.5" />
-            <span>Netter's Clinical HD Atlas Plate</span>
-          </button>
-          <button
-            onClick={() => setEngineMode('WEBGL_3D_MODEL')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-black flex items-center space-x-1.5 transition-all cursor-pointer ${
-              engineMode === 'WEBGL_3D_MODEL'
-                ? 'bg-purple-600 text-white shadow-xs'
-                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <Box className="w-3.5 h-3.5" />
-            <span>Interactive WebGL 3D Organ Model</span>
-          </button>
-        </div>
+        {/* LANDMARK LABELS TOGGLE */}
+        <button
+          onClick={() => setShowLandmarkLabels((v) => !v)}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center space-x-1.5 border transition-all cursor-pointer ${
+            showLandmarkLabels
+              ? 'bg-blue-600/15 text-blue-500 border-blue-500/30'
+              : 'bg-slate-100 dark:bg-slate-900 text-slate-500 dark:text-gray-400 border-slate-300 dark:border-slate-800'
+          }`}
+        >
+          <Tag className="w-3.5 h-3.5" />
+          <span>{showLandmarkLabels ? '☑ Anatomical Corner Labels On' : '☐ Anatomical Corner Labels Off'}</span>
+        </button>
       </div>
 
       {/* ORGAN SYSTEM SELECTOR TABS */}
@@ -486,7 +463,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                 onClick={() => {
                   setYaw(0);
                   setPitch(5);
-                  setZoomLevel(100);
+                  setZoomLevel(95);
                 }}
                 className="px-2 py-1 rounded-lg bg-slate-800 text-gray-400 hover:text-white text-[10px] font-black cursor-pointer"
                 title="Reset Camera"
@@ -506,7 +483,7 @@ export const Interactive360AnatomyAtlas: React.FC<
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             onWheel={handleWheel}
-            className={`relative w-full h-[450px] rounded-2xl bg-gradient-to-b ${activeSystem.atlasIllustration.bgGradient} border border-blue-500/40 flex flex-col items-center justify-center overflow-hidden p-4 shadow-2xl transition-colors ${
+            className={`relative w-full h-[460px] rounded-2xl bg-gradient-to-b ${activeSystem.atlasIllustration.bgGradient} border border-blue-500/40 flex flex-col items-center justify-center overflow-hidden p-4 shadow-2xl transition-colors ${
               isDragging ? 'cursor-grabbing border-blue-400 ring-2 ring-blue-500/30' : 'cursor-grab'
             }`}
           >
@@ -516,18 +493,20 @@ export const Interactive360AnatomyAtlas: React.FC<
               <span>DRAG MOUSE OR TOUCHPAD TO ROTATE 360° END-TO-END</span>
             </div>
 
-            {/* CLINICAL ANATOMICAL LEADER LINES & SCIENTIFIC LABELS */}
-            <div className="absolute inset-0 pointer-events-none z-10">
-              {activeSystem.atlasIllustration.landmarkLabels.map((lbl, idx) => (
-                <div
-                  key={idx}
-                  className={`absolute ${lbl.pos} px-2.5 py-1 rounded-md bg-slate-900/85 border border-slate-700 text-slate-200 text-[10px] font-bold shadow-lg flex items-center space-x-1.5`}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                  <span>{lbl.label}</span>
-                </div>
-              ))}
-            </div>
+            {/* CORNER CLINICAL ANATOMICAL LEADER LABELS (NON-OVERLAPPING AT CORNERS) */}
+            {showLandmarkLabels && (
+              <div className="absolute inset-0 pointer-events-none z-10">
+                {activeSystem.atlasIllustration.landmarkLabels.map((lbl, idx) => (
+                  <div
+                    key={idx}
+                    className={`absolute ${lbl.pos} px-2.5 py-1 rounded-md bg-slate-900/90 border border-slate-700/80 text-slate-300 text-[10px] font-bold shadow-lg flex items-center space-x-1.5`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                    <span>{lbl.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* REAL-TIME 3D PERSPECTIVE ORBIT CONTAINER */}
             <div
@@ -544,36 +523,32 @@ export const Interactive360AnatomyAtlas: React.FC<
                   transformOrigin: 'center center',
                 }}
               >
-                {/* LIFELIKE HIGH-DEFINITION CLINICAL ANATOMY DISSECTION ARTWORK */}
+                {/* 1. BRAIN & CENTRAL NERVOUS SYSTEM */}
                 {selectedSystemId === 'organ-head' && (
                   <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                     <defs>
-                      {/* Realistic Brain Tissue Shading Gradients */}
-                      <radialGradient id="hdBrainTissue" cx="45%" cy="38%" r="65%">
+                      <radialGradient id="hdBrainTissue2" cx="45%" cy="38%" r="65%">
                         <stop offset="0%" stopColor="#F5D0C5" />
                         <stop offset="45%" stopColor="#E2A698" />
                         <stop offset="85%" stopColor="#B36959" />
                         <stop offset="100%" stopColor="#783A2E" />
                       </radialGradient>
-                      <linearGradient id="carotidBlood" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <linearGradient id="carotidBlood2" x1="0%" y1="0%" x2="0%" y2="100%">
                         <stop offset="0%" stopColor="#EF4444" />
                         <stop offset="100%" stopColor="#991B1B" />
                       </linearGradient>
-                      <filter id="hdShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <filter id="hdShadow2" x="-20%" y="-20%" width="140%" height="140%">
                         <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#000000" floodOpacity="0.6" />
                       </filter>
                     </defs>
 
-                    <g filter="url(#hdShadow)">
-                      {/* CRANIAL BONE ARCH & MENINGES FRAME */}
+                    <g filter="url(#hdShadow2)">
                       <path
                         d="M 260 25 C 135 25, 65 110, 75 200 C 82 265, 135 315, 225 315 L 225 385 L 295 385 L 295 315 C 385 315, 438 265, 445 200 C 455 110, 385 25, 260 25 Z"
-                        fill="url(#hdBrainTissue)"
+                        fill="url(#hdBrainTissue2)"
                         stroke="#FFF1EE"
                         strokeWidth="4"
                       />
-
-                      {/* DEEP SULCI / GYRI REALISTIC CONVOLUTION PATHS */}
                       <path
                         d="M 125 105 Q 185 75 255 110 Q 325 75 395 105 M 110 165 Q 195 135 260 165 Q 325 135 410 165 M 130 230 Q 195 200 260 230 Q 325 200 390 230"
                         fill="none"
@@ -582,34 +557,25 @@ export const Interactive360AnatomyAtlas: React.FC<
                         strokeLinecap="round"
                         opacity="0.8"
                       />
-
-                      {/* CEREBELLUM REALISTIC CONVOLUTED LOBES */}
                       <path
-                        d="M 145 270 Q 205 310 240 285 M 375 270 Q 315 310 280 285"
+                        d="M 140 270 Q 205 310 240 285 M 375 270 Q 315 310 280 285"
                         fill="none"
                         stroke="#6B2F24"
                         strokeWidth="5"
                         strokeLinecap="round"
                       />
-
-                      {/* BRAINSTEM & MEDULLA OBLONGATA */}
                       <path d="M 240 285 L 240 395 L 280 395 L 280 285 Z" fill="#9A4D3F" stroke="#FDE8E4" strokeWidth="2.5" />
-
-                      {/* CAROTID ARTERY BIFURCATION & CIRCLE OF WILLIS (BELLADONNA TARGET) */}
                       <g>
                         <path
                           d="M 235 395 L 235 250 Q 195 205 160 185 M 285 395 L 285 250 Q 325 205 360 185"
                           fill="none"
-                          stroke="url(#carotidBlood)"
+                          stroke="url(#carotidBlood2)"
                           strokeWidth="7"
                           strokeLinecap="round"
                         />
-                        {/* GLOWING CAROTID SURGE NODES */}
                         <circle cx="235" cy="250" r="14" fill="#F87171" stroke="#FFFFFF" strokeWidth="2.5" />
                         <circle cx="285" cy="250" r="14" fill="#F87171" stroke="#FFFFFF" strokeWidth="2.5" />
                       </g>
-
-                      {/* HYPOTHALAMIC THERMAL & THIRST CENTER */}
                       <g>
                         <circle cx="260" cy="195" r="28" fill="rgba(6, 182, 212, 0.45)" stroke="#06B6D4" strokeWidth="3" />
                       </g>
@@ -617,27 +583,24 @@ export const Interactive360AnatomyAtlas: React.FC<
                   </svg>
                 )}
 
-                {/* LIFELIKE HEPATO-BILIARY LIVER & GALLBLADDER ARTWORK */}
+                {/* 2. HEPATO-BILIARY LIVER & GALLBLADDER */}
                 {selectedSystemId === 'organ-liver' && (
                   <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                     <defs>
-                      <radialGradient id="hdLiverTissue" cx="42%" cy="38%" r="65%">
+                      <radialGradient id="hdLiverTissue2" cx="42%" cy="38%" r="65%">
                         <stop offset="0%" stopColor="#A34839" />
                         <stop offset="65%" stopColor="#75281C" />
                         <stop offset="100%" stopColor="#4A150D" />
                       </radialGradient>
                     </defs>
-                    <g filter="url(#hdShadow)">
-                      {/* HEPATIC PARENCHYMA LOBES */}
+                    <g filter="url(#hdShadow2)">
                       <path
                         d="M 95 175 C 145 75, 375 75, 435 180 C 465 235, 410 335, 305 345 C 205 355, 105 295, 95 175 Z"
-                        fill="url(#hdLiverTissue)"
+                        fill="url(#hdLiverTissue2)"
                         stroke="#FECACA"
                         strokeWidth="4"
                       />
-                      {/* FALCIFORM LIGAMENT SEPARATION */}
                       <path d="M 325 95 Q 330 215 335 345" stroke="#FCA5A5" strokeWidth="3.5" strokeDasharray="7 5" />
-                      {/* GALLBLADDER WITH CYSTIC DUCT */}
                       <g>
                         <path d="M 305 270 Q 310 305 315 335" stroke="#F59E0B" strokeWidth="5" />
                         <ellipse
@@ -650,7 +613,6 @@ export const Interactive360AnatomyAtlas: React.FC<
                           strokeWidth="3.5"
                         />
                       </g>
-                      {/* PORTAL VEIN TRIAD PLEXUS */}
                       <path
                         d="M 295 280 Q 265 220 185 155 M 295 280 Q 325 220 395 165"
                         fill="none"
@@ -661,25 +623,25 @@ export const Interactive360AnatomyAtlas: React.FC<
                   </svg>
                 )}
 
-                {/* LIFELIKE RENAL DISSECTION & NEPHRON ARTWORK */}
+                {/* 3. KIDNEYS & RENAL TRACT */}
                 {selectedSystemId === 'organ-kidneys' && (
                   <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                     <defs>
-                      <radialGradient id="hdRenalTissue" cx="50%" cy="50%" r="60%">
+                      <radialGradient id="hdRenalTissue2" cx="50%" cy="50%" r="60%">
                         <stop offset="0%" stopColor="#22D3EE" />
                         <stop offset="100%" stopColor="#0891B2" />
                       </radialGradient>
                     </defs>
-                    <g filter="url(#hdShadow)">
+                    <g filter="url(#hdShadow2)">
                       <path
                         d="M 155 105 C 105 140, 105 260, 165 295 C 215 320, 255 260, 230 205 C 255 165, 215 80, 155 105 Z"
-                        fill="url(#hdRenalTissue)"
+                        fill="url(#hdRenalTissue2)"
                         stroke="#CFFAFE"
                         strokeWidth="4"
                       />
                       <path
                         d="M 365 105 C 315 80, 275 165, 300 205 C 275 260, 315 320, 365 295 C 425 260, 425 140, 365 105 Z"
-                        fill="url(#hdRenalTissue)"
+                        fill="url(#hdRenalTissue2)"
                         stroke="#CFFAFE"
                         strokeWidth="4"
                       />
@@ -689,19 +651,19 @@ export const Interactive360AnatomyAtlas: React.FC<
                   </svg>
                 )}
 
-                {/* LIFELIKE CARDIAC MYOCARDIUM & CORONARY ARTWORK */}
+                {/* 4. CARDIOVASCULAR & CORONARY NETWORK */}
                 {selectedSystemId === 'organ-heart' && (
                   <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
                     <defs>
-                      <radialGradient id="hdCardiacTissue" cx="45%" cy="45%" r="60%">
+                      <radialGradient id="hdCardiacTissue2" cx="45%" cy="45%" r="60%">
                         <stop offset="0%" stopColor="#EF4444" />
                         <stop offset="100%" stopColor="#7F1D1D" />
                       </radialGradient>
                     </defs>
-                    <g filter="url(#hdShadow)">
+                    <g filter="url(#hdShadow2)">
                       <path
                         d="M 260 125 C 180 90, 135 205, 195 305 Q 260 380 325 305 C 385 205, 340 90, 260 125 Z"
-                        fill="url(#hdCardiacTissue)"
+                        fill="url(#hdCardiacTissue2)"
                         stroke="#FCA5A5"
                         strokeWidth="4.5"
                       />
@@ -718,7 +680,7 @@ export const Interactive360AnatomyAtlas: React.FC<
               </div>
             </div>
 
-            {/* INTERACTIVE HOTSPOT PINS OVER THE SPATIAL VIEWPORT */}
+            {/* COLLISION-FREE INTERACTIVE HOTSPOT PINS OVER THE SPATIAL VIEWPORT */}
             <div className="absolute inset-0 pointer-events-none z-20">
               {(activeSystem.hotspots || []).map((hs: any) => {
                 const isSelected = selectedHotspotId === hs.id;
@@ -729,13 +691,13 @@ export const Interactive360AnatomyAtlas: React.FC<
                       e.stopPropagation();
                       setSelectedHotspotId(hs.id);
                     }}
-                    className={`pointer-events-auto absolute transform -translate-x-1/2 -translate-y-1/2 px-3.5 py-1.5 rounded-full text-xs font-black shadow-2xl transition-all cursor-pointer flex items-center space-x-2 ${hs.coords} ${
+                    className={`pointer-events-auto absolute transform -translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full text-xs font-black shadow-2xl transition-all cursor-pointer flex items-center space-x-1.5 ${hs.coords} ${
                       isSelected
                         ? 'bg-emerald-500 text-white scale-110 ring-4 ring-emerald-500/40'
                         : 'bg-blue-600/95 text-white hover:bg-blue-500 hover:scale-105'
                     }`}
                   >
-                    <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-white animate-ping" />
                     <span>{hs.label}</span>
                   </button>
                 );
