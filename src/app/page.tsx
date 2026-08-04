@@ -402,10 +402,7 @@ function MasterWorkspaceInner() {
           url.searchParams.delete('modal');
         }
       } else {
-        url.searchParams.delete('view');
-        url.searchParams.delete('module');
-        url.searchParams.delete('modal');
-        url.searchParams.delete('lang');
+        url.search = '';
       }
       window.history.replaceState({}, '', url.toString());
     }
