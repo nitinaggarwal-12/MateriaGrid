@@ -79,7 +79,7 @@ export const SearchableLanguagePicker: React.FC<
       {/* SEARCHABLE DROPDOWN POPOVER */}
       {isOpen && (
         <div
-          className={`fixed sm:absolute right-0 sm:right-0 top-12 z-50 w-80 max-h-96 rounded-2xl border shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 ${
+          className={`absolute right-0 top-11 z-50 w-80 max-h-96 rounded-2xl border shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 ${
             isLight
               ? 'bg-white border-slate-200 text-slate-900'
               : 'bg-[#0B0F19] border-[#1C1F26] text-white'

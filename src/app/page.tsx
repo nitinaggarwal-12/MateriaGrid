@@ -736,18 +736,21 @@ function MasterWorkspaceInner() {
                 </button>
               )}
 
-              <SearchableLanguagePicker
-                selectedCode={langCode}
-                onSelectLanguage={handleSelectLanguage}
-                theme={theme}
-              />
-              <UserPersonaHeaderWidget
-                theme={theme}
-                onToggleTheme={toggleTheme}
-                onSelectTab={setActiveTab}
-                langCode={langCode}
-                onSelectLanguage={handleSelectLanguage}
-              />
+              {/* TOP-RIGHT EXECUTIVE SUITE: LANGUAGE SELECTOR & USER PROFILE/SETTINGS */}
+              <div className="flex items-center space-x-2 relative z-50">
+                <SearchableLanguagePicker
+                  selectedCode={langCode}
+                  onSelectLanguage={handleSelectLanguage}
+                  theme={theme}
+                />
+                <UserPersonaHeaderWidget
+                  theme={theme}
+                  onToggleTheme={toggleTheme}
+                  onSelectTab={setActiveTab}
+                  langCode={langCode}
+                  onSelectLanguage={handleSelectLanguage}
+                />
+              </div>
             </div>
           </div>
         </div>
