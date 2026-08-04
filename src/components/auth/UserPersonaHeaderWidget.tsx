@@ -44,7 +44,7 @@ export const UserPersonaHeaderWidget: React.FC<
   const isLight = theme === 'light';
   const { currentUser, switchRole, setIsLoginModalOpen } = useRbac();
   const [isOpen, setIsOpen] = useState(false);
-  const [defaultPotency, setDefaultPotency] = useState('200C');
+  const [defaultPotency, setDefaultPotency] = useState('200C (Constitutional)');
 
   const INDIAN_LANGUAGES = [
     { code: 'EN', label: 'English (EN)', flag: '🇮🇳' },
@@ -164,7 +164,7 @@ export const UserPersonaHeaderWidget: React.FC<
         />
       </button>
 
-      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER */}
+      {/* EXECUTIVE ACCOUNT & PERSONA CONTROLS POPOVER DRAWER (100% OPAQUE SOLID SURFACE) */}
       {isOpen && (
         <>
           <div
@@ -172,18 +172,18 @@ export const UserPersonaHeaderWidget: React.FC<
             onClick={() => setIsOpen(false)}
           />
           <div
-            className={`absolute right-0 mt-2.5 w-88 rounded-2xl border p-4 shadow-2xl z-50 space-y-4 backdrop-blur-xl transition-all ${
+            className={`fixed sm:absolute right-4 sm:right-0 top-16 sm:top-full mt-3 w-88 rounded-2xl border p-4 shadow-2xl z-50 space-y-4 transition-all ${
               isLight
-                ? 'bg-white/95 border-slate-200 text-slate-900 shadow-slate-300/40'
-                : 'bg-[#0B0F19]/95 border-[#1C1F26] text-white shadow-black/80'
+                ? 'bg-white border-slate-200 text-slate-900 shadow-slate-400/30'
+                : 'bg-[#0B0F19] border-[#1C1F26] text-white shadow-black/90'
             }`}
           >
-            {/* ACTIVE LOGGED-IN SESSION CARD */}
+            {/* ACTIVE LOGGED-IN SESSION CARD (100% SOLID BACKGROUND) */}
             <div
               className={`p-3.5 rounded-xl border space-y-2.5 ${
                 isLight
-                  ? 'bg-slate-50/80 border-slate-200'
-                  : 'bg-[#05070A]/90 border-slate-800'
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#05070A] border-slate-800'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -235,7 +235,7 @@ export const UserPersonaHeaderWidget: React.FC<
                       className={`w-full text-left p-2.5 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
                         isSelected
                           ? isLight
-                            ? 'border-emerald-500 bg-emerald-50/80 shadow-2xs'
+                            ? 'border-emerald-500 bg-emerald-50/90 shadow-2xs'
                             : 'border-emerald-500/80 bg-emerald-950/40 shadow-xs'
                           : isLight
                           ? 'border-slate-100 hover:border-slate-200 hover:bg-slate-50 text-slate-800'
@@ -249,7 +249,7 @@ export const UserPersonaHeaderWidget: React.FC<
                               ? 'bg-emerald-600 text-white shadow-xs'
                               : isLight
                               ? 'bg-slate-100 text-slate-600'
-                              : 'bg-slate-800/80 text-gray-400'
+                              : 'bg-slate-800 text-gray-400'
                           }`}
                         >
                           <Icon className="w-4 h-4" />
@@ -284,8 +284,8 @@ export const UserPersonaHeaderWidget: React.FC<
             <div
               className={`p-3.5 rounded-xl border space-y-3 text-xs ${
                 isLight
-                  ? 'bg-slate-50/80 border-slate-200'
-                  : 'bg-[#05070A]/90 border-slate-800'
+                  ? 'bg-slate-50 border-slate-200'
+                  : 'bg-[#05070A] border-slate-800'
               }`}
             >
               <span className="text-[10px] font-black uppercase text-slate-500 dark:text-gray-400 block tracking-wider">
@@ -357,7 +357,7 @@ export const UserPersonaHeaderWidget: React.FC<
                   }`}
                 >
                   <option value="30C">30C (Acute Low)</option>
-                  <option value="200C">200C (Constitutional)</option>
+                  <option value="200C (Constitutional)">200C (Constitutional)</option>
                   <option value="1M">1M (Deep Neural)</option>
                   <option value="LM1">LM1 (Organopathy Water)</option>
                 </select>
@@ -371,7 +371,7 @@ export const UserPersonaHeaderWidget: React.FC<
                   setIsOpen(false);
                   setIsLoginModalOpen(true);
                 }}
-                className={`flex-1 py-2 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 cursor-pointer border transition-all ${
+                className={`flex-1 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 cursor-pointer border transition-all ${
                   isLight
                     ? 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-200'
                     : 'bg-[#111317] hover:bg-slate-800 text-gray-200 border-slate-800'
