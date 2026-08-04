@@ -1,25 +1,32 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   Search,
   Plus,
   Check,
   X,
-  Sparkles,
-  ArrowUpDown,
-  Layers,
-  ShieldAlert,
   Flame,
+  Droplets,
+  Award,
+  Sparkles,
+  ShieldAlert,
+  Sliders,
+  Eye,
+  Info,
 } from 'lucide-react';
+import {
+  INDIAN_LANGUAGE_PACKS,
+  IndianLanguageCode,
+} from '@/lib/i18n/indian_language_packs';
 
 export interface RubricRow {
   id: string;
   chapter: string;
   fullStringPath: string;
   embryologicalLayer: 'Ectoderm' | 'Mesoderm' | 'Endoderm';
-  isAiExtracted: boolean;
-  isCommitted: boolean;
+  isAiExtracted?: boolean;
+  isCommitted?: boolean;
 }
 
 export interface RemedyColumn {
@@ -28,8 +35,8 @@ export interface RemedyColumn {
   fullName: string;
   specificityScore: number;
   coverageCount: number;
-  isDrainage: boolean;
-  hasSafetyAlert: boolean;
+  isDrainage?: boolean;
+  hasSafetyAlert?: boolean;
 }
 
 export interface MatrixCell {
@@ -42,21 +49,22 @@ interface WorkspaceMatrixProps {
   initialRubrics: RubricRow[];
   calculatedRemedies: RemedyColumn[];
   matrixPayload: MatrixCell[];
-  onToggleCommitRubric: (rubricId: string, accept: boolean) => void;
-  embryologicalWarningActive: boolean;
-  onSelectRemedyHeader: (remedyCode: string) => void;
+  onToggleCommitRubric?: (rubricId: string, accept: boolean) => void;
+  embryologicalWarningActive?: boolean;
+  onSelectRemedyHeader?: (remedyCode: string) => void;
   onUpdateMatrixCellGrade?: (
     rubricId: string,
     remedyId: string,
     nextGrade: 0 | 1 | 2 | 3 | 4
   ) => void;
   onAddNewRubricToMatrix?: (
-    path: string,
+    rubricPath: string,
     layer: 'Ectoderm' | 'Mesoderm' | 'Endoderm'
   ) => void;
   theme?: 'dark' | 'light';
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (q: string) => void;
+  langCode?: IndianLanguageCode;
 }
 
 export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
@@ -64,449 +72,405 @@ export const WorkspaceMatrix: React.FC<WorkspaceMatrixProps> = ({
   calculatedRemedies,
   matrixPayload,
   onToggleCommitRubric,
-  embryologicalWarningActive,
+  embryologicalWarningActive = false,
   onSelectRemedyHeader,
   onUpdateMatrixCellGrade,
   onAddNewRubricToMatrix,
-  theme = 'light',
-  searchQuery,
+  theme = 'dark',
+  searchQuery = '',
   onSearchChange,
+  langCode = 'EN',
 }) => {
   const isLight = theme === 'light';
+  const langPack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
 
-  const [sortKey, setSortKey] = useState<'score' | 'coverage'>('score');
-  const [hoveredRemedyId, setHoveredRemedyId] = useState<string | null>(null);
-  const [isHeatmapMode, setIsHeatmapMode] = useState<boolean>(true);
-  const [newRubricInput, setNewRubricInput] = useState('');
-  const [selectedLayerForNew, setSelectedLayerForNew] = useState<
-    'Ectoderm' | 'Mesoderm' | 'Endoderm'
-  >('Ectoderm');
+  const [heatmapMode, setHeatmapMode] = useState<boolean>(true);
+  const [useTfidfRanking, setUseTfidfRanking] = useState<boolean>(true);
+  const [newRubricInput, setNewRubricInput] = useState<string>('');
+  const [isAddingRubric, setIsAddingRubric] = useState<boolean>(false);
 
-  const matrixLookup = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const cell of matrixPayload) {
-      map.set(`${cell.rubricId}_${cell.remedyId}`, cell.grade);
-    }
-    return map;
-  }, [matrixPayload]);
-
-  const sortedRemedies = useMemo(() => {
-    return [...calculatedRemedies].sort((a, b) => {
-      if (sortKey === 'score') return b.specificityScore - a.specificityScore;
-      return b.coverageCount - a.coverageCount;
-    });
-  }, [calculatedRemedies, sortKey]);
-
-  const handleCellClick = (
-    rubricId: string,
-    remedyId: string,
-    currentGrade: 0 | 1 | 2 | 3 | 4
-  ) => {
-    if (!onUpdateMatrixCellGrade) return;
-    const nextGrade = ((currentGrade + 1) % 5) as 0 | 1 | 2 | 3 | 4;
-    onUpdateMatrixCellGrade(rubricId, remedyId, nextGrade);
+  const getGradeValue = (rubricId: string, remedyId: string): number => {
+    const found = matrixPayload.find(
+      (c) => c.rubricId === rubricId && c.remedyId === remedyId
+    );
+    return found ? found.grade : 0;
   };
 
-  const handleAddRubricSubmit = (e: React.FormEvent) => {
+  const getRemedySum = (remedyId: string): number => {
+    return matrixPayload
+      .filter((c) => c.remedyId === remedyId)
+      .reduce((acc, curr) => acc + curr.grade, 0);
+  };
+
+  const getRemedyCoverage = (remedyId: string): number => {
+    return matrixPayload.filter(
+      (c) => c.remedyId === remedyId && c.grade > 0
+    ).length;
+  };
+
+  const sortedRemedies = [...calculatedRemedies].sort((a, b) => {
+    if (useTfidfRanking) {
+      return b.specificityScore - a.specificityScore;
+    }
+    return getRemedySum(b.id) - getRemedySum(a.id);
+  });
+
+  const getGradeStyle = (grade: number) => {
+    if (grade === 0) return 'text-gray-500 opacity-30';
+    if (grade === 1)
+      return isLight
+        ? 'bg-slate-200 text-slate-800 font-bold'
+        : 'bg-slate-800 text-gray-200 font-bold';
+    if (grade === 2)
+      return 'bg-teal-500/20 text-teal-400 font-bold border border-teal-500/30';
+    if (grade === 3)
+      return 'bg-amber-500 text-black font-black shadow-[0_0_8px_rgba(245,158,11,0.5)]';
+    if (grade === 4)
+      return 'bg-red-600 text-white font-black animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.7)]';
+    return '';
+  };
+
+  const handleCycleGrade = (rubricId: string, remedyId: string) => {
+    if (!onUpdateMatrixCellGrade) return;
+    const current = getGradeValue(rubricId, remedyId);
+    const next = ((current + 1) % 5) as 0 | 1 | 2 | 3 | 4;
+    onUpdateMatrixCellGrade(rubricId, remedyId, next);
+  };
+
+  const handleCreateRubric = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newRubricInput.trim() || !onAddNewRubricToMatrix) return;
-    onAddNewRubricToMatrix(newRubricInput.trim(), selectedLayerForNew);
+    if (!newRubricInput.trim()) return;
+    if (onAddNewRubricToMatrix) {
+      onAddNewRubricToMatrix(newRubricInput.toUpperCase(), 'Ectoderm');
+    }
     setNewRubricInput('');
+    setIsAddingRubric(false);
+  };
+
+  // HELPER TO DISPLAY TRANSLATED RUBRIC STRING IF AVAILABLE
+  const renderRubricString = (fullPath: string): string => {
+    if (langPack.labels.rubricTranslations && langPack.labels.rubricTranslations[fullPath]) {
+      return langPack.labels.rubricTranslations[fullPath];
+    }
+    return fullPath;
   };
 
   return (
     <div
-      className={`w-full h-full flex flex-col font-sans select-none overflow-hidden transition-colors ${
-        isLight ? 'bg-white text-slate-900' : 'bg-[#0B0F19] text-[#E6E8EA]'
+      className={`w-full h-full flex flex-col font-mono overflow-hidden transition-colors ${
+        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-[#E6E8EA]'
       }`}
     >
-      {/* SEARCH & REPERTORY TOOLBAR */}
+      {/* MATRIX CONTROL HEADER BAR */}
       <div
-        className={`px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-3 ${
-          isLight ? 'bg-slate-50 border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
+        className={`px-4 py-2.5 border-b flex flex-wrap items-center justify-between gap-3 text-xs z-20 flex-shrink-0 transition-colors ${
+          isLight
+            ? 'bg-white border-slate-200 text-slate-800'
+            : 'bg-[#0B0F19] border-[#1C1F26] text-white'
         }`}
       >
-        <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
-          <div className="relative w-56 sm:w-64">
-            <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5" />
+        <div className="flex items-center space-x-2.5">
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 absolute left-2.5 top-2 text-gray-400" />
             <input
               type="text"
+              placeholder={langPack.labels.filterRubricsPlaceholder}
               value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Filter active rubrics..."
-              className={`w-full border rounded-xl pl-9 pr-3 py-1.5 text-xs font-mono font-semibold focus:outline-none transition-colors ${
+              onChange={(e) =>
+                onSearchChange && onSearchChange(e.target.value)
+              }
+              className={`pl-8 pr-3 py-1 rounded-xl text-xs font-bold border outline-none ${
                 isLight
-                  ? 'bg-white border-slate-300 text-slate-900 focus:border-emerald-600'
-                  : 'bg-[#090A0C] border-[#1C1F26] text-white focus:border-emerald-500'
+                  ? 'bg-slate-50 border-slate-300 text-slate-900'
+                  : 'bg-[#111317] border-slate-800 text-white'
               }`}
             />
           </div>
 
-          {/* + ADD RUBRIC AUTOCOMPLETE FORM */}
-          {onAddNewRubricToMatrix && (
-            <form
-              onSubmit={handleAddRubricSubmit}
-              className="flex items-center space-x-1.5"
-            >
-              <input
-                type="text"
-                value={newRubricInput}
-                onChange={(e) => setNewRubricInput(e.target.value)}
-                placeholder="+ Add rubric (e.g. HEAD - PAIN - sun)..."
-                className={`w-48 sm:w-64 border rounded-xl px-3 py-1.5 text-xs font-mono transition-colors ${
-                  isLight
-                    ? 'bg-white border-slate-300 text-slate-900'
-                    : 'bg-[#090A0C] border-[#1C1F26] text-white'
-                }`}
-              />
-              <button
-                type="submit"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1.5 rounded-xl text-xs flex items-center space-x-1 cursor-pointer transition-all"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Add Rubric</span>
-              </button>
-            </form>
-          )}
-
-          {/* THERMAL HEATMAP MODE TOGGLE BUTTON */}
           <button
-            onClick={() => setIsHeatmapMode((prev) => !prev)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold flex items-center space-x-1.5 transition-all cursor-pointer border ${
-              isHeatmapMode
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-emerald-400 shadow-sm'
+            onClick={() => setIsAddingRubric((prev) => !prev)}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-3 py-1 rounded-xl text-xs flex items-center space-x-1 transition-all cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>{langPack.labels.addRubricBtn}</span>
+          </button>
+
+          <button
+            onClick={() => setHeatmapMode((prev) => !prev)}
+            className={`px-2.5 py-1 rounded-lg border font-bold transition-all cursor-pointer ${
+              heatmapMode
+                ? 'bg-teal-600/20 border-teal-500 text-teal-400'
                 : isLight
-                ? 'bg-white border-slate-300 text-slate-700 hover:bg-slate-100'
-                : 'bg-[#111317] border-[#1C1F26] text-gray-300 hover:bg-[#1C1F26]'
+                ? 'bg-slate-100 border-slate-300 text-slate-600'
+                : 'bg-slate-800 border-slate-700 text-gray-400'
             }`}
           >
-            <Flame className="w-3.5 h-3.5 text-orange-400" />
-            <span>
-              Heatmap View: <strong>{isHeatmapMode ? 'ON' : 'OFF'}</strong>
-            </span>
+            {langPack.labels.heatmapOn}
           </button>
         </div>
 
-        {/* CLINICAL ALERT BADGES & RANK TOGGLE */}
-        <div className="flex items-center space-x-2.5">
+        {/* ALERTS & ASYMMETRICAL MATH FORMULA TOGGLE */}
+        <div className="flex items-center space-x-2">
           {embryologicalWarningActive && (
-            <div className="hidden xl:flex items-center space-x-1.5 text-amber-700 bg-amber-50/90 border border-amber-300 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold shadow-xs">
-              <Layers className="w-3.5 h-3.5 animate-pulse" />
-              <span>Predictive Suppression Radar</span>
-            </div>
-          )}
-
-          {sortedRemedies.some((r) => r.hasSafetyAlert) && (
-            <div className="hidden xl:flex items-center space-x-1.5 text-rose-700 bg-rose-50/90 border border-rose-300 px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold shadow-xs">
+            <span className="px-2.5 py-1 rounded-lg bg-red-600/20 border border-red-500 text-red-400 text-[10px] font-black flex items-center space-x-1 animate-pulse">
               <ShieldAlert className="w-3.5 h-3.5" />
-              <span>Burnett Organopathy Active</span>
-            </div>
+              <span>{langPack.labels.burnettOrganopathyActive}</span>
+            </span>
           )}
 
-          <div className="flex items-center space-x-1 border rounded-xl p-0.5 border-slate-300 dark:border-[#1C1F26] bg-slate-100 dark:bg-[#090A0C]">
-            <button
-              onClick={() => setSortKey('score')}
-              className={`px-3 py-1 rounded-lg text-[11px] font-mono font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
-                sortKey === 'score'
-                  ? 'bg-gradient-to-r from-emerald-600 to-emerald-700 text-white shadow-sm'
-                  : isLight
-                  ? 'text-slate-600 hover:text-slate-900'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>TF-IDF Index</span>
-            </button>
-            <button
-              onClick={() => setSortKey('coverage')}
-              className={`px-3 py-1 rounded-lg text-[11px] font-mono font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
-                sortKey === 'coverage'
-                  ? 'bg-gradient-to-r from-emerald-600 to-emerald-700 text-white shadow-sm'
-                  : isLight
-                  ? 'text-slate-600 hover:text-slate-900'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <ArrowUpDown className="w-3 h-3" />
-              <span>Coverage</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setUseTfidfRanking((prev) => !prev)}
+            className={`px-3 py-1 rounded-xl border text-xs font-black flex items-center space-x-1.5 transition-all cursor-pointer ${
+              useTfidfRanking
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white border-emerald-400 shadow-md'
+                : isLight
+                ? 'bg-slate-100 border-slate-300 text-slate-700'
+                : 'bg-slate-800 border-slate-700 text-gray-300'
+            }`}
+          >
+            <Sliders className="w-3.5 h-3.5" />
+            <span>{langPack.labels.tfidfIndexBtn}</span>
+          </button>
         </div>
       </div>
 
-      {/* MATRIX HIGH-DENSITY VIRTUALIZED SPREADSHEET TABLE */}
-      <div
-        className={`flex-1 overflow-auto relative z-10 ${
-          isLight ? 'bg-white' : 'bg-[#0B0F19]'
-        }`}
-      >
+      {/* QUICK ADD RUBRIC INPUT DRAWER */}
+      {isAddingRubric && (
+        <form
+          onSubmit={handleCreateRubric}
+          className={`px-4 py-2 border-b flex items-center space-x-2 ${
+            isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-950/30 border-emerald-800'
+          }`}
+        >
+          <input
+            type="text"
+            placeholder="e.g. MIND - BUSINESS - talks of"
+            value={newRubricInput}
+            onChange={(e) => setNewRubricInput(e.target.value)}
+            className="flex-1 px-3 py-1 rounded-lg text-xs font-bold border border-emerald-500 bg-white dark:bg-[#111317] outline-none"
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="px-4 py-1 rounded-lg bg-emerald-600 text-white font-black text-xs cursor-pointer"
+          >
+            Commit Rubric
+          </button>
+        </form>
+      )}
+
+      {/* VIRTUALIZED DENSE CONSULTATION MATRIX TABLE */}
+      <div className="flex-1 overflow-auto">
         <table className="w-full border-collapse text-left text-xs">
-          {/* STICKY HEADER WITH LUXURY GLASS DEPTH */}
           <thead
-            className={`sticky top-0 z-30 border-b transition-colors ${
+            className={`sticky top-0 z-10 border-b ${
               isLight
-                ? 'bg-slate-100/95 border-slate-200/90 text-slate-700 backdrop-blur-md'
-                : 'bg-[#111317]/95 border-[#1C1F26] text-gray-400 backdrop-blur-md'
+                ? 'bg-white border-slate-300 text-slate-900'
+                : 'bg-[#0B0F19] border-[#1C1F26] text-white'
             }`}
           >
             <tr>
-              <th
-                className={`sticky left-0 z-40 border-r px-4 py-2.5 w-[480px] min-w-[480px] max-w-[480px] ${
-                  isLight
-                    ? 'bg-slate-100/95 border-slate-200'
-                    : 'bg-[#111317]/95 border-[#1C1F26]'
-                }`}
-              >
+              <th className="p-3 font-black tracking-wider w-80 min-w-[300px]">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] uppercase font-bold tracking-wider">
-                    SELECTED RUBRICS / SYMPTOMS
-                  </span>
-                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold">
+                  <span>{langPack.labels.selectedRubricsTitle}</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-600/20 text-emerald-600 dark:text-emerald-400">
                     {initialRubrics.length} RUBRICS
                   </span>
                 </div>
               </th>
-
               {sortedRemedies.map((remedy, idx) => (
                 <th
                   key={remedy.id}
-                  onMouseEnter={() => setHoveredRemedyId(remedy.id)}
-                  onMouseLeave={() => setHoveredRemedyId(null)}
-                  onClick={() => onSelectRemedyHeader(remedy.code)}
-                  className={`border-r px-2 py-2.5 text-center transition-all cursor-pointer w-[70px] min-w-[70px] ${
+                  onClick={() =>
+                    onSelectRemedyHeader && onSelectRemedyHeader(remedy.code)
+                  }
+                  className={`p-2.5 text-center font-black border-l min-w-[76px] cursor-pointer transition-all hover:bg-emerald-500/10 ${
                     idx === 0
-                      ? isLight
-                        ? 'bg-emerald-50/90 text-emerald-950 font-black'
-                        : 'bg-emerald-950/60 text-emerald-300 font-black'
+                      ? 'bg-emerald-600/15 border-emerald-500/50'
                       : isLight
-                      ? 'hover:bg-slate-200/70'
-                      : 'hover:bg-[#1C1F26]'
+                      ? 'border-slate-200'
+                      : 'border-[#1C1F26]'
                   }`}
-                  title="Click to view classical Materia Medica provings"
+                  title={`Click to open Materia Medica Proving for ${remedy.fullName}`}
                 >
-                  <div className="flex flex-col items-center">
-                    <span className="font-mono font-black text-xs">
-                      {remedy.code}
-                    </span>
+                  <div className="flex flex-col items-center space-y-1">
                     <span
-                      className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold mt-0.5 ${
+                      className={`text-sm font-black tracking-wider ${
                         idx === 0
-                          ? 'bg-emerald-600 text-white'
+                          ? 'text-emerald-600 dark:text-emerald-400'
                           : isLight
-                          ? 'bg-slate-200 text-slate-700'
-                          : 'bg-[#1C1F26] text-gray-300'
+                          ? 'text-slate-900'
+                          : 'text-white'
                       }`}
                     >
-                      {remedy.specificityScore.toFixed(1)}
+                      {remedy.code}
                     </span>
-                    <p className="font-mono mt-0.5 text-[9px] opacity-75">
-                      Cov: <strong>{remedy.coverageCount}</strong>
-                    </p>
+                    <span className="text-[10px] px-1.5 py-0.2 rounded font-mono font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                      {useTfidfRanking
+                        ? remedy.specificityScore
+                        : getRemedySum(remedy.id)}
+                    </span>
+                    <span className="text-[9px] text-gray-500">
+                      Cov: {getRemedyCoverage(remedy.id)}
+                    </span>
                   </div>
                 </th>
               ))}
             </tr>
           </thead>
 
-          {/* MATRIX ROWS WITH LUXURY 4PX HOVER LEFT ACCENT BAR */}
-          <tbody
-            className={`divide-y ${
-              isLight ? 'divide-slate-200/80 bg-white' : 'divide-[#1C1F26] bg-[#0B0F19]'
-            }`}
-          >
-            {initialRubrics.map((rubric) => (
-              <tr
-                key={rubric.id}
-                className={`group transition-all ${
-                  isLight ? 'hover:bg-slate-50/90' : 'hover:bg-[#111317]/80'
-                }`}
-              >
-                {/* SYMPTOM PATH WITH CRISP HOVER ACCENT BAR */}
-                <td
-                  className={`sticky left-0 z-20 border-r px-4 py-2.5 w-[480px] min-w-[480px] max-w-[480px] relative transition-all ${
+          <tbody className="divide-y divide-slate-200 dark:divide-[#1C1F26]">
+            {initialRubrics.map((rubric) => {
+              const translatedPath = renderRubricString(rubric.fullStringPath);
+
+              return (
+                <tr
+                  key={rubric.id}
+                  className={`transition-colors ${
                     isLight
-                      ? 'bg-white border-slate-200 group-hover:bg-slate-50/90'
-                      : 'bg-[#0B0F19] border-[#1C1F26] group-hover:bg-[#111317]'
+                      ? 'hover:bg-slate-100'
+                      : 'hover:bg-slate-900/60'
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-3 pl-1">
-                    <div className="flex flex-col min-w-0 flex-1">
-                      <span
-                        className={`font-mono text-xs font-bold truncate ${
-                          isLight ? 'text-slate-900' : 'text-white'
-                        }`}
-                        title={rubric.fullStringPath}
-                      >
-                        {rubric.fullStringPath}
-                      </span>
-                      <div className="flex items-center gap-2 mt-1">
+                  <td className="p-3 font-bold text-xs">
+                    <div className="flex items-center justify-between space-x-2">
+                      <div className="flex flex-col space-y-1 min-w-0">
                         <span
-                          className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-md uppercase tracking-wider border ${
-                            rubric.embryologicalLayer === 'Ectoderm'
-                              ? isLight
-                                ? 'bg-blue-50 text-blue-700 border-blue-200'
-                                : 'bg-blue-950/60 text-blue-400 border-blue-500/30'
-                              : rubric.embryologicalLayer === 'Mesoderm'
-                              ? isLight
-                                ? 'bg-purple-50 text-purple-700 border-purple-200'
-                                : 'bg-purple-950/60 text-purple-400 border-purple-500/30'
-                              : isLight
-                              ? 'bg-orange-50 text-orange-700 border-orange-200'
-                              : 'bg-orange-950/60 text-orange-400 border-orange-500/30'
+                          className={`font-black tracking-wide truncate ${
+                            isLight ? 'text-slate-900' : 'text-white'
                           }`}
+                          title={translatedPath}
                         >
-                          {rubric.embryologicalLayer}
+                          {translatedPath}
                         </span>
-                        {rubric.isAiExtracted && (
-                          <span className="text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                            <Sparkles className="w-2.5 h-2.5" /> NLP EXTRACTED
+                        <div className="flex items-center space-x-2">
+                          <span
+                            className={`text-[9px] px-1.5 py-0.2 rounded font-black uppercase ${
+                              rubric.embryologicalLayer === 'Ectoderm'
+                                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400'
+                                : rubric.embryologicalLayer === 'Endoderm'
+                                ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400'
+                                : 'bg-purple-500/20 text-purple-600 dark:text-purple-400'
+                            }`}
+                          >
+                            {rubric.embryologicalLayer}
+                          </span>
+                          {rubric.isAiExtracted && (
+                            <span className="text-[9px] text-teal-600 dark:text-teal-400 font-bold flex items-center gap-0.5">
+                              <Sparkles className="w-2.5 h-2.5" /> NLP EXTRACTED
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* COMMIT / REJECT TOGGLE BUTTONS */}
+                      <div className="flex items-center space-x-1 flex-shrink-0">
+                        <button
+                          onClick={() =>
+                            onToggleCommitRubric &&
+                            onToggleCommitRubric(rubric.id, true)
+                          }
+                          className={`p-1 rounded-md border transition-all cursor-pointer ${
+                            rubric.isCommitted !== false
+                              ? 'bg-emerald-600 border-emerald-500 text-white'
+                              : isLight
+                              ? 'border-slate-300 text-slate-400'
+                              : 'border-slate-800 text-gray-500'
+                          }`}
+                          title="Commit Rubric to Matrix"
+                        >
+                          <Check className="w-3 h-3" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            onToggleCommitRubric &&
+                            onToggleCommitRubric(rubric.id, false)
+                          }
+                          className={`p-1 rounded-md border transition-all cursor-pointer ${
+                            rubric.isCommitted === false
+                              ? 'bg-red-600 border-red-500 text-white'
+                              : isLight
+                              ? 'border-slate-300 text-slate-400'
+                              : 'border-slate-800 text-gray-500'
+                          }`}
+                          title="Reject Rubric"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* REMEDY GRADE CELLS (1, 2, 3, 4) */}
+                  {sortedRemedies.map((remedy, idx) => {
+                    const grade = getGradeValue(rubric.id, remedy.id);
+                    const gradeStyle = getGradeStyle(grade);
+
+                    return (
+                      <td
+                        key={`${rubric.id}-${remedy.id}`}
+                        onClick={() =>
+                          handleCycleGrade(rubric.id, remedy.id)
+                        }
+                        className={`p-2 text-center border-l cursor-pointer select-none transition-all ${
+                          idx === 0
+                            ? 'bg-emerald-500/5 border-emerald-500/20'
+                            : isLight
+                            ? 'border-slate-200'
+                            : 'border-[#1C1F26]'
+                        }`}
+                        title="Click to cycle Grade (0 -> 1 -> 2 -> 3 -> 4)"
+                      >
+                        {grade > 0 ? (
+                          <span
+                            className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs ${gradeStyle}`}
+                          >
+                            {grade}
+                          </span>
+                        ) : (
+                          <span className="text-gray-600 dark:text-gray-700 text-sm">
+                            -
                           </span>
                         )}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-1 flex-shrink-0">
-                      <button
-                        onClick={() => onToggleCommitRubric(rubric.id, true)}
-                        className={`p-1 rounded-md transition-all cursor-pointer ${
-                          rubric.isCommitted
-                            ? 'bg-emerald-600 text-white shadow-2xs'
-                            : isLight
-                            ? 'bg-slate-100 text-slate-400 hover:text-emerald-600'
-                            : 'bg-[#1C1F26] text-gray-500 hover:text-emerald-400'
-                        }`}
-                        title="Accept and Commit Symptom"
-                      >
-                        <Check className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => onToggleCommitRubric(rubric.id, false)}
-                        className={`p-1 rounded-md transition-all cursor-pointer ${
-                          !rubric.isCommitted
-                            ? 'bg-rose-600 text-white'
-                            : isLight
-                            ? 'bg-slate-100 text-slate-400 hover:text-rose-600'
-                            : 'bg-[#1C1F26] text-gray-500 hover:text-rose-400'
-                        }`}
-                        title="Reject Symptom"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                </td>
-
-                {/* GRADE MATRIX CELLS — HIGH-DENSITY THERMAL HEATMAP MODE */}
-                {sortedRemedies.map((remedy) => {
-                  const grade = (matrixLookup.get(
-                    `${rubric.id}_${remedy.id}`
-                  ) || 0) as 0 | 1 | 2 | 3 | 4;
-
-                  const isColumnHovered = hoveredRemedyId === remedy.id;
-
-                  const getHeatmapStyle = () => {
-                    if (!isHeatmapMode) {
-                      if (grade === 0) return 'text-gray-300 dark:text-gray-600';
-                      if (grade === 4) return 'bg-emerald-600 text-white font-black rounded-lg shadow-xs';
-                      if (grade === 3) return 'bg-emerald-500/80 text-white font-bold rounded-lg';
-                      if (grade === 2) return 'bg-emerald-300/60 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-300 font-bold rounded-lg';
-                      return 'bg-emerald-100/70 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-400 font-bold rounded-lg';
-                    }
-
-                    // MULTI-SPECTRUM SCIENTIFIC THERMAL HEATMAP PALETTE (RED / ORANGE / GREEN / CYAN)
-                    if (grade === 4)
-                      return 'bg-gradient-to-br from-red-600 via-red-500 to-rose-700 text-white font-black rounded-md shadow-sm border border-red-400 scale-[0.96]';
-                    if (grade === 3)
-                      return 'bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 text-white font-black rounded-md border border-amber-300 shadow-2xs';
-                    if (grade === 2)
-                      return 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold rounded-md border border-emerald-400/50';
-                    if (grade === 1)
-                      return 'bg-gradient-to-br from-cyan-500 to-blue-600 text-white font-bold rounded-md border border-cyan-400/50';
-                    return 'text-gray-300 dark:text-gray-700';
-                  };
-
-                  return (
-                    <td
-                      key={remedy.id}
-                      onClick={() =>
-                        handleCellClick(rubric.id, remedy.id, grade)
-                      }
-                      title="Click to cycle grade (0 -> 1 -> 2 -> 3 -> 4)"
-                      className={`border-r p-1 text-center font-black text-xs align-middle w-[70px] min-w-[70px] select-none transition-all cursor-pointer ${
-                        isColumnHovered
-                          ? isLight
-                            ? 'bg-slate-100/70'
-                            : 'bg-[#1C1F26]/70'
-                          : ''
-                      }`}
-                    >
-                      <div
-                        className={`w-full py-1.5 flex items-center justify-center transition-transform hover:scale-105 ${getHeatmapStyle()}`}
-                      >
-                        {grade > 0 ? grade : '.'}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
 
-          {/* STICKY FOOTER TOTALS */}
+          {/* FOOTER TOTALS ROW */}
           <tfoot
-            className={`sticky bottom-0 z-30 border-t ${
+            className={`sticky bottom-0 z-10 border-t font-black ${
               isLight
-                ? 'bg-slate-100/95 border-slate-300 backdrop-blur-md'
-                : 'bg-[#111317]/95 border-[#1C1F26] backdrop-blur-md'
+                ? 'bg-slate-100 border-slate-300 text-slate-900'
+                : 'bg-[#0B0F19] border-[#1C1F26] text-white'
             }`}
           >
             <tr>
-              <td
-                className={`sticky left-0 z-40 border-r px-4 py-2.5 font-bold text-xs w-[480px] min-w-[480px] max-w-[480px] ${
-                  isLight
-                    ? 'bg-slate-100/95 border-slate-300'
-                    : 'bg-[#111317]/95 border-[#1C1F26]'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] font-black uppercase text-emerald-400">
-                    SYMPTOM TOTALITY / SUM OF GRADES
-                  </span>
-                  <span className="text-[10px] text-gray-400 font-mono">
-                    COVERAGE / SUM
-                  </span>
-                </div>
+              <td className="p-3 uppercase text-xs">
+                {langPack.labels.symptomTotality}
               </td>
-
-              {sortedRemedies.map((remedy) => {
-                let totalGrades = 0;
-                let matchedRubricsCount = 0;
-
-                initialRubrics.forEach((rub) => {
-                  const g = (matrixLookup.get(`${rub.id}_${remedy.id}`) ||
-                    0) as number;
-                  if (g > 0) {
-                    matchedRubricsCount += 1;
-                    totalGrades += g;
-                  }
-                });
-
-                return (
-                  <td
-                    key={remedy.id}
-                    className="border-r px-2 py-2 text-center font-mono text-xs w-[70px] min-w-[70px]"
-                  >
-                    <div className="flex flex-col items-center">
-                      <span className="font-black text-emerald-400">
-                        {matchedRubricsCount}R
-                      </span>
-                      <span className="text-[10px] font-bold opacity-75">
-                        ∑{totalGrades}
-                      </span>
-                    </div>
-                  </td>
-                );
-              })}
+              {sortedRemedies.map((remedy, idx) => (
+                <td
+                  key={`sum-${remedy.id}`}
+                  className={`p-2.5 text-center border-l ${
+                    idx === 0
+                      ? 'bg-emerald-600/20 text-emerald-600 dark:text-emerald-400'
+                      : ''
+                  }`}
+                >
+                  <div className="flex flex-col items-center">
+                    <span className="text-xs font-black">
+                      {getRemedyCoverage(remedy.id)}R
+                    </span>
+                    <span className="text-[10px] text-gray-500">
+                      Σ{getRemedySum(remedy.id)}
+                    </span>
+                  </div>
+                </td>
+              ))}
             </tr>
           </tfoot>
         </table>

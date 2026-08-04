@@ -403,7 +403,7 @@ export default function MateriaGridMasterWorkspace() {
         </div>
       </div>
 
-      {/* HARMONIZED EXECUTIVE LEFT SIDEBAR NAVIGATION */}
+      {/* HARMONIZED EXECUTIVE LEFT SIDEBAR NAVIGATION WITH LANGPACK TRANSLATION */}
       <SidebarNav
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -412,6 +412,7 @@ export default function MateriaGridMasterWorkspace() {
         isMobileOpen={isMobileSidebarOpen}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
         onOpenLandingPage={() => setCurrentView('LANDING')}
+        langCode={langCode}
       />
 
       {/* RIGHT MAIN VIEWPORT */}
@@ -611,6 +612,7 @@ export default function MateriaGridMasterWorkspace() {
                     theme={theme}
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
+                    langCode={langCode}
                   />
                 </div>
               </div>
