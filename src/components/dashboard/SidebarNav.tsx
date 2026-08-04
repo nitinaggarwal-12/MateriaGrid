@@ -83,10 +83,33 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   const pack = INDIAN_LANGUAGE_PACKS[langCode] || INDIAN_LANGUAGE_PACKS.EN;
   const labels = pack.labels;
 
-  // ONLY ONE CATEGORY EXPANDED AT A TIME + HOVER TO EXPAND
-  const [expandedGroupTitle, setExpandedGroupTitle] = useState<string>(
-    'CLINICAL PRACTICE SUITE'
-  );
+  // EXPAND ALL / COLLAPSE ALL + INDIVIDUAL GROUP TOGGLE STATE
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    'CLINICAL PRACTICE SUITE': true,
+    'PROFILES & HELP DESK': false,
+    'AI INTELLIGENCE & VISION': false,
+    'KNOWLEDGE & ENTERPRISE': false,
+  });
+
+  const handleExpandAll = () => {
+    setOpenGroups({
+      'CLINICAL PRACTICE SUITE': true,
+      'PROFILES & HELP DESK': true,
+      'AI INTELLIGENCE & VISION': true,
+      'KNOWLEDGE & ENTERPRISE': true,
+    });
+  };
+
+  const handleCollapseAll = () => {
+    setOpenGroups({});
+  };
+
+  const toggleGroup = (groupTitle: string) => {
+    setOpenGroups((prev) => ({
+      ...prev,
+      [groupTitle]: !prev[groupTitle],
+    }));
+  };
 
   const navGroups = [
     {
@@ -301,21 +324,50 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         </button>
       </div>
 
+      {/* EXPAND ALL / COLLAPSE ALL ACTION BAR */}
+      <div
+        className={`px-3 py-2 border-b flex items-center justify-between font-mono text-[10px] ${
+          isLight
+            ? 'bg-slate-50 border-slate-200 text-slate-600'
+            : 'bg-[#090A0C] border-[#1C1F26] text-gray-400'
+        }`}
+      >
+        <span className="font-bold uppercase tracking-wider text-[9px]">
+          Suites Tree
+        </span>
+        <div className="flex items-center space-x-1.5">
+          <button
+            onClick={handleExpandAll}
+            className="px-2 py-0.5 rounded border border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-black hover:bg-emerald-500/20 cursor-pointer transition-all"
+            title="Expand all 4 clinical suites"
+          >
+            Expand All
+          </button>
+          <button
+            onClick={handleCollapseAll}
+            className={`px-2 py-0.5 rounded border font-black cursor-pointer transition-all ${
+              isLight
+                ? 'border-slate-300 bg-white hover:bg-slate-100 text-slate-700'
+                : 'border-slate-800 bg-[#111317] hover:bg-slate-800 text-gray-300'
+            }`}
+            title="Collapse all clinical suites"
+          >
+            Collapse All
+          </button>
+        </div>
+      </div>
+
       {/* NAVIGATION SCROLL AREA */}
       <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {navGroups.map((group, groupIdx) => {
           const GroupIcon = group.groupIcon;
-          const isExpanded = expandedGroupTitle === group.groupTitle;
+          const isExpanded = !!openGroups[group.groupTitle];
 
           return (
-            <div
-              key={groupIdx}
-              onMouseEnter={() => setExpandedGroupTitle(group.groupTitle)}
-              className="space-y-1.5"
-            >
-              {/* COLLAPSIBLE / EXPANDABLE HIGH-CONTRAST HEADER BUTTON (EXPANDS ON HOVER & CLICK) */}
+            <div key={groupIdx} className="space-y-1.5">
+              {/* COLLAPSIBLE / EXPANDABLE HIGH-CONTRAST HEADER BUTTON */}
               <button
-                onClick={() => setExpandedGroupTitle(group.groupTitle)}
+                onClick={() => toggleGroup(group.groupTitle)}
                 className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg border font-black text-[11px] tracking-wider uppercase transition-all cursor-pointer ${group.accentColor}`}
               >
                 <div className="flex items-center space-x-2">
