@@ -796,6 +796,41 @@ export const BhmsClinicalAcademyView: React.FC<
                       </span>
                     </div>
 
+                    {/* SECTION 0: PLAIN-ENGLISH LOGICAL BREAKDOWN FOR INTERNS */}
+                    <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-cyan-950/30 to-purple-950/40 border border-emerald-500/50 space-y-1.5">
+                      <span className="text-[11px] font-black text-emerald-300 uppercase tracking-wider flex items-center space-x-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>💡 PLAIN-ENGLISH LOGICAL BREAKDOWN &amp; SIMPLE ANALOGY:</span>
+                      </span>
+                      <p className="text-xs text-white leading-relaxed font-bold">
+                        {chapter.title.includes('Thermodynamics') &&
+                          'Think of cellular miasms like a house electrical circuit: Psora is a flickering light (functional disturbance), Sycosis is a blown fuse causing wall bulging (hyper-growth), and Syphilis is a short circuit that burns the house down (ulcerative destruction). Match the remedy energy level to the cellular destruction level!'}
+                        {chapter.title.includes('Hot vs Chilly') &&
+                          'Think of a patient’s thermal baseline like an engine temperature: A HOT patient runs hot and craves fans/cold baths. If you give a HOT patient a CHILLY remedy like Arsenicum, it is like turning on the heater inside an overheating car! Always match the remedy’s thermal profile to the patient’s physical engine.'}
+                        {chapter.title.includes('Embryological') &&
+                          'Healing under Hering’s Law is like sweeping dust out of a house: Dust moves from the innermost bedrooms (Endoderm: Liver/Lungs) outwards toward the front porch (Ectoderm: Skin). If eczema appears on the skin while breathing clears, the dust is moving out! Never lock the door with corticosteroid creams.'}
+                        {chapter.title.includes('Suppression') &&
+                          'Suppression happens when you paint over mold on a wall without repairing the leaking roof. The mold simply invades the wooden beams inside. Always treat the patient’s internal thermal physics rather than just suppressing surface eruptions.'}
+                        {chapter.title.includes('SimiliMatrix') &&
+                          'Imagine a classroom where 100 students have fever, but only 2 students have a twitching left eyebrow. Standard repertories reward Sulphur because it hits everyone with fever. Asymmetrical Specificity acts like a detective—giving 10x points to the rare twitching eyebrow so the unique keynote remedy rises to #1.'}
+                        {chapter.title.includes('Follow-Up') &&
+                          'In Follow-Up Visit #2, look at sleep, mental state, and direction of healing first. If the patient is calmer and sleeping deeply, even if their joint pain temporarily tingles, WAIT & WATCH! The vital force is working.'}
+                        {chapter.title.includes('Highest Mission') &&
+                          'Aphorism §1 says your ONLY job is to cure gently and permanently. Do not chase twenty symptom suppressions with five pills—look for the single resonant remedy that restores the whole human being.'}
+                        {chapter.title.includes('Dynamized Vital Force') &&
+                          'Potentized remedies work like tuning forks: strike a C-note tuning fork and the C-string on a piano across the room vibrates by dynamic resonance. Potencies resonate with the altered vibration of the vital force.'}
+                        {!chapter.title.includes('Thermodynamics') &&
+                          !chapter.title.includes('Hot vs Chilly') &&
+                          !chapter.title.includes('Embryological') &&
+                          !chapter.title.includes('Suppression') &&
+                          !chapter.title.includes('SimiliMatrix') &&
+                          !chapter.title.includes('Follow-Up') &&
+                          !chapter.title.includes('Highest Mission') &&
+                          !chapter.title.includes('Dynamized Vital Force') &&
+                          'Every clinical doctrine in homeopathy follows natural biological logic: identify the root tissue affinity, respect physical baseline constants, and guide the patient toward gentle, permanent restoration.'}
+                      </p>
+                    </div>
+
                     {/* SECTION 1: LECTURE SUMMARY */}
                     <div className="space-y-1.5">
                       <span className="text-[11px] font-black text-emerald-400 uppercase tracking-wider block">
