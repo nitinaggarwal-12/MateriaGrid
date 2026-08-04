@@ -111,6 +111,7 @@ export const Interactive360AnatomyAtlas: React.FC<
     return '270° SAGITTAL HISTOLOGY CROSS-SECTION';
   };
 
+  // ALL 8 COMPLETE MAJOR HUMAN ANATOMICAL SYSTEMS
   const ORGAN_SYSTEMS = [
     {
       id: 'organ-head',
@@ -181,19 +182,6 @@ export const Interactive360AnatomyAtlas: React.FC<
           correctIdx: 1,
           explanation:
             'Belladonna acts intensely on the arterial blood vessels supplying the cerebral cortex and carotid bifurcation, causing violent arterial congestion (§210–213).',
-        },
-        {
-          question:
-            'Q2 (MD Hom. Neuro-Pathology): In Dr. Prafull Vijayakar’s Predictive Homeopathy, which embryological layer gives rise to the central nervous system?',
-          options: [
-            'Mesoderm (Musculoskeletal & Synovial)',
-            'Endoderm (Visceral & Mucous Membranes)',
-            'Ectoderm (Neural Crest & Sensory System)',
-            'Notochord (Periosteal Membrane)',
-          ],
-          correctIdx: 2,
-          explanation:
-            'The brain, spinal cord, and sensory nerves originate from the Ectoderm layer. Emotional Psoric disturbances afflict ectodermal pathways first.',
         },
       ],
       organopathyRemedies: [
@@ -375,6 +363,256 @@ export const Interactive360AnatomyAtlas: React.FC<
         },
       ],
     },
+    {
+      id: 'organ-heart',
+      name: 'Cardiovascular & Coronary Circulation',
+      icon: '❤️',
+      layer: 'MESODERM (SEROUS / VASCULAR)',
+      layerBadge: 'bg-amber-500/10 text-amber-600 border-amber-500/30',
+      description:
+        'Mesodermal cardiac tissue governing myocardial contractility, coronary arterial supply, and systemic hemodynamics.',
+      anatomicalLandmarks: [
+        'Ascending Aorta & Pulmonary Trunk Arch',
+        'Left & Right Ventricular Myocardium',
+        'Coronary Interventricular Arteries',
+      ],
+      atlasIllustration: {
+        bgGradient: 'from-[#311115] via-[#4A181F] to-[#1F0A0D]',
+        landmarkLabels: [
+          { label: 'Ascending Aorta & Pulmonary Arch', pos: 'top-[10%] left-[10%]' },
+        ],
+      },
+      hotspots: [
+        {
+          id: 'hs-coronary-artery',
+          label: 'Coronary Interventricular Artery',
+          rubric: 'CHEST - CONSTRICTION - heart - wire around it, as if',
+          remedy: 'Cactus Grandiflorus 30C / Q',
+          note: 'Sensation as if an iron hand or band tightly constricted the cardiac myocardium.',
+          coords: 'top-[42%] right-[22%]',
+        },
+        {
+          id: 'hs-myocardium',
+          label: 'Myocardial Hypertrophy Zone',
+          rubric: 'HEART - PALPITATION - exertion, on slightest',
+          remedy: 'Crataegus Oxyacantha Q',
+          note: 'Burnett Heart Tonic: Cardiac hypertrophy, dyspnea on exertion, and feeble pulse.',
+          coords: 'top-[74%] left-[32%]',
+        },
+      ],
+      spotterQuestions: [],
+      organopathyRemedies: [
+        {
+          name: 'Crataegus Oxyacantha',
+          potency: 'Q (Tincture)',
+          keynote:
+            'Heart Tonic: Cardiac hypertrophy, dyspnea on slight exertion, irregular feeble pulse.',
+        },
+        {
+          name: 'Cactus Grandiflorus',
+          potency: 'Q / 30C',
+          keynote:
+            'Constriction sensation as if an iron band or wire was tightly clutched around the heart.',
+        },
+      ],
+    },
+    {
+      id: 'organ-lungs',
+      name: 'Broncho-Pulmonary & Respiratory Parenchyma',
+      icon: '🫁',
+      layer: 'ENDODERM (MUCOUS / VISCERAL)',
+      layerBadge: 'bg-blue-500/10 text-blue-600 border-blue-500/30',
+      description:
+        'Endodermal mucous membrane and alveolar parenchymal parenchyma governing gas exchange and bronchial contractility.',
+      anatomicalLandmarks: [
+        'Trachea & Primary Bronchial Bifurcation (Carina)',
+        'Right Lungs (3 Lobes: Superior, Middle, Inferior)',
+        'Left Lung (2 Lobes with Cardiac Notch)',
+        'Pulmonary Alveoli & Visceral Pleural Membrane',
+      ],
+      atlasIllustration: {
+        bgGradient: 'from-[#0B1E2D] via-[#143248] to-[#07131D]',
+        landmarkLabels: [
+          { label: 'Bronchial Tree Bifurcation', pos: 'top-[12%] left-[10%]' },
+        ],
+      },
+      hotspots: [
+        {
+          id: 'hs-bronchi',
+          label: 'Bronchial Exudate Exudation Zone',
+          rubric: 'CHEST - RATTLING - mucus',
+          remedy: 'Antimonium Tartaricum 6C / 30C',
+          note: 'Coarse rattling mucus in chest with complete inability to expectorate, cyanosis.',
+          coords: 'top-[42%] left-[35%]',
+        },
+        {
+          id: 'hs-pleura',
+          label: 'Visceral Pleural Stitching Zone',
+          rubric: 'CHEST - PAIN - stitching - motion, on',
+          remedy: 'Bryonia Alba 30C / 200C',
+          note: 'Dry stitching pleuritic chest pain, worse slightest breath or motion, holding chest still.',
+          coords: 'top-[68%] right-[24%]',
+        },
+      ],
+      spotterQuestions: [],
+      organopathyRemedies: [
+        {
+          name: 'Antimonium Tartaricum',
+          potency: '6C / 30C',
+          keynote:
+            'Coarse rattling mucus in chest with complete inability to expectorate, cyanosis, drowsiness.',
+        },
+        {
+          name: 'Bryonia Alba',
+          potency: '30C / 200C',
+          keynote:
+            'Dry stitching pleuritic chest pain, worse slightest breath or motion, holding chest still.',
+        },
+      ],
+    },
+    {
+      id: 'organ-skeletal',
+      name: 'Musculoskeletal, Synovial & Periosteal Structure',
+      icon: '🦴',
+      layer: 'MESODERM (SUPPORTIVE CONNECTIVE)',
+      layerBadge: 'bg-orange-500/10 text-orange-600 border-orange-500/30',
+      description:
+        'Mesodermal structural connective tissue comprising bone periosteum, articular cartilage, and synovial capsules.',
+      anatomicalLandmarks: [
+        'Synovial Joint Capsule & Articular Cartilage',
+        'Periosteal Membrane & Callus Formation Axis',
+        'Tendinous Insertions & Flexor Retinaculum',
+      ],
+      atlasIllustration: {
+        bgGradient: 'from-[#2D1B0F] via-[#472C19] to-[#1C1008]',
+        landmarkLabels: [
+          { label: 'Synovial Capsule (Rhus Tox)', pos: 'top-[12%] left-[10%]' },
+        ],
+      },
+      hotspots: [
+        {
+          id: 'hs-synovial-joint',
+          label: 'Synovial Joint Capsule & Ligaments',
+          rubric: 'EXTREMITIES - STIFFNESS - motion - beginning of, on',
+          remedy: 'Rhus Toxicodendron 30C / 200C',
+          note: 'Extreme joint stiffness on beginning motion, progressively relieved by continued motion.',
+          coords: 'top-[44%] left-[45%]',
+        },
+        {
+          id: 'hs-periosteum',
+          label: 'Periosteal Bone Membrane',
+          rubric: 'BONES - INJURIES - periosteum',
+          remedy: 'Ruta Graveolens / Symphytum Q',
+          note: 'Bruised bone pain and non-union fracture callus acceleration.',
+          coords: 'top-[74%] right-[28%]',
+        },
+      ],
+      spotterQuestions: [],
+      organopathyRemedies: [
+        {
+          name: 'Rhus Toxicodendron',
+          potency: '30C / 200C',
+          keynote:
+            'Joint stiffness extreme on beginning motion, progressively relieved by continued motion and warm bath.',
+        },
+        {
+          name: 'Symphytum Officinale (Bone-Set)',
+          potency: 'Q / 6C',
+          keynote:
+            'Speeds callus formation in non-union fractures, mechanical eye trauma to eyeball.',
+        },
+      ],
+    },
+    {
+      id: 'organ-gastro',
+      name: 'Gastro-Intestinal & Mucous Membrane Tract',
+      icon: '🚽',
+      layer: 'ENDODERM (MUCOUS / VISCERAL)',
+      layerBadge: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+      description:
+        'Endodermal digestive mucous tract governing acid motility, visceral peristalsis, and mucous absorption.',
+      anatomicalLandmarks: [
+        'Stomach Greater & Lesser Curvature',
+        'Duodenum & Pancreatic Duct Entrance',
+        'Colon Rectal Vascular Mucous Sphincter',
+      ],
+      atlasIllustration: {
+        bgGradient: 'from-[#2B230B] via-[#453913] to-[#1C1706]',
+        landmarkLabels: [
+          { label: 'Gastric Mucous Lining (Nux Vomica)', pos: 'top-[12%] left-[10%]' },
+        ],
+      },
+      hotspots: [
+        {
+          id: 'hs-stomach',
+          label: 'Gastric Mucous Motility Axis',
+          rubric: 'STOMACH - NAUSEA - morning, in',
+          remedy: 'Nux Vomica 30C / 200C',
+          note: 'Irritable hyper-acidity from sedentary lifestyle, stimulants, and over-work.',
+          coords: 'top-[45%] left-[42%]',
+        },
+      ],
+      spotterQuestions: [],
+      organopathyRemedies: [
+        {
+          name: 'Nux Vomica',
+          potency: '30C / 200C',
+          keynote:
+            'Irritable hyper-acidity, morning nausea, ineffective urging to stool from sedentary life.',
+        },
+        {
+          name: 'Hydrastis Canadensis',
+          potency: 'Q / 3X',
+          keynote:
+            'Burnett Mucous Drainage: Thick yellow ropy mucous discharges and gastric sinking weakness.',
+        },
+      ],
+    },
+    {
+      id: 'organ-endocrine',
+      name: 'Endocrine, Thyroid & Lymphatic Glandular System',
+      icon: '🛡️',
+      layer: 'ECTODERM / MESODERM GLANDULAR',
+      layerBadge: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/30',
+      description:
+        'Hormonal metabolic synthesis and lymphatic gland system governing thermal metabolic rate and fibrous diathesis.',
+      anatomicalLandmarks: [
+        'Thyroid Gland (Bilateral Lobes & Isthmus)',
+        'Cervical & Axillary Lymph Node Chain',
+        'Suprarenal / Adrenal Cortical Glands',
+      ],
+      atlasIllustration: {
+        bgGradient: 'from-[#17162E] via-[#242347] to-[#0F0E1E]',
+        landmarkLabels: [
+          { label: 'Thyroid Glandular Lobes (Iodium)', pos: 'top-[12%] left-[10%]' },
+        ],
+      },
+      hotspots: [
+        {
+          id: 'hs-thyroid',
+          label: 'Thyroid Glandular Metabolic Locus',
+          rubric: 'GENERALITIES - EMACIATION - appetite, with ravenous',
+          remedy: 'Iodium 30C / 1M',
+          note: 'Ravenous hunger yet rapid emaciation, extreme heat intolerance, hyper-metabolism.',
+          coords: 'top-[48%] left-[48%]',
+        },
+      ],
+      spotterQuestions: [],
+      organopathyRemedies: [
+        {
+          name: 'Iodium',
+          potency: '30C / 200C',
+          keynote:
+            'Ravenous hunger yet rapid emaciation, hot thermal baseline, glandular hypertrophy.',
+        },
+        {
+          name: 'Calcarea Fluorica',
+          potency: '6X / 12X',
+          keynote:
+            'Stony hard glandular swellings, bony exostoses, and relaxed elastic tissue.',
+        },
+      ],
+    },
   ];
 
   const activeSystem =
@@ -394,17 +632,17 @@ export const Interactive360AnatomyAtlas: React.FC<
           <div className="flex items-center space-x-2">
             <span className="text-xs px-3 py-0.5 rounded-full font-black bg-blue-600 text-white flex items-center space-x-1.5 shadow-sm">
               <GraduationCap className="w-3.5 h-3.5" />
-              <span>BHMS &amp; MD CLINICAL MEDICAL SCHOOL ANATOMY WORKBENCH</span>
+              <span>COMPLETE BHMS &amp; MD 8-SYSTEM CLINICAL MEDICAL SCHOOL ANATOMY WORKBENCH</span>
             </span>
             <span className="text-xs font-black text-emerald-500">
-              ● NCH Curriculum Compliant Anatomical &amp; Organopathy Atlas
+              ● All 8 Complete Human Anatomical Systems Active
             </span>
           </div>
           <h2 className="text-lg font-black mt-1 tracking-tight">
-            INTERACTIVE 3D ANATOMICAL SPATIAL WORKBENCH • MEDICAL STUDENT DISSECTION WORKSPACE
+            INTERACTIVE 3D ANATOMICAL SPATIAL WORKBENCH • COMPLETE HUMAN BODY SYSTEMS
           </h2>
           <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
-            💡 Switch between the <strong>360° Photorealistic Anatomy Atlas</strong>, the <strong>BHMS Anatomical Spotter Viva Exam Workbench</strong>, and <strong>Dr. Burnett Organopathy Tissue Protocols</strong>.
+            💡 Select any of the <strong>8 Complete Human Anatomical Systems</strong> below to study tissue histology, 360° spatial orbit, BHMS viva spotter exams, and Dr. Burnett organopathy remedies.
           </p>
         </div>
 
@@ -450,8 +688,8 @@ export const Interactive360AnatomyAtlas: React.FC<
         </div>
       </div>
 
-      {/* ORGAN SYSTEM SELECTOR TABS */}
-      <div className="flex flex-wrap gap-2">
+      {/* ALL 8 COMPLETE HUMAN ANATOMICAL SYSTEMS SELECTOR TABS */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
         {ORGAN_SYSTEMS.map((sys) => {
           const isSel = sys.id === selectedSystemId;
           return (
@@ -463,7 +701,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                 setSpotterQuestionIdx(0);
                 setSpotterSelectedAns(null);
               }}
-              className={`px-4 py-2.5 rounded-xl border text-xs font-black flex items-center space-x-2 transition-all cursor-pointer ${
+              className={`p-2.5 rounded-xl border text-left text-xs font-black flex items-center space-x-2 transition-all cursor-pointer ${
                 isSel
                   ? 'bg-blue-600 text-white border-blue-500 shadow-md scale-[1.01]'
                   : isLight
@@ -471,8 +709,8 @@ export const Interactive360AnatomyAtlas: React.FC<
                   : 'bg-[#05070A] hover:bg-slate-800 border-slate-800 text-gray-300'
               }`}
             >
-              <span>{sys.icon}</span>
-              <span>{sys.name}</span>
+              <span className="text-base">{sys.icon}</span>
+              <span className="truncate">{sys.name}</span>
             </button>
           );
         })}
@@ -593,48 +831,23 @@ export const Interactive360AnatomyAtlas: React.FC<
                           <stop offset="0%" stopColor="#EF4444" />
                           <stop offset="100%" stopColor="#991B1B" />
                         </linearGradient>
-                        <filter id="hdShadow3" x="-20%" y="-20%" width="140%" height="140%">
-                          <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#000000" floodOpacity="0.6" />
-                        </filter>
                       </defs>
-
-                      <g filter="url(#hdShadow3)">
+                      <g>
                         <path
                           d="M 260 25 C 135 25, 65 110, 75 200 C 82 265, 135 315, 225 315 L 225 385 L 295 385 L 295 315 C 385 315, 438 265, 445 200 C 455 110, 385 25, 260 25 Z"
                           fill="url(#hdBrainTissue3)"
                           stroke="#FFF1EE"
                           strokeWidth="4"
                         />
+                        <path d="M 230 45 L 230 275" stroke="#4C1D95" strokeWidth="3" strokeDasharray="6 4" />
                         <path
                           d="M 125 105 Q 185 75 255 110 Q 325 75 395 105 M 110 165 Q 195 135 260 165 Q 325 135 410 165 M 130 230 Q 195 200 260 230 Q 325 200 390 230"
                           fill="none"
                           stroke="#8D4335"
                           strokeWidth="4.5"
                           strokeLinecap="round"
-                          opacity="0.8"
                         />
-                        <path
-                          d="M 140 270 Q 205 310 240 285 M 375 270 Q 315 310 280 285"
-                          fill="none"
-                          stroke="#6B2F24"
-                          strokeWidth="5"
-                          strokeLinecap="round"
-                        />
-                        <path d="M 240 285 L 240 395 L 280 395 L 280 285 Z" fill="#9A4D3F" stroke="#FDE8E4" strokeWidth="2.5" />
-                        <g>
-                          <path
-                            d="M 235 395 L 235 250 Q 195 205 160 185 M 285 395 L 285 250 Q 325 205 360 185"
-                            fill="none"
-                            stroke="url(#carotidBlood3)"
-                            strokeWidth="7"
-                            strokeLinecap="round"
-                          />
-                          <circle cx="235" cy="250" r="14" fill="#F87171" stroke="#FFFFFF" strokeWidth="2.5" />
-                          <circle cx="285" cy="250" r="14" fill="#F87171" stroke="#FFFFFF" strokeWidth="2.5" />
-                        </g>
-                        <g>
-                          <circle cx="260" cy="195" r="28" fill="rgba(6, 182, 212, 0.45)" stroke="#06B6D4" strokeWidth="3" />
-                        </g>
+                        <path d="M 235 395 L 235 250 Q 195 205 160 185 M 285 395 L 285 250 Q 325 205 360 185" fill="none" stroke="url(#carotidBlood3)" strokeWidth="7" />
                       </g>
                     </svg>
                   )}
@@ -649,7 +862,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                           <stop offset="100%" stopColor="#4A150D" />
                         </radialGradient>
                       </defs>
-                      <g filter="url(#hdShadow3)">
+                      <g>
                         <path
                           d="M 95 175 C 145 75, 375 75, 435 180 C 465 235, 410 335, 305 345 C 205 355, 105 295, 95 175 Z"
                           fill="url(#hdLiverTissue3)"
@@ -657,24 +870,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                           strokeWidth="4"
                         />
                         <path d="M 325 95 Q 330 215 335 345" stroke="#FCA5A5" strokeWidth="3.5" strokeDasharray="7 5" />
-                        <g>
-                          <path d="M 305 270 Q 310 305 315 335" stroke="#F59E0B" strokeWidth="5" />
-                          <ellipse
-                            cx="320"
-                            cy="345"
-                            rx="25"
-                            ry="36"
-                            fill="#D97706"
-                            stroke="#FEF3C7"
-                            strokeWidth="3.5"
-                          />
-                        </g>
-                        <path
-                          d="M 295 280 Q 265 220 185 155 M 295 280 Q 325 220 395 165"
-                          fill="none"
-                          stroke="#60A5FA"
-                          strokeWidth="6"
-                        />
+                        <ellipse cx="320" cy="345" rx="25" ry="36" fill="#D97706" stroke="#FEF3C7" strokeWidth="3.5" />
                       </g>
                     </svg>
                   )}
@@ -688,7 +884,7 @@ export const Interactive360AnatomyAtlas: React.FC<
                           <stop offset="100%" stopColor="#0891B2" />
                         </radialGradient>
                       </defs>
-                      <g filter="url(#hdShadow3)">
+                      <g>
                         <path
                           d="M 155 105 C 105 140, 105 260, 165 295 C 215 320, 255 260, 230 205 C 255 165, 215 80, 155 105 Z"
                           fill="url(#hdRenalTissue3)"
@@ -701,8 +897,67 @@ export const Interactive360AnatomyAtlas: React.FC<
                           stroke="#CFFAFE"
                           strokeWidth="4"
                         />
-                        <path d="M 210 210 Q 225 310 225 395" stroke="#22D3EE" strokeWidth="5" strokeDasharray="6 4" />
-                        <path d="M 310 210 Q 295 310 295 395" stroke="#22D3EE" strokeWidth="5" strokeDasharray="6 4" />
+                      </g>
+                    </svg>
+                  )}
+
+                  {/* 4. CARDIOVASCULAR & CORONARY NETWORK */}
+                  {selectedSystemId === 'organ-heart' && (
+                    <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
+                      <g>
+                        <path
+                          d="M 260 125 C 180 90, 135 205, 195 305 Q 260 380 325 305 C 385 205, 340 90, 260 125 Z"
+                          fill="#EF4444"
+                          stroke="#FCA5A5"
+                          strokeWidth="4.5"
+                        />
+                      </g>
+                    </svg>
+                  )}
+
+                  {/* 5. BRONCHO-PULMONARY LUNGS */}
+                  {selectedSystemId === 'organ-lungs' && (
+                    <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
+                      <g>
+                        <path d="M 260 50 L 260 160 M 260 160 L 190 240 M 260 160 L 330 240" stroke="#60A5FA" strokeWidth="12" />
+                        <ellipse cx="160" cy="230" rx="65" ry="95" fill="#3B82F6" stroke="#93C5FD" strokeWidth="4" />
+                        <ellipse cx="360" cy="230" rx="65" ry="95" fill="#3B82F6" stroke="#93C5FD" strokeWidth="4" />
+                      </g>
+                    </svg>
+                  )}
+
+                  {/* 6. MUSCULOSKELETAL JOINT */}
+                  {selectedSystemId === 'organ-skeletal' && (
+                    <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
+                      <g>
+                        <rect x="230" y="40" width="60" height="150" rx="10" fill="#F59E0B" stroke="#FEF3C7" strokeWidth="4" />
+                        <rect x="230" y="210" width="60" height="150" rx="10" fill="#F59E0B" stroke="#FEF3C7" strokeWidth="4" />
+                        <circle cx="260" cy="200" r="28" fill="rgba(245, 158, 11, 0.4)" stroke="#FEF3C7" strokeWidth="3" />
+                      </g>
+                    </svg>
+                  )}
+
+                  {/* 7. GASTRO-INTESTINAL TRACT */}
+                  {selectedSystemId === 'organ-gastro' && (
+                    <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
+                      <g>
+                        <path
+                          d="M 200 130 C 160 150, 160 230, 240 250 C 300 260, 310 190, 260 140 Z"
+                          fill="#EAB308"
+                          stroke="#FEF08A"
+                          strokeWidth="4"
+                        />
+                      </g>
+                    </svg>
+                  )}
+
+                  {/* 8. ENDOCRINE & THYROID */}
+                  {selectedSystemId === 'organ-endocrine' && (
+                    <svg viewBox="0 0 520 420" className="w-full h-full max-h-[380px]">
+                      <g>
+                        <path d="M 180 180 Q 260 210 340 180" fill="none" stroke="#6366F1" strokeWidth="18" strokeLinecap="round" />
+                        <circle cx="210" cy="180" r="30" fill="#6366F1" stroke="#E0E7FF" strokeWidth="4" />
+                        <circle cx="310" cy="180" r="30" fill="#6366F1" stroke="#E0E7FF" strokeWidth="4" />
                       </g>
                     </svg>
                   )}
