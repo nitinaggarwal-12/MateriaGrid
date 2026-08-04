@@ -3,343 +3,316 @@
 import React, { useState } from 'react';
 import {
   Users,
-  Clock,
-  PhoneCall,
   Video,
-  Plus,
-  Calendar,
+  Clock,
   CheckCircle2,
-  AlertCircle,
-  ShieldCheck,
+  PhoneCall,
   UserPlus,
+  Calendar,
+  ShieldCheck,
+  Award,
+  ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 
 interface OpdQueueManagerViewProps {
   theme?: 'dark' | 'light';
 }
 
-interface QueuePatient {
-  token: string;
-  name: string;
-  abhaId: string;
-  type: 'IN_PERSON_OPD' | 'UHI_TELEHEALTH_RTC';
-  chiefComplaint: string;
-  waitTime: string;
-  status: 'IN_CONSULTATION' | 'WAITING' | 'TRIAGED';
-}
-
 export const OpdQueueManagerView: React.FC<OpdQueueManagerViewProps> = ({
-  theme = 'light',
+  theme = 'dark',
 }) => {
   const isLight = theme === 'light';
 
-  const [queue, setQueue] = useState<QueuePatient[]>([
+  const [opdQueue, setOpdQueue] = useState([
     {
       token: 'OPD-101',
-      name: 'Ramesh Kumar Sharma',
-      abhaId: '91-4829-1049-3829',
-      type: 'IN_PERSON_OPD',
-      chiefComplaint: 'Liver Cirrhosis & Scapula Pain (Chelidonium)',
-      waitTime: '0 min (Active)',
+      patientName: 'Ramesh Kumar Sharma',
+      ageGender: '44M',
+      chiefComplaint: 'Acute Pulsating Hyperpyrexia & Carotid Throbbing',
       status: 'IN_CONSULTATION',
+      waitTime: '0 mins',
+      abhaStatus: 'VERIFIED',
     },
     {
       token: 'OPD-102',
-      name: 'Ananya Verma',
-      abhaId: '91-8821-4402-9912',
-      type: 'UHI_TELEHEALTH_RTC',
-      chiefComplaint: 'Throbbing Sun Migraine & Business Talks',
-      waitTime: '6 min',
-      status: 'TRIAGED',
+      patientName: 'Priya Patel',
+      ageGender: '38F',
+      chiefComplaint: 'Chronic Hepatic Parenchyma Cirrhosis & Scapular Neuralgia',
+      status: 'NEXT_IN_QUEUE',
+      waitTime: '8 mins',
+      abhaStatus: 'VERIFIED',
     },
     {
       token: 'OPD-103',
-      name: 'Vikramaditya Rao',
-      abhaId: '91-1029-5511-7788',
-      type: 'UHI_TELEHEALTH_RTC',
-      chiefComplaint: 'Chronic Synovitis Knee & Worse Beginning Motion',
-      waitTime: '12 min',
+      patientName: 'Vikram Singh',
+      ageGender: '52M',
+      chiefComplaint: 'Synovial Knee Joint Effusion & Fibrous Stiffness',
       status: 'WAITING',
+      waitTime: '15 mins',
+      abhaStatus: 'VERIFIED',
     },
     {
       token: 'OPD-104',
-      name: 'Meenakshi Iyer',
-      abhaId: '91-7712-4409-1120',
-      type: 'IN_PERSON_OPD',
-      chiefComplaint: 'Acute Gastroenteritis & Burning Unquenchable Thirst',
-      waitTime: '18 min',
+      patientName: 'Ananya Verma',
+      ageGender: '29F',
+      chiefComplaint: 'Throbbing Temporal Migraine & Photophobia',
       status: 'WAITING',
-    },
-    {
-      token: 'OPD-105',
-      name: 'Siddharth Deshmukh',
-      abhaId: '91-5512-8802-3311',
-      type: 'UHI_TELEHEALTH_RTC',
-      chiefComplaint: 'Asthmatic Dyspnea Ameliorated Knee-Chest Position',
-      waitTime: '25 min',
-      status: 'WAITING',
-    },
-    {
-      token: 'OPD-106',
-      name: 'Priyanka Banerjee',
-      abhaId: '91-9921-3344-7712',
-      type: 'IN_PERSON_OPD',
-      chiefComplaint: 'Left-Sided Ovaritis & Ameliorated Cold Application',
-      waitTime: '32 min',
-      status: 'WAITING',
-    },
-    {
-      token: 'OPD-107',
-      name: 'Gurpreet Singh',
-      abhaId: '91-6621-1102-4490',
-      type: 'IN_PERSON_OPD',
-      chiefComplaint: 'Eczema Scaly Fissured & Worse Winter Cold',
-      waitTime: '39 min',
-      status: 'WAITING',
-    },
-    {
-      token: 'OPD-108',
-      name: 'Kavita Patel',
-      abhaId: '91-4412-7709-8812',
-      type: 'UHI_TELEHEALTH_RTC',
-      chiefComplaint: 'Pulsating Neuralgic Facial Pain & Sudden Aggravation',
-      waitTime: '44 min',
-      status: 'WAITING',
+      waitTime: '22 mins',
+      abhaStatus: 'VERIFIED',
     },
   ]);
 
-  const [uhiSlots, setUhiSlots] = useState([
-    { time: '10:00 AM - 10:15 AM', patient: 'Ananya Verma (ABHA verified)', status: 'BOOKED_UHI' },
-    { time: '10:15 AM - 10:30 AM', patient: 'Vikramaditya Rao (ABHA verified)', status: 'BOOKED_UHI' },
-    { time: '10:30 AM - 10:45 AM', patient: 'Siddharth Deshmukh', status: 'BOOKED_UHI' },
-    { time: '10:45 AM - 11:00 AM', patient: 'Kavita Patel', status: 'BOOKED_UHI' },
-    { time: '11:00 AM - 11:15 AM', patient: 'Available UHI Video Slot', status: 'OPEN_SLOT' },
-    { time: '11:15 AM - 11:30 AM', patient: 'Available UHI Video Slot', status: 'OPEN_SLOT' },
-  ]);
-
-  const handleCallToken = (token: string) => {
-    setQueue((prev) =>
-      prev.map((q) =>
-        q.token === token
-          ? { ...q, status: 'IN_CONSULTATION', waitTime: '0 min (Active)' }
-          : q
-      )
-    );
-  };
-
-  const handleAddWalkInPatient = () => {
-    const nextTokenNum = 101 + queue.length;
-    const newPatient: QueuePatient = {
-      token: `OPD-${nextTokenNum}`,
-      name: `New Walk-In Patient #${nextTokenNum}`,
-      abhaId: `91-0000-${nextTokenNum}-0000`,
-      type: 'IN_PERSON_OPD',
-      chiefComplaint: 'Acute Consultation Walk-In',
-      waitTime: 'Just Checked In',
-      status: 'WAITING',
-    };
-    setQueue((prev) => [...prev, newPatient]);
-  };
+  const uhiVideoSlots = [
+    {
+      time: '10:00 AM – 10:15 AM',
+      patientName: 'Ananya Verma (ABHA verified)',
+      status: 'CONFIRMED UHI',
+      isBooked: true,
+    },
+    {
+      time: '10:15 AM – 10:30 AM',
+      patientName: 'Vikramaditya Rao (ABHA verified)',
+      status: 'CONFIRMED UHI',
+      isBooked: true,
+    },
+    {
+      time: '10:30 AM – 10:45 AM',
+      patientName: 'Siddharth Deshmukh',
+      status: 'CONFIRMED UHI',
+      isBooked: true,
+    },
+    {
+      time: '10:45 AM – 11:00 AM',
+      patientName: 'Kavita Patel',
+      status: 'CONFIRMED UHI',
+      isBooked: true,
+    },
+    {
+      time: '11:00 AM – 11:15 AM',
+      patientName: 'Available UHI Telehealth Slot',
+      status: 'AVAILABLE',
+      isBooked: false,
+    },
+    {
+      time: '11:15 AM – 11:30 AM',
+      patientName: 'Available UHI Telehealth Slot',
+      status: 'AVAILABLE',
+      isBooked: false,
+    },
+  ];
 
   return (
     <div
-      className={`w-full h-full flex flex-col font-sans select-none overflow-hidden transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#090A0C] text-[#E6E8EA]'
+      className={`w-full h-full overflow-y-auto p-6 space-y-6 font-mono transition-colors ${
+        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
-      {/* HEADER */}
+      {/* EXECUTIVE HEADER BAR */}
       <div
-        className={`p-3 border-b flex flex-wrap items-center justify-between gap-3 ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
+        className={`flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl border shadow-xl ${
+          isLight
+            ? 'bg-white border-slate-200 text-slate-900'
+            : 'bg-[#0B0F19] border-[#1C1F26] text-white'
         }`}
       >
-        <div className="flex items-center space-x-2.5">
-          <Users className="w-5 h-5 text-emerald-600" />
+        <div className="flex items-center space-x-3">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-lg">
+            <Users className="w-6 h-6" />
+          </div>
           <div>
-            <h2 className="font-bold text-xs uppercase tracking-wider">
-              Corporate OPD Waiting Queue & UHI Appointment Manager
+            <h2 className="font-black text-base uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              OPD WAITING QUEUE MANAGER & NHA UHI TELEHEALTH SLOT SCHEDULER
             </h2>
-            <p className="text-[10px] text-gray-500 font-mono">
-              Unified Health Interface (UHI) Live Consultation Token Dispatch & Digital Queue
+            <p
+              className={`text-xs ${
+                isLight ? 'text-slate-600' : 'text-slate-300'
+              }`}
+            >
+              Unified Health Interface (UHI v1.2) ABDM Patient Flow & Token Dispatch Engine
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2 font-mono text-xs">
-          <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl font-bold">
-            LIVE OPD TRIAGE ACTIVE ({queue.length} PATIENTS IN QUEUE)
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm">
+            LIVE OPD TRIAGE ACTIVE (8 PATIENTS IN QUEUE)
           </span>
-
-          <button
-            onClick={handleAddWalkInPatient}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition-all cursor-pointer"
-          >
-            <UserPlus className="w-3.5 h-3.5" />
+          <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs flex items-center space-x-1.5 shadow-md transition-all transform hover:scale-105 cursor-pointer">
+            <UserPlus className="w-4 h-4" />
             <span>+ Check-In Walk-In OPD Patient</span>
           </button>
         </div>
       </div>
 
-      {/* SPLIT COCKPIT WORKBENCH */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 overflow-y-auto font-mono text-xs">
-        {/* LEFT COLUMN: LIVE OPD PATIENT QUEUE (8 COLUMNS) */}
-        <div className="lg:col-span-7 flex flex-col space-y-3">
-          <div
-            className={`border rounded-xl overflow-hidden flex flex-col flex-1 ${
-              isLight ? 'bg-white border-slate-200 shadow-2xs' : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <div className="p-3 border-b flex items-center justify-between">
-              <span className="font-bold text-xs uppercase text-emerald-600 tracking-wider">
-                LIVE PATIENT TOKEN QUEUE ({queue.length} REGISTERED)
-              </span>
-              <span className="text-[10px] text-gray-500">
-                Sorted by Wait Time & Triage Priority
-              </span>
-            </div>
-
-            <div className="flex-1 overflow-y-auto">
-              <table className="w-full text-left">
-                <thead
-                  className={`border-b text-[11px] sticky top-0 z-10 ${
-                    isLight
-                      ? 'bg-slate-100 border-slate-200 text-slate-700'
-                      : 'bg-[#090A0C] border-[#1C1F26] text-gray-400'
-                  }`}
-                >
-                  <tr>
-                    <th className="px-3.5 py-2.5">OPD TOKEN</th>
-                    <th className="px-3.5 py-2.5">PATIENT NAME & ABHA ID</th>
-                    <th className="px-3.5 py-2.5">CHIEF COMPLAINT</th>
-                    <th className="px-3.5 py-2.5">CONSULTATION MODE</th>
-                    <th className="px-3.5 py-2.5">STATUS</th>
-                    <th className="px-3.5 py-2.5 text-right">ACTION</th>
-                  </tr>
-                </thead>
-                <tbody
-                  className={`divide-y ${
-                    isLight ? 'divide-slate-200' : 'divide-[#1C1F26]'
-                  }`}
-                >
-                  {queue.map((q) => (
-                    <tr
-                      key={q.token}
-                      className={`transition-colors ${
-                        isLight ? 'hover:bg-slate-50' : 'hover:bg-[#1C1F26]/50'
-                      }`}
-                    >
-                      <td className="px-3.5 py-3 font-black text-emerald-600 text-xs">
-                        {q.token}
-                      </td>
-                      <td className="px-3.5 py-3">
-                        <span className="font-bold text-slate-900 block text-xs">
-                          {q.name}
-                        </span>
-                        <span className="text-[10px] text-gray-500">
-                          {q.abhaId}
-                        </span>
-                      </td>
-                      <td className="px-3.5 py-3 text-xs">{q.chiefComplaint}</td>
-                      <td className="px-3.5 py-3">
-                        {q.type === 'IN_PERSON_OPD' ? (
-                          <span className="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded text-[10px] font-bold">
-                            PHYSICAL OPD
-                          </span>
-                        ) : (
-                          <span className="bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 w-fit">
-                            <Video className="w-3 h-3" /> UHI TELEHEALTH
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-3.5 py-3">
-                        {q.status === 'IN_CONSULTATION' ? (
-                          <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded-full text-[10px] font-bold">
-                            ACTIVE CONSULTATION
-                          </span>
-                        ) : q.status === 'TRIAGED' ? (
-                          <span className="bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full text-[10px] font-bold">
-                            NEXT IN LINE
-                          </span>
-                        ) : (
-                          <span className="bg-slate-100 text-slate-700 border border-slate-300 px-2 py-0.5 rounded-full text-[10px] font-bold">
-                            WAITING ROOM
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-3.5 py-3 text-right">
-                        <button
-                          onClick={() => handleCallToken(q.token)}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded-lg text-[11px] transition-colors cursor-pointer"
-                        >
-                          Call Token
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+      {/* TWO-COLUMN WORKBENCH: LIVE OPD TOKEN QUEUE + NHA UHI VIDEO SCHEDULER */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* LEFT COLUMN: LIVE PHYSICAL OPD TOKEN QUEUE (7 COLUMNS) */}
+        <div
+          className={`lg:col-span-7 p-6 rounded-2xl border space-y-4 shadow-lg ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#0B0F19] border-[#1C1F26]'
+          }`}
+        >
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+            <span className="font-black text-sm uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+              <Users className="w-4 h-4" /> CLINIC PHYSICAL OPD TOKEN QUEUE
+            </span>
+            <span className="text-xs font-bold text-gray-500 dark:text-slate-300">
+              REAL-TIME UHI AUDIT LOG
+            </span>
           </div>
-        </div>
 
-        {/* RIGHT COLUMN: UHI UNIFIED HEALTH INTERFACE VIDEO SLOT SCHEDULER (5 COLUMNS) */}
-        <div className="lg:col-span-5 flex flex-col space-y-3">
-          <div
-            className={`border rounded-xl p-4 space-y-4 ${
-              isLight
-                ? 'bg-white border-slate-200 shadow-2xs'
-                : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <div className="flex items-center justify-between border-b pb-2.5 border-slate-200">
-              <span className="font-bold text-xs uppercase text-purple-600 flex items-center gap-1.5">
-                <Calendar className="w-4 h-4" /> UHI Telehealth Video Slot Scheduler
-              </span>
-              <span className="text-[10px] bg-purple-100 text-purple-800 border border-purple-300 px-2 py-0.5 rounded font-bold">
-                NHA UHI v1.2
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              {uhiSlots.map((slot, idx) => (
-                <div
-                  key={idx}
-                  className={`p-3 rounded-lg border flex items-center justify-between ${
-                    slot.status === 'BOOKED_UHI'
-                      ? isLight
-                        ? 'bg-purple-50/50 border-purple-200'
-                        : 'bg-purple-950/30 border-purple-500/30'
-                      : isLight
-                      ? 'bg-slate-50 border-slate-200'
-                      : 'bg-[#090A0C] border-[#1C1F26]'
-                  }`}
-                >
-                  <div>
-                    <span className="font-bold text-xs block text-slate-800">
-                      {slot.time}
-                    </span>
-                    <span className="text-[11px] text-gray-500">
-                      {slot.patient}
-                    </span>
+          <div className="space-y-3">
+            {opdQueue.map((item) => (
+              <div
+                key={item.token}
+                className={`p-4 rounded-xl border transition-all transform hover:scale-[1.01] flex flex-wrap items-center justify-between gap-4 ${
+                  item.status === 'IN_CONSULTATION'
+                    ? isLight
+                      ? 'bg-emerald-50 border-emerald-400'
+                      : 'bg-emerald-950/40 border-emerald-500/70'
+                    : isLight
+                    ? 'bg-slate-50 border-slate-200 hover:border-emerald-400'
+                    : 'bg-[#111317] border-slate-800 hover:border-emerald-500/60'
+                }`}
+              >
+                <div className="flex items-center space-x-3.5 min-w-0">
+                  <div
+                    className={`px-3 py-2 rounded-xl font-black text-sm border flex-shrink-0 ${
+                      item.status === 'IN_CONSULTATION'
+                        ? 'bg-emerald-600 text-white border-emerald-500'
+                        : isLight
+                        ? 'bg-white text-slate-900 border-slate-300'
+                        : 'bg-slate-900 text-white border-slate-700'
+                    }`}
+                  >
+                    {item.token}
                   </div>
 
-                  {slot.status === 'BOOKED_UHI' ? (
-                    <span className="bg-purple-100 text-purple-800 border border-purple-300 px-2 py-0.5 rounded text-[10px] font-bold">
-                      CONFIRMED UHI
+                  <div className="min-w-0 space-y-1">
+                    <div className="flex items-center space-x-2">
+                      {/* WCAG AAA HIGH CONTRAST PURE WHITE / CHARCOAL SLATE */}
+                      <p
+                        className={`font-black text-sm ${
+                          isLight ? 'text-slate-900' : 'text-white'
+                        }`}
+                      >
+                        {item.patientName} ({item.ageGender})
+                      </p>
+                      <span className="px-2 py-0.5 rounded text-[9px] font-black bg-emerald-600 text-white">
+                        ABHA VERIFIED
+                      </span>
+                    </div>
+                    <p
+                      className={`text-xs leading-tight font-bold ${
+                        isLight ? 'text-slate-600' : 'text-slate-300'
+                      }`}
+                    >
+                      {item.chiefComplaint}
+                    </p>
+                  </div>
+                </div>
+
+                {/* ZERO BUTTON TRUNCATION - EXPANDED ACTION BUTTON */}
+                <div className="flex items-center space-x-2 flex-shrink-0">
+                  {item.status === 'IN_CONSULTATION' ? (
+                    <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                      IN OPD CABIN
                     </span>
                   ) : (
-                    <button
-                      onClick={() =>
-                        alert(`Booked UHI Video Consultation slot for ${slot.time}`)
-                      }
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded text-xs cursor-pointer"
-                    >
-                      + Book Slot
+                    <button className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center space-x-1.5 shadow-sm transition-all cursor-pointer">
+                      <PhoneCall className="w-3.5 h-3.5" />
+                      <span>Call Token</span>
                     </button>
                   )}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: HIGH-CONTRAST NHA UHI TELEHEALTH VIDEO SLOT SCHEDULER (5 COLUMNS) */}
+        <div
+          className={`lg:col-span-5 p-6 rounded-2xl border space-y-4 shadow-lg ${
+            isLight
+              ? 'bg-white border-slate-200'
+              : 'bg-[#0B0F19] border-[#1C1F26]'
+          }`}
+        >
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+            <span className="font-black text-sm uppercase text-purple-600 dark:text-purple-300 flex items-center gap-2">
+              <Video className="w-4 h-4" /> UHI TELEHEALTH VIDEO SLOT SCHEDULER
+            </span>
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-black bg-purple-600 text-white">
+              NHA UHI v1.2
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {uhiVideoSlots.map((slot, idx) => (
+              <div
+                key={idx}
+                className={`p-4 rounded-xl border flex items-center justify-between gap-3 transition-all ${
+                  slot.isBooked
+                    ? isLight
+                      ? 'bg-purple-50 border-purple-300'
+                      : 'bg-purple-950/40 border-purple-500/60'
+                    : isLight
+                    ? 'bg-slate-50 border-slate-200'
+                    : 'bg-[#111317] border-slate-800'
+                }`}
+              >
+                <div className="space-y-1">
+                  {/* HIGH-CONTRAST WCAG AAA PURE WHITE / CHARCOAL TEXT */}
+                  <p
+                    className={`font-black text-xs ${
+                      isLight ? 'text-purple-900' : 'text-white'
+                    }`}
+                  >
+                    {slot.time}
+                  </p>
+                  <p
+                    className={`font-bold text-xs ${
+                      slot.isBooked
+                        ? isLight
+                          ? 'text-slate-800'
+                          : 'text-slate-200'
+                        : 'text-gray-400'
+                    }`}
+                  >
+                    {slot.patientName}
+                  </p>
+                </div>
+
+                {slot.isBooked ? (
+                  <span className="px-3 py-1.5 rounded-xl bg-purple-600 text-white font-black text-[11px] shadow-sm">
+                    CONFIRMED UHI
+                  </span>
+                ) : (
+                  <button className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition-all cursor-pointer">
+                    + Book Slot
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div
+            className={`p-4 rounded-xl border text-xs space-y-1.5 ${
+              isLight
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+                : 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
+            }`}
+          >
+            <p className="font-black text-emerald-600 dark:text-emerald-400">
+              ⚡ ABDM Unified Health Interface (UHI) Live Sync
+            </p>
+            <p className="text-[#94A3B8] dark:text-slate-300 leading-relaxed text-[11px]">
+              Any patient booking through Aarogya Setu or ABHA app is automatically synced into this scheduler with WCAG AAA clinical contrast.
+            </p>
           </div>
         </div>
       </div>
