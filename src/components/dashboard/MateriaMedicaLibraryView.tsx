@@ -4,300 +4,401 @@ import React, { useState } from 'react';
 import {
   BookOpen,
   Search,
+  Sparkles,
   Flame,
   Droplets,
+  PlusCircle,
+  CheckCircle2,
+  GitCompare,
+  Award,
   ShieldCheck,
-  Sparkles,
+  Info,
 } from 'lucide-react';
 
 interface MateriaMedicaLibraryViewProps {
   theme?: 'dark' | 'light';
+  onAddRubricToMatrix?: (rubricPath: string) => void;
+}
+
+interface RemedyProvingEntry {
+  code: string;
+  fullName: string;
+  botanicalName: string;
+  family: string;
+  thermal: string;
+  thirst: string;
+  authorityProvenance: 'HAHNEMANN_PURE' | 'KENT_LECTURES' | 'BOERICKE' | 'VIJAYAKAR';
+  keynotes: {
+    rubricPath: string;
+    description: string;
+    provingNumber: string;
+    grade: 1 | 2 | 3 | 4;
+  }[];
+  mentalROH: string;
+  organAffinities: string[];
+  safePotencyRange: string;
 }
 
 export const MateriaMedicaLibraryView: React.FC<
   MateriaMedicaLibraryViewProps
-> = ({ theme = 'light' }) => {
+> = ({ theme = 'dark', onAddRubricToMatrix }) => {
   const isLight = theme === 'light';
-  const [selectedCode, setSelectedCode] = useState('Bell');
-  const [searchQuery, setSearchQuery] = useState('');
 
-  const remedies = [
+  const remediesData: RemedyProvingEntry[] = [
     {
       code: 'Bell',
-      name: 'Belladonna',
-      botanical: 'Atropa belladonna (Deadly Nightshade)',
+      fullName: 'Belladonna',
+      botanicalName: 'Atropa belladonna (Deadly Nightshade)',
       family: 'Plant (Solanaceae)',
       thermal: 'HOT (Amel. by Cold application)',
       thirst: 'THIRSTLESS or small sips during fever',
+      authorityProvenance: 'HAHNEMANN_PURE',
       keynotes: [
-        'Suddenness of manifestation and intensity of symptoms.',
-        'Heat, redness, throbbing, and burning inflammation.',
-        'Delirium with wild excitement and desire to bite or strike.',
-        'Right-sided complaints, aggravated by light, noise, motion, or jarring.',
+        {
+          rubricPath: 'HEAD - PAIN - pulsating - sudden',
+          description: 'Suddenness of manifestation and violent throbbing inflammation.',
+          provingNumber: 'Hahnemann Symptom #342',
+          grade: 4,
+        },
+        {
+          rubricPath: 'EYES - PUPILS - dilated - insensitive to light',
+          description: 'Glassy staring eyes with wide pupils insensitive to bright light.',
+          provingNumber: 'Hahnemann Symptom #189',
+          grade: 4,
+        },
+        {
+          rubricPath: 'MIND - BUSINESS - talks of',
+          description: 'Delirium with wild excitement, desire to bite, talks constantly of business.',
+          provingNumber: 'Sehgal ROH Vol. II #44',
+          grade: 4,
+        },
       ],
-      sehgalRoh:
-        'Excited, furious, sees monstrous faces, talks of business, talks fast and impulsively.',
-      physicalGenerals:
-        'Head hot with cold extremities. Pulsating carotids. Dry mouth and throat without thirst.',
-      potencyRange: '30C to 200C (Acute); LM 0/1 in sensitive constitutions.',
+      mentalROH: 'Excited, furious, sees monstrous faces, talks of business, talks fast and impulsively.',
+      organAffinities: ['Cerebral Carotids', 'Mucosal Epithelium', 'Right Auditory Nerve'],
+      safePotencyRange: '30C to 200C (Acute); LM 0/1 in sensitive constitutions.',
     },
     {
       code: 'Chel',
-      name: 'Chelidonium majus',
-      botanical: 'Chelidonium majus (Greater Celandine)',
+      fullName: 'Chelidonium majus',
+      botanicalName: 'Chelidonium majus (Greater Celandine)',
       family: 'Plant (Papaveraceae)',
-      thermal: 'HOT (Amel. by Warmth & boiling drinks)',
-      thirst: 'THIRSTY for hot drinks',
+      thermal: 'HOT (Desires warm drinks)',
+      thirst: 'THIRSTY for hot boiling liquids',
+      authorityProvenance: 'BOERICKE',
       keynotes: [
-        'Constant pain under lower inner angle of right scapula.',
-        'Hepatic congestion, jaundice, liver enlargement with yellow tongue.',
-        'Alternating constipation and diarrhea.',
-        'Aggravated by motion, change of weather, right side.',
+        {
+          rubricPath: 'ABDOMEN - PAIN - right scapula - under lower angle',
+          description: 'Constant pathognomonic shooting pain under inferior angle of right scapula.',
+          provingNumber: 'Kent Keynote #12',
+          grade: 4,
+        },
+        {
+          rubricPath: 'ABDOMEN - CIRRHOSIS - liver - chronic parenchyma',
+          description: 'Enlargement and hypertrophy of liver with clay-colored stools.',
+          provingNumber: 'Burnett Organopathy #04',
+          grade: 4,
+        },
       ],
-      sehgalRoh:
-        'Opinionated, practical, business talks, desires quiet but analytical.',
-      physicalGenerals:
-        'Yellow skin, sclera, and urine. Right-sided liver inflammation.',
-      potencyRange:
-        '1X Mother Tincture for organopathy; LM 0/1 for constitutional.',
+      mentalROH: 'Domineering, dictatorial, practical, focused on liver pain relieving.',
+      organAffinities: ['Hepatic Parenchyma', 'Gallbladder Bile Duct', 'Right Scapular Nerve'],
+      safePotencyRange: '1X to 6X Mother Tincture for Organopathy Drainage; 30C Constitutional.',
     },
     {
       code: 'Sulph',
-      name: 'Sulphur',
-      botanical: 'Sublimed Sulphur (Brimstone)',
-      family: 'Mineral (Elemental Sulphur)',
-      thermal: 'HOT (Worse warmth of bed & heat)',
-      thirst: 'THIRSTY for large quantities',
+      fullName: 'Sulphur',
+      botanicalName: 'Sulphur (Sublimed Sulphur)',
+      family: 'Mineral (Elemental)',
+      thermal: 'HOT (Kicks off bed covers)',
+      thirst: 'THIRSTY for cold water in large quantities',
+      authorityProvenance: 'KENT_LECTURES',
       keynotes: [
-        'Standing is the most painful position for Sulphur patients.',
-        'Burning in soles of feet and crown of head.',
-        'Aversion to washing; unwashed appearance.',
-        'Empty, gone feeling in stomach at 11 AM.',
+        {
+          rubricPath: 'SKIN - ERUPTIONS - scaly - dry - silvery scales',
+          description: 'Voluptuous itching aggravated by warmth of bed, washing causes burning.',
+          provingNumber: 'Hahnemann Chronic Diseases #812',
+          grade: 4,
+        },
+        {
+          rubricPath: 'GENERALITIES - AGGRAVATION - 11 am - sinking at stomach',
+          description: 'Empty faint gnawing hunger at 11 AM exact.',
+          provingNumber: 'Kent Lectures p. 892',
+          grade: 4,
+        },
       ],
-      sehgalRoh:
-        'Philosophical, ragpicker, values worthless items as treasures.',
-      physicalGenerals:
-        'Red orifices (lips, eyelids, anus). Excessive heat and itchiness.',
-      potencyRange: '30C to 10M; caution in structural tuberculosis.',
-    },
-    {
-      code: 'Acon',
-      name: 'Aconitum napellus',
-      botanical: 'Aconitum napellus (Monkshood)',
-      family: 'Plant (Ranunculaceae)',
-      thermal: 'CHILLY (Worse cold dry winds)',
-      thirst: 'THIRSTY for unquenchable cold water',
-      keynotes: [
-        'Great fear and anxiety of mind with nervous excitability.',
-        'Predicts the exact hour of death.',
-        'Complaints from exposure to cold, dry wind.',
-        'Sudden acute inflammatory fevers.',
-      ],
-      sehgalRoh:
-        'Fear of death, agony, restless tossing, predicts time of death.',
-      physicalGenerals:
-        'Hot dry skin without perspiration. Full bounding pulse.',
-      potencyRange: '30C to 200C acute administration.',
-    },
-    {
-      code: 'Bry',
-      name: 'Bryonia alba',
-      botanical: 'Bryonia alba (White Bryony)',
-      family: 'Plant (Cucurbitaceae)',
-      thermal: 'HOT (Desires cool air & cold drinks)',
-      thirst: 'THIRSTY for large quantities at long intervals',
-      keynotes: [
-        'Excessive dryness of all mucous membranes.',
-        'Stitching pains aggravated by slightest motion.',
-        'Ameliorated by firm pressure and lying on painful side.',
-        'Talks of business constantly during delirium.',
-      ],
-      sehgalRoh:
-        'MIND - BUSINESS - talks of (Grade 4 keynote), desires to go home.',
-      physicalGenerals:
-        'Dry parched lips, hard dark stool, joint synovial effusions.',
-      potencyRange: '30C to 200C in serous inflammation.',
+      mentalROH: 'Ragged philosopher, theoretical, egoistic, disdains social conventions.',
+      organAffinities: ['Venous Portal Circulation', 'Epidermal Stratum Corneum', 'Mesenteric Lymphatics'],
+      safePotencyRange: '200C to 10M (Antipsoric King); Avoid frequent repetitions.',
     },
   ];
 
-  const filteredRemedies = remedies.filter(
-    (r) =>
-      r.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const [selectedRemedyCode, setSelectedRemedyCode] = useState<string>('Bell');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [authorityFilter, setAuthorityFilter] = useState<string>('ALL');
+  const [addedRubrics, setAddedRubrics] = useState<Record<string, boolean>>({});
+
+  const filteredRemedies = remediesData.filter((r) => {
+    const matchesSearch =
+      r.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.code.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesAuthority =
+      authorityFilter === 'ALL' || r.authorityProvenance === authorityFilter;
+    return matchesSearch && matchesAuthority;
+  });
 
   const activeRemedy =
-    remedies.find((r) => r.code === selectedCode) || remedies[0];
+    remediesData.find((r) => r.code === selectedRemedyCode) || remediesData[0];
+
+  const handleAddRubric = (rubricPath: string) => {
+    setAddedRubrics((prev) => ({ ...prev, [rubricPath]: true }));
+    if (onAddRubricToMatrix) {
+      onAddRubricToMatrix(rubricPath);
+    }
+  };
 
   return (
     <div
-      className={`w-full h-full flex flex-col font-sans select-none overflow-hidden transition-colors ${
-        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#090A0C] text-[#E6E8EA]'
+      className={`w-full h-full overflow-hidden flex flex-col font-mono transition-colors ${
+        isLight ? 'bg-[#F8FAFC] text-[#0F172A]' : 'bg-[#05070A] text-white'
       }`}
     >
-      {/* HEADER */}
+      {/* EXECUTIVE TOP BAR */}
       <div
-        className={`p-3 border-b flex items-center justify-between sticky top-0 z-20 ${
-          isLight ? 'bg-white border-slate-200' : 'bg-[#111317] border-[#1C1F26]'
+        className={`p-4 border-b flex flex-wrap items-center justify-between gap-4 flex-shrink-0 ${
+          isLight
+            ? 'bg-white border-slate-200'
+            : 'bg-[#0B0F19] border-[#1C1F26]'
         }`}
       >
-        <div className="flex items-center space-x-2">
-          <BookOpen className="w-4 h-4 text-emerald-600" />
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-black shadow-md">
+            <BookOpen className="w-5 h-5" />
+          </div>
           <div>
-            <h2 className="font-bold text-xs uppercase tracking-wider">
-              Classical Materia Medica & Proving Differential Library
+            <h2 className="font-black text-sm uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              CLASSICAL MATERIA MEDICA & PROVING DIFFERENTIAL EXPLORER
             </h2>
-            <p className="text-[10px] text-gray-500 font-mono">
-              Verbatim Reference across Boericke, J.T. Kent, Dr. Sehgal ROH, and Dr. Vijayakar Predictive Baselines
+            <p className="text-xs text-gray-400">
+              Verbatim Provenance across Hahnemann Pure Materia Medica, Kent Lectures & Vijayakar Keynotes
             </p>
           </div>
         </div>
 
-        <span className="text-[10px] text-gray-500 font-mono">
-          URL: <span className="text-emerald-600">/workspace?module=MATERIA_MEDICA_LIBRARY</span>
-        </span>
+        {/* AUTHORITY PROVENANCE FILTER TABS */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {[
+            { id: 'ALL', label: 'All Provenances' },
+            { id: 'HAHNEMANN_PURE', label: 'Hahnemann Pure' },
+            { id: 'KENT_LECTURES', label: 'Kent Lectures' },
+            { id: 'BOERICKE', label: 'Boericke Pocket' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setAuthorityFilter(tab.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                authorityFilter === tab.id
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : isLight
+                  ? 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* DUAL CANVAS: LEFT REMEDY LIST & RIGHT CLASSICAL CARD WORKBENCH */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* LEFT REMEDY SELECTOR LIST */}
+      {/* TWO-COLUMN EXPLORER CANVAS */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        {/* LEFT COLUMN: REMEDY SEARCH & SELECTION TRAY */}
         <div
-          className={`w-72 min-w-[280px] border-r flex flex-col overflow-hidden ${
+          className={`w-full lg:w-72 border-b lg:border-b-0 lg:border-r flex flex-col ${
             isLight
               ? 'bg-white border-slate-200'
-              : 'bg-[#111317] border-[#1C1F26]'
+              : 'bg-[#0B0F19] border-[#1C1F26]'
           }`}
         >
-          <div className="p-2.5 border-b border-slate-200 relative">
-            <Search className="w-3.5 h-3.5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search remedy..."
-              className={`w-full border rounded pl-8 pr-3 py-1.5 text-xs font-mono focus:outline-none focus:border-emerald-600 ${
-                isLight
-                  ? 'bg-slate-50 border-slate-300 text-slate-900'
-                  : 'bg-[#090A0C] border-[#1C1F26] text-white'
-              }`}
-            />
+          <div className="p-3 border-b border-slate-200 dark:border-slate-800">
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search remedy or symptom..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`w-full pl-9 pr-3 py-1.5 rounded-xl text-xs font-bold border outline-none ${
+                  isLight
+                    ? 'bg-slate-50 border-slate-300 text-slate-900'
+                    : 'bg-[#111317] border-slate-800 text-white'
+                }`}
+              />
+            </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-2 space-y-1">
-            {filteredRemedies.map((rem) => {
-              const isSelected = rem.code === selectedCode;
+          <div className="flex-1 overflow-y-auto p-2 space-y-1.5">
+            {filteredRemedies.map((remedy) => {
+              const isActive = remedy.code === activeRemedy.code;
               return (
                 <button
-                  key={rem.code}
-                  onClick={() => setSelectedCode(rem.code)}
-                  className={`w-full text-left p-2.5 rounded transition-all cursor-pointer border ${
-                    isSelected
-                      ? 'bg-emerald-600 text-white border-emerald-500 shadow-xs'
+                  key={remedy.code}
+                  onClick={() => setSelectedRemedyCode(remedy.code)}
+                  className={`w-full text-left p-3 rounded-xl border transition-all transform hover:scale-[1.01] cursor-pointer ${
+                    isActive
+                      ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/10 border-emerald-500 text-white font-bold shadow-md'
                       : isLight
-                      ? 'bg-white border-slate-200 hover:bg-slate-50 text-slate-800'
-                      : 'bg-[#090A0C] border-[#1C1F26] hover:bg-[#1C1F26]/60 text-gray-300'
+                      ? 'bg-white border-slate-200 text-slate-800 hover:bg-slate-100'
+                      : 'bg-[#111317] border-slate-800 text-gray-300 hover:border-slate-700'
                   }`}
                 >
-                  <div className="font-black text-xs">{rem.code}</div>
-                  <div
-                    className={`text-[11px] truncate ${
-                      isSelected ? 'text-emerald-100' : 'text-gray-500'
-                    }`}
-                  >
-                    {rem.name} ({rem.botanical.split(' ')[0]})
+                  <div className="flex items-center justify-between">
+                    <span className="font-black text-sm text-emerald-600 dark:text-emerald-400">
+                      {remedy.code}
+                    </span>
+                    <span className="text-[10px] px-2 py-0.5 rounded font-black bg-slate-800 text-gray-300">
+                      Grade 4
+                    </span>
                   </div>
+                  <p className="text-xs font-bold mt-0.5 text-white">
+                    {remedy.fullName}
+                  </p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">
+                    {remedy.family}
+                  </p>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* RIGHT PROVING DATA CARDS */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          {/* REMEDY BRAND BANNER */}
+        {/* RIGHT COLUMN: RICH INTERACTIVE PROVING CARD & CLINICAL KEYNOTES */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* REMEDY TITLE & BASELINE HEADER */}
           <div
-            className={`border rounded-lg p-4 flex flex-wrap items-center justify-between gap-4 ${
+            className={`p-6 rounded-2xl border space-y-4 shadow-xl ${
               isLight
-                ? 'bg-white border-slate-200 shadow-xs'
-                : 'bg-[#111317] border-[#1C1F26]'
+                ? 'bg-white border-slate-200'
+                : 'bg-[#0B0F19] border-[#1C1F26]'
             }`}
           >
-            <div>
-              <h2 className="text-xl font-black text-emerald-600 font-mono">
-                {activeRemedy.name} ({activeRemedy.botanical})
-              </h2>
-              <p className="text-xs text-gray-500 font-mono mt-0.5">
-                Family: {activeRemedy.family}
-              </p>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl font-black text-white flex items-center gap-2">
+                  <span>{activeRemedy.fullName}</span>
+                  <span className="text-sm font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/40 px-3 py-1 rounded-xl">
+                    {activeRemedy.code}
+                  </span>
+                </h1>
+                <p className="text-xs text-gray-400 mt-1">
+                  Botanical / Mineral Profile: <strong className="text-white">{activeRemedy.botanicalName}</strong> • {activeRemedy.family}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1.5 rounded-xl bg-orange-500/20 text-orange-400 border border-orange-500/40 font-black text-xs">
+                  🔥 {activeRemedy.thermal}
+                </span>
+                <span className="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 font-black text-xs">
+                  💧 {activeRemedy.thirst}
+                </span>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-              <span className="flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-700 px-2.5 py-1 rounded font-bold">
-                <Flame className="w-3.5 h-3.5" /> {activeRemedy.thermal}
-              </span>
-              <span className="flex items-center gap-1 bg-cyan-50 border border-cyan-200 text-cyan-700 px-2.5 py-1 rounded font-bold">
-                <Droplets className="w-3.5 h-3.5" /> {activeRemedy.thirst}
-              </span>
+            {/* CORE PROVING KEYNOTES WITH ONE-CLICK "ADD TO LIVE SIMILIMATRIX" */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="font-black text-xs uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" /> CORE PROVING KEYNOTES & ONE-CLICK RUBRIC INJECTION
+                </span>
+                <span className="text-[11px] text-gray-400">
+                  HOVER KEYNOTE FOR EXACT HAHNEMANN PROVING CITATION
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {activeRemedy.keynotes.map((keynote, idx) => {
+                  const isAdded = addedRubrics[keynote.rubricPath];
+                  return (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-xl border border-slate-800 bg-[#111317] hover:border-emerald-500/80 transition-all transform hover:scale-[1.02] flex flex-col justify-between space-y-3 group relative"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-600 text-white">
+                            GRADE {keynote.grade}
+                          </span>
+                          <span className="text-[10px] text-cyan-400 font-bold">
+                            {keynote.provingNumber}
+                          </span>
+                        </div>
+                        <p className="font-black text-xs text-white leading-snug">
+                          {keynote.rubricPath}
+                        </p>
+                        <p className="text-xs text-gray-300 leading-relaxed">
+                          {keynote.description}
+                        </p>
+                      </div>
+
+                      {/* ACTION BUTTON: ONE-CLICK ADD TO SIMILIMATRIX */}
+                      <button
+                        onClick={() => handleAddRubric(keynote.rubricPath)}
+                        className={`w-full py-2 rounded-lg font-black text-xs flex items-center justify-center space-x-1.5 transition-all cursor-pointer ${
+                          isAdded
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-slate-800 hover:bg-emerald-600 text-gray-300 hover:text-white'
+                        }`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span>ADDED TO LIVE SIMILIMATRIX</span>
+                          </>
+                        ) : (
+                          <>
+                            <PlusCircle className="w-3.5 h-3.5" />
+                            <span>+ Add to Consultation Matrix</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          {/* CORE PROVING KEYNOTES CARD */}
-          <div
-            className={`border rounded-lg p-4 space-y-3 ${
-              isLight
-                ? 'bg-white border-slate-200 shadow-xs'
-                : 'bg-[#111317] border-[#1C1F26]'
-            }`}
-          >
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 font-mono flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4" /> Core Proving Keynotes & Specificities
-            </span>
-            <ul className="list-disc list-inside space-y-1.5 text-xs leading-relaxed">
-              {activeRemedy.keynotes.map((k, idx) => (
-                <li key={idx} className="font-sans">
-                  {k}
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* SEHGAL ROH MENTAL AXIS & ORGAN AFFINITIES */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-2">
+              <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-500/40 space-y-1.5 text-xs">
+                <span className="font-black text-purple-300 uppercase">
+                  🧠 MENTAL & EMOTIONAL KEYNOTES (SEHGAL ROH AXIS)
+                </span>
+                <p className="text-white leading-relaxed">{activeRemedy.mentalROH}</p>
+              </div>
 
-          {/* SEHGAL ROH & PHYSICAL GENERALS CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div
-              className={`border rounded-lg p-4 space-y-2 ${
-                isLight
-                  ? 'bg-white border-slate-200 shadow-xs'
-                  : 'bg-[#111317] border-[#1C1F26]'
-              }`}
-            >
-              <span className="text-xs font-bold uppercase text-purple-600 font-mono">
-                Mental & Emotional Keynotes (Sehgal ROH Axis)
-              </span>
-              <p className="text-xs leading-relaxed">{activeRemedy.sehgalRoh}</p>
+              <div className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 space-y-1.5 text-xs">
+                <span className="font-black text-cyan-300 uppercase">
+                  🎯 PARTICULAR ORGAN AFFINITIES & PATHOLOGICAL TROPISM
+                </span>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {activeRemedy.organAffinities.map((org, i) => (
+                    <span
+                      key={i}
+                      className="px-2.5 py-1 rounded bg-cyan-900/60 text-cyan-200 font-bold"
+                    >
+                      {org}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div
-              className={`border rounded-lg p-4 space-y-2 ${
-                isLight
-                  ? 'bg-white border-slate-200 shadow-xs'
-                  : 'bg-[#111317] border-[#1C1F26]'
-              }`}
-            >
-              <span className="text-xs font-bold uppercase text-blue-600 font-mono">
-                Physical Generals & Particular Organ Affinities
+            {/* SAFE CLINICAL POTENCY RANGE */}
+            <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-xs flex items-center justify-between">
+              <span className="font-black text-emerald-300">
+                🛡️ Safe Potency Range & Clinical Administration:
               </span>
-              <p className="text-xs leading-relaxed">
-                {activeRemedy.physicalGenerals}
-              </p>
+              <span className="font-bold text-white">{activeRemedy.safePotencyRange}</span>
             </div>
-          </div>
-
-          {/* SAFE POTENCY RANGE BANNER */}
-          <div className="p-3.5 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-mono flex items-center justify-between">
-            <span className="flex items-center space-x-2 font-bold">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Safe Potency Range & Clinical Administration: {activeRemedy.potencyRange}</span>
-            </span>
           </div>
         </div>
       </div>
